@@ -673,11 +673,15 @@
     gap: 18px;
   }
 
-  {%- comment -%} Optional solid header colour (e.g. Bunnings teal) {%- endcomment -%}
-  {%- if section.settings.header_background_color != blank -%}
+  {%- comment -%} Optional solid/gradient header colour (e.g. Bunnings-style bar) {%- endcomment -%}
+  {%- if section.settings.header_background_gradient != blank or section.settings.header_background_color != blank -%}
     {%- assign hdr_text = section.settings.header_text_color | default: '#ffffff' -%}
     .header-wrapper{
-      background:{{ section.settings.header_background_color }} !important;
+      {%- if section.settings.header_background_gradient != blank -%}
+        background:{{ section.settings.header_background_gradient }} !important;
+      {%- else -%}
+        background:{{ section.settings.header_background_color }} !important;
+      {%- endif -%}
     }
     .header .header__heading-link,
     .header .header__heading .h2,
@@ -2032,6 +2036,12 @@
       "id": "header_background_color",
       "label": "Header background",
       "info": "Leave blank to use the colour scheme. Set a solid colour (e.g. teal) for a Bunnings-style bar."
+    },
+    {
+      "type": "color_background",
+      "id": "header_background_gradient",
+      "label": "Header background gradient",
+      "info": "Optional. Overrides the solid background above with a gradient (e.g. dark grey fading to red)."
     },
     {
       "type": "color",
