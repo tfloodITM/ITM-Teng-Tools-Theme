@@ -266,7 +266,7 @@ body.itm-wl-drawer-active { overflow: hidden; }
 .itm-wld-item-actions { margin-top: 4px; }
 
 .itm-wld-atc {
-  background: #f5a623;
+  background: #e30613;
   color: #000;
   border: none;
   padding: 7px 14px;
@@ -344,7 +344,7 @@ body.itm-wl-drawer-active { overflow: hidden; }
 .itm-wld-add-all {
   display: block;
   width: 100%;
-  background: #f5a623;
+  background: #e30613;
   color: #000;
   border: none;
   padding: 12px 16px;
@@ -476,7 +476,7 @@ body.itm-wl-drawer-active { overflow: hidden; }
 
 .itm-wl-atc-btn {
   flex: 1;
-  background: #f5a623;
+  background: #e30613;
   color: #000;
   border: none;
   padding: 9px 12px;

@@ -15,7 +15,7 @@
         "caption": {
           "type": "caption",
           "settings": {
-            "caption": "Work Sharp video library",
+            "caption": "Teng Tools video library",
             "text_style": "caption-with-letter-spacing",
             "text_size": "medium"
           }
@@ -23,14 +23,14 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "See Work Sharp In Action",
+            "heading": "See Teng Tools In Action",
             "heading_size": "h1"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Explore product walkthroughs, sharpening guides, and hands-on demonstrations from across the Work Sharp range. Use this page to highlight a featured YouTube video at the top and a browsable library underneath.<\/p>"
+            "text": "<p>Explore product walkthroughs, the Get Organised™ TC Tray system, and hands-on demonstrations from across the Teng Tools range. Use this page to highlight a featured YouTube video at the top and a browsable library underneath.<\/p>"
           }
         }
       },
@@ -51,9 +51,9 @@
     "video_hero": {
       "type": "itm-main-video-hero",
       "settings": {
-        "heading": "Featured video",
-        "body": "<p>Use this area for your strongest video, such as a brand overview, featured product demonstration, or campaign launch piece.<\/p>",
-        "youtube_id": "dQw4w9WgXcQ",
+        "heading": "Get Organised™",
+        "body": "<p>See how the Teng Tools TC Tray system clicks together into one seamless modular storage solution.<\/p>",
+        "youtube_id": "l1A7gnJ7EIw",
         "height": 60,
         "autoplay": false,
         "controls": true,
@@ -75,8 +75,8 @@
         "video_2": {
           "type": "video",
           "settings": {
-            "title": "Sharpening Guide",
-            "description": "<p>Use blocks for sharpening tutorials, product demos, or support content.<\/p>",
+            "title": "Tool Storage Guide",
+            "description": "<p>Use blocks for tool-storage tutorials, product demos, or support content.<\/p>",
             "youtube_id": "M7lc1UVf-VE",
             "vimeo_id": ""
           }

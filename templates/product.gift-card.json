@@ -113,7 +113,7 @@
           "settings": {
             "source": "metafield",
             "metafield_id": "custom.web_description",
-            "manual_html": "<h4><strong>PERFECT FATHERS DAY GIFT.</strong></h4><h4><strong>Digital Gift Card | Never Guess. Let Him Choose.</strong></h4><p>Not sure if he's after a field sharpener for the hunt, a bench system for his workshop, or something for the kitchen? A Work Sharp gift card takes the guesswork out of it. He gets to pick exactly what suits his gear, his skill level, and how he sharpens — whether that's a pocket-sized field tool, a full Ken Onion setup, or an upgrade kit for what he already owns. Delivered instantly, redeemable on anything in the Work Sharp range, and never expires — it's the one gift that's impossible to get wrong.</p>",
+            "manual_html": "<h4><strong>THE PERFECT GIFT FOR ANY TRADESPERSON.</strong></h4><h4><strong>Digital Gift Card | Never Guess. Let Them Choose.</strong></h4><p>Not sure if they need a new socket set, a spanner set, or a fully kitted-out tool storage system? A Teng Tools gift card takes the guesswork out of it. They get to pick exactly what suits their trade, their kit, and the job at hand — whether that's a single hand tool, a complete tool kit, or an upgrade to their storage. Delivered instantly, redeemable on anything in the Teng Tools range, and never expires.</p>",
             "manual_text_size": 16,
             "show_in_aside": false
           }
@@ -195,7 +195,7 @@
         "price_size": 14,
         "price_color": "#2e2e2e",
         "atc_size": 16,
-        "atc_bg": "#f5a623",
+        "atc_bg": "#e30613",
         "atc_color": "#2e2e2e",
         "qty_btn_gap": 0,
         "guarantee_size": 12,
@@ -592,8 +592,8 @@
         "text_align": "left",
         "show_reviews": true,
         "star_size": 20,
-        "star_color": "#f5a623",
-        "star_empty_color": "#f5a623",
+        "star_color": "#e30613",
+        "star_empty_color": "#e30613",
         "title_size": 16,
         "title_size_mobile": 11,
         "title_weight": "700",
@@ -606,10 +606,10 @@
         "atc_height": 40,
         "atc_font_size": 12,
         "atc_font_weight": "700",
-        "atc_bg": "#f5a623",
+        "atc_bg": "#e30613",
         "atc_color": "#000000",
         "actions_divider_color": "#ffffff",
-        "list_btn_bg": "#f5a623",
+        "list_btn_bg": "#e30613",
         "side_padding_desktop": 0,
         "padding_top": 36,
         "padding_bottom": 28

@@ -1,5 +1,5 @@
 {%- comment -%}
-  ITM About Us — Full-page about section for Work Sharp Australia
+  ITM About Us — Full-page about section for Teng Tools Australia
 {%- endcomment -%}
 
 {%- liquid
@@ -103,8 +103,8 @@
   <!-- ═══ HERO ═══ -->
   <section class="itm-about__hero color-{{ section.settings.hero_color_scheme }} gradient">
     <div class="itm-about__hero-inner page-width">
-      <p class="itm-about__eyebrow">{{ section.settings.hero_eyebrow | default: 'Work Sharp' }}</p>
-      <h1 class="itm-about__hero-h"{% unless section.settings.hero_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.hero_heading | default: 'About Work Sharp' }}</h1>
+      <p class="itm-about__eyebrow">{{ section.settings.hero_eyebrow | default: 'Teng Tools' }}</p>
+      <h1 class="itm-about__hero-h"{% unless section.settings.hero_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.hero_heading | default: 'About Teng Tools' }}</h1>
       <div class="itm-about__accent-bar"></div>
       <p class="itm-about__hero-sub">{{ section.settings.hero_sub | default: 'Fast. Easy. Consistent.' }}</p>
     </div>
@@ -145,7 +145,7 @@
       <p class="itm-about__eyebrow">{{ section.settings.story_eyebrow | default: 'Our Story' }}</p>
       <h2 class="itm-about__story-h"{% unless section.settings.story_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.story_heading | default: 'Designed & Engineered in Ashland, Oregon' }}</h2>
       <div class="rte itm-about__story-text">
-        {{- section.settings.story_text | default: '<p>Work Sharp designs, engineers, and calibrates every sharpening machine in Ashland, OR. From the workbench to the field, every product is built around one simple principle: sharpening must be practical, trustworthy, and simple to replicate.</p><p>We source components from high-calibre manufacturers domestically and globally, enforcing stringent quality control and fair labour practices at every step — and back every product with a 3-year warranty and genuine customer support.</p>' -}}
+        {{- section.settings.story_text | default: '<p>Teng Tools was founded in 1985 by Henri Tengvall in Sweden. Every tool is designed around our TC Tray system: modular trays that click together into any storage solution, so every tool has its place.</p><p>Independent testing has ranked Teng Tools first or second across eight product categories — which is why every tool carries a lifetime warranty and genuine customer support</p>' -}}
       </div>
     </div>
   </section>
@@ -203,10 +203,10 @@
       {%- endif -%}
     </div>
     <div class="itm-about__au-body color-{{ section.settings.au_color_scheme }} gradient">
-      <p class="itm-about__eyebrow">{{ section.settings.au_eyebrow | default: 'Work Sharp Australia' }}</p>
+      <p class="itm-about__eyebrow">{{ section.settings.au_eyebrow | default: 'Teng Tools Australia' }}</p>
       <h2 class="itm-about__au-h"{% unless section.settings.au_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.au_heading | default: 'Bringing Global Innovation to Australia' }}</h2>
       <div class="rte itm-about__au-text">
-        {{- section.settings.au_text | default: "<p>We bring Work Sharp's globally trusted sharpening systems to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian tools and blades endure demanding conditions on worksites, in workshops, professional kitchens, and outdoors. Work Sharp helps reduce equipment downtime, extend blade life, and maintain superior performance with minimal effort — from knives and scissors to axes and chisels.</p>" -}}
+        {{- section.settings.au_text | default: "<p>ITM brings Teng Tools' globally trusted hand tools and modular storage to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian trades endure demanding conditions on worksites, in workshops and at home. Teng Tools helps reduce downtime, extend tool life, and maintain superior performance with minimal effort — from hand tools to full tool storage systems.</p>" -}}
       </div>
     </div>
   </section>
@@ -215,7 +215,7 @@
   <section class="itm-about__cta color-{{ section.settings.cta_color_scheme }} gradient">
     <div class="page-width">
       <h2 class="itm-about__cta-h"{% unless section.settings.cta_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.cta_heading | default: 'Ready To Keep Every Edge Sharp?' }}</h2>
-      <p class="itm-about__cta-sub">{{ section.settings.cta_sub | default: 'Explore the full Work Sharp range — from pocket sharpeners to professional benchtop systems.' }}</p>
+      <p class="itm-about__cta-sub">{{ section.settings.cta_sub | default: 'Explore the full Teng Tools range — from hand tools and sockets to complete modular tool storage.' }}</p>
       {%- if section.settings.cta_btn_text != blank -%}
         <a href="{{ section.settings.cta_btn_link | default: '/collections/all' }}" class="itm-about__btn itm-about__btn--lg">
           {{ section.settings.cta_btn_text }}
@@ -231,7 +231,7 @@
    ITM About Us
    ═══════════════════════════════════════════════════════════ */
 
-.itm-about { --ao: #f5a623; --ad: #1e1e1e; }
+.itm-about { --ao: #e30613; --ad: #1e1e1e; }
 
 /* ── Shared ── */
 .itm-about__eyebrow {
@@ -524,13 +524,13 @@
       "type": "text",
       "id": "hero_eyebrow",
       "label": "Eyebrow text",
-      "default": "Work Sharp"
+      "default": "Teng Tools"
     },
     {
       "type": "text",
       "id": "hero_heading",
       "label": "Heading",
-      "default": "About Work Sharp"
+      "default": "About Teng Tools"
     },
     {
       "type": "text",
@@ -665,7 +665,7 @@
       "type": "richtext",
       "id": "story_text",
       "label": "Body text",
-      "default": "<p>Work Sharp designs, engineers, and calibrates every sharpening machine in Ashland, OR. From the workbench to the field, every product is built around one simple principle: sharpening must be practical, trustworthy, and simple to replicate.</p><p>We source components from high-calibre manufacturers domestically and globally, enforcing stringent quality control and fair labour practices at every step — and back every product with a 3-year warranty and genuine customer support.</p>"
+      "default": "<p>Teng Tools was founded in 1985 by Henri Tengvall in Sweden. Every tool is designed around our TC Tray system: modular trays that click together into any storage solution, so every tool has its place.</p><p>Independent testing has ranked Teng Tools first or second across eight product categories — which is why every tool carries a lifetime warranty and genuine customer support</p>"
     },
     {
       "type": "image_picker",
@@ -764,13 +764,13 @@
     },
     {
       "type": "header",
-      "content": "Work Sharp Australia"
+      "content": "Teng Tools Australia"
     },
     {
       "type": "text",
       "id": "au_eyebrow",
       "label": "Eyebrow",
-      "default": "Work Sharp Australia"
+      "default": "Teng Tools Australia"
     },
     {
       "type": "text",
@@ -782,7 +782,7 @@
       "type": "richtext",
       "id": "au_text",
       "label": "Body text",
-      "default": "<p>We bring Work Sharp's globally trusted sharpening systems to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian tools and blades endure demanding conditions on worksites, in workshops, professional kitchens, and outdoors. Work Sharp helps reduce equipment downtime, extend blade life, and maintain superior performance with minimal effort — from knives and scissors to axes and chisels.</p>"
+      "default": "<p>ITM brings Teng Tools' globally trusted hand tools and modular storage to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian trades endure demanding conditions on worksites, in workshops and at home. Teng Tools helps reduce downtime, extend tool life, and maintain superior performance with minimal effort — from hand tools to full tool storage systems.</p>"
     },
     {
       "type": "image_picker",
@@ -826,7 +826,7 @@
       "type": "text",
       "id": "cta_sub",
       "label": "Subtext",
-      "default": "Explore the full Work Sharp range — from pocket sharpeners to professional benchtop systems."
+      "default": "Explore the full Teng Tools range — from hand tools and sockets to complete modular tool storage."
     },
     {
       "type": "text",
@@ -940,7 +940,7 @@
           "type": "color",
           "id": "icon_color",
           "label": "Icon colour",
-          "default": "#f5a623"
+          "default": "#e30613"
         },
         {
           "type": "range",

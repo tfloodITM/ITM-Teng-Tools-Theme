@@ -307,7 +307,7 @@
       }
     </script>
 
-    {%- render 'worksharp-overrides' -%}
+    {%- render 'brand-overrides' -%}
     {{ 'itm-wishlist.css' | asset_url | stylesheet_tag }}
   </head>
 
@@ -385,7 +385,7 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
-    {%- section 'itm-sharpener-quiz' -%}
+    {%- comment -%} 'itm-sharpener-quiz' global section removed during Teng Tools rebrand — it was a Work Sharp product-picker quiz with no Teng equivalent. Section file left in place in case a Teng-specific "build your tool kit" quiz is wanted later. {%- endcomment -%}
     <script src="{{ 'itm-wishlist.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

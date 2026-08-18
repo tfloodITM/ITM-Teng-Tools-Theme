@@ -9,9 +9,9 @@
  */
 {
   "sections": {
-    "fathers_day_hero": {
+    "teng_hero": {
       "type": "itm-ws-hero-split",
-      "name": "Father's Day Hero",
+      "name": "Teng Tools Hero",
       "settings": {
         "desktop_layout": "image",
         "mobile_layout": "single",
@@ -30,12 +30,12 @@
         "mob_btn_min_height": 0,
         "mob_btn_group_margin_top": 4,
         "mob_btn_group_margin_bottom": 0,
-        "left_image": "shopify://shop_images/Untitled_design_9.png",
-        "left_image_url": "https://cdn.shopify.com/s/files/1/0778/6928/5630/files/KE-use-kitchen-1.webp?v=1780980800",
-        "mobile_image": "shopify://shop_images/Screenshot_2026-07-28_092526.png",
+        "left_image": "shopify://shop_images/teng-get-organised-campaign.webp",
+        "left_image_url": "",
+        "mobile_image": "shopify://shop_images/teng-get-organised-campaign.webp",
         "mobile_image_url": "",
-        "heading": "GET DAD SOMETHING HE WILL ACTUALLY USE THIS FATHER'S DAY",
-        "subtext": "From kitchen knives to pocket blades and workshop tools — the right sharpener for every edge Dad owns.",
+        "heading": "GET ORGANISED™",
+        "subtext": "Professional hand tools and modular tool storage, engineered in Sweden and backed by a lifetime warranty — direct from Teng Tools Australia.",
         "subtext_max_width": 620,
         "tags": "",
         "tag1_label": "",
@@ -60,22 +60,22 @@
         "btn_group_margin_top": 4,
         "btn_group_margin_bottom": 0,
         "btn_border_radius": 0,
-        "cta_label": "SHOP FATHER'S DAY GIFTS",
-        "cta_link": "#fathers-day-collection",
+        "cta_label": "SHOP ALL TOOLS",
+        "cta_link": "/collections/all",
         "cta_style": "filled",
         "cta_arrow": true,
-        "cta_text_color": "#000000",
-        "cta_border_color": "#f5a623",
-        "cta_fill_color": "#f5a623",
+        "cta_text_color": "#ffffff",
+        "cta_border_color": "#e30613",
+        "cta_fill_color": "#e30613",
         "cta_skew": -21,
-        "cta2_label": "FIND BEST SHARPENER FOR DAD",
-        "cta2_link": "",
-        "cta2_quiz_id": "fathers-day",
+        "cta2_label": "BUILD YOUR TOOL KIT",
+        "cta2_link": "/collections/tool-kits",
+        "cta2_quiz_id": "",
         "cta2_style": "filled",
         "cta2_arrow": true,
-        "cta2_text_color": "#ffffff",
-        "cta2_border_color": "#ffffff",
-        "cta2_fill_color": "#f5a623",
+        "cta2_text_color": "#000000",
+        "cta2_border_color": "#ffd500",
+        "cta2_fill_color": "#ffd500",
         "cta2_skew": -21,
         "cta2_glow": true,
         "cta_position": "middle-left",
@@ -98,11 +98,11 @@
             "top_badge_icon_size": 21,
             "top_badge_font_size": 8,
             "top_badge_padding": 2,
-            "badge_bg": "#f5a623",
+            "badge_bg": "#e30613",
             "badge_color": "#000000",
             "bottom_badge": "DESIGNED TO SHARPEN EVERYTHING",
             "bottom_badge_font_size": 9,
-            "bottom_badge_bg": "#925B00",
+            "bottom_badge_bg": "#1a1a1a",
             "bottom_badge_bg_opacity": 70,
             "bottom_badge_color": "#ffffff"
           }
@@ -116,11 +116,11 @@
             "top_badge_icon_size": 21,
             "top_badge_font_size": 8,
             "top_badge_padding": 2,
-            "badge_bg": "#f5a623",
+            "badge_bg": "#e30613",
             "badge_color": "#000000",
             "bottom_badge": "DESIGNED TO SHARPEN EVERYTHING",
             "bottom_badge_font_size": 9,
-            "bottom_badge_bg": "#925B00",
+            "bottom_badge_bg": "#1a1a1a",
             "bottom_badge_bg_opacity": 70,
             "bottom_badge_color": "#ffffff"
           }
@@ -134,11 +134,11 @@
             "top_badge_icon_size": 21,
             "top_badge_font_size": 8,
             "top_badge_padding": 2,
-            "badge_bg": "#f5a623",
+            "badge_bg": "#e30613",
             "badge_color": "#000000",
             "bottom_badge": "DESIGNED FOR SHARPENING KITCHEN KNIVES",
             "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#925b00",
+            "bottom_badge_bg": "#1a1a1a",
             "bottom_badge_bg_opacity": 75,
             "bottom_badge_color": "#ffffff"
           }
@@ -152,11 +152,11 @@
             "top_badge_icon_size": 21,
             "top_badge_font_size": 8,
             "top_badge_padding": 2,
-            "badge_bg": "#f5a623",
+            "badge_bg": "#e30613",
             "badge_color": "#000000",
             "bottom_badge": "DESIGNED FOR SHARPENING EVERYTHING",
             "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#925b00",
+            "bottom_badge_bg": "#1a1a1a",
             "bottom_badge_bg_opacity": 75,
             "bottom_badge_color": "#ffffff"
           }
@@ -170,11 +170,11 @@
             "top_badge_icon_size": 21,
             "top_badge_font_size": 8,
             "top_badge_padding": 2,
-            "badge_bg": "#f5a623",
+            "badge_bg": "#e30613",
             "badge_color": "#000000",
             "bottom_badge": "DESIGNED FOR SHARPENING KITCHEN KNIVES",
             "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#925b00",
+            "bottom_badge_bg": "#1a1a1a",
             "bottom_badge_bg_opacity": 75,
             "bottom_badge_color": "#ffffff"
           }
@@ -220,11 +220,11 @@
             "top_badge_icon_size": 21,
             "top_badge_font_size": 8,
             "top_badge_padding": 2,
-            "badge_bg": "#f5a623",
+            "badge_bg": "#e30613",
             "badge_color": "#000000",
             "bottom_badge": "DESIGNED FOR SHARPENING HOOKS & FILLET KNIVES",
             "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#925b00",
+            "bottom_badge_bg": "#1a1a1a",
             "bottom_badge_bg_opacity": 75,
             "bottom_badge_color": "#ffffff"
           }
@@ -242,7 +242,8 @@
         "tab_hunter",
         "badge_gfs"
       ],
-      "name": "Father's Day - Shop by Category",
+      "disabled": true,
+      "name": "Father's Day - Shop by Category (WS legacy, disabled — not Teng relevant)",
       "settings": {
         "heading": "Find the right sharpener for Dad",
         "anchor_id": "fathers-day-collection",
@@ -279,8 +280,8 @@
         "show_reviews": true,
         "star_size": 20,
         "star_size_mobile": 11,
-        "star_color": "#f5a623",
-        "star_empty_color": "#f5a623",
+        "star_color": "#e30613",
+        "star_empty_color": "#e30613",
         "review_count_size": 14,
         "review_count_size_mobile": 9,
         "review_count_color": "#e3e3e3",
@@ -300,10 +301,10 @@
         "atc_font_size": 12,
         "atc_font_size_mobile": 10,
         "atc_font_weight": "700",
-        "atc_bg": "#f5a623",
+        "atc_bg": "#e30613",
         "atc_color": "#000000",
         "actions_divider_color": "#ffffff",
-        "list_btn_bg": "#f5a623",
+        "list_btn_bg": "#e30613",
         "list_icon_size": 22,
         "list_icon_size_mobile": 18,
         "list_plus_size": 12,
@@ -321,32 +322,12 @@
         "padding_bottom": 60
       }
     },
-    "fathers_day_quiz": {
-      "type": "itm-fathers-day-quiz",
-      "name": "Father's Day Quiz",
-      "settings": {
-        "trigger_id": "fathers-day",
-        "angler_image": "shopify://shop_images/14.webp",
-        "homechef_image": "shopify://shop_images/16.webp",
-        "diyer_image": "shopify://shop_images/17.webp",
-        "hunter_image": "shopify://shop_images/15.webp",
-        "gjd_image": "shopify://shop_images/1.png",
-        "best_image": "shopify://shop_images/2.png",
-        "gfs_handle": "wsgfs221",
-        "ffs_handle": "wsedcffs",
-        "whetstone_handle": "wsbchwht-i",
-        "precision_adjust_handle": "wsbchpaj-i",
-        "pro_precision_elite_handle": "wsbchpaj-pro-elt-1",
-        "electric_mk2_handle": "wskts2-i-1",
-        "ken_onion_mk2_handle": "wskts-ko2",
-        "ken_onion_elite_mk2_handle": "wskts-ko2-elt"
-      }
-    },
     "home_video_section": {
       "type": "itm-video-section",
-      "name": "Full-Width Video",
+      "disabled": true,
+      "name": "Full-Width Video (WS legacy file, disabled — replaced by vidHero YouTube embed below)",
       "settings": {
-        "video": "shopify://files/videos/worksharp-home-page-video.mp4",
+        "video": "",
         "video_url": "",
         "video_title": "",
         "show_on_desktop": true,
@@ -419,8 +400,8 @@
         "cta_style": "filled",
         "cta_arrow": true,
         "cta_text_color": "#000000",
-        "cta_border_color": "#f5a623",
-        "cta_fill_color": "#f5a623",
+        "cta_border_color": "#e30613",
+        "cta_fill_color": "#e30613",
         "cta_skew": -21,
         "cta2_label": "find best sharpener for me",
         "cta2_link": "",
@@ -497,8 +478,8 @@
         "cta_style": "filled",
         "cta_arrow": true,
         "cta_text_color": "#000000",
-        "cta_border_color": "#f5a623",
-        "cta_fill_color": "#f5a623",
+        "cta_border_color": "#e30613",
+        "cta_fill_color": "#e30613",
         "cta_skew": -21,
         "cta2_label": "",
         "cta2_link": "",
@@ -506,8 +487,8 @@
         "cta2_style": "filled",
         "cta2_arrow": true,
         "cta2_text_color": "#ffffff",
-        "cta2_border_color": "#f5a623",
-        "cta2_fill_color": "#f5a623",
+        "cta2_border_color": "#e30613",
+        "cta2_fill_color": "#e30613",
         "cta2_skew": -21,
         "cta2_glow": true,
         "cta_position": "middle-left",
@@ -525,59 +506,48 @@
         "tab_GaRcK7": {
           "type": "tab",
           "settings": {
-            "collection": "benchtop-knife-sharpeners",
-            "label": "",
+            "collection": "tool-storage",
+            "label": "Tool Storage",
             "subcollections": []
           }
         },
         "tab_AfrPLJ": {
           "type": "tab",
           "settings": {
-            "collection": "kitchen-knife-sharpeners",
-            "label": "",
-            "subcollections": [
-              "kitchen-knife-sharpeners"
-            ]
+            "collection": "tool-kits",
+            "label": "Tool Kits",
+            "subcollections": []
           }
         },
         "tab_na3iXH": {
           "type": "tab",
           "settings": {
-            "collection": "electric-knife-sharpeners",
-            "label": "",
+            "collection": "sockets-accessories",
+            "label": "Sockets & Accessories",
             "subcollections": []
           }
         },
         "tab_GiEw63": {
           "type": "tab",
           "settings": {
-            "collection": "portable-pocket-knife-sharpeners",
-            "label": "",
+            "collection": "spanners-wrenches",
+            "label": "Spanners & Wrenches",
             "subcollections": []
           }
         },
         "tab_VLwVkY": {
           "type": "tab",
           "settings": {
-            "collection": "accessories-consumables",
-            "label": "ACCESSORIES & PARTS",
-            "subcollections": [
-              "abrasive-belts-to-suit-wskts",
-              "abrasive-belts-to-suit-wskts-ken-onion-edition",
-              "abrasive-belts-to-suit-wskts-ko-blade-grinding-attachment",
-              "abrasives-accessories-to-suit-precision-adjust",
-              "abrasives-accessories-to-suit-precision-adjust-pro",
-              "abrasives-to-suit-wsgfs221-guide-field-sharpener",
-              "worksharp-2000-3000-accessories"
-            ]
+            "collection": "torque-tools",
+            "label": "Torque Tools",
+            "subcollections": []
           }
         },
         "tab_ekirmp": {
           "type": "tab",
-          "disabled": true,
           "settings": {
-            "collection": "accessories-consumables",
-            "label": "ACCESSORIES & PARTS",
+            "collection": "automotive-tools",
+            "label": "Automotive Tools",
             "subcollections": []
           }
         }
@@ -627,8 +597,8 @@
         "show_reviews": true,
         "star_size": 20,
         "star_size_mobile": 11,
-        "star_color": "#f5a623",
-        "star_empty_color": "#f5a623",
+        "star_color": "#e30613",
+        "star_empty_color": "#e30613",
         "review_count_size": 14,
         "review_count_size_mobile": 9,
         "review_count_color": "#e3e3e3",
@@ -648,10 +618,10 @@
         "atc_font_size": 12,
         "atc_font_size_mobile": 10,
         "atc_font_weight": "700",
-        "atc_bg": "#f5a623",
+        "atc_bg": "#e30613",
         "atc_color": "#000000",
         "actions_divider_color": "#ffffff",
-        "list_btn_bg": "#f5a623",
+        "list_btn_bg": "#e30613",
         "list_icon_size": 22,
         "list_icon_size_mobile": 18,
         "list_plus_size": 12,
@@ -838,7 +808,7 @@
       ],
       "name": "ITM Homepage Categories",
       "settings": {
-        "heading": "WORK SHARP SHARPENERS",
+        "heading": "SHOP TENG TOOLS",
         "columns": 4,
         "color_scheme": "scheme-1",
         "padding_top": 12,
@@ -852,24 +822,24 @@
           "type": "item",
           "settings": {
             "icon": "shopify://shop_images/ws-3yr-icon.webp",
-            "title": "3 Year Warranty",
-            "text": "Hassle Free, No Hoops To Jump Through, Just Straight To The Point."
+            "title": "Lifetime Warranty",
+            "text": "Every Teng Tools hand tool is backed by a lifetime warranty — built to be the last tool you ever need to buy."
           }
         },
         "item_RapjVn": {
           "type": "item",
           "settings": {
             "icon": "shopify://shop_images/ws-usa-icon.webp",
-            "title": "USA Based, Australian Stocked",
-            "text": "Designed, Engineered & Calibrated in Ashland, Oregon."
+            "title": "Made For Professionals",
+            "text": "Swedish-designed, independently tested and trusted by tradespeople across Australia."
           }
         },
         "item_n6AdgC": {
           "type": "item",
           "settings": {
             "icon": "shopify://shop_images/ws-wc-icon.webp",
-            "title": "World Class Service",
-            "text": "Our Sharpening Experts Are There To Offer Support And Tips When You Need It."
+            "title": "Built To Last",
+            "text": "The TC Tray modular storage system keeps every tool organised, protected and ready for the job."
           }
         }
       },
@@ -912,12 +882,11 @@
     },
     "vidHero": {
       "type": "itm-main-video-hero",
-      "disabled": true,
-      "name": "ITM Video Hero (YT)",
+      "name": "ITM Video Hero (YT) — Teng Tools \"Get Organised\"",
       "settings": {
-        "heading": "GIFTING MADE SIMPLE.",
-        "body": "<p>From beginner to expert, from big budget to humble - the perfect knife sharpener is here.</p>",
-        "youtube_id": "51UWe0YmGeY",
+        "heading": "GET ORGANISED™",
+        "body": "<p>Teng Tools' TC Tray system clicks every tray together into one seamless, modular storage solution — so every tool has its place.</p>",
+        "youtube_id": "l1A7gnJ7EIw",
         "height": 80,
         "autoplay": false,
         "controls": false,
@@ -927,11 +896,11 @@
     "ws_featured_products": {
       "type": "itm-ws-featured-products",
       "disabled": true,
-      "name": "Featured Products",
+      "name": "Featured Products (needs real Teng product handles from catalog — currently empty)",
       "settings": {
         "heading": "FEATURED PRODUCTS",
-        "product_handles": "wsbchpaj-i,wsbchpaj-pro,wsbchbss-i,wsktnrks-i",
-        "review_counts": "247,189,312,156",
+        "product_handles": "",
+        "review_counts": "",
         "view_all_link": "/collections/all"
       }
     },
@@ -941,37 +910,37 @@
         "category_RTUrFW": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/RollingKnifeSharpener-Lifestyle-KitchenKnife6-scaled.webp",
-            "title": "For the Kitchen",
+            "image": "shopify://shop_images/teng-category-tool-storage.webp",
+            "title": "Tool Storage",
             "subtitle": "Shop now",
-            "link": "https://worksharptools.com.au/collections/kitchen-knife-sharpeners"
+            "link": "/collections/tool-storage"
           }
         },
         "category_XahK4k": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/Blacktail_Giveaway-10_1.webp",
-            "title": "for the hunt & Fish",
+            "image": "shopify://shop_images/teng-category-sockets.webp",
+            "title": "Sockets & Accessories",
             "subtitle": "Shop now",
-            "link": "https://worksharptools.com.au/collections/hunting-knife-sharpeners"
+            "link": "/collections/sockets-accessories"
           }
         },
         "category_GkqUYX": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/Compressed-KO2_Hero_2_1.jpg",
-            "title": "for the shop",
+            "image": "shopify://shop_images/teng-category-torque-tools.webp",
+            "title": "Torque Tools",
             "subtitle": "Shop now",
-            "link": "https://worksharptools.com.au/collections/benchtop-knife-sharpeners"
+            "link": "/collections/torque-tools"
           }
         },
         "category_VqaFM4": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/Compressed-_DSC0969_1.webp",
-            "title": "for the trail",
+            "image": "shopify://shop_images/teng-category-tool-sets.webp",
+            "title": "Tool Sets & Kits",
             "subtitle": "Shop now",
-            "link": "https://worksharptools.com.au/collections/portable-pocket-knife-sharpeners"
+            "link": "/collections/tool-kits"
           }
         }
       },
@@ -1014,228 +983,52 @@
     "ws_reviews": {
       "type": "itm-ws-reviews",
       "blocks": {
-        "review_steve": {
+        "review_jake": {
           "type": "review",
           "settings": {
-            "name": "Steve R.",
-            "initials": "SR",
+            "name": "Jake Matthews",
+            "initials": "JM",
             "avatar_color": "#4a7cb5",
-            "time": "1 year ago",
-            "title": "Great Sharpener",
-            "text": "This is hands down the best sharpener I have ever used. The precision angle guide makes it incredibly easy to get a consistent edge every time. My knives have never been this sharp. Absolutely worth every cent.",
+            "time": "",
+            "title": "Race Technician, T-Sport Bernau",
+            "text": "When you've got ten seconds to change everything, your tools can't fail.",
             "product_handle": "",
             "photo_extra": 0,
-            "helpful_up": 5,
+            "helpful_up": 0,
             "helpful_down": 0
           }
         },
-        "review_aaron": {
+        "review_graham": {
           "type": "review",
           "settings": {
-            "name": "Aaron E.",
-            "initials": "AE",
-            "avatar_color": "#c8922a",
-            "time": "1 year ago",
-            "title": "Worked Extremely well",
-            "text": "I was able to get my knives extremely sharp and a beautiful polished edge. Once you get a polished edge on your knife you can never go back. Absolutely love this product and the results it delivers every time.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 4,
-            "helpful_down": 0
-          }
-        },
-        "review_ross": {
-          "type": "review",
-          "settings": {
-            "name": "Ross A.",
-            "initials": "RA",
+            "name": "Graham Finch",
+            "initials": "GF",
             "avatar_color": "#7a8ea0",
-            "time": "1 year ago",
-            "title": "Awesome upgrade",
-            "text": "This kit is awesome! Did a knife and it came out great! The angle guides make it foolproof even for a beginner. Super happy with the results.",
+            "time": "",
+            "title": "Senior Maintenance Excellence Manager",
+            "text": "Teng Tools gives us controlled, traceable tool management across the whole site — every tool has a place, and every tray tells you if something's missing.",
             "product_handle": "",
             "photo_extra": 0,
-            "helpful_up": 6,
-            "helpful_down": 0
-          }
-        },
-        "review_randy": {
-          "type": "review",
-          "settings": {
-            "name": "Randy G.",
-            "initials": "RG",
-            "avatar_color": "#5b8dd9",
-            "time": "1 year ago",
-            "title": "Awesome!",
-            "text": "Just received my Professional Precision Adjust Elite system and as a disabled former Paramedic who used the original Professional Precision Adjust, I am absolutely amazed at the improvement. The results are outstanding.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 8,
-            "helpful_down": 0
-          }
-        },
-        "review_chuck_compact": {
-          "type": "review",
-          "settings": {
-            "name": "Chuck F.",
-            "initials": "CF",
-            "avatar_color": "#9b6b9b",
-            "time": "1 year ago",
-            "title": "Love this compact sharpener.",
-            "text": "Love this compact sharpener. Fits right in your pocket and gets the job done quickly. Perfect for everyday carry and keeping your EDC blade razor sharp with minimal effort.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 7,
-            "helpful_down": 0
-          }
-        },
-        "review_chuck_love": {
-          "type": "review",
-          "settings": {
-            "name": "Chuck F.",
-            "initials": "CF",
-            "avatar_color": "#9b6b9b",
-            "time": "1 year ago",
-            "title": "I love this sharpener!",
-            "text": "It's 5 star. I see some reviews on how it needs a leather strop. I put one on myself. It will be in my pocket everywhere I go. Hoping replaceable ceramic hone and diamond plate replacements are in Work Sharp's future for it.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 2,
-            "helpful_down": 0
-          }
-        },
-        "review_pFynEW": {
-          "type": "review",
-          "settings": {
-            "name": "Customer",
-            "initials": "CU",
-            "avatar_color": "#5b8dd9",
-            "time": "1 year ago",
-            "title": "Great product!",
-            "text": "Really happy with this purchase.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 2,
-            "helpful_down": 0
-          }
-        },
-        "review_boone": {
-          "type": "review",
-          "settings": {
-            "name": "Boone B.",
-            "initials": "BB",
-            "avatar_color": "#c9a84c",
-            "time": "1 year ago",
-            "title": "FOLDING FIELD SHARPENER",
-            "text": "This thing is great..compact...light...but offers a big package in a small platform! Works great for bringing back your edge after hard use in the field or just to hone up your edge on every day uses..recommend highly!!",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 3,
-            "helpful_down": 0
-          }
-        },
-        "review_dylan": {
-          "type": "review",
-          "settings": {
-            "name": "Dylan",
-            "initials": "DL",
-            "avatar_color": "#e07b39",
-            "time": "1 year ago",
-            "title": "My mind is blown!",
-            "text": "So I have the original guided sharpener they first came out with and it works perfect for sharpening. I've decided to upgrade and the first stone got my knife to an amazing working edge. Absolutely worth it if you're a knife user/hunter/fisherman. JUST BUY IT ONCE AND CRY ONCE.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 7,
-            "helpful_down": 0
-          }
-        },
-        "review_trevor": {
-          "type": "review",
-          "settings": {
-            "name": "Trevor G.",
-            "initials": "TG",
-            "avatar_color": "#5b8dd9",
-            "time": "1 year ago",
-            "title": "Razor sharp with no effort!",
-            "text": "Super impressed with how fast I was able to get my collection of fillet knives razor sharp. Super happy with the excellent performance with little effort!",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 10,
-            "helpful_down": 0
-          }
-        },
-        "review_r8TNY4": {
-          "type": "review",
-          "settings": {
-            "name": "Customer",
-            "initials": "CU",
-            "avatar_color": "#5b8dd9",
-            "time": "1 year ago",
-            "title": "Great product!",
-            "text": "Really happy with this purchase.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 11,
-            "helpful_down": 0
-          }
-        },
-        "review_ed": {
-          "type": "review",
-          "settings": {
-            "name": "Ed P.",
-            "initials": "EP",
-            "avatar_color": "#7b9e6b",
-            "time": "1 year ago",
-            "title": "Great addition",
-            "text": "Great addition to keep in your kit. Compact and easy to use. Works great if you just need to do a touch up. Just like all Work Sharp products it's built to last.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 8,
-            "helpful_down": 0
-          }
-        },
-        "review_bob": {
-          "type": "review",
-          "settings": {
-            "name": "Bob B.",
-            "initials": "BB",
-            "avatar_color": "#d97c3a",
-            "time": "1 year ago",
-            "title": "5 Stars",
-            "text": "Five stars all around. Great build quality, easy to use, and produces a razor sharp edge consistently. Best sharpener on the market for the money. I have recommended it to all my friends.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 3,
+            "helpful_up": 0,
             "helpful_down": 0
           }
         }
       },
       "block_order": [
-        "review_steve",
-        "review_aaron",
-        "review_ross",
-        "review_randy",
-        "review_chuck_compact",
-        "review_chuck_love",
-        "review_pFynEW",
-        "review_boone",
-        "review_dylan",
-        "review_trevor",
-        "review_r8TNY4",
-        "review_ed",
-        "review_bob"
+        "review_jake",
+        "review_graham"
       ],
-      "name": "Customer Reviews",
+      "name": "Customer Reviews (only 2 real, sourced from tengtools.com — replace/add genuine AU customer reviews e.g. via Judge.me once available; do not fabricate more)",
       "settings": {
-        "heading": "Customer Reviews",
-        "review_count_text": "1500+ Reviews",
+        "heading": "What Professionals Say",
+        "review_count_text": "",
         "star_color": "#c8922a",
         "bg_color": "#f5f5f5",
         "padding_top": 60,
         "padding_bottom": 60,
         "autoplay_speed": 50,
         "autoplay_direction": "left",
-        "hover_border_color": "#f5a623"
+        "hover_border_color": "#e30613"
       }
     },
     "itm_category_icons_MJTKDw": {
@@ -1244,52 +1037,52 @@
         "icon_hC3bPa": {
           "type": "icon",
           "settings": {
-            "icon": "shopify://shop_images/sharpens-kitchen.svg",
-            "label": "Kitchen",
-            "link": "https://worksharptools.com.au/collections/all?sort_by=best-selling&filter.v.price.gte=&filter.v.price.lte=&filter.p.m.itm.sharpens=Kitchen"
+            "icon": "",
+            "label": "Tool Storage",
+            "link": "/collections/tool-storage"
           }
         },
         "icon_CFbq9x": {
           "type": "icon",
           "settings": {
-            "icon": "shopify://shop_images/sharpens-hunt.svg",
-            "label": "Hunt",
-            "link": "https://worksharptools.com.au/collections/all?sort_by=best-selling&filter.v.price.gte=&filter.v.price.lte=&filter.p.m.itm.sharpens=Hunt"
+            "icon": "",
+            "label": "Tool Kits",
+            "link": "/collections/tool-kits"
           }
         },
         "icon_CcrG3r": {
           "type": "icon",
           "settings": {
-            "label": "Pocket",
-            "link": "https://worksharptools.com.au/collections/all?sort_by=best-selling&filter.v.price.gte=&filter.v.price.lte=&filter.p.m.itm.sharpens=Pocket"
+            "label": "Sockets",
+            "link": "/collections/sockets-accessories"
           }
         },
         "icon_FbnVzy": {
           "type": "icon",
           "settings": {
-            "label": "Serrations",
-            "link": "https://worksharptools.com.au/collections/all?sort_by=best-selling&filter.v.price.gte=&filter.v.price.lte=&filter.p.m.itm.sharpens=Serrations"
+            "label": "Spanners",
+            "link": "/collections/spanners-wrenches"
           }
         },
         "icon_9K8cFH": {
           "type": "icon",
           "settings": {
-            "label": "Scissors",
-            "link": "https://worksharptools.com.au/collections/all?sort_by=best-selling&filter.v.price.gte=&filter.v.price.lte=&filter.p.m.itm.sharpens=Scissors"
+            "label": "Torque Tools",
+            "link": "/collections/torque-tools"
           }
         },
         "icon_QN3Wmi": {
           "type": "icon",
           "settings": {
-            "label": "Axes & Tools",
-            "link": "https://worksharptools.com.au/collections/all?sort_by=best-selling&filter.v.price.gte=&filter.v.price.lte=&filter.p.m.itm.sharpens=Axes+and+Tools"
+            "label": "Automotive",
+            "link": "/collections/automotive-tools"
           }
         },
         "icon_93gXh4": {
           "type": "icon",
           "settings": {
-            "label": "Fishing",
-            "link": "https://worksharptools.com.au/collections/all?sort_by=best-selling&filter.v.price.gte=&filter.v.price.lte=&filter.p.m.itm.sharpens=Fishing"
+            "label": "Screwdrivers",
+            "link": "/collections/screwdrivers"
           }
         }
       },
@@ -1304,12 +1097,12 @@
       ],
       "name": "Category Icon Strip",
       "settings": {
-        "heading": "Shop By Capability",
+        "heading": "Shop By Category",
         "heading_size": 24,
         "heading_weight": "700",
         "heading_color": "#1a1a1a",
         "heading_align": "center",
-        "subtext": "Click an option and see sharpeners capable of sharpening the selected category of knives.",
+        "subtext": "Click a category to shop the range.",
         "subtext_color": "#555555",
         "subtext_size": 16,
         "subtext_size_mobile": 16,
@@ -1322,13 +1115,13 @@
         "icon_bg": "#f2f2f2",
         "icon_bg_hover": "#e8e8e8",
         "icon_color": "#191616",
-        "icon_color_hover": "#f5a623",
-        "border_hover_color": "#f5a623",
+        "icon_color_hover": "#e30613",
+        "border_hover_color": "#e30613",
         "border_hover_width": 2,
         "text_size": 13,
         "text_weight": "600",
         "text_color": "#1a1a1a",
-        "text_hover_color": "#f5a623",
+        "text_hover_color": "#e30613",
         "text_transform": "uppercase",
         "letter_spacing": 5,
         "bg_color": "#ffffff",
@@ -1344,7 +1137,7 @@
       "settings": {
         "blog": "education-hub",
         "show_title": true,
-        "heading": "Education Hub",
+        "heading": "News & Resources",
         "subtitle": "",
         "subtitle_size": 14,
         "subtitle_color": "#666666",
@@ -1359,13 +1152,13 @@
         "pill_border_width": 2,
         "pill_gap": 8,
         "pill_inactive_color": "#000000",
-        "feat_article_1": "education-hub/work-sharp-gift-guide-for-2025",
-        "feat_article_2": "education-hub/sharpening-your-kitchen-knife-is-easy",
+        "feat_article_1": "",
+        "feat_article_2": "",
         "feat_article_3": "",
-        "featured_color": "#f5a623",
+        "featured_color": "#e30613",
         "featured_bar_height": 4,
         "featured_image_ratio": "16 / 9",
-        "hover_line_color": "#f5a623",
+        "hover_line_color": "#e30613",
         "hover_line_height": 10,
         "post_limit": 4,
         "columns_desktop": "4",
@@ -1393,7 +1186,7 @@
         "date_color": "#555555",
         "read_more_text": "Read more →",
         "read_more_size": 13,
-        "read_more_color": "#f5a623",
+        "read_more_color": "#e30613",
         "show_view_all": true,
         "view_all_text": "View all articles",
         "view_all_link": "",
@@ -1406,7 +1199,7 @@
         "view_all_letter_spacing": 0.5,
         "view_all_use_scheme": false,
         "view_all_scheme": "",
-        "view_all_bg": "#f5a623",
+        "view_all_bg": "#e30613",
         "view_all_color": "#ffffff",
         "view_all_border_width": 0,
         "view_all_border_color": "#1a1a1a",
@@ -1425,13 +1218,13 @@
       "custom_css": [
         "h2 {text-align: left;}"
       ],
-      "name": "ITM Featured Product Hero",
+      "name": "ITM Featured Product Hero (needs a real Teng product handle — currently empty)",
       "settings": {
-        "product": "wsbchpaj-pro",
+        "product": "",
         "color_scheme": "scheme-4",
-        "kicker": "NEW RELEASE !",
-        "name_override": "PRECISION ADJUST PRO",
-        "custom_image": "shopify://shop_images/paj-pro-hero.png",
+        "kicker": "NEW RELEASE",
+        "name_override": "",
+        "custom_image": "",
         "hero_height": 20,
         "feather_center": -80,
         "feather_radius": 80,
@@ -1445,7 +1238,7 @@
         "tab_DRRnqA": {
           "type": "tab",
           "settings": {
-            "collection": "portable-pocket-knife-sharpeners",
+            "collection": "tool-storage",
             "title": "",
             "content": "",
             "image_alt": "",
@@ -1456,7 +1249,7 @@
         "tab_eANN83": {
           "type": "tab",
           "settings": {
-            "collection": "benchtop-knife-sharpeners",
+            "collection": "tool-kits",
             "title": "",
             "content": "",
             "image_alt": "",
@@ -1467,7 +1260,7 @@
         "tab_iW6TRF": {
           "type": "tab",
           "settings": {
-            "collection": "electric-knife-sharpeners",
+            "collection": "sockets-accessories",
             "title": "",
             "content": "",
             "image_alt": "",
@@ -1478,7 +1271,7 @@
         "tab_CiFeRV": {
           "type": "tab",
           "settings": {
-            "collection": "accessories-consumables",
+            "collection": "spanners-wrenches",
             "title": "",
             "content": "",
             "image_alt": "",
@@ -1510,24 +1303,23 @@
     }
   },
   "order": [
-    "fathers_day_hero",
+    "teng_hero",
+    "features",
+    "itm_main_shop_by_category_yy7X6n",
+    "itm_category_image_grid_V3iHkc",
+    "itm_category_icons_MJTKDw",
+    "vidHero",
+    "ws_reviews",
+    "featured_blog_yf4hXf",
     "fathers_day_categories",
-    "fathers_day_quiz",
     "home_video_section",
     "ws_hero_split",
     "itm_ws_hero_split_cwaKHU",
-    "itm_main_shop_by_category_yy7X6n",
     "itm_mobile_video_hero_edGwdH",
     "slideshow_rJwghf",
     "cats",
-    "features",
     "testimonial_hero_FHJ9rn",
-    "vidHero",
     "ws_featured_products",
-    "itm_category_image_grid_V3iHkc",
-    "ws_reviews",
-    "itm_category_icons_MJTKDw",
-    "featured_blog_yf4hXf",
     "fp",
     "colTabs"
   ]

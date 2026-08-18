@@ -1,6 +1,14 @@
+{%- comment -%}
+  Teng Tools rebrand: this default icon list used to hotlink Work Sharp's
+  own CDN-hosted "sharpens-*.svg" icons (files/1/0778/6928/5630/ is the
+  Work Sharp store's asset bucket) as a fallback whenever a block's icon
+  setting was left blank. Removed — blocks with no icon set now render
+  no image instead of a wrong-brand hotlinked one. Set a real icon per
+  block in the theme editor (or via shopify://shop_images/... in JSON).
+{%- endcomment -%}
 {%- liquid
-  assign ici_base    = 'https://cdn.shopify.com/s/files/1/0778/6928/5630/files/'
-  assign ici_default = 'sharpens-hunt.svg?v=1782705521,sharpens-kitchen.svg?v=1782705520,sharpens-pocket.svg?v=1782705520,sharpens-serrations-bread.svg?v=1782705521,sharpens-scissors.svg?v=1782705520,sharpens-axes-tools.svg?v=1782705520,sharpens-hunt.svg?v=1782705521' | split: ','
+  assign ici_base    = ''
+  assign ici_default = '' | split: ','
 -%}
 
 {% style %}
@@ -64,14 +72,21 @@
         {%- if block.settings.icon != blank -%}
           {%- assign ici_src = block.settings.icon | image_url: width: 120 -%}
         {%- else -%}
-          {%- assign ici_src = ici_base | append: ici_default[forloop.index0] -%}
+          {%- assign ici_fallback = ici_default[forloop.index0] -%}
+          {%- if ici_fallback != blank -%}
+            {%- assign ici_src = ici_base | append: ici_fallback -%}
+          {%- else -%}
+            {%- assign ici_src = '' -%}
+          {%- endif -%}
         {%- endif -%}
         <a class="ici__item"
            href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}"
            {% if block.settings.link == blank %}tabindex="-1" aria-hidden="true"{% endif %}
            {{ block.shopify_attributes }}>
           <div class="ici__icon-wrap">
-            <img class="ici__img" src="{{ ici_src }}" data-ici-svg="{{ ici_src }}" alt="" aria-hidden="true" loading="lazy" width="52" height="52">
+            {%- if ici_src != blank -%}
+              <img class="ici__img" src="{{ ici_src }}" data-ici-svg="{{ ici_src }}" alt="" aria-hidden="true" loading="lazy" width="52" height="52">
+            {%- endif -%}
           </div>
           {%- if block.settings.label != blank -%}
             <span class="ici__label">{{ block.settings.label }}</span>
@@ -455,13 +470,13 @@
       "type": "color",
       "id": "icon_color_hover",
       "label": "Icon colour on hover",
-      "default": "#f5a623"
+      "default": "#e30613"
     },
     {
       "type": "color",
       "id": "border_hover_color",
       "label": "Border/ring colour on hover",
-      "default": "#f5a623"
+      "default": "#e30613"
     },
     {
       "type": "range",
@@ -508,7 +523,7 @@
       "type": "color",
       "id": "text_hover_color",
       "label": "Text colour on hover",
-      "default": "#f5a623"
+      "default": "#e30613"
     },
     {
       "type": "select",

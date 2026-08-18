@@ -18,7 +18,7 @@
     badge_icon_size       (number)  top badge icon size in px (default 16)
     badge_font_size       (number)  top badge text size in px (default 11)
     badge_padding         (number)  top badge padding in px (default 5)
-    badge_bg              (string)  top badge background colour (default #f5a623)
+    badge_bg              (string)  top badge background colour (default #e30613)
     badge_color           (string)  top badge text colour (default #000000)
     badge_bottom_font_size (number) bottom badge text size in px (default 9)
     badge_bottom_bg        (string) bottom badge background colour/rgba (default rgba(0,0,0,0.72))
@@ -42,7 +42,7 @@
 
 <div class="sbc__img-wrap">
   {%- if badge_top != blank -%}
-    <span class="sbc__badge sbc__badge--top" style="background:{{ badge_bg | default: '#f5a623' }};color:{{ badge_color | default: '#000000' }};font-size:{{ badge_font_size | default: 11 }}px;padding:{{ badge_padding | default: 5 }}px {{ badge_padding | default: 5 | times: 2 }}px;">
+    <span class="sbc__badge sbc__badge--top" style="background:{{ badge_bg | default: '#e30613' }};color:{{ badge_color | default: '#000000' }};font-size:{{ badge_font_size | default: 11 }}px;padding:{{ badge_padding | default: 5 }}px {{ badge_padding | default: 5 | times: 2 }}px;">
       {%- if badge_icon != blank -%}
         <img class="sbc__badge-icon" src="{{ badge_icon | image_url: width: 100 }}" alt="" width="{{ badge_icon_size | default: 16 }}" height="{{ badge_icon_size | default: 16 }}" style="width:{{ badge_icon_size | default: 16 }}px;height:{{ badge_icon_size | default: 16 }}px;">
       {%- endif -%}

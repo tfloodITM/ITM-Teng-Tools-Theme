@@ -9,12 +9,12 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/ws-logo.webp",
-    "logo_width": 200,
-    "favicon": "shopify://shop_images/worksharp_favicon.png",
+    "logo": "shopify://shop_images/tengtools-logo-blk.png",
+    "logo_width": 180,
+    "favicon": "shopify://shop_images/tengu-mask.webp",
     "type_header_font": "montserrat_n7",
     "heading_scale": 100,
-    "heading_color": "#003660",
+    "heading_color": "#1a1a1a",
     "type_body_font": "work_sans_n4",
     "body_scale": 100,
     "page_width": 1300,
@@ -107,9 +107,9 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-5",
     "sold_out_badge_color_scheme": "scheme-3",
-    "social_facebook_link": "https://www.facebook.com/worksharpaus/",
-    "social_instagram_link": "https://www.instagram.com/worksharptools",
-    "social_youtube_link": "https://www.youtube.com/@WorkSharpOutdoor",
+    "social_facebook_link": "https://www.facebook.com/tengtoolsaustralia/",
+    "social_instagram_link": "",
+    "social_youtube_link": "https://www.youtube.com/channel/UCFxR5z1AuR6fAP87tW80scw",
     "social_tiktok_link": "",
     "social_twitter_link": "",
     "social_snapchat_link": "",
@@ -136,31 +136,6 @@
         "type": "main-password-footer",
         "settings": {
           "color_scheme": "scheme-1"
-        }
-      },
-      "itm-sharpener-quiz": {
-        "type": "itm-sharpener-quiz",
-        "settings": {
-          "p1_handle": "pivot-knife-sharpener",
-          "p2_handle": "pivot-plus-knife-sharpener",
-          "p3_handle": "pocket-knife-sharpener",
-          "p4_handle": "kitchen-edge-knife-sharpener",
-          "p5_handle": "pivot-pro-knife-sharpener",
-          "p6_handle": "pull-through-knife-sharpener",
-          "p7_handle": "ceramic-honing-rod",
-          "p8_handle": "guided-field-sharpener",
-          "p9_handle": "whetstone-knife-sharpener",
-          "p10_handle": "benchstone-knife-sharpener",
-          "p11_handle": "combo-knife-sharpener",
-          "p12_handle": "kitchen-electric-knife-sharpener",
-          "p13_handle": "precision-adjust-knife-sharpener",
-          "p14_handle": "knife-and-tool-sharpener-mk2",
-          "p15_handle": "rks-rolling-knife-sharpener",
-          "p16_handle": "precision-adjust-elite-knife-sharpener",
-          "p17_handle": "professional-kitchen-electric-knife-sharpener",
-          "p18_handle": "ken-onion-edition-knife-and-tool-sharpener-mk2",
-          "p19_handle": "ken-onion-edition-elite-knife-and-tool-sharpener-mk2",
-          "p20_handle": "professional-precision-adjust-knife-sharpener"
         }
       }
     },
@@ -215,7 +190,7 @@
       "scheme-2": {
         "settings": {
           "background": "#f2f2f2",
-          "background_gradient": "linear-gradient(133deg, rgba(245, 166, 35, 1) 11%, rgba(255, 255, 255, 1) 49%, rgba(245, 166, 35, 1) 87%)",
+          "background_gradient": "linear-gradient(133deg, rgba(227, 6, 19, 1) 11%, rgba(255, 255, 255, 1) 49%, rgba(255, 213, 0, 1) 87%)",
           "feature_background": "#f2f2f2",
           "feature_text": "#ffffff",
           "text": "#000000",

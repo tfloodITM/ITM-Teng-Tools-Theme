@@ -41,13 +41,409 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mm1001": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Tool Storage",
+            "link": "shopify://collections/tool-storage",
+            "layout": "cards"
+          }
+        },
+        "mm1002": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Roll Cabinets",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/roll-cabinets"
+          }
+        },
+        "mm1003": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Tool Chests",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/tool-chests"
+          }
+        },
+        "mm1004": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Wall Cabinets",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/wall-cabinets"
+          }
+        },
+        "mm1005": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Mobile Tool Storage",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/mobile-tool-storage"
+          }
+        },
+        "mega_promo_storage": {
+          "type": "mega_promo",
+          "settings": {
+            "image": "shopify://shop_images/teng-get-organised-campaign.webp",
+            "image_url": "",
+            "heading": "GET ORGANISED\u2122",
+            "button_label": "SHOP TOOL STORAGE",
+            "button_link": "/collections/tool-storage"
+          }
+        },
+        "mm1006": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Tool Kits",
+            "link": "shopify://collections/tool-kits",
+            "layout": "cards"
+          }
+        },
+        "mm1007": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Roller Cabinet Tool Kits",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/roller-cabinet-tool-kits"
+          }
+        },
+        "mm1008": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Chest Tool Kits",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/chest-tool-kits"
+          }
+        },
+        "mm1009": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Portable Tool Kits",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/portable-tool-kits"
+          }
+        },
+        "mm1010": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Stack Tool Kits",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/stack-tool-kits"
+          }
+        },
+        "mega_promo_kits": {
+          "type": "mega_promo",
+          "settings": {
+            "image": "shopify://shop_images/teng-category-tool-sets.webp",
+            "image_url": "",
+            "heading": "BUILD YOUR ULTIMATE TOOL KIT",
+            "button_label": "SHOP TOOL KITS",
+            "button_link": "/collections/tool-kits"
+          }
+        },
+        "mm1011": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Sockets & Accessories",
+            "link": "shopify://collections/sockets-and-accessories",
+            "layout": "cards"
+          }
+        },
+        "mm1012": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Chrome Socket Sets",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/chrome-socket-sets"
+          }
+        },
+        "mm1013": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Impact Sockets",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/impact-sockets"
+          }
+        },
+        "mm1014": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Ratchets & Handles",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/ratchets-and-handles"
+          }
+        },
+        "mm1015": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "1000v Sockets",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/1000v-sockets"
+          }
+        },
+        "mm1016": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Spanners & Wrenches",
+            "link": "shopify://collections/spanners-and-wrenches",
+            "layout": "cards"
+          }
+        },
+        "mm1017": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Combination Spanners",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/combination-spanners"
+          }
+        },
+        "mm1018": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Ratchet Combination Spanners",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/ratchet-combination-spanners"
+          }
+        },
+        "mm1019": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Spanner Sets",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/spanner-sets"
+          }
+        },
+        "mm1020": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Adjustable Wrenches",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/adjustable-wrenches"
+          }
+        },
+        "mm1021": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Torque Tools",
+            "link": "shopify://collections/torque-tools",
+            "layout": "cards"
+          }
+        },
+        "mm1022": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Torque Wrenches",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/torque-wrenches"
+          }
+        },
+        "mm1023": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Torque Screwdrivers",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/torque-screwdrivers"
+          }
+        },
+        "mm1024": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Torque Multipliers",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/torque-multipliers"
+          }
+        },
+        "mm1025": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Torque Tool Accessories",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/torque-tool-accessories"
+          }
+        },
+        "mm1026": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Automotive Tools",
+            "link": "shopify://collections/automotive-tools",
+            "layout": "cards"
+          }
+        },
+        "mm1027": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Automotive Body & Panel",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/automotive-body-and-panel"
+          }
+        },
+        "mm1028": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Automotive Brake Tools",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/automotive-brake-tools"
+          }
+        },
+        "mm1029": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Pullers",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/pullers"
+          }
+        },
+        "mm1030": {
+          "type": "mega_card",
+          "settings": {
+            "image": null,
+            "image_url": "",
+            "label": "Tyre Tools",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/tyre-tools"
+          }
+        },
+        "mm1031": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Screwdrivers",
+            "link": "shopify://collections/screwdrivers",
+            "layout": "link"
+          }
+        },
+        "mm1032": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Cutters & Pliers",
+            "link": "shopify://collections/cutters-and-pliers",
+            "layout": "link"
+          }
+        },
+        "mm1033": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Cutting Tools",
+            "link": "shopify://collections/cutting-tools",
+            "layout": "link"
+          }
+        },
+        "mm1034": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Hex & Torx Keys",
+            "link": "shopify://collections/hex-and-torx-keys",
+            "layout": "link"
+          }
+        },
+        "mm1035": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Measuring & Marking",
+            "link": "shopify://collections/measuring-and-marking",
+            "layout": "link"
+          }
+        },
+        "mm1036": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Other Hand Tools",
+            "link": "shopify://collections/other-hand-tools",
+            "layout": "link"
+          }
+        },
+        "mm1037": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Striking Tools",
+            "link": "shopify://collections/striking-tools",
+            "layout": "link"
+          }
+        },
+        "mm1038": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Air Tools And Accessories",
+            "link": "shopify://collections/air-tools-and-accessories",
+            "layout": "link"
+          }
+        },
+        "mm1039": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Clamps",
+            "link": "shopify://collections/clamps",
+            "layout": "link"
+          }
+        },
+        "mm1040": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Bits & Drivers",
+            "link": "shopify://collections/bits-and-drivers",
+            "layout": "link"
+          }
+        },
+        "mm1041": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Vices",
+            "link": "shopify://collections/vices",
+            "layout": "link"
+          }
+        },
         "trust_item_BT9Qf6": {
           "type": "trust_item",
           "settings": {
             "icon_preset": "shield",
             "icon": "shopify://shop_images/shield-svgrepo-com.svg",
             "icon_url": "",
-            "text": "3 Year Warranty",
+            "text": "Lifetime Warranty",
             "link": ""
           }
         },
@@ -57,7 +453,7 @@
             "icon_preset": "star",
             "icon": "shopify://shop_images/star-sharp-svgrepo-com.svg",
             "icon_url": "",
-            "text": "1500+ Reviews",
+            "text": "Made For Professionals",
             "link": ""
           }
         },
@@ -81,46 +477,6 @@
             "link": ""
           }
         },
-        "mega_item_WAxyCL": {
-          "type": "mega_item",
-          "settings": {
-            "title": "Benchtop Sharpeners",
-            "link": "shopify://collections/benchtop-knife-sharpeners",
-            "layout": "link"
-          }
-        },
-        "mega_item_YWPAFd": {
-          "type": "mega_item",
-          "settings": {
-            "title": "Kitchen Sharpeners",
-            "link": "shopify://collections/kitchen-knife-sharpeners",
-            "layout": "link"
-          }
-        },
-        "mega_item_QHdhx6": {
-          "type": "mega_item",
-          "settings": {
-            "title": "Electric Knife Sharpeners",
-            "link": "shopify://collections/electric-knife-sharpeners",
-            "layout": "link"
-          }
-        },
-        "mega_item_GjmxqC": {
-          "type": "mega_item",
-          "settings": {
-            "title": "Portable & Pocket Knife Sharpeners",
-            "link": "shopify://collections/portable-pocket-knife-sharpeners",
-            "layout": "link"
-          }
-        },
-        "mega_item_x9k46q": {
-          "type": "mega_item",
-          "settings": {
-            "title": "Accessories & Parts",
-            "link": "shopify://collections/accessories-consumables",
-            "layout": "link"
-          }
-        },
         "mega_item_GRYaj8": {
           "type": "mega_item",
           "settings": {
@@ -142,11 +498,49 @@
         "trust_item_EJfqP8",
         "trust_item_zJD8td",
         "trust_item_nRyC3H",
-        "mega_item_WAxyCL",
-        "mega_item_YWPAFd",
-        "mega_item_QHdhx6",
-        "mega_item_GjmxqC",
-        "mega_item_x9k46q",
+        "mm1001",
+        "mm1002",
+        "mm1003",
+        "mm1004",
+        "mm1005",
+        "mega_promo_storage",
+        "mm1006",
+        "mm1007",
+        "mm1008",
+        "mm1009",
+        "mm1010",
+        "mega_promo_kits",
+        "mm1011",
+        "mm1012",
+        "mm1013",
+        "mm1014",
+        "mm1015",
+        "mm1016",
+        "mm1017",
+        "mm1018",
+        "mm1019",
+        "mm1020",
+        "mm1021",
+        "mm1022",
+        "mm1023",
+        "mm1024",
+        "mm1025",
+        "mm1026",
+        "mm1027",
+        "mm1028",
+        "mm1029",
+        "mm1030",
+        "mm1031",
+        "mm1032",
+        "mm1033",
+        "mm1034",
+        "mm1035",
+        "mm1036",
+        "mm1037",
+        "mm1038",
+        "mm1039",
+        "mm1040",
+        "mm1041",
         "mega_item_GRYaj8",
         "mega_column_r4nAYm"
       ],
@@ -156,7 +550,7 @@
         "menu": "cro-menu",
         "menu_type_desktop": "dropdown",
         "enable_mega_menu": true,
-        "mega_accent_color": "#f5a623",
+        "mega_accent_color": "#e30613",
         "sticky_header_type": "none",
         "enable_scroll_sticky": true,
         "show_line_separator": true,
@@ -171,10 +565,10 @@
         "search_height": 44,
         "search_max_width_mobile": 1200,
         "search_height_mobile": 34,
-        "header_background_color": "#2e2e2e",
+        "header_background_color": "#000000",
         "header_text_color": "#ffffff",
         "header_divider_color": "#f4f4f4",
-        "menu_bar_background_color": "#2e2e2e",
+        "menu_bar_background_color": "#000000",
         "menu_bar_text_color": "#ffffff",
         "nav_font_size": 14,
         "nav_padding_y": 12,
@@ -189,7 +583,7 @@
         "trust_bar_padding_y": 6,
         "trust_item_font_size": 11,
         "trust_icon_size": 18,
-        "trust_icon_color": "#d6921f",
+        "trust_icon_color": "#e30613",
         "trust_icon_offset_y": -1,
         "trust_divider_inset": 8,
         "trust_items_mobile": 2,
@@ -216,8 +610,8 @@
         "padding_bottom_mobile": 0,
         "header_top_row_gap": 0,
         "search_panel_term_size": 14,
-        "popular_searches": "knife sharpener,pocket knife sharpener,bench stone,whetstone,honing rod,electric sharpener",
-        "popular_now_collection": "benchtop-knife-sharpeners"
+        "popular_searches": "torque wrench,socket set,tool storage,spanner set,screwdriver set,tool kit",
+        "popular_now_collection": "tool-storage"
       }
     },
     "176296421790fd5ec6": {
@@ -234,7 +628,7 @@
             "spacing": 8,
             "font_size": 14,
             "font_weight": "600",
-            "localized_icon": "shopify://shop_images/worksharp_favicon.png",
+            "localized_icon": "shopify://shop_images/tengu-mask.webp",
             "flag_height_style": "full"
           },
           "blocks": {}

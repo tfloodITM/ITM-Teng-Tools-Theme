@@ -36,17 +36,17 @@
   {%- assign primary_sku = primary_product.selected_or_first_available_variant.sku | default: primary_product.title | strip -%}
 {%- endif -%}
 
+{%- comment -%}
+  Teng Tools rebrand: the Work Sharp collection-suffix → compatible-product
+  switch map was removed here (it only matched template suffixes belonging
+  to the deleted Work Sharp "accessories to suit X" collection templates,
+  so it was unreachable dead code). related_product is now always blank,
+  which disables the "Compatible with" card/table below. If Teng needs an
+  equivalent feature later, this is the spot to wire up a real lookup
+  (e.g. a collection metafield naming the related product handle).
+{%- endcomment -%}
 {%- assign pg_compatible_handle = nil -%}
 {%- assign pg_discontinued = false -%}
-{%- case template.suffix -%}
-  {%- when 'suit-precision-adj-pro' -%}{%- assign pg_compatible_handle = 'wsbchpaj-pro' -%}
-  {%- when 'to-suit-precision-adjust' -%}{%- assign pg_compatible_handle = 'wsbchpaj-i' -%}
-  {%- when 'belts-for-wksts-ko' -%}{%- assign pg_compatible_handle = 'wskts-ko2' -%}
-  {%- when 'belts-ko-blade-grind-at' -%}{%- assign pg_compatible_handle = 'wssako81122-1' -%}
-  {%- when 'abrasive-to-suit-wskts' -%}{%- assign pg_compatible_handle = 'wskts2-i-1' -%}
-  {%- when 'abrasive-field-guide-sha' -%}{%- assign pg_compatible_handle = 'wsgfs221' -%}
-  {%- when 'to-suit-ws-2000300' -%}{%- assign pg_discontinued = true -%}
-{%- endcase -%}
 {%- assign related_product = all_products[pg_compatible_handle] -%}
 
 <section class="pg">
@@ -97,37 +97,13 @@
           {%- endif -%}
         </div>
 
-        <aside class="pg__hero-ctas{% if related_product != blank or pg_discontinued %} pg__hero-ctas--has-card{% if pg_discontinued %} pg__hero-ctas--discontinued{% endif %}{% endif %}">
-          {%- if pg_discontinued -%}
-            <p class="pg__related-eyebrow" style="font-size: 16px;">Compatible with</p>
-            <div class="pg__disc-cards">
-              <div class="pg__disc-card">
-                <div class="pg__disc-img">
-                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/Work_Sharp_2000__4caca457612f1.webp?v=1782793406" alt="WS2000 Tool Sharpener &amp; Grinder" loading="lazy" width="600" height="600">
-                </div>
-                <div class="pg__disc-band">
-                  <p class="pg__disc-name">WS2000 Tool Sharpener &amp; Grinder</p>
-                  <p class="pg__disc-sku">WS2000</p>
-                  <p class="pg__disc-badge">PRODUCT DISCONTINUED</p>
-                </div>
-              </div>
-              <div class="pg__disc-card">
-                <div class="pg__disc-img">
-                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/WS3000-Hero-1.webp?v=1782793406" alt="WS3000 Woodworking Tool Sharpener" loading="lazy" width="600" height="600">
-                </div>
-                <div class="pg__disc-band">
-                  <p class="pg__disc-name">WS3000 Woodworking Tool Sharpener</p>
-                  <p class="pg__disc-sku">WS3000</p>
-                  <p class="pg__disc-badge">PRODUCT DISCONTINUED</p>
-                </div>
-              </div>
-            </div>
-          {%- elsif related_product != blank -%}
+        <aside class="pg__hero-ctas{% if related_product != blank %} pg__hero-ctas--has-card{% endif %}">
+          {%- if related_product != blank -%}
             {%- assign rp_label      = section.settings.pg_related_card_label | default: 'Compatible with' -%}
             {%- assign rp_label_size = section.settings.pg_related_label_size | default: 16 -%}
             {%- assign rp_bg         = section.settings.pg_related_card_bg | default: '#ffffff' -%}
             {%- assign rp_text       = section.settings.pg_related_card_text_color | default: '#000000' -%}
-            {%- assign rp_stars      = section.settings.pg_related_card_star_color | default: '#f5a200' -%}
+            {%- assign rp_stars      = section.settings.pg_related_card_star_color | default: '#e30613' -%}
             {%- assign rp_border     = section.settings.pg_related_card_border_color | default: '#000000' -%}
             <p class="pg__related-eyebrow" style="font-size: {{ rp_label_size }}px;">{{ rp_label }}</p>
             <div class="sbc__card pg__hero-sbc-card" style="--pgc-card-bg:{{ rp_bg }};--pgc-card-text:{{ rp_text }};--pgc-card-stars:{{ rp_stars }};--pgc-card-border:{{ rp_border }};">
@@ -833,14 +809,14 @@ var _pgStockIconSvg = {{ _stock_icon_svg | json }};
     position: relative;
   }
   .pgc__card--bundle {
-    border: 2px solid #f5a623;
+    border: 2px solid #e30613;
     box-shadow: 0 0 0 1px rgba(245, 166, 35, 0.18);
   }
   .pgc__bundle-badge {
     position: absolute;
     top: 13px;
     right: 0;
-    background: #f5a623;
+    background: #e30613;
     color: #fff;
     font-size: 9px;
     font-weight: 700;
@@ -1003,7 +979,7 @@ var _pgStockIconSvg = {{ _stock_icon_svg | json }};
     margin-top: 28px;
     padding: 18px 20px;
     background: #fff8ec;
-    border: 1px solid #f5a623;
+    border: 1px solid #e30613;
     border-radius: 8px;
   }
   .pgc__bundle-header {
@@ -1096,7 +1072,7 @@ var _pgStockIconSvg = {{ _stock_icon_svg | json }};
     color: var(--pgc-card-text, #000000) !important;
   }
   .pg__hero-sbc-card .sbc__stars-fill {
-    color: var(--pgc-card-stars, #f5a200) !important;
+    color: var(--pgc-card-stars, #e30613) !important;
   }
   .pg__hero-sbc-card .sbc__stars-bg {
     color: rgba(0,0,0,0.18);
@@ -1159,7 +1135,7 @@ var _pgStockIconSvg = {{ _stock_icon_svg | json }};
   .pg__disc-badge {
     font-size: 10px;
     font-weight: 700;
-    color: #f5a623;
+    color: #e30613;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin: 0;

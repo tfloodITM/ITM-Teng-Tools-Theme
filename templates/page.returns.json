@@ -45,7 +45,7 @@
           "type": "info_card",
           "settings": {
             "heading": "Faulty, Damaged or Wrong Item?",
-            "text": "<p>Don't use the returns flow — email <a href=\"mailto:info@worksharptools.com.au\">info@worksharptools.com.au</a> and we'll sort it out directly, at our cost.</p>",
+            "text": "<p>Don't use the returns flow — email <a href=\"mailto:REPLACE_WITH_REAL_TENG_AU_SUPPORT_EMAIL\">REPLACE_WITH_REAL_TENG_AU_SUPPORT_EMAIL</a> and we'll sort it out directly, at our cost.</p>",
             "link_label": "Warranty & Service",
             "link": "/pages/warranty-service"
           }
@@ -76,7 +76,7 @@
         "card_kicker": "READY TO SEND SOMETHING BACK?",
         "card_heading": "Start Your Return",
         "card_subtext": "All you need to start the return process is the email you used in your order.",
-        "card_link": "https://account.worksharptools.com.au/orders",
+        "card_link": "/account",
         "steps_heading": "What You Need to Know",
         "bg_color": "#ffffff",
         "padding_top": 60,

@@ -19,7 +19,7 @@
             "heading": "Love & Respect",
             "body": "We treat everyone — teammates, customers, and partners — with high esteem and genuine concern for their wellbeing.",
             "icon_size": 40,
-            "icon_color": "#f5a623",
+            "icon_color": "#e30613",
             "heading_size": 14,
             "body_size": 14
           }
@@ -31,7 +31,7 @@
             "heading": "Own Your Experience",
             "body": "We take responsibility and stay proactive. If something needs doing, we step up and make it happen.",
             "icon_size": 40,
-            "icon_color": "#f5a623",
+            "icon_color": "#e30613",
             "heading_size": 14,
             "body_size": 14
           }
@@ -43,7 +43,7 @@
             "heading": "Honesty & Integrity",
             "body": "We speak truth, act with authenticity, and keep our agreements — in every product and every interaction.",
             "icon_size": 40,
-            "icon_color": "#f5a623",
+            "icon_color": "#e30613",
             "heading_size": 15,
             "body_size": 14
           }
@@ -53,9 +53,9 @@
           "settings": {
             "icon": "simplify",
             "heading": "Simplify",
-            "body": "We streamline products, processes, and messaging. Sharpening should be clear, practical, and confidently repeatable.",
+            "body": "We streamline products, processes, and messaging. Getting organised should be clear, practical, and built to last.",
             "icon_size": 40,
-            "icon_color": "#f5a623",
+            "icon_color": "#e30613",
             "heading_size": 14,
             "body_size": 14
           }
@@ -67,7 +67,7 @@
             "heading": "Continuous Improvement",
             "body": "We reach for our highest potential — always refining our designs, our processes, and ourselves.",
             "icon_size": 40,
-            "icon_color": "#f5a623",
+            "icon_color": "#e30613",
             "heading_size": 14,
             "body_size": 14
           }
@@ -79,7 +79,7 @@
             "heading": "Enjoy What We Do",
             "body": "We maintain balance and bring genuine energy to our work. A culture worth being part of makes everything better.",
             "icon_size": 40,
-            "icon_color": "#f5a623",
+            "icon_color": "#e30613",
             "heading_size": 14,
             "body_size": 14
           }
@@ -87,7 +87,7 @@
         "stat-1": {
           "type": "stat",
           "settings": {
-            "number": "3-Year",
+            "number": "Lifetime",
             "label": "Warranty",
             "stat_icon": "shopify://shop_images/ba7af304-8575-485c-a92b-7f73131cbc0b.svg",
             "icon_size": 64,
@@ -102,8 +102,8 @@
         "stat-2": {
           "type": "stat",
           "settings": {
-            "number": "Ashland, OR",
-            "label": "Designed & Engineered",
+            "number": "1985",
+            "label": "Founded In Sweden",
             "stat_icon": "shopify://shop_images/f1428d63-57cf-432a-8b92-f889a8f714c5.svg",
             "icon_size": 64,
             "number_size": 30,
@@ -132,8 +132,8 @@
         "stat-4": {
           "type": "stat",
           "settings": {
-            "number": "Fast & Easy",
-            "label": "Every Time",
+            "number": "TC Tray",
+            "label": "Modular Storage System",
             "stat_icon": "shopify://shop_images/e4c1760e-76ab-4f81-adfc-8fd95782388e.svg",
             "icon_size": 64,
             "number_size": 30,
@@ -158,10 +158,10 @@
         "stat-4"
       ],
       "settings": {
-        "hero_eyebrow": "Work Sharp",
-        "hero_heading": "About Work Sharp",
-        "hero_sub": "Fast. Easy. Consistent.",
-        "hero_image": "shopify://shop_images/Compressed-KO2_Hero_2_1.jpg",
+        "hero_eyebrow": "Teng Tools",
+        "hero_heading": "About Teng Tools",
+        "hero_sub": "Get Organised™. Made For Professionals.",
+        "hero_image": "shopify://shop_images/teng-get-organised-campaign.webp",
         "hero_overlay": 65,
         "hero_color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
         "hero_italic": false,
@@ -174,9 +174,9 @@
         "hero_sub_size": 18,
         "hero_sub_bold": false,
         "story_eyebrow": "Our Story",
-        "story_heading": "Designed & Engineered in Ashland, Oregon",
-        "story_text": "<p>Work Sharp designs, engineers, and calibrates every sharpening machine in Ashland, OR. From the workbench to the field, every product is built around one simple principle: sharpening must be practical, trustworthy, and simple to replicate.</p><p>We source components from high-calibre manufacturers domestically and globally, enforcing stringent quality control and fair labour practices at every step — and back every product with a 3-year warranty and genuine customer support.</p>",
-        "story_image": "shopify://shop_images/Compressed-_DSC0969_1.webp",
+        "story_heading": "Designed in Sweden Since 1985",
+        "story_text": "<p>Teng Tools was founded in 1985 by Henri Tengvall, who saw that mechanics needed more than just quality hand tools — they needed a way to keep them organised. The company name blends the founder's surname with the Japanese Tengu, a mythical figure symbolising strength, courage and innovative thinking.</p><p>Every tool is designed around our TC Tray system: modular trays that click together into any storage solution, so every tool has its place and nothing gets lost. Independent testing has ranked Teng Tools first or second across eight product categories — which is why every tool carries a lifetime warranty.</p>",
+        "story_image": "shopify://shop_images/tengu-mask.webp",
         "story_color_scheme": "scheme-4",
         "story_italic": false,
         "story_heading_align": "left",
@@ -189,16 +189,16 @@
         "stats_num_color": "#202020",
         "stats_label_color": "#202020",
         "stats_italic": false,
-        "au_eyebrow": "Work Sharp Australia",
-        "au_heading": "Bringing Global Innovation to Australia",
-        "au_text": "<p>We bring Work Sharp's globally trusted sharpening systems to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian tools and blades endure demanding conditions on worksites, in workshops, professional kitchens, and outdoors. Work Sharp helps reduce equipment downtime, extend blade life, and maintain superior performance with minimal effort — from knives and scissors to axes and chisels.</p>",
-        "au_image": "shopify://shop_images/RollingKnifeSharpener-Lifestyle-PocketKnife1-scaled.webp",
+        "au_eyebrow": "Teng Tools Australia",
+        "au_heading": "ITM: The Sole Australian Distributor",
+        "au_text": "<p>ITM is Australia's leading wholesale distributor of professional quality tool brands, and the sole Australian wholesale distributor for Teng Tools — bringing Swedish-designed hand tools and storage direct to Australian tradespeople and enthusiasts.</p><p>From workshops and worksites to home garages, Teng Tools' modular TC Tray system and lifetime-warrantied hand tools help keep every job organised and every tool accounted for.</p>",
+        "au_image": "shopify://shop_images/teng-category-tool-storage.webp",
         "au_color_scheme": "scheme-4",
         "au_italic": true,
         "au_heading_align": "left",
-        "cta_heading": "Ready To Keep Every Edge Sharp?",
-        "cta_sub": "Explore the full Work Sharp range — from pocket sharpeners to professional benchtop systems.",
-        "cta_btn_text": "Shop All Sharpeners",
+        "cta_heading": "Ready To Get Organised?",
+        "cta_sub": "Explore the full Teng Tools range — from hand tools and sockets to complete modular tool storage.",
+        "cta_btn_text": "Shop All Tools",
         "cta_btn_link": "",
         "cta_color_scheme": "scheme-2",
         "cta_italic": false,
