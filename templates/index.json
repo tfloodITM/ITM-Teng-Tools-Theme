@@ -325,9 +325,9 @@
     "home_video_section": {
       "type": "itm-video-section",
       "disabled": true,
-      "name": "Full-Width Video (WS legacy file, disabled — replaced by vidHero YouTube embed below)",
+      "name": "Full-Width Video (legacy, disabled)",
       "settings": {
-        "video": "",
+        "video": null,
         "video_url": "",
         "video_title": "",
         "show_on_desktop": true,
@@ -414,7 +414,7 @@
         "cta2_skew": -21,
         "cta2_glow": true,
         "cta_position": "middle-left",
-        "video": "shopify://files/videos/worksharp-home-page-video.mp4",
+        "video": null,
         "video_url": "",
         "slideshow_autoplay": true,
         "slideshow_speed": 5,
@@ -492,7 +492,7 @@
         "cta2_skew": -21,
         "cta2_glow": true,
         "cta_position": "middle-left",
-        "video": "shopify://files/videos/worksharp-home-page-video.mp4",
+        "video": null,
         "video_url": "",
         "slideshow_autoplay": true,
         "slideshow_speed": 5,
@@ -644,7 +644,7 @@
       "disabled": true,
       "name": "Mobile Video Hero",
       "settings": {
-        "video": "shopify://files/videos/worksharp-home-page-video.mp4",
+        "video": null,
         "video_url": "",
         "height": 420,
         "bg": "#000000",
@@ -896,7 +896,7 @@
     "ws_featured_products": {
       "type": "itm-ws-featured-products",
       "disabled": true,
-      "name": "Featured Products (needs real Teng product handles from catalog — currently empty)",
+      "name": "Featured Products (needs real handles)",
       "settings": {
         "heading": "FEATURED PRODUCTS",
         "product_handles": "",
@@ -1018,7 +1018,7 @@
         "review_jake",
         "review_graham"
       ],
-      "name": "Customer Reviews (only 2 real, sourced from tengtools.com — replace/add genuine AU customer reviews e.g. via Judge.me once available; do not fabricate more)",
+      "name": "Customer Reviews (only 2 real — see notes)",
       "settings": {
         "heading": "What Professionals Say",
         "review_count_text": "",
