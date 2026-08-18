@@ -1,0 +1,2554 @@
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{%- if settings.predictive_search_enabled -%}
+  <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+{%- if section.settings.menu_type_desktop == 'mega' -%}
+  <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+<style>
+  {%- liquid
+    assign has_trust = false
+    for block in section.blocks
+      if block.type == 'trust_item'
+        assign has_trust = true
+        break
+      endif
+    endfor
+  -%}
+  /* ===== Dawn bits ===== */
+  header-drawer{ justify-self:start; margin-left:0; }
+  {%- if section.settings.menu_type_desktop != "drawer" -%}
+  @media (min-width:990px){ header-drawer{ display:none } }
+  {%- endif -%}
+
+  /* ===== Mobile-first header layout (Bunnings style) ===== */
+  /* Row 1: burger | logo | icons    Row 2: full-width search */
+  .header{
+    display:grid !important;
+    /* equal side columns keep the logo centred on the page on mobile */
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    grid-template-areas:
+      "burger logo   icons"
+      "search search search"{% if has_trust %}
+      "trust  trust  trust"{% endif %};
+    align-items:center;
+    column-gap:8px; row-gap:10px;
+  }
+  .header > .header__left-cluster{ grid-area:burger; justify-self:start; display:flex; align-items:center; gap:6px; }
+  .header__left-cluster header-drawer{ margin:0; }
+  .header > .header__heading{ grid-area:logo; justify-self:center; margin:0; }
+  .header > .header__icons{ grid-area:icons; justify-self:end; min-width:auto; max-width:100%; }
+
+  /* search wrapper occupies the search row */
+  .header > predictive-search.ws-search,
+  .header > search-form.ws-search,
+  .header > form.ws-search{
+    grid-area:search;
+    position:relative;
+    z-index:30;
+    width:100%;
+    margin:0;
+  }
+
+  /* inline (desktop) menu is hidden on mobile — the drawer/burger handles it */
+  .header > .header__inline-menu,
+  .header > nav.header__inline-menu,
+  .header > .header__menu{ display:none; }
+
+  /* ===== Desktop: logo | big search | icons, with menu inline below ===== */
+  @media (min-width:990px){
+    .header{
+      /* equal side columns keep the search dead-centre on the page */
+      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+      grid-template-areas:
+        "logo search icons"
+        "nav  nav    nav"{% if has_trust %}
+        "trust trust trust"{% endif %};
+      column-gap:28px;
+      /* space below the top row (logo/search) and above the nav menu */
+      row-gap:{{ section.settings.header_top_row_gap | default: 16 }}px;
+    }
+
+    /* logo left */
+    .header > .header__heading{ grid-area:logo; justify-self:start; min-width:140px; }
+
+    /* big rounded search, centred on the page */
+    .header > predictive-search.ws-search,
+    .header > search-form.ws-search,
+    .header > form.ws-search{
+      grid-area:search;
+      width:clamp(300px, 45vw, {{ section.settings.search_max_width | default: 640 }}px);
+      margin:0;
+      justify-self:center;
+    }
+
+    /* utility icons right */
+    .header > .header__icons{ grid-area:icons; justify-self:end; }
+
+    /* inline menu: full-width row below, left-aligned */
+    .header > .header__inline-menu,
+    .header > nav.header__inline-menu,
+    .header > .header__menu{
+      grid-area:nav;
+      display:block;
+      width:100%;
+    }
+    .header__inline-menu > .list-menu--inline{ justify-content:flex-start; }
+
+    /* the mobile-only left cluster (burger + account) is hidden on desktop */
+    .header > .header__left-cluster{ display:none; }
+  }
+
+  /* ===== Search as a rounded pill (Bunnings style, icon on the left) ===== */
+  .ws-search{
+    --ws-height:{{ section.settings.search_height | default: 44 }}px;
+    --ws-bg:#fff;
+    --ws-placeholder:{{ section.settings.search_placeholder_color | default: 'rgba(0,0,0,.45)' }};
+    --ws-text:{{ section.settings.search_text_color | default: '#111111' }};
+    --ws-icon-rgb: var(--color-foreground-button,
+                     var(--color-button,
+                     var(--color-accent, 17,17,17)));
+
+    display:flex;
+    align-items:center;
+    gap:.25rem;
+    width:100%;
+    margin:0;
+    background:var(--ws-bg) !important;
+    border:1px solid rgba(0,0,0,.22);
+    border-radius:999px;
+    padding:0 8px 0 14px;
+    box-shadow:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+
+  /* subtle focus state on the whole pill (no oversized inner box) */
+  .header .ws-search:focus-within{
+    border-color:rgba(0,0,0,.6);
+    box-shadow:0 0 0 3px rgba(0,0,0,.06);
+  }
+
+  /* kill Dawn's field focus ring / pseudo border that caused the "tube" */
+  .header .ws-search .field:before,
+  .header .ws-search .field:after{
+    display:none !important;
+    box-shadow:none !important;
+  }
+  .header .ws-search .field__input:focus,
+  .header .ws-search .field__input:focus-visible,
+  .header .ws-search__input:focus,
+  .header .ws-search__input:focus-visible,
+  .header .ws-search .field:focus-within{
+    box-shadow:none !important;
+    outline:none !important;
+  }
+
+  .ws-search__form{ flex:1; }
+
+  .header .ws-search .field{
+    display:flex;
+    align-items:center;
+    padding:0;
+    margin:0;
+    box-shadow:none;
+    background:transparent;
+  }
+
+  /* inner wrapper becomes a flex row so the magnifier can sit on the left */
+  .ws-search__form > div{
+    display:flex;
+    align-items:center;
+    width:100%;
+  }
+
+  .header .ws-search .field__input,
+  .ws-search__input{
+    height:var(--ws-height);
+    line-height:var(--ws-height);
+  }
+
+  .ws-search__input{
+    appearance:none; border:0 !important; outline:none; order:1;
+    background:transparent !important; color:var(--ws-text, #111);
+    flex:1 1 auto; min-width:0; width:100%;
+    font:inherit; letter-spacing:inherit;
+    text-overflow:ellipsis;
+  }
+  .ws-search__input::placeholder{ color:var(--ws-placeholder); opacity:1; font-size:14px; }
+
+  .header .ws-search .field__button{ position:static; }
+
+  .ws-search__button{
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    height:40px; width:40px; min-width:40px;
+    flex-shrink:0;
+    order:0;                      /* magnifier on the left */
+    padding:0;
+    border:0;
+    background:transparent !important;
+    cursor:pointer;
+    color:rgb(var(--ws-icon-rgb));
+  }
+  .header .reset__button{ order:2; }
+
+  .ws-search__icon svg{ width:22px; height:22px; fill:currentColor; display:block; }
+  .ws-search, .ws-search__input{ border-radius:999px !important; }
+
+  /* ===== Utility icons with labels (Sign In / Lists / Cart) ===== */
+  .header__icon{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    gap:4px;
+    min-width:46px;
+    position:relative;
+    text-align:center;
+  }
+  /* normalise the icon box so every label sits on the same baseline */
+  .header__icon .svg-wrapper,
+  .header__icon account-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:26px;
+  }
+  .header__icon-label{
+    font-size:12px;
+    line-height:1;
+    letter-spacing:.02em;
+    white-space:nowrap;
+  }
+  /* on mobile show icons only, but keep the label available to screen readers */
+  @media (max-width:989px){
+    .header__icon-label{
+      position:absolute !important;
+      width:1px; height:1px;
+      padding:0; margin:-1px;
+      overflow:hidden;
+      clip:rect(0 0 0 0);
+      white-space:nowrap; border:0;
+    }
+  }
+
+  /* ===== Menu basics ===== */
+  .menu-drawer-container{display:flex;}
+  .list-menu{list-style:none;padding:0;margin:0;}
+  .list-menu--inline{display:inline-flex;flex-wrap:wrap;}
+  summary.list-menu__item{padding-right:2.7rem;}
+  .list-menu__item{display:flex;align-items:center;line-height:calc(1 + .3 / var(--font-body-scale));}
+  .list-menu__item--link{ text-decoration:none;padding:1rem 0;line-height:calc(1 + .8 / var(--font-body-scale)); }
+  @media (min-width:750px){ .list-menu__item--link{ padding:.5rem 0; } }
+
+  /* ===== Text Nav (separate bar) ===== */
+  .text-nav{ width:100%; }
+  .text-nav__list{
+    display:flex; gap:18px; flex-wrap:wrap;
+    list-style:none; padding:0; margin:0;
+  }
+  .text-nav__item{ margin:0; }
+  .text-nav__link{
+    display:inline-block; text-decoration:none;
+    color: rgb(var(--color-foreground, 17,17,17));
+    padding:.6rem 0;
+  }
+
+  /* alignment options */
+  .text-nav--align-left  .text-nav__list{ justify-content:flex-start; }
+  .text-nav--align-center.text-nav .text-nav__list,
+  .text-nav--align-center .text-nav__list{ justify-content:center; }
+  .text-nav--align-right .text-nav__list{ justify-content:flex-end; }
+
+  /* optional style helpers */
+  .text-nav--uppercase .text-nav__link{ text-transform:uppercase; letter-spacing:.03em; }
+
+  /* light borders that follow the scheme */
+  .text-nav--above{ border-bottom:1px solid rgba(var(--color-foreground, 17,17,17), .12); }
+  .text-nav--below{ border-top:1px solid rgba(var(--color-foreground, 17,17,17), .12); }
+
+  /* ===== Search Focus Panel ===== */
+  predictive-search.ws-search,
+  search-form.ws-search { overflow: visible !important; }
+
+  .ws-focus-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+    z-index: 200;
+    overflow: hidden;
+    max-height: 80vh;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .ws-focus-panel.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .ws-fp-close {
+    position: absolute;
+    top: 8px; right: 10px;
+    background: none; border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: rgba(var(--color-foreground), 0.75);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1;
+  }
+  .ws-fp-close .icon { width: 1.8rem; height: 1.8rem; }
+  .ws-fp-close:hover .icon { transform: scale(1.07); }
+  .ws-fp-close:hover { color: rgb(var(--color-foreground)); }
+
+  .ws-fp-pop-searches { padding: 18px 20px 14px; }
+  .ws-fp-pop-now { background: #f7f8f9; padding: 14px 20px 16px; }
+
+  .ws-fp-heading {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #f5a623;
+    margin: 0 0 10px;
+  }
+
+  .ws-fp-terms-list { list-style: none; padding: 0; margin: 0; }
+  .ws-fp-term {
+    display: block;
+    padding: 6px 0;
+    color: #333;
+    text-decoration: none;
+    font-size: var(--ws-fp-term-size, 14px);
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .ws-fp-terms-list li:last-child .ws-fp-term { border-bottom: none; }
+  .ws-fp-term:hover { color: #000; text-decoration: underline; }
+  .ws-fp-clear-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: var(--ws-fp-term-size, 14px);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 6px 0 0;
+    margin-top: 6px;
+    text-align: left;
+    display: block;
+    font-family: inherit;
+  }
+  .ws-fp-clear-btn:hover { text-decoration: underline; }
+
+  .ws-fp-products-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+
+  .ws-fp-prod-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+  }
+  .ws-fp-prod-link:hover { background: #ececec; }
+
+  .ws-fp-prod-img {
+    flex: 0 0 60px;
+    width: 60px; height: 60px;
+    border-radius: 6px; overflow: hidden; background: #f0f0f0;
+  }
+  .ws-fp-prod-img img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+  .ws-fp-prod-details { flex: 1; min-width: 0; }
+
+  .ws-fp-prod-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 3px;
+    line-height: 1.3;
+  }
+
+  .ws-fp-prod-rating { display: flex; align-items: center; gap: 3px; margin-bottom: 4px; }
+
+  .ws-fp-stars {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+  .ws-fp-stars-bg { color: #ddd; display: block; line-height: 1; }
+  .ws-fp-stars-fill {
+    position: absolute;
+    top: 0; left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #f5a623 !important;
+    display: block;
+    line-height: 1;
+  }
+  .ws-fp-r-count { font-size: 12px; color: #666; }
+
+  .ws-fp-prod-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 2px; }
+  .ws-fp-tag {
+    font-size: 10px;
+    background: #e4e4e4;
+    color: #555;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .ws-fp-prod-sku { font-size: 11px; color: #999; margin: 0 0 3px; }
+
+  /* Always hide Dawn's own predictive dropdown — results display inside ws-focus-panel */
+  .predictive-search--header { display: none !important; }
+
+  /* Typing results section */
+  .ws-fp-typing { padding: 18px 0 14px; }
+
+  /* Desktop: two-column side-by-side — products LEFT, suggestions RIGHT */
+  .ws-fp-typing .predictive-search__results-groups-wrapper {
+    border-bottom: none;
+    padding-bottom: 0 !important;
+    gap: 0;
+    align-items: flex-start;
+  }
+  /* JS physically reorders DOM; CSS sets equal widths */
+  .ws-fp-typing .predictive-search__result-group { flex: 0 0 50% !important; gap: 0; }
+
+  /* Section headings — ws-fp-heading class added by JS, overrides caption-with-letter-spacing */
+  .ws-fp-heading {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: #f5a623 !important;
+    border-bottom: none !important;
+    margin: 0 0 10px !important;
+    padding: 5px 0 0 !important;
+    text-align: left !important;
+  }
+  /* Typing-specific: add left padding to align headings and items with Popular Right Now */
+  .ws-fp-typing .ws-fp-heading { padding-left: 20px !important; }
+
+  /* Product cards — identical sizing to Popular Right Now */
+  .ws-fp-typing .predictive-search__item { padding: 8px 4px 8px 20px !important; }
+  .ws-fp-typing .predictive-search__item--link-with-thumbnail {
+    grid-template-columns: 60px 1fr !important;
+    grid-column-gap: 12px !important;
+    align-items: center !important;
+    border-radius: 8px !important;
+  }
+  .ws-fp-typing .predictive-search__item--link-with-thumbnail:hover { background: #ececec !important; }
+  .ws-fp-typing .predictive-search__item-content { justify-content: flex-start !important; }
+  .ws-fp-typing .predictive-search__item-content--centered { justify-content: flex-start !important; }
+  .ws-fp-typing .predictive-search__image {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 6px !important;
+    background: #f5f5f5;
+    object-fit: contain;
+  }
+  .ws-fp-typing .predictive-search__item-heading {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin-bottom: 2px !important;
+  }
+
+  /* Suggestion (text query) items */
+  .ws-fp-typing .predictive-search__item--term { padding: 8px 4px !important; }
+  /* Single divider above search-for bar — on wrapper so it spans full width */
+  .ws-fp-typing .predictive-search__search-for-button {
+    border-top: 1px solid #f0f0f0;
+    padding: 4px 0 0 20px !important;
+    margin-top: 4px;
+  }
+
+  /* Mobile: stack vertically — products first, then suggestions */
+  @media screen and (max-width: 749px) {
+    .ws-fp-typing .predictive-search__results-groups-wrapper { flex-direction: column; }
+    .ws-fp-typing .predictive-search__result-group { flex: none !important; }
+  }
+
+  /* Mobile: cap panel height to stay above the on-screen keyboard.
+     Force input font-size ≥16px — prevents iOS Safari auto-zoom on focus. */
+  @media screen and (max-width: 749px) {
+    .ws-search__input { font-size: 16px !important; }
+    .ws-focus-panel {
+      max-height: 50vh;
+      max-height: 50dvh;
+      overflow-y: auto;
+    }
+  }
+
+  /* Clickable collection tags — no text wrapping inside the pill */
+  .ws-fp-tag {
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ws-fp-tag[data-href] { cursor: pointer; }
+  .ws-fp-tag[data-href]:hover { background: #ccc; }
+
+  /* Hide suggestions column when products are present */
+  .ws-fp-typing .predictive-search__results-groups-wrapper:not(.predictive-search__results-groups-wrapper--no-products) .predictive-search__result-group--suggestions {
+    display: none !important;
+  }
+  /* Products column takes full width when suggestions are hidden */
+  .ws-fp-typing .predictive-search__results-groups-wrapper:not(.predictive-search__results-groups-wrapper--no-products) .predictive-search__result-group {
+    flex: 0 0 100% !important;
+  }
+
+  /* ── AU locale badge ── */
+  .itm-locale-nav { display: none; }
+
+  .itm-locale-search {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: rgba(0,0,0,0.45);
+    white-space: nowrap;
+    flex-shrink: 0;
+    order: 3;
+  }
+
+  .itm-locale-flag { display: inline-block; vertical-align: middle; border-radius: 2px; }
+  @media (min-width: 990px) {
+    .itm-locale-search { font-size: 13px; gap: 6px; }
+    .itm-locale-search .itm-locale-flag { width: 26px; height: auto; }
+  }
+
+</style>
+
+{%- style -%}
+  /* Non-sticky wrapper */
+  .section-header{position:relative;z-index:20;margin-bottom:{{ section.settings.margin_bottom | times:0.75 | round:0 }}px;}
+  /* clip the full-bleed (100vw) menu bar's scrollbar-width overflow — the thin line on the right.
+     overflow-x:clip leaves vertical overflow visible so the mega panels still drop down. */
+  .section-header{ overflow-x: clip; }
+  @media (min-width:750px){.section-header{margin-bottom:{{ section.settings.margin_bottom }}px;}}
+
+  /* Header content width + side padding — fully customisable, wins over theme defaults */
+  .header.page-width{
+    max-width:{{ section.settings.header_max_width | default: 3840 }}px !important;
+    padding-left:{{ section.settings.header_padding_side | default: 20 }}px !important;
+    padding-right:{{ section.settings.header_padding_side | default: 20 }}px !important;
+  }
+
+  {%- comment -%} Mobile: tight padding + smaller icons so everything fits {%- endcomment -%}
+  @media (max-width:989px){
+    .header.page-width{
+      padding-left:{{ section.settings.header_padding_side_mobile | default: 10 }}px !important;
+      padding-right:{{ section.settings.header_padding_side_mobile | default: 10 }}px !important;
+    }
+    {%- assign mico = section.settings.icon_size_mobile | default: 20 -%}
+    {%- assign mbox = mico | plus: 16 -%}
+    /* left = burger + account, right = lists + cart, logo centred → even split */
+    .header__icon--account-desktop{ display:none !important; }
+    .header > .header__icons{ justify-self:end; width:max-content; }
+    .header__left-cluster{ gap:4px; }
+    .header__icons{ gap:4px !important; }
+    /* every icon (burger, account, lists, cart) fills an equal box for balance */
+    .header__left-cluster .header__icon,
+    .header__icons .header__icon,
+    .header__icon--menu{
+      width:{{ mbox }}px !important;
+      min-width:{{ mbox }}px !important;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .header__icon .svg-wrapper svg,
+    .header__icons .svg-wrapper svg,
+    .header__icon--menu svg{ width:{{ mico }}px !important; height:{{ mico }}px !important; }
+    .header__icon .svg-wrapper,
+    .header__icon account-icon{ height:{{ mico | plus: 2 }}px; }
+    /* shrink the logo and keep it centred on the screen */
+    .header > .header__heading{ justify-self:center; }
+    .header__heading-logo{
+      max-width:{{ section.settings.logo_max_width_mobile | default: 140 }}px !important;
+      width:auto !important;
+      height:auto !important;
+    }
+    /* search bar — mobile size (independent of desktop) */
+    .ws-search{ --ws-height:{{ section.settings.search_height_mobile | default: 44 }}px; }
+    .header > predictive-search.ws-search,
+    .header > search-form.ws-search,
+    .header > form.ws-search{
+      width:min(100%, {{ section.settings.search_max_width_mobile | default: 800 }}px);
+      margin:0 auto;
+    }
+  }
+  @media (min-width:990px){
+    .header{
+      padding-top:{{ section.settings.padding_top }}px;
+      padding-bottom:{{ section.settings.padding_bottom }}px;
+    }
+  }
+  @media (max-width:989px){
+    .header{
+      padding-top:{{ section.settings.padding_top | times:0.5 | round:0 }}px;
+      padding-bottom:{{ section.settings.padding_bottom_mobile | default: 10 }}px;
+    }
+  }
+
+  /* ===== Menu text size + bar thickness (desktop) ===== */
+  @media (min-width: 990px) {
+    .header__inline-menu .list-menu__item--link,
+    .header__inline-menu summary.list-menu__item {
+      font-size: {{ section.settings.nav_font_size | default: 15 }}px;
+      padding-top: {{ section.settings.nav_padding_y | default: 8 }}px;
+      padding-bottom: {{ section.settings.nav_padding_y | default: 8 }}px;
+    }
+  }
+
+  /* ===== Icon colour + size controls ===== */
+  .header__icon .svg-wrapper svg,
+  .header__icons .svg-wrapper svg {
+    width: {{ section.settings.icon_size | default: 20 }}px;
+    height: {{ section.settings.icon_size | default: 20 }}px;
+  }
+
+  /* primary-colour paths inside 2-colour SVGs */
+  .header__icon .svg-wrapper .icon-primary,
+  .header__icons .svg-wrapper .icon-primary {
+    fill: {{ section.settings.icon_primary_color | default: 'currentColor' }};
+  }
+
+  /* secondary-colour paths inside 2-colour SVGs */
+  .header__icon .svg-wrapper .icon-secondary,
+  .header__icons .svg-wrapper .icon-secondary {
+    fill: {{ section.settings.icon_secondary_color | default: 'currentColor' }};
+  }
+
+  /* localized icon styling */
+  .header__icon--localized .svg-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .header__icon--localized .svg-wrapper img {
+    width: {{ section.settings.icon_size | default: 20 }}px;
+    height: {{ section.settings.icon_size | default: 20 }}px;
+    display: block;
+  }
+
+  {% if section.settings.colorize_localized_icon %}
+  .header__icon--localized .svg-wrapper {
+    width: {{ section.settings.icon_size | default: 20 }}px;
+    height: {{ section.settings.icon_size | default: 20 }}px;
+    background-color: {{ section.settings.icon_primary_color | default: '#111111' }};
+    -webkit-mask: url({{ section.settings.localized_icon | image_url }}) no-repeat center / contain;
+    mask: url({{ section.settings.localized_icon | image_url }}) no-repeat center / contain;
+  }
+  
+  .header__icon--localized .svg-wrapper img {
+    opacity: 0;
+  }
+  {% endif %}
+  
+
+  /* Adjust header icons container to prevent overflow */
+  .header__icons {
+    display:flex;
+    align-items:flex-start;
+    gap: 18px;
+  }
+
+  {%- comment -%} Optional solid header colour (e.g. Bunnings teal) {%- endcomment -%}
+  {%- if section.settings.header_background_color != blank -%}
+    {%- assign hdr_text = section.settings.header_text_color | default: '#ffffff' -%}
+    .header-wrapper{
+      background:{{ section.settings.header_background_color }} !important;
+    }
+    .header .header__heading-link,
+    .header .header__heading .h2,
+    .header__inline-menu a,
+    .header__inline-menu .list-menu__item--link,
+    .header__active-menu-item,
+    .header__icon{
+      color:{{ hdr_text }} !important;
+    }
+    .header__icon .svg-wrapper svg,
+    .header__icons .svg-wrapper svg{
+      color:{{ hdr_text }};
+      stroke:{{ hdr_text }};
+    }
+    /* keep the search pill white with dark text on the coloured bar */
+    .ws-search{ box-shadow:none; }
+  {%- endif -%}
+
+  {%- comment -%} Optional separate colour for the menu bar below (full-bleed) {%- endcomment -%}
+  {%- if section.settings.menu_bar_background_color != blank -%}
+    @media (min-width:990px){
+      .header > .header__inline-menu,
+      .header > nav.header__inline-menu{
+        position:relative;
+        /* above the trust/USP bar (z-index:1) so mega-menu drop-down panels
+           render over it instead of the trust icons bleeding through */
+        z-index:5;
+        background:{{ section.settings.menu_bar_background_color }};
+        /* Full-bleed: widen the element by 2x the side padding and shift it left by the padding,
+           so its background spans the full content area on BOTH sides (negative margin-right does
+           not extend an element, which is what left the dark strip on the right). No 50vw, so no
+           scrollbar overshoot; lives on the element so it still collapses cleanly when animating. */
+        box-sizing:border-box;
+        width: calc(100% + {{ section.settings.header_padding_side | default: 20 | times: 2 }}px);
+        margin-left: -{{ section.settings.header_padding_side | default: 20 }}px;
+        padding-left: {{ section.settings.header_padding_side | default: 20 }}px;
+        padding-right: {{ section.settings.header_padding_side | default: 20 }}px;
+        padding-top:6px;
+        padding-bottom:6px;
+      }
+      .header__inline-menu a,
+      .header__inline-menu .list-menu__item--link,
+      .header__inline-menu .header__active-menu-item{
+        color:{{ section.settings.menu_bar_text_color | default: '#ffffff' }} !important;
+      }
+    }
+  {%- endif -%}
+
+  {%- comment -%} Trust / USP bar (third header row, full-bleed) {%- endcomment -%}
+  {%- if has_trust -%}
+    {%- assign t_pad_y = section.settings.trust_bar_padding_y | default: 12 -%}
+    {%- assign t_fs = section.settings.trust_item_font_size | default: 14 -%}
+    {%- assign t_inset = section.settings.trust_divider_inset | default: 8 -%}
+    {%- assign t_icon = section.settings.trust_icon_size | default: 22 -%}
+    {%- assign t_per = section.settings.trust_items_mobile | default: 2 -%}
+    .header > .trust-bar{
+      grid-area:trust;
+      /* keep the trust bar in its own low stacking layer so the mega-menu
+         drop-down panels render above it instead of the icons bleeding through */
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:stretch;
+      {%- if section.settings.trust_bar_use_scheme -%}
+        {%- assign _ts = section.settings.trust_bar_scheme -%}
+        background:{{ _ts.settings.background_gradient | default: _ts.settings.background }};
+        color:{{ _ts.settings.text }};
+      {%- else -%}
+        background:{{ section.settings.trust_bar_background_color | default: '#ffffff' }};
+        color:{{ section.settings.trust_bar_text_color | default: '#1a1a1a' }};
+      {%- endif -%}
+      box-sizing:border-box;
+      /* full-bleed, same technique as the nav bar */
+      width: calc(100% + {{ section.settings.header_padding_side | default: 20 | times: 2 }}px);
+      margin-left: -{{ section.settings.header_padding_side | default: 20 }}px;
+      padding-left: {{ section.settings.header_padding_side | default: 20 }}px;
+      padding-right: {{ section.settings.header_padding_side | default: 20 }}px;
+      max-height:240px;
+      overflow:hidden;
+    }
+    .trust-bar__track{
+      display:flex;
+      flex:1 1 auto;
+      min-width:0;
+      align-items:stretch;
+    }
+    .trust-bar__item{
+      position:relative;
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:{{ t_pad_y }}px 16px;
+      font-size:{{ t_fs }}px;
+      line-height:1.2;
+      text-decoration:none;
+      color:inherit;
+      text-align:center;
+    }
+    /* inset vertical divider — short line with a gap top & bottom */
+    .trust-bar__item:not(:first-child)::before{
+      content:'';
+      position:absolute;
+      left:0;
+      top:{{ t_inset }}px;
+      bottom:{{ t_inset }}px;
+      width:1px;
+      background:{{ section.settings.trust_bar_divider_color | default: '#e2e2e2' }};
+    }
+    .trust-bar__icon{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+      width:{{ t_icon }}px;
+      height:{{ t_icon }}px;
+      /* nudge to line up perfectly with the text */
+      transform:translateY({{ section.settings.trust_icon_offset_y | default: 0 }}px);
+    }
+    .trust-bar__icon img,
+    .trust-bar__icon svg{ width:100%; height:100%; object-fit:contain; display:block; }
+    .trust-bar__text{ white-space:nowrap; }
+
+    {%- comment -%} Recolour uploaded icons (mask) + inline preset icons {%- endcomment -%}
+    {%- if section.settings.trust_icon_color != blank -%}
+      .trust-bar__icon--masked{
+        background-color:{{ section.settings.trust_icon_color }};
+        -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+        -webkit-mask-position:center; mask-position:center;
+        -webkit-mask-size:contain; mask-size:contain;
+      }
+      .trust-bar__icon svg{ color:{{ section.settings.trust_icon_color }}; }
+    {%- endif -%}
+
+    {%- if section.settings.trust_bar_bottom_border -%}
+    .header > .trust-bar{ border-bottom:1px solid {{ section.settings.trust_bar_bottom_border_color | default: '#e2e2e2' }}; }
+    {%- endif -%}
+
+    @media (max-width:989px){
+      /* carousel: show {{ t_per }} items at a time, slide to the next set (JS-driven) */
+      .header > .trust-bar{ overflow:hidden; }
+      .trust-bar__track{ transition:transform .45s ease; will-change:transform; }
+      .trust-bar__item{ flex:0 0 {{ 100 | divided_by: t_per }}%; min-width:0; padding-left:8px; padding-right:8px; gap:8px; }
+      .trust-bar__text{ white-space:normal; }
+      /* divider only shows between the visible pair (hidden at each page start) */
+      .trust-bar__item:nth-child({{ t_per }}n+1)::before{ display:none; }
+    }
+    @media (min-width:990px){
+      /* no carousel transform on desktop — all items show, evenly spread */
+      .trust-bar__track{ transform:none !important; }
+    }
+  {%- endif -%}
+
+  {%- comment -%} 1px full-width dividers between the header levels (top / nav / trust) — desktop only {%- endcomment -%}
+  {%- if section.settings.header_divider_color != blank -%}
+    {%- assign hdv = section.settings.header_divider_color -%}
+    @media (min-width:990px){
+      /* nav and trust bars are already full-bleed, so a top border spans the full width */
+      .header > .header__inline-menu{ border-top:1px solid {{ hdv }}; }
+      .header > .trust-bar{ border-top:1px solid {{ hdv }}; }
+      /* hide the line when a row is collapsed on scroll */
+      .header.header--hide-secondary > .header__inline-menu,
+      .header.header--hide-secondary > .trust-bar{ border-top-color:transparent !important; }
+    }
+  {%- endif -%}
+
+  {%- comment -%} Colour for the utility items (Sign In / Lists / Cart) {%- endcomment -%}
+  {%- if section.settings.utility_color != blank -%}
+    .header__icon{ color:{{ section.settings.utility_color }} !important; }
+    .header__icon .svg-wrapper svg{
+      color:{{ section.settings.utility_color }} !important;
+      stroke:{{ section.settings.utility_color }} !important;
+    }
+    .header__icon-label{ color:{{ section.settings.utility_color }} !important; }
+  {%- endif -%}
+
+  {%- comment -%} Hamburger (menu) toggle to the left of the logo — keep it compact {%- endcomment -%}
+  .header__icon--menu svg{ width:22px !important; height:22px !important; }
+  .header__icon--menu{ width:auto; padding:0; display:flex; align-items:center; }
+  .header__icon--menu .svg-wrapper,
+  .menu-drawer-container summary.header__icon--menu > span{ display:flex; align-items:center; }
+
+  {%- comment -%} Count badges (Lists / Cart): light colour, sit at the TOP-right so they
+       don't overlap the icon labels {%- endcomment -%}
+  .header__icon--lists,
+  .header__icon--cart{ position:relative; overflow:visible; }
+  .lists-count-bubble,
+  .header__icon--cart .cart-count-bubble{
+    top:-5px !important;
+    right:-6px !important;
+    bottom:auto !important;
+    left:auto !important;
+  }
+  .lists-count-bubble,
+  .header__icon--cart .cart-count-bubble{
+    background:{{ section.settings.lists_badge_bg | default: '#ffffff' }} !important;
+    color:{{ section.settings.lists_badge_text | default: '#111111' }} !important;
+    box-shadow:0 0 0 1px rgba(0,0,0,.12);
+  }
+  .lists-count-bubble span,
+  .header__icon--cart .cart-count-bubble span{ color:{{ section.settings.lists_badge_text | default: '#111111' }} !important; }
+  /* hide the Lists badge until there's an actual count (overrides Dawn's .cart-count-bubble display) */
+  .lists-count-bubble[hidden]{ display:none !important; }
+
+  {%- comment -%} ===== Mobile fly-out menu (drawer) ===== {%- endcomment -%}
+  @media (max-width:989px){
+    /* top/height are set by JS (--ws-drawer-top / --ws-drawer-height) so the drawer
+       always opens flush with the bottom of the icon row regardless of whether the
+       search bar is visible or hidden. Fallbacks cover the instant before JS runs. */
+    .menu-drawer{
+      top:var(--ws-drawer-top, 60px) !important;
+      height:var(--ws-drawer-height, calc(100vh - 60px)) !important;
+      z-index:31 !important;
+      /* Dawn locks the drawer to 40rem at >=750px — force full width up to 989px */
+      width:100% !important;
+      max-width:100% !important;
+      left:0 !important;
+      border-right:0 !important;
+    }
+    /* menu items start right under the top bar — remove Dawn's big top padding */
+    .menu-drawer__navigation{ padding-top:0 !important; padding-bottom:1.5rem !important; }
+    .menu-drawer__inner-container{ padding-top:10px; }
+    /* halve the left indent of the menu items */
+    .menu-drawer__menu-item{ padding-left:1.5rem !important; }
+    .menu-drawer summary.menu-drawer__menu-item{ padding-right:3rem !important; }
+    .menu-drawer__submenu .menu-drawer__menu-item{ padding-left:2rem !important; }
+    /* disable the page-dim scrim — the full-width opaque panel already covers the page,
+       so the scrim only ever showed as a stray dark band below the X */
+    .header__icon--menu[aria-expanded='true']::before{ display:none !important; }
+  }
+
+  {%- comment -%} Drawer (fly-out menu) custom colours {%- endcomment -%}
+  {%- if section.settings.drawer_bg_color != blank -%}
+    #menu-drawer.menu-drawer,
+    .menu-drawer,
+    .menu-drawer__inner-container,
+    .menu-drawer__navigation-container{
+      background:{{ section.settings.drawer_bg_color }} !important;
+    }
+  {%- endif -%}
+  {%- if section.settings.drawer_text_color != blank -%}
+    .menu-drawer,
+    .menu-drawer a,
+    .menu-drawer summary,
+    .menu-drawer .menu-drawer__menu-item,
+    .menu-drawer .menu-drawer__menu-item--active{
+      color:{{ section.settings.drawer_text_color }} !important;
+    }
+    .menu-drawer .svg-wrapper svg,
+    .menu-drawer summary svg{ color:{{ section.settings.drawer_text_color }} !important; }
+  {%- endif -%}
+
+  {%- comment -%} ===== Directional sticky header ===== {%- endcomment -%}
+  {%- if section.settings.enable_scroll_sticky -%}
+    .section-header{ position:sticky; top:0; z-index:30; }
+
+    /* secondary rows get a max-height so they can animate closed */
+    .header__inline-menu{ max-height:240px; }
+    .header > predictive-search.ws-search,
+    .header > search-form.ws-search,
+    .header > form.ws-search{ max-height:160px; }
+    .header__inline-menu,
+    .header > .trust-bar,
+    .header > predictive-search.ws-search,
+    .header > search-form.ws-search,
+    .header > form.ws-search{
+      transition: max-height .28s ease, opacity .2s ease, padding .2s ease, margin .2s ease;
+    }
+
+    /* the trust/USP bar hides with the secondary row on BOTH desktop and mobile */
+    .header.header--hide-secondary > .trust-bar{
+      max-height:0 !important;
+      opacity:0;
+      overflow:hidden;
+      pointer-events:none;
+      padding-top:0 !important;
+      padding-bottom:0 !important;
+    }
+
+    /* DESKTOP: hide the menu row on scroll down, keep logo/search/icons pinned */
+    @media (min-width:990px){
+      .header.header--hide-secondary{ row-gap:0 !important; }
+      .header.header--hide-secondary > .header__inline-menu,
+      .header.header--hide-secondary > .itm-locale-nav{
+        max-height:0 !important;
+        opacity:0;
+        overflow:hidden;
+        pointer-events:none;
+        padding-top:0 !important;
+        padding-bottom:0 !important;
+      }
+    }
+
+    /* MOBILE: scaleY animation for the visual, delayed layout collapse.
+       The element visually squishes up (GPU transform — no layout impact) over 0.22s.
+       max-height / padding / margin snap to 0 only AFTER the visual is already gone
+       (0.22s delay), so the layout shift is invisible to the user.
+       row-gap on the grid also waits for the visual to complete before collapsing. */
+    @media (max-width:989px){
+      /* Base: add transform + row-gap to the transition so re-show is also smooth */
+      .header{ transition: row-gap .22s ease; }
+      .header > predictive-search.ws-search,
+      .header > search-form.ws-search,
+      .header > form.ws-search,
+      .header > .trust-bar{
+        transform-origin: top center;
+        transition: transform .22s ease, opacity .2s ease,
+                    max-height .28s ease, padding .2s ease, margin .2s ease;
+      }
+
+      /* Hidden: everything animates together — exact reverse of the show */
+      .header.header--hide-secondary{
+        row-gap: 0 !important;
+        transition: row-gap .28s ease;
+      }
+      .header.header--hide-secondary > predictive-search.ws-search,
+      .header.header--hide-secondary > search-form.ws-search,
+      .header.header--hide-secondary > form.ws-search{
+        transform: scaleY(0);
+        opacity: 0;
+        pointer-events: none;
+        max-height: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin: 0 !important;
+        transition: transform .22s ease, opacity .28s ease,
+                    max-height .28s ease, padding .28s ease, margin .28s ease;
+      }
+      .header.header--hide-secondary > .trust-bar{
+        transform: scaleY(0);
+        transition: transform .22s ease, opacity .28s ease,
+                    max-height .28s ease, padding .28s ease;
+      }
+    }
+  {%- endif -%}
+  .ws-focus-panel { --ws-fp-term-size: {{ section.settings.search_panel_term_size | default: 14 }}px; }
+{%- endstyle -%}
+
+
+<script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
+
+<script>
+/* Mobile drawer positioning — sets --ws-drawer-top and --ws-drawer-height so the
+   panel always opens flush with the bottom of the icon row (burger/logo/icons),
+   covering the search bar whether it is visible or hidden. */
+(function(){
+  function setDrawerVars(){
+    var sh = document.querySelector('.section-header');
+    var lc = document.querySelector('.header__left-cluster');
+    if(!sh || !lc) return;
+    var shr = sh.getBoundingClientRect();
+    var lcr = lc.getBoundingClientRect();
+    var top = Math.round(lcr.bottom - shr.top);
+    var height = Math.round(window.innerHeight - lcr.bottom);
+    document.documentElement.style.setProperty('--ws-drawer-top', top + 'px');
+    document.documentElement.style.setProperty('--ws-drawer-height', height + 'px');
+  }
+  customElements.whenDefined('header-drawer').then(function(){
+    var HD = customElements.get('header-drawer');
+    if(!HD) return;
+    var orig = HD.prototype.openMenuDrawer;
+    HD.prototype.openMenuDrawer = function(summaryElement){
+      setDrawerVars();
+      orig.call(this, summaryElement);
+    };
+  });
+  window.addEventListener('resize', function(){
+    if(window.innerWidth <= 989 && document.querySelector('.section-header.menu-open')){
+      setDrawerVars();
+    }
+  }, {passive:true});
+})();
+</script>
+
+{%- if section.settings.enable_scroll_sticky -%}
+  <script>
+    /* Attach ONCE and re-query the header each time, so it survives the theme
+       editor swapping the section DOM (which otherwise leaves a stale listener). */
+    (function () {
+      if (window.__itmStickyHeaderInit) return;
+      window.__itmStickyHeaderInit = true;
+
+      function getY() {
+        return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      }
+      var last = getY();
+      var ticking = false;
+      var locked = false;        /* short lock after a toggle so the layout shift can't feed back */
+      var THRESHOLD = 80;        /* don't hide until scrolled past the top bar */
+      var DELTA = 10;            /* min scroll distance to flip direction */
+
+      function update() {
+        ticking = false;
+        if (locked) return;
+        var header = document.querySelector('.section-header .header') || document.querySelector('.header');
+        if (!header) return;
+
+        var y = getY();
+        var isHidden = header.classList.contains('header--hide-secondary');
+        var wantHide = isHidden;                 /* default: keep current state */
+        if (y <= THRESHOLD) wantHide = false;    /* always show near the top */
+        else if (y > last + DELTA) wantHide = true;   /* scrolling down */
+        else if (y < last - DELTA) wantHide = false;  /* scrolling up */
+        last = y;
+
+        /* only touch the DOM when the state genuinely changes — and lock briefly,
+           so the resulting reflow/scrollbar change doesn't retrigger us (the oscillation). */
+        if (wantHide !== isHidden) {
+          header.classList.toggle('header--hide-secondary', wantHide);
+          locked = true;
+          setTimeout(function () { locked = false; last = getY(); }, 320);
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+
+      /* re-sync after the theme editor re-renders the header section */
+      document.addEventListener('shopify:section:load', function () { last = getY(); update(); });
+      update();
+    })();
+
+  </script>
+{%- endif -%}
+
+{%- if has_trust -%}
+  <script>
+    /* Mobile trust bar carousel: show N items, slide to the next set every 5s */
+    (function () {
+      var perPage = {{ section.settings.trust_items_mobile | default: 2 }};
+      function init () {
+        var bar = document.querySelector('.section-header .trust-bar') || document.querySelector('.trust-bar');
+        if (!bar) return;
+        var track = bar.querySelector('.trust-bar__track');
+        if (!track || track.dataset.carousel === '1') return;
+        var count = track.querySelectorAll('.trust-bar__item').length;
+        var pages = Math.ceil(count / perPage);
+        if (pages <= 1) return;
+        track.dataset.carousel = '1';
+        var page = 0;
+        var mq = window.matchMedia('(max-width: 989px)');
+        function apply () { track.style.transform = mq.matches ? ('translateX(-' + (page * 100) + '%)') : ''; }
+        setInterval(function () { page = (page + 1) % pages; apply(); }, 5000);
+        function onChange () { page = 0; apply(); }
+        if (mq.addEventListener) { mq.addEventListener('change', onChange); }
+        else if (mq.addListener) { mq.addListener(onChange); }
+        apply();
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); }
+      else { init(); }
+      /* re-init after the theme editor re-renders the header */
+      document.addEventListener('shopify:section:load', init);
+    })();
+  </script>
+{%- endif -%}
+
+{%- liquid
+  assign has_app_block = false
+  for block in section.blocks
+    if block.type == '@app'
+      assign has_app_block = true
+    endif
+  endfor
+-%}
+
+<div class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
+  {% for block in section.blocks %}
+  {% if block.type == 'text_nav' and block.settings.position == 'above' %}
+    {% render 'header-text-nav', block: block %}
+  {% endif %}
+{% endfor %}
+  {%- liquid
+    assign social_links = false
+    assign localization_forms = false
+
+    if settings.social_twitter_link != blank or settings.social_facebook_link != blank or settings.social_pinterest_link != blank or settings.social_instagram_link != blank or settings.social_youtube_link != blank or settings.social_vimeo_link != blank or settings.social_tiktok_link != blank or settings.social_tumblr_link != blank or settings.social_snapchat_link != blank
+      assign social_links = true
+    endif
+
+    if localization.available_countries.size > 1 and section.settings.enable_country_selector or section.settings.enable_language_selector and localization.available_languages.size > 1
+      assign localization_forms = true
+    endif
+  -%}
+
+  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
+
+    <div class="header__left-cluster">
+      {%- if section.settings.menu != blank -%}
+        {%- render 'header-drawer' -%}
+      {%- endif -%}
+      {%- if shop.customer_accounts_enabled -%}
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          class="header__icon header__icon--account header__icon--account-mobile link focus-inset"
+          rel="nofollow"
+          aria-label="{% if customer %}Account{% else %}Sign In{% endif %}">
+          <span class="svg-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.logo_position != 'middle-center' -%}
+      {%- if request.page_type == 'index' -%}
+        <h1 class="header__heading">
+      {%- else -%}
+        <div class="header__heading">
+      {%- endif -%}
+          <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
+            {%- if settings.logo != blank -%}
+              <div class="header__heading-logo-wrapper">
+                {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+                {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+                {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
+                {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
+                {{ settings.logo | image_url: width: 600 | image_tag:
+                  class: 'header__heading-logo motion-reduce',
+                  widths: widths,
+                  height: logo_height,
+                  width: settings.logo_width,
+                  alt: logo_alt,
+                  sizes: sizes,
+                  preload: true
+                }}
+              </div>
+            {%- else -%}
+              <span class="h2">{{ shop.name }}</span>
+            {%- endif -%}
+          </a>
+      {%- if request.page_type == 'index' -%}
+        </h1>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- liquid
+      if section.settings.enable_mega_menu
+        render 'itm-mega-menu', section: section
+      elsif section.settings.menu != blank
+        if section.settings.menu_type_desktop == 'dropdown'
+          render 'header-dropdown-menu'
+        elsif section.settings.menu_type_desktop != 'drawer'
+          render 'header-mega-menu'
+        endif
+      endif
+    -%}
+
+    <div class="itm-locale-nav" aria-hidden="true">
+      <img src="https://flagcdn.com/w40/au.png" alt="" width="20" height="13" class="itm-locale-flag" loading="lazy">
+      <span>AU</span>
+    </div>
+
+      {%- if settings.predictive_search_enabled -%}
+        <predictive-search
+          class="ws-search"
+          data-loading-text="{{ 'accessibility.loading' | t }}"
+        >
+      {%- else -%}
+        <search-form class="ws-search">
+      {%- endif -%}
+
+        <form
+          action="{{ routes.search_url }}"
+          method="get"
+          role="search"
+          class="search ws-search__form"
+          aria-label="Site search"
+        >
+          <div>
+            <input
+              class="search__input ws-search__input"
+              id="HeaderSearch"
+              type="search"
+              name="q"
+              value=""
+              placeholder="{{ section.settings.search_placeholder | default: 'What can we help you find today?' | escape }}"
+              {%- if settings.predictive_search_enabled -%}
+                role="combobox"
+                aria-expanded="false"
+                aria-owns="predictive-search-results"
+                aria-controls="predictive-search-results"
+                aria-haspopup="listbox"
+                aria-autocomplete="list"
+                autocorrect="off"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+              {%- else -%}
+                autocomplete="off"
+              {%- endif -%}
+            >
+            <label class="field__label visually-hidden" for="HeaderSearch">
+              {{ 'general.search.search' | t }}
+            </label>
+
+            <input type="hidden" name="options[prefix]" value="last">
+
+            {%- if settings.predictive_search_enabled -%}
+              <div
+                class="predictive-search predictive-search--header"
+                tabindex="-1"
+                data-predictive-search
+              >
+                {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+              </div>
+
+              <span
+                class="predictive-search-status visually-hidden"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            {%- endif -%}
+
+            <span class="itm-locale-search" aria-hidden="true">
+              <img src="https://flagcdn.com/w40/au.png" alt="" width="16" height="11" class="itm-locale-flag" loading="lazy">
+              <span>AU</span>
+            </span>
+
+            <button
+              type="reset"
+              class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+              aria-label="{{ 'general.search.reset' | t }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-reset.svg' | inline_asset_content -}}
+              </span>
+            </button>
+
+            <button
+              type="submit"
+              class="search__button field__button ws-search__button"
+              aria-label="{{ 'general.search.search' | t | default: 'Search' }}"
+            >
+              <span class="ws-search__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-1.06 1.06l.27.28v.79L20 21.5 21.5 20l-6-6zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Search Focus Panel -->
+        {%- liquid
+          assign wsfp_has_searches = false
+          assign wsfp_has_products = false
+          assign wsfp_col = false
+          if section.settings.popular_searches != blank
+            assign wsfp_has_searches = true
+          endif
+          if section.settings.popular_now_collection != blank
+            assign wsfp_col = collections[section.settings.popular_now_collection]
+            unless wsfp_col == empty
+              assign wsfp_has_products = true
+            endunless
+          endif
+        -%}
+        {%- if wsfp_has_searches or wsfp_has_products -%}
+        <div id="ws-focus-panel" class="ws-focus-panel" aria-hidden="true">
+          <button class="ws-fp-close" id="ws-fp-close" type="button" aria-label="Close suggestions">
+            <span class="svg-wrapper">{{- 'icon-reset.svg' | inline_asset_content -}}</span>
+          </button>
+
+          <!-- Recent searches — populated + shown by JS when localStorage has entries -->
+          <div id="ws-fp-recent" class="ws-fp-pop-searches" hidden>
+            <p class="ws-fp-heading">Recent searches</p>
+            <ul id="ws-fp-recent-list" class="ws-fp-terms-list"></ul>
+            <button id="ws-fp-clear-recent" class="ws-fp-clear-btn" type="button">Clear recent searches</button>
+          </div>
+
+          {%- if wsfp_has_searches -%}
+          <!-- Popular searches — shown when no recent searches exist -->
+          <div id="ws-fp-popular" class="ws-fp-pop-searches">
+            <p class="ws-fp-heading">Popular searches</p>
+            <ul class="ws-fp-terms-list">
+              {%- assign wsfp_terms = section.settings.popular_searches | split: ',' -%}
+              {%- for term in wsfp_terms -%}
+                {%- assign t = term | strip -%}
+                {%- if t != blank -%}
+                  <li><a href="{{ routes.search_url }}?q={{ t | url_encode }}" class="ws-fp-term">{{ t }}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+          {%- endif -%}
+
+          <!-- Typing results — populated by JS via MutationObserver on Dawn's predictive-search div -->
+          <div id="ws-fp-typing" class="ws-fp-typing" hidden></div>
+
+          {%- if wsfp_has_products -%}
+          <div class="ws-fp-pop-now">
+            <p class="ws-fp-heading">Popular right now</p>
+            <ul class="ws-fp-products-list">
+              {%- for product in wsfp_col.products limit: 4 -%}
+                {%- capture wsfp_r_cap -%}{{ product.metafields.reviews.rating.value }}{%- endcapture -%}
+                {%- assign wsfp_r_num = wsfp_r_cap | strip | plus: 0 -%}
+                {%- assign wsfp_r_cnt = product.metafields.reviews.rating_count.value | plus: 0 -%}
+                {%- assign wsfp_rpct = wsfp_r_num | times: 20 | round -%}
+                <li>
+                  <a href="{{ product.url }}" class="ws-fp-prod-link">
+                    <div class="ws-fp-prod-img">
+                      {%- if product.featured_image -%}
+                        <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="60" height="60">
+                      {%- endif -%}
+                    </div>
+                    <div class="ws-fp-prod-details">
+                      <p class="ws-fp-prod-title">{{ product.title | escape }}</p>
+                      {%- if product.variants.first.sku != blank -%}
+                        <p class="ws-fp-prod-sku">SKU: {{ product.variants.first.sku }}</p>
+                      {%- endif -%}
+                      {%- if wsfp_rpct > 0 -%}
+                      <div class="ws-fp-prod-rating">
+                        <span class="ws-fp-stars" aria-label="{{ wsfp_r_cnt }} reviews">
+                          <span class="ws-fp-stars-bg" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                          <span class="ws-fp-stars-fill" aria-hidden="true" style="width:{{ wsfp_rpct }}%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        </span>
+                        {%- if wsfp_r_cnt > 0 -%}<span class="ws-fp-r-count">({{ wsfp_r_cnt }})</span>{%- endif -%}
+                      </div>
+                      {%- endif -%}
+                      <div class="ws-fp-prod-tags">
+                        {%- for col in product.collections limit: 10 -%}
+                          <span class="ws-fp-tag" data-href="{{ col.url }}">{{ col.title | remove: ' KNIFE SHARPENERS' | upcase }}</span>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+
+      {%- if settings.predictive_search_enabled -%}
+        </predictive-search>
+      {%- else -%}
+        </search-form>
+      {%- endif -%}
+
+    <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
+      <div class="desktop-localization-wrapper">
+        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+          <localization-form class="small-hide medium-hide" data-prevent-hide>
+            {%- form 'localization', id: 'HeaderCountryForm', class: 'localization-form' -%}
+              <div>
+                <h2 class="visually-hidden" id="HeaderCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                {%- render 'country-localization', localPosition: 'HeaderCountry' -%}
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {% endif %}
+
+        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+          <localization-form class="small-hide medium-hide" data-prevent-hide>
+            {%- form 'localization', id: 'HeaderLanguageForm', class: 'localization-form' -%}
+              <div>
+                <h2 class="visually-hidden" id="HeaderLanguageLabel">{{ 'localization.language_label' | t }}</h2>
+                {%- render 'language-localization', localPosition: 'HeaderLanguage' -%}
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {%- endif -%}
+      </div>
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          class="header__icon header__icon--account header__icon--account-desktop link focus-inset"
+          rel="nofollow">
+          {%- if section.settings.enable_customer_avatar -%}
+            <account-icon>
+              {%- if customer and customer.has_avatar? -%}
+                {{ customer | avatar }}
+              {%- else -%}
+                <span class="svg-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                </span>
+              {%- endif -%}
+            </account-icon>
+          {%- else -%}
+            <span class="svg-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </span>
+          {%- endif -%}
+          <span class="header__icon-label">{%- if customer -%}Account{%- else -%}Sign In{%- endif -%}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_lists -%}
+        <a
+          href="{{ section.settings.lists_link | default: routes.account_url }}"
+          class="header__icon header__icon--lists link focus-inset"
+          id="lists-icon-bubble"
+        >
+          <span class="svg-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4.5h6a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1z"/><path d="M8 5.5H6a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5a2 2 0 0 0-2-2h-2"/><path d="M9 11.5h6"/><path d="M9 15.5h6"/></svg>
+          </span>
+          <span class="header__icon-label">{{ section.settings.lists_label | default: 'Lists' }}</span>
+          <div class="cart-count-bubble lists-count-bubble" data-lists-count hidden>
+            <span aria-hidden="true">0</span>
+          </div>
+        </a>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}{% render block %}
+        {%- endcase -%}
+      {%- endfor -%}
+
+      {%- unless settings.information_only_mode -%}
+      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+        <span class="svg-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </span>
+        <span class="header__icon-label">{{ 'templates.cart.cart' | t }}</span>
+        {%- if cart != empty -%}
+          <div class="cart-count-bubble">
+            {%- if cart.item_count < 100 -%}
+              <span aria-hidden="true">{{ cart.item_count }}</span>
+            {%- endif -%}
+            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          </div>
+        {%- endif -%}
+      </a>
+      {%- endunless -%}
+
+      {%- comment -%} Moved AU indicator into the text nav bar below {%- endcomment -%}
+    </div>
+
+    {%- comment -%} Trust / USP bar — third header row, hides on scroll with the nav {%- endcomment -%}
+    {%- if has_trust -%}
+      <div class="trust-bar">
+       <div class="trust-bar__track">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'trust_item' -%}
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="trust-bar__item" {{ block.shopify_attributes }}>
+            {%- else -%}
+              <div class="trust-bar__item" {{ block.shopify_attributes }}>
+            {%- endif -%}
+              {%- liquid
+                assign t_icon_src = ''
+                if block.settings.icon != blank
+                  assign t_icon_src = block.settings.icon | image_url: width: 96
+                elsif block.settings.icon_url != blank
+                  assign t_icon_src = block.settings.icon_url
+                endif
+              -%}
+              {%- if t_icon_src != blank -%}
+                {%- if section.settings.trust_icon_color != blank -%}
+                  <span class="trust-bar__icon trust-bar__icon--masked" style="-webkit-mask-image:url({{ t_icon_src }});mask-image:url({{ t_icon_src }});" role="img" aria-label="{{ block.settings.text | escape }}"></span>
+                {%- else -%}
+                  <span class="trust-bar__icon"><img src="{{ t_icon_src }}" alt="{{ block.settings.text | escape }}" loading="lazy"></span>
+                {%- endif -%}
+              {%- elsif block.settings.icon_preset != blank and block.settings.icon_preset != 'none' -%}
+                <span class="trust-bar__icon">{% render 'itm-trust-icon', preset: block.settings.icon_preset %}</span>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}<span class="trust-bar__text">{{ block.settings.text }}</span>{%- endif -%}
+            {%- if block.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+       </div>
+      </div>
+    {%- endif -%}
+  </header>
+  {% for block in section.blocks %}
+  {% if block.type == 'text_nav' and block.settings.position == 'below' %}
+    {% render 'header-text-nav', block: block %}
+  {% endif %}
+{% endfor %}
+
+</div>
+
+{%- if settings.cart_type == "notification" -%}
+  {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
+{%- endif -%}
+
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tiktok_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = request.origin | append: routes.search_url | append: "?q={search_term_string}" %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ request.origin | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+<script>
+  /* Reflect saved favourites count on the Lists icon.
+     Favouriting logic lives elsewhere; this just renders the badge.
+     Store either a number in 'itm:lists:count' or a JSON array in 'itm:lists'. */
+  (function () {
+    var bubble = document.querySelector('[data-lists-count]');
+    if (!bubble) return;
+    function readCount() {
+      try {
+        var n = window.localStorage.getItem('itm:lists:count');
+        if (n !== null) return parseInt(n, 10) || 0;
+        var arr = JSON.parse(window.localStorage.getItem('itm:lists') || '[]');
+        return Array.isArray(arr) ? arr.length : 0;
+      } catch (e) { return 0; }
+    }
+    function render() {
+      var count = readCount();
+      var span = bubble.querySelector('span[aria-hidden="true"]');
+      if (span) span.textContent = count < 100 ? count : '99+';
+      if (count > 0) { bubble.removeAttribute('hidden'); }
+      else { bubble.setAttribute('hidden', ''); }
+    }
+    render();
+    window.addEventListener('storage', render);
+    document.addEventListener('itm:lists:updated', render);
+  })();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var panel        = document.getElementById('ws-focus-panel');
+  var closeBtn     = document.getElementById('ws-fp-close');
+  var clearBtn     = document.getElementById('ws-fp-clear-recent');
+  var recentSec    = document.getElementById('ws-fp-recent');
+  var recentList   = document.getElementById('ws-fp-recent-list');
+  var popularSec   = document.getElementById('ws-fp-popular');
+  var typingSection = document.getElementById('ws-fp-typing');
+  var input        = document.getElementById('HeaderSearch');
+  if (!panel || !input) return;
+
+  var productSection = panel.querySelector('.ws-fp-pop-now');
+  var ws = input.closest('predictive-search, search-form');
+  var dawnPanel = ws ? ws.querySelector('[data-predictive-search]') : null;
+
+  var STORAGE_KEY = 'itm:recent-searches';
+  var MAX_RECENT  = 8;
+
+  function getRecent() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function saveRecent(arr) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
+  }
+  function addRecent(term) {
+    var arr = getRecent().filter(function(t) { return t !== term; });
+    arr.unshift(term);
+    saveRecent(arr.slice(0, MAX_RECENT));
+  }
+  function clearRecent() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  }
+
+  function renderSearches() {
+    var recents = getRecent();
+    if (recentSec && recentList) {
+      if (recents.length > 0) {
+        recentList.innerHTML = '';
+        recents.forEach(function(term) {
+          var li = document.createElement('li');
+          var a  = document.createElement('a');
+          a.href      = '/search?q=' + encodeURIComponent(term);
+          a.className = 'ws-fp-term';
+          a.textContent = term;
+          li.appendChild(a);
+          recentList.appendChild(li);
+        });
+        recentSec.removeAttribute('hidden');
+        if (popularSec) popularSec.setAttribute('hidden', '');
+      } else {
+        recentSec.setAttribute('hidden', '');
+        if (popularSec) popularSec.removeAttribute('hidden');
+      }
+    }
+  }
+
+  /* Show popular/recent searches + popular right now (no-typing state) */
+  function showSearchesView() {
+    if (typingSection) { typingSection.setAttribute('hidden', ''); typingSection.innerHTML = ''; }
+    renderSearches();
+    if (productSection) productSection.removeAttribute('hidden');
+  }
+
+  /* Show typing results in top section; popular right now stays visible at bottom */
+  function showTypingView() {
+    if (recentSec) recentSec.setAttribute('hidden', '');
+    if (popularSec) popularSec.setAttribute('hidden', '');
+    if (typingSection) typingSection.removeAttribute('hidden');
+    /* productSection intentionally left unchanged — stays visible */
+  }
+
+  function openPanel() {
+    showSearchesView();
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+  }
+
+  function closePanel() {
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  /* Mirror Dawn's predictive search results into ws-fp-typing.
+     Only switch the top section once real results exist — avoids a blank-panel flicker. */
+  if (dawnPanel && typingSection) {
+    var observer = new MutationObserver(function () {
+      if (!input.value.trim()) return;
+      var hasResults = !!dawnPanel.querySelector('#predictive-search-results');
+      if (hasResults) {
+        typingSection.innerHTML = dawnPanel.innerHTML;
+
+        /* Move products group before suggestions group so products sit on the left / top */
+        var grpWrapper = typingSection.querySelector('.predictive-search__results-groups-wrapper');
+        if (grpWrapper) {
+          var groups = grpWrapper.querySelectorAll(':scope > .predictive-search__result-group');
+          if (groups.length >= 2) {
+            grpWrapper.insertBefore(groups[1], groups[0]);
+          }
+          /* Apply ws-fp-heading class so headings are identical to POPULAR RIGHT NOW */
+          grpWrapper.querySelectorAll('.predictive-search__heading').forEach(function (h) {
+            h.classList.add('ws-fp-heading');
+          });
+        }
+
+        showTypingView();
+        panel.classList.add('is-open');
+        panel.setAttribute('aria-hidden', 'false');
+      }
+    });
+    observer.observe(dawnPanel, { childList: true, subtree: true });
+  }
+
+  /* "Search for X" button inside the mirrored results */
+  if (typingSection) {
+    typingSection.addEventListener('click', function (e) {
+      var btn = e.target.closest('.predictive-search__item--term');
+      if (btn) {
+        e.preventDefault();
+        var term = input.value.trim();
+        if (term) addRecent(term);
+        closePanel();
+        if (frm) frm.submit();
+      }
+    });
+  }
+
+  /* Clickable collection tags — stopPropagation prevents the parent product link from also firing */
+  panel.addEventListener('click', function (e) {
+    var tag = e.target.closest('.ws-fp-tag[data-href]');
+    if (tag) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = tag.getAttribute('data-href');
+    }
+  });
+
+  input.addEventListener('focus', function () {
+    if (!input.value.trim()) {
+      openPanel();
+    } else {
+      /* Re-focused with existing text: keep panel open in its current view */
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+    }
+  });
+
+  input.addEventListener('input', function () {
+    /* Keep panel open regardless. While typing, leave the searches/products visible
+       until MutationObserver delivers real results — avoids a blank-panel flicker.
+       When cleared, switch back to searches view. */
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    if (!input.value.trim()) {
+      showSearchesView();
+    }
+  });
+
+  var frm = input.closest('form');
+  if (frm) {
+    frm.addEventListener('submit', function () {
+      var term = input.value.trim();
+      if (term) addRecent(term);
+      closePanel();
+    });
+    /* Reset button (clear X inside search bar) — close the panel */
+    frm.addEventListener('reset', function () {
+      setTimeout(function () { closePanel(); }, 0);
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', function () { closePanel(); input.blur(); });
+
+  if (clearBtn) clearBtn.addEventListener('click', function () {
+    clearRecent();
+    renderSearches();
+  });
+
+  document.addEventListener('click', function (e) {
+    if (ws ? !ws.contains(e.target) : (!panel.contains(e.target) && e.target !== input)) closePanel();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePanel();
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "class": "section-header",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "select",
+      "id": "logo_position",
+      "options": [
+        { "value": "top-left", "label": "t:sections.header.settings.logo_position.options__2.label" },
+        { "value": "top-center", "label": "t:sections.header.settings.logo_position.options__3.label" },
+        { "value": "middle-left", "label": "t:sections.header.settings.logo_position.options__1.label" },
+        { "value": "middle-center", "label": "t:sections.header.settings.logo_position.options__4.label" }
+      ],
+      "default": "middle-left",
+      "label": "t:sections.header.settings.logo_position.label",
+      "info": "t:sections.header.settings.logo_help.content"
+    },
+    {
+      "type": "select",
+      "id": "mobile_logo_position",
+      "options": [
+        { "value": "center", "label": "t:sections.header.settings.mobile_logo_position.options__1.label" },
+        { "value": "left", "label": "t:sections.header.settings.mobile_logo_position.options__2.label" }
+      ],
+      "default": "center",
+      "label": "t:sections.header.settings.mobile_logo_position.label"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "select",
+      "id": "menu_type_desktop",
+      "options": [
+        { "value": "dropdown", "label": "t:sections.header.settings.menu_type_desktop.options__1.label" },
+        { "value": "mega", "label": "t:sections.header.settings.menu_type_desktop.options__2.label" },
+        { "value": "drawer", "label": "t:sections.header.settings.menu_type_desktop.options__3.label" }
+      ],
+      "default": "dropdown",
+      "label": "t:sections.header.settings.menu_type_desktop.label"
+    },
+    {
+      "type": "header",
+      "content": "Custom mega menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mega_menu",
+      "label": "Enable custom mega menu",
+      "info": "Builds the desktop nav from the Mega blocks below instead of the Shopify menu. Add 'Mega: Top item' blocks, then column/promo/card blocks under each.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "mega_accent_color",
+      "label": "Mega menu accent (buttons / hover)",
+      "default": "#F5A623"
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_type",
+      "options": [
+        { "value": "none", "label": "t:sections.header.settings.sticky_header_type.options__1.label" },
+        { "value": "on-scroll-up", "label": "t:sections.header.settings.sticky_header_type.options__2.label" },
+        { "value": "always", "label": "t:sections.header.settings.sticky_header_type.options__3.label" },
+        { "value": "reduce-logo-size", "label": "t:sections.header.settings.sticky_header_type.options__4.label" }
+      ],
+      "default": "none",
+      "label": "t:sections.header.settings.sticky_header_type.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scroll_sticky",
+      "label": "Sticky top bar (hide menu/search on scroll)",
+      "info": "Top bar stays pinned. On desktop the menu row hides on scroll down and returns on scroll up; on mobile the search bar does the same.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_line_separator",
+      "default": true,
+      "label": "t:sections.header.settings.show_line_separator.label"
+    },
+    {
+      "type": "header",
+      "content": "Header width"
+    },
+    {
+      "type": "range",
+      "id": "header_max_width",
+      "min": 1200,
+      "max": 3840,
+      "step": 40,
+      "unit": "px",
+      "label": "Header max width",
+      "info": "Max width of the header content (logo, search, icons, menu). 3840 = 4K. Side padding stays 20px.",
+      "default": 3840
+    },
+    {
+      "type": "range",
+      "id": "header_padding_side_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Header side padding (mobile)",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width_mobile",
+      "min": 90,
+      "max": 240,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo max width (mobile)",
+      "default": 150
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size (mobile)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Search bar"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder text",
+      "default": "What can we help you find today?"
+    },
+    {
+      "type": "color",
+      "id": "search_placeholder_color",
+      "label": "Placeholder text colour",
+      "default": "#737373"
+    },
+    {
+      "type": "color",
+      "id": "search_text_color",
+      "label": "Typed text colour",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Search bar size (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "search_max_width",
+      "min": 320,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Max width",
+      "default": 640
+    },
+    {
+      "type": "range",
+      "id": "search_height",
+      "min": 34,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Height",
+      "default": 44
+    },
+    {
+      "type": "header",
+      "content": "Search bar (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "search_max_width_mobile",
+      "min": 280,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Max width",
+      "info": "On phones the bar is full-width until it reaches this cap.",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "search_height_mobile",
+      "min": 34,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Height",
+      "default": 44
+    },
+    {
+      "type": "header",
+      "content": "Header bar colour (optional)"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Header background",
+      "info": "Leave blank to use the colour scheme. Set a solid colour (e.g. teal) for a Bunnings-style bar."
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text / icon colour",
+      "default": "#ffffff",
+      "info": "Used only when a header background is set above."
+    },
+    {
+      "type": "color",
+      "id": "header_divider_color",
+      "label": "Divider lines between rows",
+      "info": "Optional 1px full-width lines between the top bar, menu, and trust bar. Leave blank for none."
+    },
+    {
+      "type": "color",
+      "id": "menu_bar_background_color",
+      "label": "Menu bar background (below)",
+      "info": "Optional. Colours the menu row below the header full-width (e.g. a slightly darker teal). Desktop only."
+    },
+    {
+      "type": "color",
+      "id": "menu_bar_text_color",
+      "label": "Menu bar text colour",
+      "default": "#ffffff",
+      "info": "Used only when a menu bar background is set above."
+    },
+    {
+      "type": "range",
+      "id": "nav_font_size",
+      "min": 11,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Menu text size (desktop)",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "nav_padding_y",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Menu bar thickness — link padding (desktop)",
+      "info": "Vertical padding on each menu link. Increase to make the bar taller, decrease to slim it down.",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "utility_color",
+      "label": "Sign In / Lists / Cart colour",
+      "info": "Colours the account, Lists and cart icons and their labels. Leave blank to inherit."
+    },
+    {
+      "type": "header",
+      "content": "Trust / USP bar"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add 'Trust bar item' blocks (icon + text) below. The bar shows under the menu and hides on scroll with it."
+    },
+    {
+      "type": "checkbox",
+      "id": "trust_bar_use_scheme",
+      "label": "Use colour scheme for trust bar fill",
+      "info": "When on, the trust bar background + text use the scheme below instead of the flat colours.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "trust_bar_scheme",
+      "label": "Trust bar colour scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "trust_bar_background_color",
+      "label": "Trust bar background (when not using scheme)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "trust_bar_text_color",
+      "label": "Trust bar text",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "trust_bar_divider_color",
+      "label": "Trust bar divider",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "checkbox",
+      "id": "trust_bar_bottom_border",
+      "label": "Show bottom border on trust bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "trust_bar_bottom_border_color",
+      "label": "Trust bar bottom border colour",
+      "default": "#e2e2e2"
+    },
+    {
+      "type": "range",
+      "id": "trust_bar_padding_y",
+      "min": 4,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Item height (vertical padding)",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "trust_item_font_size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Item font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "trust_icon_size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 22
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_color",
+      "label": "Icon colour",
+      "info": "Recolours uploaded SVG/PNG icons (and preset icons). Leave blank to keep the icon's own colours."
+    },
+    {
+      "type": "range",
+      "id": "trust_icon_offset_y",
+      "min": -8,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon vertical nudge",
+      "info": "Move the icon up/down to line up with the text.",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "trust_divider_inset",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Divider top/bottom gap",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "trust_items_mobile",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Items shown on mobile",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Mobile fly-out menu (drawer)"
+    },
+    {
+      "type": "color",
+      "id": "drawer_bg_color",
+      "label": "Drawer background",
+      "info": "Background of the mobile fly-out menu. Leave blank to use the menu colour scheme."
+    },
+    {
+      "type": "color",
+      "id": "drawer_text_color",
+      "label": "Drawer text",
+      "info": "Text/links colour inside the mobile fly-out menu."
+    },
+    {
+      "type": "header",
+      "content": "Lists (favourites)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lists",
+      "label": "Show Lists icon",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "lists_link",
+      "label": "Lists link",
+      "info": "Where the Lists icon points (e.g. your favourites/wishlist page). Defaults to the account page."
+    },
+    {
+      "type": "text",
+      "id": "lists_label",
+      "label": "Lists label (for screen readers)",
+      "default": "Lists"
+    },
+    {
+      "type": "color",
+      "id": "lists_badge_bg",
+      "label": "Lists count badge background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "lists_badge_text",
+      "label": "Lists count badge text",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.header__1.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "t:sections.header.settings.menu_color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Icon styles"
+    },
+    {
+      "type": "color",
+      "id": "icon_primary_color",
+      "label": "Icon primary colour",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "icon_secondary_color",
+      "label": "Icon secondary colour",
+      "default": "#FF6600"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Localized icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "localized_icon",
+      "label": "Localized icon (SVG)",
+      "info": "Upload an SVG file to display after the cart icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "colorize_localized_icon",
+      "label": "Colorize localized icon",
+      "default": false,
+      "info": "Apply icon colors to the localized icon"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.settings.header__utilities.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": true,
+      "label": "t:sections.header.settings.enable_country_selector.label",
+      "info":"t:sections.header.settings.enable_country_selector.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": true,
+      "label": "t:sections.header.settings.enable_language_selector.label",
+      "info":"t:sections.header.settings.enable_language_selector.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_customer_avatar",
+      "default": true,
+      "label": "t:sections.header.settings.enable_customer_avatar.label",
+      "info": "t:sections.header.settings.enable_customer_avatar.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.header.settings.margin_bottom.label",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "header_padding_side",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Header side padding (left & right)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 36,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 36,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "header_top_row_gap",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Space below top row (above menu)",
+      "info": "Gap under the logo/search row and above the navigation bar. Desktop only.",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Search focus panel"
+    },
+    {
+      "type": "range",
+      "id": "search_panel_term_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Search term font size",
+      "default": 14
+    },
+    {
+      "type": "textarea",
+      "id": "popular_searches",
+      "label": "Popular search terms",
+      "info": "Comma-separated — shown when the search bar is focused with no query.",
+      "default": "knife sharpener,pocket knife sharpener,bench stone,whetstone,honing rod,electric sharpener"
+    },
+    {
+      "type": "collection",
+      "id": "popular_now_collection",
+      "label": "Popular right now (collection)",
+      "info": "First 4 products from this collection appear in the search panel."
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+  "type": "text_nav",
+  "name": "Text navigation bar",
+  "limit": 1,
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu" },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Position",
+      "default": "below",
+      "options": [
+        { "value": "above", "label": "Above header" },
+        { "value": "below", "label": "Below header" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    { "type": "checkbox", "id": "uppercase", "label": "Uppercase links", "default": false }
+  ]
+},
+    {
+      "type": "mega_item",
+      "name": "Mega: Top item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "url", "id": "link", "label": "Link (optional)" },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Panel layout",
+          "default": "columns",
+          "options": [
+            { "value": "columns", "label": "Columns + promo" },
+            { "value": "cards", "label": "Image cards" },
+            { "value": "dropdown", "label": "Simple dropdown" },
+            { "value": "link", "label": "Just a link (no panel)" }
+          ]
+        },
+        { "type": "paragraph", "content": "Add Column / Promo / Card blocks below this item; they belong to it until the next 'Mega: Top item'." }
+      ]
+    },
+    {
+      "type": "mega_column",
+      "name": "Mega: Column (links)",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Column heading" },
+        { "type": "link_list", "id": "menu", "label": "Links (menu)", "info": "Pick a menu in Navigation; its links fill this column." }
+      ]
+    },
+    {
+      "type": "mega_promo",
+      "name": "Mega: Promo tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_url", "label": "Image URL (CDN fallback)" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "TAKE THE QUIZ" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    },
+    {
+      "type": "mega_card",
+      "name": "Mega: Image card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_url", "label": "Image URL (CDN fallback)" },
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "SHOP NOW" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "trust_item",
+      "name": "Trust bar item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Icon",
+          "default": "none",
+          "info": "Built-in icon. A custom image/URL below overrides it.",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "truck", "label": "Truck (shipping)" },
+            { "value": "box", "label": "Box (delivery)" },
+            { "value": "shield", "label": "Shield (guarantee)" },
+            { "value": "refund", "label": "Refund (money-back)" },
+            { "value": "star", "label": "Star (reviews)" },
+            { "value": "tag", "label": "Tag (price)" },
+            { "value": "clock", "label": "Clock (fast)" },
+            { "value": "check", "label": "Check (quality)" },
+            { "value": "lock", "label": "Lock (secure)" },
+            { "value": "support", "label": "Support (help)" },
+            { "value": "gift", "label": "Gift (rewards)" },
+            { "value": "pin", "label": "Pin (in-store)" }
+          ]
+        },
+        { "type": "image_picker", "id": "icon", "label": "Custom icon (image / SVG)" },
+        { "type": "text", "id": "icon_url", "label": "Custom icon URL (CDN)" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Free delivery" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
+      ]
+    }
+  ]
+}
+{% endschema %}

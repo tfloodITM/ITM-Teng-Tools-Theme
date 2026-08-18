@@ -1,0 +1,377 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+{{ 'itm-cta.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-{{ section.id }}-padding .rich-text__blocks h2 {
+    color: #000000 !important;
+  }
+
+  .section-{{ section.id }}-padding .rich-text__wrapper {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .section-{{ section.id }}-padding .rich-text__text a.button,
+  .section-{{ section.id }}-padding .rich-text__text a.button:hover,
+  .section-{{ section.id }}-padding .rich-text__text a.button:focus,
+  .section-{{ section.id }}-padding .rich-text__text a.button:visited {
+    color: rgb(var(--color-button-text));
+    text-decoration: none;
+  }
+
+  .section-{{ section.id }}-padding .rich-text__text img {
+    border: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .section-{{ section.id }}-padding .rich-text__text .global-media-settings {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent;
+    border-radius: 0 !important;
+  }
+
+  .section-{{ section.id }}-padding .rich-text__text .global-media-settings:after {
+    content: none !important;
+  }
+
+  .section-{{ section.id }}-padding .rich-text__text .global-media-settings img,
+  .section-{{ section.id }}-padding .rich-text__text .media img {
+    border-radius: 0 !important;
+  }
+
+  .section-{{ section.id }}-padding .itm-full-bleed {
+    width: 100%;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding .itm-full-bleed {
+      padding: 0 20px;
+    }
+  }
+
+  .section-{{ section.id }}-padding .rich-text__heading {
+    text-align: center;
+    font-size: 24px !important;
+  }
+
+  .section-{{ section.id }}-padding .rich-text__heading::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: #f5a623;
+    margin: 10px auto 0;
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-item {
+    border-top: 1px solid #e3e3e3;
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-item:last-child {
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-question {
+    position: relative;
+    margin: 0;
+    padding: 20px 34px 20px 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-question.is-open::after {
+    content: '\2212';
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-answer p {
+    margin: 0 0 16px;
+    padding-right: 34px;
+    color: #555;
+  }
+
+  .section-{{ section.id }}-padding.itm-faq .itm-faq-answer p:last-child {
+    margin-bottom: 20px;
+  }
+{%- endstyle -%}
+
+{%- assign has_html_content = false -%}
+
+{%- for block in section.blocks -%}
+  {%- if block.type == 'html' -%}
+
+    {%- assign html_output = '' -%}
+
+    {%- if block.settings.source == 'metafield'
+          and block.settings.metafield_id != blank
+          and product -%}
+
+      {%- assign ns_key = block.settings.metafield_id | strip -%}
+      {%- assign ns = ns_key | split: '.' | first -%}
+      {%- assign key = ns_key | split: '.' | last -%}
+
+      {%- if product.metafields[ns] and product.metafields[ns][key] != blank -%}
+        {%- assign html_output = product.metafields[ns][key] -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if html_output == '' and block.settings.manual_html != blank -%}
+      {%- assign html_output = block.settings.manual_html -%}
+    {%- endif -%}
+
+    {%- if html_output != '' -%}
+      {%- assign has_html_content = true -%}
+    {%- endif -%}
+
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if has_html_content -%}
+<section class="section section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient{% if section.settings.faq_accordion %} itm-faq{% endif %}">
+  <div class="{% if section.settings.full_width %}itm-full-bleed{% else %}page-width{% endif %}">
+    <div class="rich-text__wrapper">
+      <div class="rich-text__blocks">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+
+            {%- when 'heading' -%}
+              <h2
+                class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.heading }}
+              </h2>
+
+            {%- when 'html' -%}
+              {%- assign html_output = '' -%}
+
+              {%- if block.settings.source == 'metafield'
+                    and block.settings.metafield_id != blank
+                    and product -%}
+
+                {%- assign ns_key = block.settings.metafield_id | strip -%}
+                {%- assign ns = ns_key | split: '.' | first -%}
+                {%- assign key = ns_key | split: '.' | last -%}
+
+                {%- if product.metafields[ns] and product.metafields[ns][key] != blank -%}
+                  {%- assign html_output = product.metafields[ns][key] -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if html_output == '' and block.settings.manual_html != blank -%}
+                {%- assign html_output = block.settings.manual_html -%}
+              {%- endif -%}
+
+              {%- if html_output != '' -%}
+                <div
+                  class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {{ block.shopify_attributes }}
+                  {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    style="--animation-order: {{ forloop.index }};"
+                  {% endif %}
+                >
+                  {{ html_output }}
+                </div>
+              {%- endif -%}
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- if section.settings.faq_accordion -%}
+<script>
+(function () {
+  var text = document.querySelector('#shopify-section-{{ section.id }} .rich-text__text');
+  if (!text) return;
+
+  var headings = Array.prototype.slice.call(text.querySelectorAll('h3, h4'));
+  headings.forEach(function (heading) {
+    var item = document.createElement('div');
+    item.className = 'itm-faq-item';
+
+    var answer = document.createElement('div');
+    answer.className = 'itm-faq-answer';
+
+    var toMove = [];
+    var next = heading.nextElementSibling;
+    while (next && next.tagName !== 'H3' && next.tagName !== 'H4') {
+      toMove.push(next);
+      next = next.nextElementSibling;
+    }
+
+    heading.parentNode.insertBefore(item, heading);
+    item.appendChild(heading);
+    heading.classList.add('itm-faq-question');
+    toMove.forEach(function (node) { answer.appendChild(node); });
+    item.appendChild(answer);
+
+    heading.addEventListener('click', function () {
+      var isOpen = heading.classList.toggle('is-open');
+      answer.style.maxHeight = isOpen ? answer.scrollHeight + 'px' : '0px';
+    });
+  });
+})();
+</script>
+{%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "HTML Section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "info": "Stretch content edge to edge instead of the standard page width.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_accordion",
+      "label": "Style as FAQ accordion",
+      "info": "Turns each H3/H4 + following content in the HTML block into a collapsible accordion row, and centers the heading with an accent underline.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Specifications"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "options": [
+            { "value": "h2", "label": "H2" },
+            { "value": "h1", "label": "H1" },
+            { "value": "h0", "label": "Display" }
+          ],
+          "default": "h2"
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "name": "HTML block",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Content source",
+          "options": [
+            { "value": "metafield", "label": "Product metafield (recommended)" },
+            { "value": "manual", "label": "Custom HTML in section" }
+          ],
+          "default": "metafield"
+        },
+        {
+          "type": "text",
+          "id": "metafield_id",
+          "label": "Product metafield (namespace.key)",
+          "info": "Any multi-line text metafield on the product, e.g. custom.web_specifications_html"
+        },
+        {
+          "type": "textarea",
+          "id": "manual_html",
+          "label": "Manual HTML",
+          "info": "Used when source is set to Custom HTML or the metafield is empty."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HTML Section",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "html" }
+      ]
+    }
+  ]
+}
+{% endschema %}

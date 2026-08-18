@@ -1,0 +1,35 @@
+{%- comment -%}
+  ITM — Combined "Pay in 4" line.
+  Replaces the separate PayPal Pay Later + Afterpay app widgets with a single
+  line: one piece of text (amount = variant price / 4, recomputed on variant
+  change because the section re-renders) followed by the PayPal + Afterpay logos.
+
+  Params:
+    product - the product object
+    st      - section.settings (for text + sizing controls)
+{%- endcomment -%}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign per_payment = variant.price | divided_by: 4
+  assign text_before = st.payin4_text_before | default: 'Pay in 4 interest-free payments of'
+  assign text_after = st.payin4_text_after | default: 'with'
+-%}
+{%- if variant.price > 0 -%}
+  <div class="itm-pay-in-4">
+    <span class="itm-pay-in-4__text">{{ text_before }} {{ per_payment | money }} {{ text_after }}</span>
+    <img
+      class="itm-pay-in-4__logo itm-pay-in-4__logo--paypal"
+      src="{{ 'itm-paypal-logo.svg' | asset_url }}"
+      alt="PayPal"
+      width="101"
+      height="32"
+    >
+    <img
+      class="itm-pay-in-4__logo itm-pay-in-4__logo--afterpay"
+      src="{{ 'itm-afterpay-badge.png' | asset_url }}"
+      alt="Afterpay"
+      width="540"
+      height="188"
+    >
+  </div>
+{%- endif -%}

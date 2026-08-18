@@ -1,0 +1,212 @@
+{%- style -%}
+  /* 11 — Featured Product Hero: full width, 150px padding */
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: 100% !important;
+    padding-left: 150px !important;
+    padding-right: 150px !important;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+  @media (min-width: 750px) and (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+    }
+  }
+{%- endstyle -%}
+
+{% assign product = all_products[section.settings.product] %}
+{% assign img = section.settings.custom_image | default: product.featured_image %}
+{% assign display_name = section.settings.name_override | default: product.title %}
+
+<section class="fp-hero {% if section.settings.invert_curve %}fp-hero--invert{% endif %}" style="
+  --feather-center: {{ section.settings.feather_center }}%;
+  --feather-radius: {{ section.settings.feather_radius }}px;
+  --feather-softness: {{ section.settings.feather_softness }}px;
+  --hero-min-height: {{ section.settings.hero_height }}vh;
+">
+  {% if product %}
+  <div class="page-width">
+    <!-- keep scheme on an inner box so it matches content width -->
+    <div class="fp-hero__box color-{{ section.settings.color_scheme }} gradient">
+      <div class="fp-hero__wrap">
+        <!-- LEFT: CONTENT -->
+        <div class="fp-hero__content">
+          {% if section.settings.kicker != blank %}
+            <p class="fp-hero__kicker">{{ section.settings.kicker }}</p>
+          {% endif %}
+
+          <h2>{{ display_name }}</h2>
+
+          <div class="rte fp-hero__description">
+            {{ product.description }}
+          </div>
+
+          {% unless settings.information_only_mode %}
+            <div class="fp-hero__price">
+              {{ product.selected_or_first_available_variant.price | money_with_currency }}
+            </div>
+
+            <product-form>
+              {% form 'product', product %}
+                <div class="fp-hero__actions">
+                  <a href="{{ product.url }}" class="button button--secondary">View details</a>
+                  <button type="submit" class="button">Add to cart</button>
+                </div>
+              {% endform %}
+            </product-form>
+          {% endunless %}
+        </div>
+
+        <!-- RIGHT: IMAGE -->
+        <div class="fp-hero__media">
+          {% if img %}
+            {{ img | image_url: width: 2200 | image_tag: alt: display_name, class: 'fp-hero__img', loading: 'lazy' }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <style>
+.fp-hero{
+  border-top:1px solid var(--color-foreground-10);
+  padding:0 0 20px 0;
+  min-height:var(--hero-min-height,80vh);
+  display:flex; align-items:stretch;
+}
+
+.fp-hero__box{ height:100%; }
+
+.fp-hero__wrap{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2rem;
+  align-items:stretch;
+  height:100%;
+  padding:0 0 0 50px;
+}
+
+.fp-hero__content{
+  order:1;
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+.fp-hero__media{
+  order:2;
+  display:flex; align-items:stretch; justify-content:center;
+  position:relative; overflow:hidden;
+}
+
+@media (max-width:900px){
+  .fp-hero__wrap{
+    grid-template-columns:1fr;
+    gap:1rem;
+    padding:0 1rem;
+  }
+  .fp-hero{
+    padding-bottom:calc(48px + env(safe-area-inset-bottom, 0px));
+  }
+  .fp-hero__media{
+    order:1;
+    height:auto;
+  }
+  .fp-hero__content{
+    order:2;
+    padding-top:1rem;
+    padding-bottom:18px;
+  }
+}
+
+.fp-hero__kicker{ font-weight:700; letter-spacing:.02em; margin:0 0 .25rem; }
+.fp-hero__price{ font-size:1.25rem; font-weight:700; margin:1rem 0; }
+.fp-hero__actions{ display:flex; gap:.75rem; flex-wrap:wrap; margin-bottom:.25rem; }
+.fp-hero__description{ margin-bottom:1.5rem; }
+
+/* IMAGE fills section height */
+.fp-hero__img{
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  display:block; border-radius:0;
+}
+
+/* Default: inward bite from the left (center fades from transparent → white) */
+.fp-hero__img{
+  -webkit-mask-image: radial-gradient(
+    circle var(--feather-radius) at var(--feather-center) center,
+    rgba(255,255,255,0) 0,
+    rgba(255,255,255,0) calc(var(--feather-radius) - var(--feather-softness)),
+    rgba(255,255,255,.6) var(--feather-radius),
+    rgba(255,255,255,1)  calc(var(--feather-radius) + var(--feather-softness))
+  );
+  mask-image: radial-gradient(
+    circle var(--feather-radius) at var(--feather-center) center,
+    rgba(255,255,255,0) 0,
+    rgba(255,255,255,0) calc(var(--feather-radius) - var(--feather-softness)),
+    rgba(255,255,255,.6) var(--feather-radius),
+    rgba(255,255,255,1)  calc(var(--feather-radius) + var(--feather-softness))
+  );
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-mode:luminance; mask-mode:luminance;
+}
+
+/* Invert curve ONLY: keep the same center, but make the center white (visible) and fade to transparent */
+.fp-hero--invert .fp-hero__img{
+  -webkit-mask-image: radial-gradient(
+    circle var(--feather-radius) at var(--feather-center) center,
+    rgba(255,255,255,1)  0,
+    rgba(255,255,255,1)  calc(var(--feather-radius) - var(--feather-softness)),
+    rgba(255,255,255,.6) var(--feather-radius),
+    rgba(255,255,255,0)  calc(var(--feather-radius) + var(--feather-softness))
+  );
+  mask-image: radial-gradient(
+    circle var(--feather-radius) at var(--feather-center) center,
+    rgba(255,255,255,1)  0,
+    rgba(255,255,255,1)  calc(var(--feather-radius) - var(--feather-softness)),
+    rgba(255,255,255,.6) var(--feather-radius),
+    rgba(255,255,255,0)  calc(var(--feather-radius) + var(--feather-softness))
+  );
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-mode:luminance; mask-mode:luminance;
+}
+
+/* Mobile: remove the feather entirely */
+@media (max-width:900px){
+  .fp-hero__img{ -webkit-mask-image:none; mask-image:none; }
+}
+
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Featured product hero",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "background-1" },
+    { "type": "text", "id": "kicker", "label": "Title / badge", "info": "e.g. New Product, Great Deal" },
+    { "type": "text", "id": "name_override", "label": "Product name override", "info": "Leave blank to use the product's real name" },
+    { "type": "image_picker", "id": "custom_image", "label": "Custom image override" },
+
+    { "type": "range", "id": "hero_height", "label": "Section minimum height (vh)",
+      "min": 20, "max": 80, "step": 5, "default": 60
+    },
+    { "type": "range", "id": "feather_center", "label": "Feather position from left (%)",
+      "min": -80, "max": 180, "step": 4, "default": 0
+    },
+    { "type": "range", "id": "feather_radius", "label": "Feather radius (px)",
+      "min": 80, "max": 700, "step": 10, "default": 450
+    },
+    { "type": "range", "id": "feather_softness", "label": "Feather softness (px)",
+      "min": 10, "max": 200, "step": 5, "default": 150
+    },
+    { "type": "checkbox", "id": "invert_curve", "label": "Invert curve (mirror arc, keep position)", "default": false }
+  ],
+  "presets": [{ "name": "Featured product" }]
+}
+{% endschema %}

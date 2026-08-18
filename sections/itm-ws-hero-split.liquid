@@ -1,0 +1,1385 @@
+{%- liquid
+  assign sid = section.id
+  assign desktop_layout = section.settings.desktop_layout
+  assign mobile_layout = section.settings.mobile_layout
+  assign mobile_panel = section.settings.mobile_panel
+  assign d_height = section.settings.desktop_height
+  assign m_height = section.settings.mobile_height
+-%}
+
+{%- comment -%} ---- Alignment helper for the split overlay ---- {%- endcomment -%}
+{%- assign pos = section.settings.cta_position | split: '-' -%}
+{%- assign vpos = pos[0] -%}
+{%- assign hpos = pos[1] -%}
+{%- case vpos -%}
+  {%- when 'top' -%}{%- assign split_vj = 'flex-start' -%}
+  {%- when 'middle' -%}{%- assign split_vj = 'center' -%}
+  {%- else -%}{%- assign split_vj = 'flex-end' -%}
+{%- endcase -%}
+{%- case hpos -%}
+  {%- when 'left' -%}{%- assign split_ai = 'flex-start' -%}{%- assign split_ta = 'left' -%}
+  {%- when 'center' -%}{%- assign split_ai = 'center' -%}{%- assign split_ta = 'center' -%}
+  {%- else -%}{%- assign split_ai = 'flex-end' -%}{%- assign split_ta = 'right' -%}
+{%- endcase -%}
+
+{%- capture arrow_svg -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>{%- endcapture -%}
+
+{%- style -%}
+  #shopify-section-{{ sid }} .itm-hs-split,
+  #shopify-section-{{ sid }} .itm-hs-slideshow {
+    display: none;
+  }
+
+  #shopify-section-{{ sid }} .itm-hs-split {
+    height: {{ d_height }}px;
+    overflow: hidden;
+  }
+  #shopify-section-{{ sid }} .itm-hs-panel {
+    flex: 0 0 50%;
+    height: {{ d_height }}px;
+    overflow: hidden;
+    position: relative;
+    background: #000;
+  }
+  #shopify-section-{{ sid }} .itm-hs-panel img,
+  #shopify-section-{{ sid }} .itm-hs-panel video,
+  #shopify-section-{{ sid }} .itm-hs-panel iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border: 0;
+  }
+
+  #shopify-section-{{ sid }} .itm-hs-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 48px;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+    z-index: 10;
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay--top {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay--middle {
+    background: rgba(0,0,0,0.35);
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay h1,
+  #shopify-section-{{ sid }} .itm-hs-overlay h2 {
+    color: #fff;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    margin: 0 0 16px;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay__sub {
+    color: rgba(255,255,255,0.9);
+    font-size: 17px;
+    font-weight: 400;
+    margin: 0 0 10px;
+    line-height: 1.5;
+    max-width: {{ section.settings.subtext_max_width | default: 620 }}px;
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay__tags {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin: 0 0 28px;
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay__tag {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay__tag:hover { opacity: 0.7; text-decoration: underline; }
+  #shopify-section-{{ sid }} .itm-hs-overlay__tag-sep { margin: 0 8px; opacity: 0.55; }
+  #shopify-section-{{ sid }} .itm-hs-overlay__cta {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 50px;
+    padding: 16px 48px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  #shopify-section-{{ sid }} .itm-hs-overlay__cta:hover {
+    background: rgba(255,255,255,0.35);
+  }
+
+  {%- comment -%} ---- Left-panel buttons (filled / outline / text) ---- {%- endcomment -%}
+  #shopify-section-{{ sid }} .itm-hs-overlay__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: {{ section.settings.btn_group_margin_top | default: 4 }}px;
+    margin-bottom: {{ section.settings.btn_group_margin_bottom | default: 0 }}px;
+  }
+  /* colours come from per-button inline vars: --btn-text, --btn-border, --btn-fill, --btn-skew */
+  #shopify-section-{{ sid }} .itm-hs-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--btn-text, #ffffff) !important;
+    font-size: {{ section.settings.btn_font_size | default: 15 }}px;
+    font-weight: {{ section.settings.btn_font_weight | default: '700' }};
+    letter-spacing: {{ section.settings.btn_letter_spacing | default: 14 | times: 0.01 }}em;
+    text-transform: {{ section.settings.btn_text_transform | default: 'uppercase' }};
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    {%- if section.settings.btn_min_height > 0 %}min-height: {{ section.settings.btn_min_height }}px;{%- endif %}
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn__arrow { display: inline-flex; transition: transform 0.2s ease; }
+  #shopify-section-{{ sid }} .itm-hs-btn__arrow svg { width: 18px; height: 18px; stroke: var(--btn-text, #ffffff); }
+  #shopify-section-{{ sid }} .itm-hs-btn:hover .itm-hs-btn__arrow { transform: translateX(5px); }
+
+  /* Plain Filled & Outline (no glow): the skew/background/border live on a
+     ::before behind the text, so the real element (and its text) is never
+     transformed — this is what keeps the label perfectly sharp when skewed. */
+  #shopify-section-{{ sid }} .itm-hs-btn--filled,
+  #shopify-section-{{ sid }} .itm-hs-btn--outline {
+    position: relative;
+    z-index: 0;
+    background: transparent;
+    border: none;
+    padding: {{ section.settings.btn_padding_top | default: 15 }}px {{ section.settings.btn_padding_right | default: 34 }}px {{ section.settings.btn_padding_bottom | default: 15 }}px {{ section.settings.btn_padding_left | default: 34 }}px;
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn--filled:not(.itm-hs-btn--glow)::before,
+  #shopify-section-{{ sid }} .itm-hs-btn--outline:not(.itm-hs-btn--glow)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: {{ section.settings.btn_border_radius | default: 50 }}px;
+    transform: skewX(var(--btn-skew, 0deg));
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn--filled:not(.itm-hs-btn--glow)::before {
+    background: var(--btn-fill, rgba(255,255,255,0.15));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--btn-border, #ffffff);
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn--filled:not(.itm-hs-btn--glow):hover::before { opacity: 0.85; }
+
+  /* Glow buttons: its own ::before/::after already animate the spinning
+     border, so skew has to go on the real element instead (like the old
+     implementation) — the label/arrow get an equal-and-opposite counter-skew
+     so the text itself still reads upright. */
+  #shopify-section-{{ sid }} .itm-hs-btn--glow {
+    transform: skewX(var(--btn-skew, 0deg));
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn--glow .itm-hs-btn__label,
+  #shopify-section-{{ sid }} .itm-hs-btn--glow .itm-hs-btn__arrow {
+    display: inline-block;
+    transform: skewX(calc(var(--btn-skew, 0deg) * -1));
+  }
+
+  #shopify-section-{{ sid }} .itm-hs-btn--outline:not(.itm-hs-btn--glow)::before {
+    background: transparent;
+    border: 1px solid var(--btn-border, #ffffff);
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn--outline:not(.itm-hs-btn--glow):hover::before { background: rgba(255,255,255,0.12); }
+
+  #shopify-section-{{ sid }} .itm-hs-btn--text {
+    background: transparent;
+    border: 0;
+    padding: 6px 0;
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn--text .itm-hs-btn__label { position: relative; }
+  #shopify-section-{{ sid }} .itm-hs-btn--text .itm-hs-btn__label::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 1px;
+    background: var(--btn-text, #ffffff);
+    transition: width 0.25s ease;
+  }
+  #shopify-section-{{ sid }} .itm-hs-btn--text:hover .itm-hs-btn__label::after { width: 100%; }
+
+  {%- comment -%} ---- Glow border animation ---- {%- endcomment -%}
+  @keyframes itm-hs-glow-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  #shopify-section-{{ sid }} .itm-hs-btn--glow {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ section.settings.btn_border_radius | default: 50 }}px;
+    padding: {{ section.settings.btn_padding_top | default: 15 }}px {{ section.settings.btn_padding_right | default: 34 }}px {{ section.settings.btn_padding_bottom | default: 15 }}px {{ section.settings.btn_padding_left | default: 34 }}px;
+    border: none !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Suppress text-link underline when glow is active */
+  #shopify-section-{{ sid }} .itm-hs-btn--text.itm-hs-btn--glow .itm-hs-btn__label::after { display: none; }
+
+  /* Oversized square that spins inside overflow:hidden — the bright arc sweeps around the clipped border edge */
+  #shopify-section-{{ sid }} .itm-hs-btn--glow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    aspect-ratio: 1;
+    background: conic-gradient(from 0deg, transparent 0deg, var(--btn-border, #f5a623) 80deg, rgba(255,255,255,0.95) 120deg, var(--btn-border, #f5a623) 160deg, transparent 220deg);
+    animation: itm-hs-glow-spin 2.5s linear infinite;
+    z-index: 0;
+  }
+
+  /* Dark fill covers the interior — only the ~3px border strip of gradient stays visible */
+  #shopify-section-{{ sid }} .itm-hs-btn--glow::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: {{ section.settings.btn_border_radius | default: 50 }}px;
+    background: rgba(10, 10, 10, 0.82);
+    z-index: 1;
+  }
+
+  /* Text must sit above the dark fill */
+  #shopify-section-{{ sid }} .itm-hs-btn--glow .itm-hs-btn__label,
+  #shopify-section-{{ sid }} .itm-hs-btn--glow .itm-hs-btn__arrow {
+    position: relative;
+    z-index: 2;
+  }
+
+  {%- comment -%} ---- Slideshow ---- {%- endcomment -%}
+  #shopify-section-{{ sid }} .itm-hs-slideshow {
+    position: relative;
+    height: {{ d_height }}px;
+    overflow: hidden;
+    background: #000;
+  }
+  #shopify-section-{{ sid }} .itm-hs-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  #shopify-section-{{ sid }} .itm-hs-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #shopify-section-{{ sid }} .itm-hs-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ sid }} .itm-hs-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.5);
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  #shopify-section-{{ sid }} .itm-hs-arrow:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  #shopify-section-{{ sid }} .itm-hs-arrow--prev { left: 20px; }
+  #shopify-section-{{ sid }} .itm-hs-arrow--next { right: 20px; }
+  #shopify-section-{{ sid }} .itm-hs-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    z-index: 20;
+  }
+  #shopify-section-{{ sid }} .itm-hs-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 0;
+    padding: 0;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  #shopify-section-{{ sid }} .itm-hs-dot.is-active {
+    background: #fff;
+  }
+
+  {%- comment -%} ---- Desktop visibility (>= 750px) ---- {%- endcomment -%}
+  @media (min-width: 750px) {
+    {%- if desktop_layout == 'slideshow' -%}
+      #shopify-section-{{ sid }} .itm-hs-slideshow { display: block; }
+    {%- else -%}
+      #shopify-section-{{ sid }} .itm-hs-split { display: flex; }
+      #shopify-section-{{ sid }} .itm-hs-overlay {
+        justify-content: {{ split_vj }};
+        align-items: {{ split_ai }};
+        text-align: {{ split_ta }};
+      }
+      {%- if desktop_layout == 'image' -%}
+        #shopify-section-{{ sid }} .itm-hs-panel--video { display: none; }
+        #shopify-section-{{ sid }} .itm-hs-panel--image { flex: 0 0 100%; }
+        {%- if hpos != 'center' -%}
+          #shopify-section-{{ sid }} .itm-hs-panel--image .itm-hs-overlay__content {
+            max-width: 50%;
+          }
+          #shopify-section-{{ sid }} .itm-hs-panel--image .itm-hs-overlay {
+            {%- if hpos == 'right' -%}
+              background: linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0) 70%) !important;
+            {%- else -%}
+              background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0) 70%) !important;
+            {%- endif -%}
+          }
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+  }
+
+  @media (min-width: 750px) and (max-width: 1024px) {
+    #shopify-section-{{ sid }} .itm-hs-overlay h1,
+    #shopify-section-{{ sid }} .itm-hs-overlay h2 { font-size: 36px; }
+  }
+
+  {%- comment -%} ---- Mobile visibility (<= 749px) ---- {%- endcomment -%}
+  @media (max-width: 749px) {
+    #shopify-section-{{ sid }} .itm-hs-split { height: {{ m_height }}px; }
+    #shopify-section-{{ sid }} .itm-hs-slideshow { height: {{ m_height }}px; }
+    #shopify-section-{{ sid }} .itm-hs-panel {
+      flex: none;
+      width: 100%;
+      height: {{ m_height }}px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-overlay {
+      padding: {{ section.settings.mob_overlay_padding_top | default: 24 }}px 24px {{ section.settings.mob_overlay_padding_bottom | default: 24 }}px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-overlay h1,
+    #shopify-section-{{ sid }} .itm-hs-overlay h2 {
+      font-size: {{ section.settings.mob_heading_font_size | default: 28 }}px;
+      margin-bottom: 10px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-overlay__sub {
+      font-size: {{ section.settings.mob_subtext_font_size | default: 14 }}px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-overlay__cta {
+      padding: 12px 28px;
+      font-size: 14px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-overlay__buttons {
+      gap: 12px;
+      margin-top: {{ section.settings.mob_btn_group_margin_top | default: 4 }}px;
+      margin-bottom: {{ section.settings.mob_btn_group_margin_bottom | default: 0 }}px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-btn {
+      font-size: {{ section.settings.mob_btn_font_size | default: 13 }}px;
+      {%- if section.settings.mob_btn_min_height > 0 %}min-height: {{ section.settings.mob_btn_min_height }}px;{%- endif %}
+    }
+    #shopify-section-{{ sid }} .itm-hs-btn--filled,
+    #shopify-section-{{ sid }} .itm-hs-btn--outline {
+      padding: {{ section.settings.mob_btn_padding_top | default: 12 }}px {{ section.settings.mob_btn_padding_right | default: 24 }}px {{ section.settings.mob_btn_padding_bottom | default: 12 }}px {{ section.settings.mob_btn_padding_left | default: 24 }}px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-btn--glow {
+      padding: {{ section.settings.mob_btn_padding_top | default: 12 }}px {{ section.settings.mob_btn_padding_right | default: 24 }}px {{ section.settings.mob_btn_padding_bottom | default: 12 }}px {{ section.settings.mob_btn_padding_left | default: 24 }}px;
+    }
+    #shopify-section-{{ sid }} .itm-hs-arrow { width: 40px; height: 40px; font-size: 18px; }
+
+    {%- if mobile_layout == 'slideshow' -%}
+      #shopify-section-{{ sid }} .itm-hs-slideshow { display: block; }
+    {%- else -%}
+      #shopify-section-{{ sid }} .itm-hs-split { display: flex; flex-direction: column; }
+      {%- if mobile_panel == 'video' -%}
+        #shopify-section-{{ sid }} .itm-hs-panel--image { display: none; }
+      {%- else -%}
+        #shopify-section-{{ sid }} .itm-hs-panel--video { display: none; }
+      {%- endif -%}
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+{%- comment -%} ====================== SPLIT LAYOUT ====================== {%- endcomment -%}
+<div class="itm-hs-split">
+
+  {%- comment -%} LEFT PANEL — image with text overlay {%- endcomment -%}
+  <div class="itm-hs-panel itm-hs-panel--image">
+    {%- if section.settings.left_image != blank or section.settings.left_image_url != blank -%}
+      <picture>
+        {%- if section.settings.mobile_image != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_image | image_url: width: 1200 }}">
+        {%- elsif section.settings.mobile_image_url != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_image_url }}">
+        {%- endif -%}
+        {%- if section.settings.left_image != blank -%}
+          {{
+            section.settings.left_image
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: section.settings.heading
+          }}
+        {%- else -%}
+          <img
+            src="{{ section.settings.left_image_url }}"
+            alt="{{ section.settings.heading | escape }}"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {%- endif -%}
+      </picture>
+    {%- else -%}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+    {%- endif -%}
+
+    <div class="itm-hs-overlay itm-hs-overlay--{{ vpos }}">
+      <div class="itm-hs-overlay__content">
+        {%- if section.settings.heading != blank -%}
+          <h1>{{ section.settings.heading }}</h1>
+        {%- endif -%}
+        {%- if section.settings.subtext != blank -%}
+          <p class="itm-hs-overlay__sub">{{ section.settings.subtext }}</p>
+        {%- endif -%}
+        {%- capture _tag_labels -%}{{ section.settings.tag1_label }}~|~{{ section.settings.tag2_label }}~|~{{ section.settings.tag3_label }}~|~{{ section.settings.tag4_label }}~|~{{ section.settings.tag5_label }}{%- endcapture -%}
+        {%- capture _tag_links -%}{{ section.settings.tag1_link }}~|~{{ section.settings.tag2_link }}~|~{{ section.settings.tag3_link }}~|~{{ section.settings.tag4_link }}~|~{{ section.settings.tag5_link }}{%- endcapture -%}
+        {%- assign tag_labels = _tag_labels | split: '~|~' -%}
+        {%- assign tag_links = _tag_links | split: '~|~' -%}
+        {%- assign tag_rendered = 0 -%}
+        {%- capture tags_html -%}
+          {%- for i in (0..4) -%}
+            {%- assign tlabel = tag_labels[i] -%}
+            {%- if tlabel != blank -%}
+              {%- if tag_rendered > 0 %}<span class="itm-hs-overlay__tag-sep">·</span>{% endif -%}
+              {%- assign tlink = tag_links[i] -%}
+              {%- if tlink != blank -%}<a class="itm-hs-overlay__tag" href="{{ tlink }}">{{ tlabel }}</a>{%- else -%}<span class="itm-hs-overlay__tag">{{ tlabel }}</span>{%- endif -%}
+              {%- assign tag_rendered = tag_rendered | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if tag_rendered > 0 -%}
+          <p class="itm-hs-overlay__tags">{{ tags_html }}</p>
+        {%- elsif section.settings.tags != blank -%}
+          <p class="itm-hs-overlay__tags">{{ section.settings.tags }}</p>
+        {%- endif -%}
+        {%- if section.settings.cta_label != blank or section.settings.cta2_label != blank -%}
+          {%- assign b1_text = section.settings.cta_text_color | default: '#ffffff' -%}
+          {%- assign b1_border = section.settings.cta_border_color | default: b1_text -%}
+          {%- assign b1_fill = section.settings.cta_fill_color | default: 'rgba(255,255,255,0.15)' -%}
+          {%- assign b2_text = section.settings.cta2_text_color | default: '#ffffff' -%}
+          {%- assign b2_border = section.settings.cta2_border_color | default: b2_text -%}
+          {%- assign b2_fill = section.settings.cta2_fill_color | default: 'rgba(255,255,255,0.15)' -%}
+          <div class="itm-hs-overlay__buttons">
+            {%- if section.settings.cta_label != blank -%}
+              <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="itm-hs-btn itm-hs-btn--{{ section.settings.cta_style | default: 'filled' }}" style="--btn-text:{{ b1_text }};--btn-border:{{ b1_border }};--btn-fill:{{ b1_fill }};--btn-skew:{{ section.settings.cta_skew | default: 0 }}deg;">
+                <span class="itm-hs-btn__label">{{ section.settings.cta_label }}</span>
+                {%- if section.settings.cta_arrow -%}<span class="itm-hs-btn__arrow">{{ arrow_svg }}</span>{%- endif -%}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.cta2_label != blank -%}
+              {%- assign btn2_glow = '' -%}
+              {%- if section.settings.cta2_glow -%}{%- assign btn2_glow = ' itm-hs-btn--glow' -%}{%- endif -%}
+              {%- if section.settings.cta2_link != blank -%}
+                <a href="{{ section.settings.cta2_link }}" class="itm-hs-btn itm-hs-btn--{{ section.settings.cta2_style | default: 'text' }}{{ btn2_glow }}" style="--btn-text:{{ b2_text }};--btn-border:{{ b2_border }};--btn-fill:{{ b2_fill }};--btn-skew:{{ section.settings.cta2_skew | default: 0 }}deg;">
+                  <span class="itm-hs-btn__label">{{ section.settings.cta2_label }}</span>
+                  {%- if section.settings.cta2_arrow -%}<span class="itm-hs-btn__arrow">{{ arrow_svg }}</span>{%- endif -%}
+                </a>
+              {%- else -%}
+                <button type="button" data-quiz-open="{{ section.settings.cta2_quiz_id }}" class="itm-hs-btn itm-hs-btn--{{ section.settings.cta2_style | default: 'text' }}{{ btn2_glow }}" style="--btn-text:{{ b2_text }};--btn-border:{{ b2_border }};--btn-fill:{{ b2_fill }};--btn-skew:{{ section.settings.cta2_skew | default: 0 }}deg;">
+                  <span class="itm-hs-btn__label">{{ section.settings.cta2_label }}</span>
+                  {%- if section.settings.cta2_arrow -%}<span class="itm-hs-btn__arrow">{{ arrow_svg }}</span>{%- endif -%}
+                </button>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} RIGHT PANEL — video {%- endcomment -%}
+  <div class="itm-hs-panel itm-hs-panel--video">
+    {%- if section.settings.video != blank -%}
+      {{
+        section.settings.video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          controls: false,
+          muted: true,
+          image_size: '1100x'
+      }}
+    {%- elsif section.settings.video_url != blank -%}
+      <iframe
+        src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ section.settings.video_url.id }}&controls=0&playsinline=1"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        title="{{ section.settings.heading | escape }}"
+      ></iframe>
+    {%- else -%}
+      {{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+    {%- endif -%}
+  </div>
+
+</div>
+
+{%- comment -%} ====================== SLIDESHOW LAYOUT ====================== {%- endcomment -%}
+<div class="itm-hs-slideshow">
+  {%- if section.blocks.size > 0 -%}
+    {%- for block in section.blocks -%}
+      {%- comment -%} per-slide alignment {%- endcomment -%}
+      {%- assign spos = block.settings.cta_position | split: '-' -%}
+      {%- assign svpos = spos[0] -%}
+      {%- assign shpos = spos[1] -%}
+      {%- case svpos -%}
+        {%- when 'top' -%}{%- assign s_vj = 'flex-start' -%}
+        {%- when 'middle' -%}{%- assign s_vj = 'center' -%}
+        {%- else -%}{%- assign s_vj = 'flex-end' -%}
+      {%- endcase -%}
+      {%- case shpos -%}
+        {%- when 'left' -%}{%- assign s_ai = 'flex-start' -%}{%- assign s_ta = 'left' -%}
+        {%- when 'center' -%}{%- assign s_ai = 'center' -%}{%- assign s_ta = 'center' -%}
+        {%- else -%}{%- assign s_ai = 'flex-end' -%}{%- assign s_ta = 'right' -%}
+      {%- endcase -%}
+
+      <div class="itm-hs-slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {%- if forloop.first -%}{%- assign slide_loading = 'eager' -%}{%- else -%}{%- assign slide_loading = 'lazy' -%}{%- endif -%}
+          {{
+            block.settings.image
+            | image_url: width: 2200
+            | image_tag:
+              loading: slide_loading,
+              alt: block.settings.heading,
+              widths: '750, 1100, 1500, 2200'
+          }}
+        {%- elsif block.settings.image_url != blank -%}
+          <img
+            src="{{ block.settings.image_url }}"
+            alt="{{ block.settings.heading | escape }}"
+            {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+          >
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+        {%- endif -%}
+
+        <div
+          class="itm-hs-overlay itm-hs-overlay--{{ svpos }}"
+          style="justify-content:{{ s_vj }};align-items:{{ s_ai }};text-align:{{ s_ta }};"
+        >
+          {%- if block.settings.heading != blank -%}
+            <h2>{{ block.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if block.settings.subtext != blank -%}
+            <p class="itm-hs-overlay__sub">{{ block.settings.subtext }}</p>
+          {%- endif -%}
+          {%- if block.settings.tags != blank -%}
+            <p class="itm-hs-overlay__tags">{{ block.settings.tags }}</p>
+          {%- endif -%}
+          {%- if block.settings.cta_label != blank -%}
+            <a href="{{ block.settings.cta_link | default: '/collections/all' }}" class="itm-hs-overlay__cta">
+              {{ block.settings.cta_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+
+    {%- if section.blocks.size > 1 -%}
+      {%- if section.settings.show_arrows -%}
+        <button type="button" class="itm-hs-arrow itm-hs-arrow--prev" aria-label="Previous slide">&#8249;</button>
+        <button type="button" class="itm-hs-arrow itm-hs-arrow--next" aria-label="Next slide">&#8250;</button>
+      {%- endif -%}
+      {%- if section.settings.show_dots -%}
+        <div class="itm-hs-dots">
+          {%- for block in section.blocks -%}
+            <button type="button" class="itm-hs-dot{% if forloop.first %} is-active{% endif %}" aria-label="Go to slide {{ forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- else -%}
+    <div class="itm-hs-slide is-active">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root) return;
+    var show = root.querySelector('.itm-hs-slideshow');
+    if (!show) return;
+    var slides = show.querySelectorAll('.itm-hs-slide');
+    if (slides.length <= 1) return;
+    var dots = show.querySelectorAll('.itm-hs-dot');
+    var autoplay = {{ section.settings.slideshow_autoplay | default: true }};
+    var speed = {{ section.settings.slideshow_speed | default: 5 | times: 1000 }};
+    var i = 0, timer = null;
+
+    function go(n) {
+      slides[i].classList.remove('is-active');
+      if (dots[i]) dots[i].classList.remove('is-active');
+      i = (n + slides.length) % slides.length;
+      slides[i].classList.add('is-active');
+      if (dots[i]) dots[i].classList.add('is-active');
+    }
+    function start() { if (autoplay) timer = setInterval(function () { go(i + 1); }, speed); }
+    function restart() { if (timer) clearInterval(timer); start(); }
+
+    var prevBtn = show.querySelector('.itm-hs-arrow--prev');
+    var nextBtn = show.querySelector('.itm-hs-arrow--next');
+    if (prevBtn) prevBtn.addEventListener('click', function () { go(i - 1); restart(); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { go(i + 1); restart(); });
+    dots.forEach(function (d, idx) { d.addEventListener('click', function () { go(idx); restart(); }); });
+
+    start();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Split (Image+Video)",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "label": "Desktop layout",
+      "options": [
+        { "value": "split", "label": "Split (image + video)" },
+        { "value": "image", "label": "Full-width image (no video)" },
+        { "value": "slideshow", "label": "Slideshow" }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "single", "label": "Single panel" },
+        { "value": "slideshow", "label": "Slideshow" }
+      ],
+      "default": "single"
+    },
+    {
+      "type": "select",
+      "id": "mobile_panel",
+      "label": "Mobile single panel shows",
+      "info": "Used when Mobile layout is Single panel",
+      "options": [
+        { "value": "image", "label": "Image panel" },
+        { "value": "video", "label": "Video panel" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 300,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "min": 200,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 420
+    },
+    {
+      "type": "header",
+      "content": "Mobile — Content Position"
+    },
+    {
+      "type": "paragraph",
+      "content": "Adjust top/bottom padding on mobile to nudge all text and buttons up or down within the panel."
+    },
+    {
+      "type": "range",
+      "id": "mob_overlay_padding_top",
+      "label": "Top padding (pushes content down)",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mob_overlay_padding_bottom",
+      "label": "Bottom padding (pushes content up)",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Mobile — Typography"
+    },
+    {
+      "type": "range",
+      "id": "mob_heading_font_size",
+      "label": "Heading font size",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "mob_subtext_font_size",
+      "label": "Subtext font size",
+      "min": 11,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Mobile — Buttons"
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_font_size",
+      "label": "Button font size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_top",
+      "label": "Button padding top",
+      "min": 0,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_bottom",
+      "label": "Button padding bottom",
+      "min": 0,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_left",
+      "label": "Button padding left",
+      "min": 0,
+      "max": 70,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_padding_right",
+      "label": "Button padding right",
+      "min": 0,
+      "max": 70,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_min_height",
+      "label": "Button min height (0 = auto)",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_group_margin_top",
+      "label": "Space above buttons",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "mob_btn_group_margin_bottom",
+      "label": "Space below buttons",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Split - Left Panel (Image + Text)"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left image (Shopify media)"
+    },
+    {
+      "type": "text",
+      "id": "left_image_url",
+      "label": "Left image URL",
+      "info": "Direct CDN link - used only if no image is selected above"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image override (optional)",
+      "info": "Shown instead of the image above on screens narrower than 750px. Leave blank to reuse the same image on mobile."
+    },
+    {
+      "type": "text",
+      "id": "mobile_image_url",
+      "label": "Mobile image URL",
+      "info": "Direct CDN link - used only if no mobile image is selected above"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Knife Sharpener"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Shop top knife sharpener models for every type of knife."
+    },
+    {
+      "type": "range",
+      "id": "subtext_max_width",
+      "label": "Subtext max width",
+      "min": 240,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 620
+    },
+    {
+      "type": "text",
+      "id": "tags",
+      "label": "Category tags (plain)",
+      "info": "Simple non-linked tags. Used only if no linkable tags are set below.",
+      "default": "Kitchen · Workshop · Hunting · Trail"
+    },
+    {
+      "type": "header",
+      "content": "Category tags (linkable)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Each tag links to the collection/page you choose. Leave a label blank to skip it."
+    },
+    {
+      "type": "text",
+      "id": "tag1_label",
+      "label": "Tag 1 label"
+    },
+    {
+      "type": "url",
+      "id": "tag1_link",
+      "label": "Tag 1 link"
+    },
+    {
+      "type": "text",
+      "id": "tag2_label",
+      "label": "Tag 2 label"
+    },
+    {
+      "type": "url",
+      "id": "tag2_link",
+      "label": "Tag 2 link"
+    },
+    {
+      "type": "text",
+      "id": "tag3_label",
+      "label": "Tag 3 label"
+    },
+    {
+      "type": "url",
+      "id": "tag3_link",
+      "label": "Tag 3 link"
+    },
+    {
+      "type": "text",
+      "id": "tag4_label",
+      "label": "Tag 4 label"
+    },
+    {
+      "type": "url",
+      "id": "tag4_link",
+      "label": "Tag 4 link"
+    },
+    {
+      "type": "text",
+      "id": "tag5_label",
+      "label": "Tag 5 label"
+    },
+    {
+      "type": "url",
+      "id": "tag5_link",
+      "label": "Tag 5 link"
+    },
+    {
+      "type": "header",
+      "content": "Button Appearance"
+    },
+    {
+      "type": "paragraph",
+      "content": "These settings apply to both buttons."
+    },
+    {
+      "type": "range",
+      "id": "btn_font_size",
+      "label": "Font size",
+      "min": 11,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "btn_font_weight",
+      "label": "Font weight",
+      "default": "700",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra-bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "btn_text_transform",
+      "label": "Text case",
+      "default": "uppercase",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "none", "label": "As typed" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "btn_letter_spacing",
+      "label": "Letter spacing",
+      "info": "Hundredths of 1em — 14 = 0.14em (default)",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_left",
+      "label": "Padding left",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_right",
+      "label": "Padding right",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "btn_min_height",
+      "label": "Min height (0 = auto)",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "btn_group_margin_top",
+      "label": "Space above buttons",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "btn_group_margin_bottom",
+      "label": "Space below buttons",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "btn_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Button 1"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "Style",
+      "default": "filled",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "text", "label": "Text link" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "cta_arrow",
+      "label": "Arrow icon",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "Text / arrow colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_border_color",
+      "label": "Border colour",
+      "info": "Used for Filled & Outline. Defaults to the text colour."
+    },
+    {
+      "type": "color",
+      "id": "cta_fill_color",
+      "label": "Fill colour",
+      "info": "Filled style only. Leave blank for a frosted-glass look."
+    },
+    {
+      "type": "range",
+      "id": "cta_skew",
+      "label": "Skew (parallelogram angle)",
+      "info": "Works with Filled, Outline, and Glow. 0 = square. Try with border radius set to 0.",
+      "min": -30,
+      "max": 30,
+      "step": 1,
+      "unit": "°",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Button 2"
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "Label",
+      "info": "Leave blank to hide the second button."
+    },
+    {
+      "type": "url",
+      "id": "cta2_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "cta2_quiz_id",
+      "label": "Quiz trigger ID (advanced)",
+      "info": "Only used when Link (above) is blank. Leave blank to open the default site-wide sharpener quiz. Set a custom value (e.g. fathers-day) to open a different quiz section placed on this page instead — the matching quiz section's trigger ID must be set to the same value."
+    },
+    {
+      "type": "select",
+      "id": "cta2_style",
+      "label": "Style",
+      "default": "text",
+      "options": [
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "text", "label": "Text link" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "cta2_arrow",
+      "label": "Arrow icon",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "cta2_text_color",
+      "label": "Text / arrow colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta2_border_color",
+      "label": "Border colour",
+      "info": "Used for Filled & Outline. Defaults to the text colour."
+    },
+    {
+      "type": "color",
+      "id": "cta2_fill_color",
+      "label": "Fill colour",
+      "info": "Filled style only. Leave blank for a frosted-glass look."
+    },
+    {
+      "type": "range",
+      "id": "cta2_skew",
+      "label": "Skew (parallelogram angle)",
+      "info": "Works with Filled, Outline, and Glow. 0 = square. Try with border radius set to 0.",
+      "min": -30,
+      "max": 30,
+      "step": 1,
+      "unit": "°",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "cta2_glow",
+      "label": "Animated glow border",
+      "info": "Spinning light effect around the button. Uses the border colour above.",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "cta_position",
+      "label": "Content / button position",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-center", "label": "Top center" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "middle-left", "label": "Middle left" },
+        { "value": "middle-center", "label": "Middle center" },
+        { "value": "middle-right", "label": "Middle right" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-center", "label": "Bottom center" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "bottom-left"
+    },
+    {
+      "type": "header",
+      "content": "Split - Right Panel (Video)"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Shopify-hosted video"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "label": "Video URL (YouTube fallback)"
+    },
+    {
+      "type": "header",
+      "content": "Slideshow"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add Slide blocks below. Used when a layout above is set to Slideshow."
+    },
+    {
+      "type": "checkbox",
+      "id": "slideshow_autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slideshow_speed",
+      "label": "Seconds per slide",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (Shopify media)"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Image URL",
+          "info": "Direct CDN link - used only if no image is selected above"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext"
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Category tags"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "cta_position",
+          "label": "Content / button position",
+          "options": [
+            { "value": "top-left", "label": "Top left" },
+            { "value": "top-center", "label": "Top center" },
+            { "value": "top-right", "label": "Top right" },
+            { "value": "middle-left", "label": "Middle left" },
+            { "value": "middle-center", "label": "Middle center" },
+            { "value": "middle-right", "label": "Middle right" },
+            { "value": "bottom-left", "label": "Bottom left" },
+            { "value": "bottom-center", "label": "Bottom center" },
+            { "value": "bottom-right", "label": "Bottom right" }
+          ],
+          "default": "bottom-left"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Split (Image+Video)"
+    }
+  ]
+}
+{% endschema %}

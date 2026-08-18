@@ -1,0 +1,124 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "featured_image": {
+          "type": "featured_image",
+          "settings": {
+            "image_height": "adapt"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "blog_show_date": true,
+            "blog_show_author": true
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "featured_image",
+        "title",
+        "share",
+        "content"
+      ],
+      "settings": {
+        "header_bg_style": "scheme",
+        "header_color_scheme": "scheme-2",
+        "header_grad_start": "#f5a623",
+        "header_grad_end": "#ffffff",
+        "header_text": "#1a1a1a",
+        "header_alignment": "center",
+        "show_breadcrumbs": true,
+        "show_meta": true,
+        "hero_border_width": 1,
+        "hero_border_color": "#000000",
+        "feature_ratio": "16 / 9",
+        "feature_max_width": 1400,
+        "card_align": "left",
+        "card_radius": 10,
+        "card_border_width": 1,
+        "card_border_color": "#e3e3e3",
+        "card_heading_size": 20,
+        "card_text_size": 14,
+        "btn_radius": 23,
+        "field_radius": 23,
+        "card_padding": 20,
+        "show_brand": true,
+        "brand_logo": "shopify://shop_images/cropedd.png",
+        "brand_logo_width": 175,
+        "brand_logo_gap": 13,
+        "brand_name": "Work Sharp",
+        "brand_use_scheme": false,
+        "brand_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "brand_bg": "#ffffff",
+        "brand_text_color": "#1a1a1a",
+        "brand_blurb_side": "Work Sharp is a globally trusted, highly rated manufacturer of precision knife & tool sharpeners for the kitchen, workshop and field.",
+        "brand_blurb_bottom": "Work Sharp builds award-winning sharpeners used by home cooks, hunters and tradespeople worldwide. Keep every edge razor sharp.",
+        "show_quiz_cta": true,
+        "quiz_use_scheme": true,
+        "quiz_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "quiz_bg": "#f4b220",
+        "quiz_heading_color": "#1a1a1a",
+        "quiz_text_color": "#2e2e2e",
+        "quiz_btn_bg": "#2e2e2e",
+        "quiz_btn_text": "#ffffff",
+        "quiz_heading": "Find the best sharpener for me",
+        "quiz_text": "Answer a few quick questions and we'll match you to the ideal Work Sharp sharpener.",
+        "quiz_button": "Start the quiz",
+        "show_newsletter": true,
+        "news_use_scheme": true,
+        "news_scheme": "",
+        "news_bg": "#f4f1ec",
+        "news_text_color": "#1a1a1a",
+        "news_btn_bg": "#2e2e2e",
+        "news_btn_text": "#ffffff",
+        "news_btn_label": "Subscribe",
+        "news_placeholder": "Your email",
+        "news_input_size": 15,
+        "newsletter_heading": "Subscribe for sharpening tips & updates",
+        "newsletter_text": "Join the Work Sharp email list for guides, new products and offers.",
+        "news_disclaimer": "<p>By clicking “Subscribe” you agree to our Privacy Policy and consent to Work Sharp using your contact data for newsletter purposes.</p>",
+        "show_google_source": false,
+        "google_source_link": "",
+        "show_toc": true,
+        "toc_min_headings": 2,
+        "toc_max_items": 7,
+        "accent": "#f5a623",
+        "show_related": true,
+        "related_heading": "Related articles",
+        "related_count": 3,
+        "related_bg": "#f7f7f5",
+        "related_show_image": true,
+        "related_show_category": true,
+        "related_show_author": true,
+        "related_show_excerpt": true,
+        "related_show_readtime": true,
+        "related_show_date": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,40 @@
+{%- comment -%}
+  Related article card.
+  Params: a (article), settings (section.settings), known_cats (array)
+{%- endcomment -%}
+{%- liquid
+  assign s = settings
+  assign cat = ''
+  for c in known_cats
+    if a.tags contains c
+      assign cat = c
+      break
+    endif
+  endfor
+  assign a_words = a.content | strip_html | split: ' ' | size
+  assign a_read = a_words | divided_by: 200 | at_least: 1
+  if a.excerpt != blank
+    assign exc = a.excerpt | strip_html
+  else
+    assign exc = a.content | strip_html | truncatewords: 24
+  endif
+-%}
+<a class="article-related__card" href="{{ a.url }}">
+  {%- if s.related_show_image and a.image -%}
+    <div class="article-related__media">{{ a.image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300,600', alt: a.title | escape }}</div>
+  {%- endif -%}
+  <div class="article-related__inner">
+    {%- capture top -%}
+      {%- if s.related_show_category and cat != blank -%}{{ cat }}{%- endif -%}
+      {%- if s.related_show_author -%}{%- if s.related_show_category and cat != blank -%} &middot; {% endif %}{{ a.author }}{%- endif -%}
+    {%- endcapture -%}
+    {%- if top != blank -%}<span class="article-related__cat">{{ top | strip }}</span>{%- endif -%}
+    <p class="article-related__title">{{ a.title | escape }}</p>
+    {%- if s.related_show_excerpt and exc != blank -%}<p class="article-related__excerpt">{{ exc }}</p>{%- endif -%}
+    {%- capture foot -%}
+      {%- if s.related_show_readtime -%}{{ a_read }} min read{%- endif -%}
+      {%- if s.related_show_date -%}{%- if s.related_show_readtime -%} &middot; {% endif %}{{ a.published_at | date: '%b %-d, %Y' }}{%- endif -%}
+    {%- endcapture -%}
+    {%- if foot != blank -%}<span class="article-related__foot">{{ foot | strip }}</span>{%- endif -%}
+  </div>
+</a>

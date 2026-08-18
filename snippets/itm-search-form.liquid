@@ -1,0 +1,81 @@
+{%- comment -%}
+  Shared search form markup.
+
+  Params:
+    - input_id: string (required)
+    - form_classes: extra classes for <form> (optional)
+    - variant: 'template' | 'header' (controls predictive-search modifier)
+{%- endcomment -%}
+
+{%- assign variant = variant | default: 'template' -%}
+{%- assign predictive_modifier = 'predictive-search--search-template' -%}
+{%- if variant == 'header' -%}
+  {%- assign predictive_modifier = 'predictive-search--header' -%}
+{%- endif -%}
+
+{% assign scheme = color_scheme | default: 'scheme-1' %}
+
+<form
+  action="{{ routes.search_url }}"
+  method="get"
+  role="search"
+  class="search{% if form_classes %} {{ form_classes }}{% endif %}"
+>
+  <div class="field">
+    <input
+      class="search__input field__input"
+      id="{{ input_id }}"
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ 'general.search.search' | t }}"
+      {%- if settings.predictive_search_enabled -%}
+        role="combobox"
+        aria-expanded="false"
+        aria-owns="predictive-search-results"
+        aria-controls="predictive-search-results"
+        aria-haspopup="listbox"
+        aria-autocomplete="list"
+        autocorrect="off"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      {%- endif -%}
+    >
+    <label class="field__label" for="{{ input_id }}">
+      {{ 'general.search.search' | t }}
+    </label>
+
+    <input name="options[prefix]" type="hidden" value="last">
+
+    {%- if settings.predictive_search_enabled -%}
+    <div
+        class="predictive-search {{ predictive_modifier }} color-{{ scheme }} gradient"
+        tabindex="-1"
+        data-predictive-search
+    >
+        {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+    </div>
+    {%- endif -%}
+
+    <button
+      type="reset"
+      class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+      aria-label="{{ 'general.search.reset' | t }}"
+    >
+      <span class="svg-wrapper">
+        {{- 'icon-reset.svg' | inline_asset_content -}}
+      </span>
+    </button>
+
+    <button
+      type="submit"
+      class="search__button field__button"
+      aria-label="{{ 'general.search.search' | t }}"
+    >
+      <span class="svg-wrapper">
+        {{- 'icon-search.svg' | inline_asset_content -}}
+      </span>
+    </button>
+  </div>
+</form>

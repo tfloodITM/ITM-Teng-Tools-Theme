@@ -1,0 +1,1254 @@
+{%- comment -%}
+  ITM Home Blog — home-page version of the Education Hub blog grid.
+  Reuses the exact card design from sections/main-blog.liquid, but:
+    • Sources articles from a blog picked in the customizer (not the template's `blog`).
+    • Live AJAX filtering: pills fetch the real blog's filtered render via the
+      Sections Rendering API (?sections=main) and swap in the matching cards.
+    • Shows a fixed number of posts + a "View all" button (no pagination).
+    • Has presets so it can be added to any page.
+{%- endcomment -%}
+
+{%- assign target_blog = blogs[section.settings.blog] -%}
+{%- assign view_all_link = section.settings.view_all_link | default: target_blog.url -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-blog__inner {
+    padding-left: {{ section.settings.section_padding_h }}px;
+    padding-right: {{ section.settings.section_padding_h }}px;
+  }
+
+  /* ── Header ── */
+  #shopify-section-{{ section.id }} .itm-blog__header {
+    text-align: center;
+    padding-bottom: {{ section.settings.header_gap }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-blog__title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  #shopify-section-{{ section.id }} .itm-blog__subtitle {
+    font-size: {{ section.settings.subtitle_size }}px;
+    font-weight: {{ section.settings.subtitle_weight }};
+    color: {{ section.settings.subtitle_color }};
+    margin: 0 auto;
+    max-width: 760px;
+    line-height: 1.6;
+  }
+
+  /* ── Filter pills ── */
+  #shopify-section-{{ section.id }} .itm-blog__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ section.settings.pill_gap }}px;
+    justify-content: center;
+    padding-bottom: 32px;
+  }
+  #shopify-section-{{ section.id }} .itm-blog__filter-btn {
+    display: inline-flex;
+    align-items: center;
+    height: {{ section.settings.pill_height }}px;
+    padding: 0 {{ section.settings.pill_padding_h }}px;
+    border-radius: {{ section.settings.pill_radius }}px;
+    border: {{ section.settings.pill_border_width }}px solid {{ section.settings.pill_inactive_color }};
+    font-size: {{ section.settings.pill_font_size }}px;
+    font-weight: {{ section.settings.pill_font_weight }};
+    text-decoration: none;
+    color: {{ section.settings.pill_inactive_color }};
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  #shopify-section-{{ section.id }} .itm-blog__filter-btn:hover {
+    background: {{ section.settings.pill_inactive_color | color_modify: 'alpha', 0.08 }};
+  }
+  #shopify-section-{{ section.id }} .itm-blog__filter-btn--active {
+    background: rgb(var(--color-button));
+    border-color: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+  }
+  #shopify-section-{{ section.id }} .itm-blog__filter-btn--active:hover {
+    background: rgb(var(--color-button));
+  }
+
+  /* ── Featured row ── */
+  #shopify-section-{{ section.id }} .itm-blog__featured-grid {
+    display: grid;
+    gap: {{ section.settings.card_gap }}px;
+    margin-bottom: {{ section.settings.card_gap }}px;
+  }
+
+  /* ── Regular grid ── */
+  #shopify-section-{{ section.id }} .itm-blog__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+    gap: {{ section.settings.card_gap }}px;
+    transition: opacity 0.2s ease;
+  }
+
+  /* ── Card base ── */
+  #shopify-section-{{ section.id }} .itm-blog-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: {{ section.settings.card_radius }}px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background: {{ section.settings.card_bg }};
+    {% if section.settings.card_border %}border: 1px solid rgba(0,0,0,0.08);{% endif %}
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
+
+  /* ── Image wrapper ── */
+  #shopify-section-{{ section.id }} .itm-blog-card__img-wrap {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: {{ section.settings.image_ratio }};
+    background: #1a1a1a;
+    flex-shrink: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card--featured .itm-blog-card__img-wrap {
+    aspect-ratio: {{ section.settings.featured_image_ratio }};
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card__img-wrap img,
+  #shopify-section-{{ section.id }} .itm-blog-card__img-wrap .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card:hover .itm-blog-card__img-wrap img {
+    transform: scale(1.04);
+  }
+
+  /* Featured permanent bar via ::before */
+  #shopify-section-{{ section.id }} .itm-blog-card--featured .itm-blog-card__img-wrap::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: {{ section.settings.featured_bar_height }}px;
+    background: {{ section.settings.featured_color }};
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Hover line via ::after — slides up from below the image */
+  #shopify-section-{{ section.id }} .itm-blog-card__img-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: {{ section.settings.hover_line_height }}px;
+    background: {{ section.settings.hover_line_color }};
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 3;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card:hover .itm-blog-card__img-wrap::after {
+    transform: translateY(0);
+  }
+
+  /* Category / Featured badges on image (top-left) */
+  #shopify-section-{{ section.id }} .itm-blog-card__img-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    z-index: 4;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card__badge {
+    display: inline-block;
+    padding: {{ section.settings.badge_padding_v }}px {{ section.settings.badge_padding_h }}px;
+    background: {{ section.settings.badge_bg | color_modify: 'alpha', 0.82 }};
+    color: {{ section.settings.badge_color }};
+    font-size: {{ section.settings.badge_font_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-radius: {{ section.settings.badge_radius }}px;
+    line-height: 1.4;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card__badge--featured {
+    background: {{ section.settings.featured_color }};
+    color: #fff;
+  }
+
+  /* ── Card body (below image) ── */
+  #shopify-section-{{ section.id }} .itm-blog-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: {{ section.settings.card_padding }}px;
+    gap: 6px;
+    background: {{ section.settings.card_bg }};
+  }
+
+  /* Title */
+  #shopify-section-{{ section.id }} .itm-blog-card__title {
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+    color: {{ section.settings.title_color }};
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card--featured .itm-blog-card__title {
+    font-size: {{ section.settings.title_size | plus: 4 }}px;
+  }
+
+  /* Excerpt */
+  #shopify-section-{{ section.id }} .itm-blog-card__excerpt {
+    font-size: {{ section.settings.excerpt_size }}px;
+    line-height: 1.65;
+    color: {{ section.settings.excerpt_color }};
+    margin: 0;
+    flex: 1;
+  }
+
+  /* Meta row (date + read more) */
+  #shopify-section-{{ section.id }} .itm-blog-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    margin-top: auto;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card__date {
+    font-size: {{ section.settings.date_size }}px;
+    color: {{ section.settings.date_color }};
+    opacity: 0.75;
+  }
+  #shopify-section-{{ section.id }} .itm-blog-card__read-more {
+    font-size: {{ section.settings.read_more_size }}px;
+    font-weight: 600;
+    color: {{ section.settings.read_more_color }};
+    white-space: nowrap;
+  }
+
+  /* ── View all button ── */
+  {%- assign va_bg_hover = section.settings.view_all_bg_hover | default: section.settings.view_all_bg -%}
+  {%- assign va_color_hover = section.settings.view_all_color_hover | default: section.settings.view_all_color -%}
+  {%- assign va_border_hover = section.settings.view_all_border_color_hover | default: section.settings.view_all_border_color -%}
+  #shopify-section-{{ section.id }} .itm-blog__viewall-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: {{ section.settings.card_gap | plus: 16 }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-blog__viewall {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: {{ section.settings.view_all_height }}px;
+    padding: 0 {{ section.settings.view_all_padding }}px;
+    border-radius: {{ section.settings.view_all_radius }}px;
+    border: {{ section.settings.view_all_border_width }}px solid {{ section.settings.view_all_border_color }};
+    background: {% if section.settings.view_all_use_scheme %}rgb(var(--color-button)){% else %}{{ section.settings.view_all_bg }}{% endif %};
+    color: {% if section.settings.view_all_use_scheme %}rgb(var(--color-button-text)){% else %}{{ section.settings.view_all_color }}{% endif %};
+    font-size: {{ section.settings.view_all_font_size }}px;
+    font-weight: {{ section.settings.view_all_font_weight }};
+    text-transform: {{ section.settings.view_all_text_transform }};
+    letter-spacing: {{ section.settings.view_all_letter_spacing }}px;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  #shopify-section-{{ section.id }} .itm-blog__viewall:hover {
+    {% unless section.settings.view_all_use_scheme %}
+    background: {{ va_bg_hover }};
+    color: {{ va_color_hover }};
+    border-color: {{ va_border_hover }};
+    {% else %}
+    opacity: .92;
+    {% endunless %}
+    transform: translateY(-1px);
+  }
+
+  /* ── Tablet (990px) ── */
+  @media (max-width: 989px) {
+    #shopify-section-{{ section.id }} .itm-blog__inner {
+      padding-left: {{ section.settings.section_padding_h | times: 0.6 | round }}px;
+      padding-right: {{ section.settings.section_padding_h | times: 0.6 | round }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: {{ section.settings.card_gap | times: 0.75 | round }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog__featured-grid {
+      gap: {{ section.settings.card_gap | times: 0.75 | round }}px;
+      margin-bottom: {{ section.settings.card_gap | times: 0.75 | round }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog-card__title {
+      font-size: {{ section.settings.title_size | minus: 2 }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog-card--featured .itm-blog-card__title {
+      font-size: {{ section.settings.title_size | plus: 1 }}px;
+    }
+  }
+
+  /* ── Mobile (750px) ── */
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-blog__inner {
+      padding-left: {{ section.settings.section_padding_h_mobile }}px;
+      padding-right: {{ section.settings.section_padding_h_mobile }}px;
+    }
+    /* Featured: always 1 col (full width) on mobile */
+    #shopify-section-{{ section.id }} .itm-blog__featured-grid {
+      grid-template-columns: 1fr !important;
+      gap: {{ section.settings.card_gap | times: 0.6 | round }}px;
+      margin-bottom: {{ section.settings.card_gap | times: 0.6 | round }}px;
+    }
+    /* Regular: 2 cols on mobile */
+    #shopify-section-{{ section.id }} .itm-blog__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: {{ section.settings.card_gap | times: 0.6 | round }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog__filters {
+      gap: 6px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog__filter-btn {
+      height: {{ section.settings.pill_height | minus: 6 }}px;
+      padding: 0 {{ section.settings.pill_padding_h | minus: 4 }}px;
+      font-size: {{ section.settings.pill_font_size | minus: 2 }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog-card__title {
+      font-size: {{ section.settings.title_size | minus: 4 }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog-card--featured .itm-blog-card__title {
+      font-size: {{ section.settings.title_size | minus: 1 }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog-card__body {
+      padding: {{ section.settings.card_padding | times: 0.75 | round }}px;
+      gap: 4px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog-card__date,
+    #shopify-section-{{ section.id }} .itm-blog-card__read-more {
+      font-size: 11px;
+    }
+    #shopify-section-{{ section.id }} .itm-blog-card__excerpt {
+      display: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign known_cats = 'Gift Guide,In The Kitchen,Learn To Sharpen,Press,Sharp Matters,The Workshop' | split: ',' -%}
+
+{%- comment -%}Featured articles via article pickers — reliable across all articles.{%- endcomment -%}
+{%- assign _feat_1 = section.settings.feat_article_1 -%}
+{%- assign _feat_2 = section.settings.feat_article_2 -%}
+{%- assign _feat_3 = section.settings.feat_article_3 -%}
+
+{%- assign _feat_show = 0 -%}
+{%- if _feat_1 != blank -%}
+  {%- assign _feat_show = 1 -%}
+  {%- if _feat_2 != blank -%}
+    {%- assign _feat_show = 2 -%}
+    {%- if _feat_3 != blank -%}
+      {%- assign _feat_show = 3 -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+
+<div class="itm-blog__inner">
+
+  {%- if section.settings.show_title -%}
+    <div class="itm-blog__header">
+      <h2 class="itm-blog__title">{{ section.settings.heading | default: target_blog.title | escape }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="itm-blog__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_filters -%}
+    <nav class="itm-blog__filters" aria-label="Filter articles by category">
+      <a href="{{ target_blog.url }}" class="itm-blog__filter-btn itm-blog__filter-btn--active" data-all="true">All</a>
+      {%- for tag in known_cats -%}
+        <a href="{{ target_blog.url }}/tagged/{{ tag | handle }}" class="itm-blog__filter-btn">{{ tag }}</a>
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+
+  {%- comment -%}── Featured row ──{%- endcomment -%}
+  {%- if _feat_show > 0 -%}
+    {%- assign _feat_cols = _feat_show -%}
+    <div class="itm-blog__featured-grid" style="grid-template-columns: repeat({{ _feat_cols }}, 1fr);">
+
+      {%- for _fi in (1.._feat_show) -%}
+        {%- if _fi == 1 -%}{%- assign _fa = _feat_1 -%}{%- endif -%}
+        {%- if _fi == 2 -%}{%- assign _fa = _feat_2 -%}{%- endif -%}
+        {%- if _fi == 3 -%}{%- assign _fa = _feat_3 -%}{%- endif -%}
+
+        {%- assign _fa_first_cat = '' -%}
+        {%- for tag in _fa.tags -%}
+          {%- if known_cats contains tag -%}{%- assign _fa_first_cat = tag -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+
+        {%- assign _fa_excerpt = _fa.excerpt | default: _fa.content -%}
+
+        <a href="{{ _fa.url }}" class="itm-blog-card itm-blog-card--featured">
+          <div class="itm-blog-card__img-wrap">
+            {%- if _fa.image -%}
+              <img
+                src="{{ _fa.image | image_url: width: 900 }}"
+                srcset="{{ _fa.image | image_url: width: 600 }} 600w, {{ _fa.image | image_url: width: 900 }} 900w, {{ _fa.image | image_url: width: 1400 }} 1400w"
+                sizes="(max-width: 749px) calc(100vw - {{ section.settings.section_padding_h_mobile | times: 2 }}px), calc({{ 100 | divided_by: _feat_cols }}vw - {{ section.settings.section_padding_h }}px)"
+                alt="{{ _fa.image.alt | default: _fa.title | escape }}"
+                loading="lazy"
+                width="{{ _fa.image.width }}"
+                height="{{ _fa.image.height }}"
+              >
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            <div class="itm-blog-card__img-badges">
+              <span class="itm-blog-card__badge itm-blog-card__badge--featured">Featured</span>
+              {%- if section.settings.show_category and _fa_first_cat != '' -%}
+                <span class="itm-blog-card__badge">{{ _fa_first_cat }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="itm-blog-card__body">
+            <h3 class="itm-blog-card__title">{{ _fa.title | escape }}</h3>
+            {%- if section.settings.show_excerpt and _fa_excerpt != blank -%}
+              <p class="itm-blog-card__excerpt">{{ _fa_excerpt | strip_html | truncatewords: section.settings.excerpt_words }}</p>
+            {%- endif -%}
+            <div class="itm-blog-card__meta">
+              {%- if section.settings.show_date -%}
+                <span class="itm-blog-card__date">{{ _fa.published_at | date: '%b %d, %Y' }}</span>
+              {%- endif -%}
+              <span class="itm-blog-card__read-more">{{ section.settings.read_more_text }}</span>
+            </div>
+          </div>
+        </a>
+
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}── Regular grid: limited count, skipping featured picks ──{%- endcomment -%}
+  <div class="itm-blog__grid">
+    {%- assign _shown = 0 -%}
+    {%- for article in target_blog.articles -%}
+      {%- if _shown >= section.settings.post_limit -%}{%- break -%}{%- endif -%}
+      {%- if article.handle == _feat_1.handle or article.handle == _feat_2.handle or article.handle == _feat_3.handle -%}
+        {%- comment -%}skip — already shown in featured row{%- endcomment -%}
+      {%- else -%}
+        {%- assign _shown = _shown | plus: 1 -%}
+
+        {%- assign first_cat = '' -%}
+        {%- for tag in article.tags -%}
+          {%- if known_cats contains tag -%}{%- assign first_cat = tag -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+
+        {%- assign excerpt_text = article.excerpt | default: article.content -%}
+
+        <a href="{{ article.url }}" class="itm-blog-card">
+          <div class="itm-blog-card__img-wrap">
+            {%- if article.image -%}
+              <img
+                src="{{ article.image | image_url: width: 720 }}"
+                srcset="{{ article.image | image_url: width: 400 }} 400w, {{ article.image | image_url: width: 720 }} 720w, {{ article.image | image_url: width: 1000 }} 1000w"
+                sizes="(max-width: 749px) calc(50vw - {{ section.settings.section_padding_h_mobile }}px), (max-width: 989px) calc(50vw - {{ section.settings.section_padding_h | times: 0.6 | round }}px), calc(33vw - {{ section.settings.section_padding_h }}px)"
+                alt="{{ article.image.alt | default: article.title | escape }}"
+                loading="lazy"
+                width="{{ article.image.width }}"
+                height="{{ article.image.height }}"
+              >
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            {%- if section.settings.show_category and first_cat != '' -%}
+              <div class="itm-blog-card__img-badges">
+                <span class="itm-blog-card__badge">{{ first_cat }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="itm-blog-card__body">
+            <h3 class="itm-blog-card__title">{{ article.title | escape }}</h3>
+            {%- if section.settings.show_excerpt and excerpt_text != blank -%}
+              <p class="itm-blog-card__excerpt">{{ excerpt_text | strip_html | truncatewords: section.settings.excerpt_words }}</p>
+            {%- endif -%}
+            <div class="itm-blog-card__meta">
+              {%- if section.settings.show_date -%}
+                <span class="itm-blog-card__date">{{ article.published_at | date: '%b %d, %Y' }}</span>
+              {%- endif -%}
+              <span class="itm-blog-card__read-more">{{ section.settings.read_more_text }}</span>
+            </div>
+          </div>
+        </a>
+
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.show_view_all -%}
+    <div class="itm-blog__viewall-wrap">
+      <a href="{{ view_all_link }}" class="itm-blog__viewall{% if section.settings.view_all_use_scheme %} color-{{ section.settings.view_all_scheme }}{% endif %}">{{ section.settings.view_all_text }}</a>
+    </div>
+  {%- endif -%}
+
+</div>
+
+<script>
+(function () {
+  var section = document.getElementById('shopify-section-{{ section.id }}');
+  if (!section) return;
+
+  var postLimit = {{ section.settings.post_limit }};
+  var gridEl = section.querySelector('.itm-blog__grid');
+  if (!gridEl) return;
+
+  /* Cache the server-rendered "All" grid so that tab restores instantly. */
+  var originalGridHTML = gridEl.innerHTML;
+
+  /* Avoid re-fetching the same category repeatedly. */
+  var cache = {};
+
+  function setActivePill(btn) {
+    section.querySelectorAll('.itm-blog__filter-btn').forEach(function (b) {
+      b.classList.remove('itm-blog__filter-btn--active');
+    });
+    btn.classList.add('itm-blog__filter-btn--active');
+  }
+
+  /* Featured row: show only on the All tab */
+  function toggleFeatured(visible) {
+    var feat = section.querySelector('.itm-blog__featured-grid');
+    if (feat) feat.style.display = visible ? '' : 'none';
+  }
+
+  function setLoading(on) {
+    gridEl.style.opacity = on ? '0.3' : '';
+    gridEl.style.pointerEvents = on ? 'none' : '';
+  }
+
+  /* Render an array of card nodes (trimmed to postLimit) into our grid. */
+  function renderCards(cards) {
+    gridEl.innerHTML = '';
+    for (var i = 0; i < cards.length && i < postLimit; i++) {
+      gridEl.appendChild(cards[i].cloneNode(true));
+    }
+    setLoading(false);
+  }
+
+  /* Filter by fetching the real blog /tagged/ page and lifting its cards out.
+     The blog grid uses identical card classes, so our scoped CSS styles them. */
+  function loadCategory(url) {
+    if (cache[url]) { renderCards(cache[url]); return; }
+    setLoading(true);
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var cards = doc.querySelectorAll('.itm-blog__grid .itm-blog-card:not(.itm-blog-card--featured)');
+        cache[url] = Array.prototype.slice.call(cards);
+        renderCards(cache[url]);
+      })
+      .catch(function () { setLoading(false); });
+  }
+
+  function onFilterClick(e) {
+    e.preventDefault();
+    var isAll = this.getAttribute('data-all') === 'true';
+    var url = this.getAttribute('href');
+    setActivePill(this);
+    toggleFeatured(isAll);
+    if (isAll) {
+      gridEl.innerHTML = originalGridHTML;   /* restore server-rendered All grid */
+      setLoading(false);
+    } else if (url) {
+      loadCategory(url);
+    }
+  }
+
+  section.querySelectorAll('.itm-blog__filters .itm-blog__filter-btn').forEach(function (a) {
+    a.addEventListener('click', onFilterClick);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Home Blog Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Source"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (blank = blog title)",
+      "default": "LEARN"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle / description text"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle font size (px)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle colour",
+      "default": "#666666"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight",
+      "label": "Subtitle font weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "header_gap",
+      "label": "Gap below header (px)",
+      "min": 8,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Category filter pills"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show category filter bar (live AJAX)",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "pill_height",
+      "label": "Height (px)",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "pill_font_size",
+      "label": "Font size (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "pill_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "700", "label": "Bold" },
+        { "value": "400", "label": "Normal" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "pill_padding_h",
+      "label": "Side padding (px)",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "pill_radius",
+      "label": "Corner radius (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "pill_border_width",
+      "label": "Border width (px)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "pill_gap",
+      "label": "Gap between pills (px)",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "pill_inactive_color",
+      "label": "Inactive pill border / text",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Featured articles"
+    },
+    {
+      "type": "paragraph",
+      "content": "Pick up to 3 articles to pin at the top. Fill in order: 1 first, then 2, then 3. 1 = full width, 2 = side by side, 3 = three in a row. The featured row hides while a category filter is active."
+    },
+    {
+      "type": "article",
+      "id": "feat_article_1",
+      "label": "Featured article 1"
+    },
+    {
+      "type": "article",
+      "id": "feat_article_2",
+      "label": "Featured article 2 (optional)"
+    },
+    {
+      "type": "article",
+      "id": "feat_article_3",
+      "label": "Featured article 3 (optional)"
+    },
+    {
+      "type": "color",
+      "id": "featured_color",
+      "label": "Featured accent colour (badge + bar)",
+      "default": "#f5a623"
+    },
+    {
+      "type": "range",
+      "id": "featured_bar_height",
+      "label": "Bottom bar height (px)",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "featured_image_ratio",
+      "label": "Featured image ratio",
+      "default": "16 / 9",
+      "options": [
+        { "value": "16 / 9", "label": "16:9" },
+        { "value": "4 / 3", "label": "4:3" },
+        { "value": "3 / 2", "label": "3:2" },
+        { "value": "1 / 1", "label": "1:1" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Hover line"
+    },
+    {
+      "type": "color",
+      "id": "hover_line_color",
+      "label": "Hover line colour",
+      "default": "#f5a623"
+    },
+    {
+      "type": "range",
+      "id": "hover_line_height",
+      "label": "Hover line thickness (px)",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Grid"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "label": "Posts shown",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Regular columns – desktop",
+      "default": "4",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap between cards (px)",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Card shape"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Regular image ratio",
+      "default": "16 / 9",
+      "options": [
+        { "value": "16 / 9", "label": "16:9" },
+        { "value": "4 / 3", "label": "4:3" },
+        { "value": "3 / 2", "label": "3:2" },
+        { "value": "1 / 1", "label": "1:1" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Corner radius (px)",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_border",
+      "label": "Show card border",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card body padding (px)",
+      "min": 10,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Category badge (on image)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category",
+      "label": "Show category badge on image",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge text colour",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Badge font size (px)",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_h",
+      "label": "Badge side padding (px)",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_v",
+      "label": "Badge top\/bottom padding (px)",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "badge_radius",
+      "label": "Badge corner radius (px)",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Card content"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title font size (px)",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title colour",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "excerpt_words",
+      "label": "Excerpt word count",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "excerpt_size",
+      "label": "Excerpt font size (px)",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "excerpt_color",
+      "label": "Excerpt colour",
+      "default": "#555555"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "date_size",
+      "label": "Date font size (px)",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "date_color",
+      "label": "Date colour",
+      "default": "#555555"
+    },
+    {
+      "type": "text",
+      "id": "read_more_text",
+      "label": "Read more text",
+      "default": "Read more →"
+    },
+    {
+      "type": "range",
+      "id": "read_more_size",
+      "label": "Read more font size (px)",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "read_more_color",
+      "label": "Read more colour",
+      "default": "#f5a623"
+    },
+    {
+      "type": "header",
+      "content": "View all button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Button text",
+      "default": "View all articles →"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Button link (blank = blog page)"
+    },
+    {
+      "type": "range",
+      "id": "view_all_height",
+      "label": "Button height (px)",
+      "min": 32,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "view_all_padding",
+      "label": "Button side padding (px)",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "view_all_radius",
+      "label": "Button corner radius (px)",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "view_all_font_size",
+      "label": "Button font size (px)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "view_all_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "view_all_text_transform",
+      "label": "Text case",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "none", "label": "As typed" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "lowercase", "label": "lowercase" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "view_all_letter_spacing",
+      "label": "Letter spacing (px)",
+      "min": 0,
+      "max": 6,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0.5
+    },
+    {
+      "type": "checkbox",
+      "id": "view_all_use_scheme",
+      "label": "Use theme colour scheme fill",
+      "info": "Fills the button with the scheme's button colour.",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "view_all_scheme",
+      "label": "Button colour scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "view_all_bg",
+      "label": "Button background (when not using scheme)",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "view_all_color",
+      "label": "Button text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "view_all_border_width",
+      "label": "Border width (px)",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "view_all_border_color",
+      "label": "Border colour",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "View all button — hover"
+    },
+    {
+      "type": "color",
+      "id": "view_all_bg_hover",
+      "label": "Hover background (blank = same)"
+    },
+    {
+      "type": "color",
+      "id": "view_all_color_hover",
+      "label": "Hover text colour (blank = same)"
+    },
+    {
+      "type": "color",
+      "id": "view_all_border_color_hover",
+      "label": "Hover border colour (blank = same)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_h",
+      "label": "Side padding – desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_h_mobile",
+      "label": "Side padding – mobile (px)",
+      "min": 0,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Blog Grid"
+    }
+  ]
+}
+{% endschema %}

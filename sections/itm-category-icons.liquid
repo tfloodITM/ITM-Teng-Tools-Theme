@@ -1,0 +1,622 @@
+{%- liquid
+  assign ici_base    = 'https://cdn.shopify.com/s/files/1/0778/6928/5630/files/'
+  assign ici_default = 'sharpens-hunt.svg?v=1782705521,sharpens-kitchen.svg?v=1782705520,sharpens-pocket.svg?v=1782705520,sharpens-serrations-bread.svg?v=1782705521,sharpens-scissors.svg?v=1782705520,sharpens-axes-tools.svg?v=1782705520,sharpens-hunt.svg?v=1782705521' | split: ','
+-%}
+
+{% style %}
+#itm-cat-icons-{{ section.id }} {
+  background: {{ section.settings.bg_color }};
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-left: {{ section.settings.padding_h }}px;
+  padding-right: {{ section.settings.padding_h }}px;
+  --ici-icon-sz:    {{ section.settings.icon_size }}px;
+  --ici-icon-pad:   {{ section.settings.icon_padding }}px;
+  --ici-icon-rad:   {{ section.settings.icon_radius }}%;
+  --ici-icon-bg:    {{ section.settings.icon_bg }};
+  --ici-icon-bg-h:  {{ section.settings.icon_bg_hover }};
+  --ici-text-sz:    {{ section.settings.text_size }}px;
+  --ici-text-wt:    {{ section.settings.text_weight }};
+  --ici-text-col:   {{ section.settings.text_color }};
+  --ici-text-col-h: {{ section.settings.text_hover_color }};
+  --ici-text-tt:    {{ section.settings.text_transform }};
+  --ici-text-ls:      {{ section.settings.letter_spacing | divided_by: 100.0 }}em;
+  --ici-icon-color:   {{ section.settings.icon_color }};
+  --ici-icon-color-h: {{ section.settings.icon_color_hover }};
+  --ici-border-col-h: {{ section.settings.border_hover_color }};
+  --ici-border-w:     {{ section.settings.border_hover_width }}px;
+}
+@media (max-width: 767px) {
+  #itm-cat-icons-{{ section.id }} {
+    padding-left: {{ section.settings.padding_h_mobile }}px;
+    padding-right: {{ section.settings.padding_h_mobile }}px;
+  }
+}
+#itm-cat-icons-{{ section.id }} .ici__subtext {
+  font-size: {{ section.settings.subtext_size }}px;
+  padding-left: {{ section.settings.subtext_pad_h }}px;
+  padding-right: {{ section.settings.subtext_pad_h }}px;
+}
+@media (max-width: 767px) {
+  #itm-cat-icons-{{ section.id }} .ici__subtext {
+    font-size: {{ section.settings.subtext_size_mobile }}px;
+    padding-left: {{ section.settings.subtext_pad_h_mobile }}px;
+    padding-right: {{ section.settings.subtext_pad_h_mobile }}px;
+  }
+}
+{% endstyle %}
+
+<section id="itm-cat-icons-{{ section.id }}" class="itm-cat-icons">
+  <div class="ici__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ici__heading" style="font-weight:{{ section.settings.heading_weight }};color:{{ section.settings.heading_color }};text-align:{{ section.settings.heading_align }};margin-bottom:{% if section.settings.subtext != blank %}8px{% else %}{{ section.settings.heading_gap }}px{% endif %};">
+        {{- section.settings.heading -}}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.subtext != blank -%}
+      <p class="ici__subtext" style="color:{{ section.settings.subtext_color }};text-align:{{ section.settings.heading_align }};margin-bottom:{{ section.settings.heading_gap }}px;">
+        {{- section.settings.subtext -}}
+      </p>
+    {%- endif -%}
+
+    <div class="ici__track">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.icon != blank -%}
+          {%- assign ici_src = block.settings.icon | image_url: width: 120 -%}
+        {%- else -%}
+          {%- assign ici_src = ici_base | append: ici_default[forloop.index0] -%}
+        {%- endif -%}
+        <a class="ici__item"
+           href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}"
+           {% if block.settings.link == blank %}tabindex="-1" aria-hidden="true"{% endif %}
+           {{ block.shopify_attributes }}>
+          <div class="ici__icon-wrap">
+            <img class="ici__img" src="{{ ici_src }}" data-ici-svg="{{ ici_src }}" alt="" aria-hidden="true" loading="lazy" width="52" height="52">
+          </div>
+          {%- if block.settings.label != blank -%}
+            <span class="ici__label">{{ block.settings.label }}</span>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+/* ── Category Icon Strip ── */
+.itm-cat-icons { width: 100%; box-sizing: border-box; }
+
+.ici__inner { box-sizing: border-box; }
+
+.ici__heading {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  margin: 0;
+}
+
+.ici__subtext {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ici__track {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+.ici__item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  padding: 16px 10px;
+}
+
+.ici__item:hover { transform: translateY(-4px); }
+
+/* Icon circle */
+/* Mobile-only note: a square icon inscribed in a circle only has ~(sqrt(2)-1)/2 of the
+   icon's own size as *corner* clearance, less than the flat-edge padding suggests — some
+   icon artwork reaches close to its own bounding square's corner, so add extra circle
+   headroom here (beyond icon_size + padding*2) to keep diagonal shapes from clipping. */
+.ici__icon-wrap {
+  position: relative;
+  overflow: hidden;
+  width: calc(var(--ici-icon-sz) + var(--ici-icon-pad) * 2 + 14px);
+  height: calc(var(--ici-icon-sz) + var(--ici-icon-pad) * 2 + 14px);
+  border-radius: var(--ici-icon-rad);
+  background: var(--ici-icon-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ici__item:hover .ici__icon-wrap {
+  background: var(--ici-icon-bg-h);
+  box-shadow: 0 0 0 var(--ici-border-w) var(--ici-border-col-h),
+              0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Knife-glint sweep */
+.ici__icon-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.72) 50%,
+    transparent 80%
+  );
+  transform: translateX(-140%) skewX(-15deg);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ici__item:hover .ici__icon-wrap::before {
+  animation: ici-glint 0.5s ease-out forwards;
+}
+
+@keyframes ici-glint {
+  0%   { transform: translateX(-140%) skewX(-15deg); }
+  100% { transform: translateX(220%)  skewX(-15deg); }
+}
+
+/* SVG icon — img fallback, JS inlines as <svg> for colour control.
+   Rendered at 72% of the configured icon size (not 100%) so artwork that isn't
+   perfectly centered within its own source file still has real clearance from
+   the circle's edge — this is deliberate, not a mistake. */
+.ici__img,
+.ici__svg {
+  width: calc(var(--ici-icon-sz) * 0.72);
+  height: calc(var(--ici-icon-sz) * 0.72);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+  color: var(--ici-icon-color);
+  display: block;
+  overflow: visible;
+}
+
+/* img fallback tint via filter */
+.ici__img { object-fit: contain; filter: brightness(0) opacity(0.4); }
+
+/* inline SVG uses currentColor */
+.ici__svg { fill: currentColor; }
+.ici__svg path, .ici__svg circle, .ici__svg rect,
+.ici__svg polygon, .ici__svg polyline, .ici__svg ellipse { fill: inherit; stroke: inherit; }
+
+.ici__item:hover .ici__img,
+.ici__item:hover .ici__svg {
+  color: var(--ici-icon-color-h);
+  transform: scale(1.03);
+}
+
+.ici__item:hover .ici__img { filter: none; }
+
+/* Labels */
+.ici__label {
+  font-size: var(--ici-text-sz);
+  font-weight: var(--ici-text-wt);
+  color: var(--ici-text-col);
+  text-transform: var(--ici-text-tt);
+  letter-spacing: var(--ici-text-ls);
+  text-align: center;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+.ici__item:hover .ici__label { color: var(--ici-text-col-h); }
+
+/* Desktop: circles fill each column */
+@media (min-width: 768px) {
+  .ici__track { gap: 12px; }
+
+  .ici__icon-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .ici__img,
+  .ici__svg {
+    width: 50%;
+    height: auto;
+  }
+}
+
+/* Mobile: 3.5 items visible, swipe for the rest */
+@media (max-width: 767px) {
+  .ici__track {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .ici__track::-webkit-scrollbar { display: none; }
+
+  .ici__item {
+    flex: 0 0 calc(100% / 3.5);
+    scroll-snap-align: start;
+  }
+}
+</style>
+
+<script>
+(function () {
+  var section = document.getElementById('itm-cat-icons-{{ section.id }}');
+  if (!section) return;
+
+  section.querySelectorAll('[data-ici-svg]').forEach(function (img) {
+    var src = img.getAttribute('data-ici-svg');
+    fetch(src)
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        var tmp = document.createElement('div');
+        tmp.innerHTML = text;
+        var svg = tmp.querySelector('svg');
+        if (!svg) return;
+
+        svg.classList.add('ici__svg');
+        svg.removeAttribute('width');
+        svg.removeAttribute('height');
+
+        /* Make every drawn element inherit currentColor */
+        svg.querySelectorAll('[fill]:not([fill="none"])').forEach(function (el) { el.setAttribute('fill', 'currentColor'); });
+        svg.querySelectorAll('[stroke]:not([stroke="none"])').forEach(function (el) { el.setAttribute('stroke', 'currentColor'); });
+        /* Paths etc. with no explicit fill default to black — set to currentColor */
+        svg.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line').forEach(function (el) {
+          if (!el.hasAttribute('fill') && !el.hasAttribute('stroke')) el.setAttribute('fill', 'currentColor');
+        });
+
+        img.replaceWith(svg);
+      })
+      .catch(function () {}); /* silently keep img fallback */
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Category Icon Strip",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading colour",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext (optional)"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext colour",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "subtext_size",
+      "label": "Subtext font size (desktop)",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subtext_size_mobile",
+      "label": "Subtext font size (mobile)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subtext_pad_h",
+      "label": "Subtext side padding (desktop)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtext_pad_h_mobile",
+      "label": "Subtext side padding (mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Space below heading / subtext",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 24,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "icon_padding",
+      "label": "Circle padding",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "icon_radius",
+      "label": "Circle shape (0 = square, 50 = circle)",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "icon_bg",
+      "label": "Circle background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_hover",
+      "label": "Circle background on hover",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon colour",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "icon_color_hover",
+      "label": "Icon colour on hover",
+      "default": "#f5a623"
+    },
+    {
+      "type": "color",
+      "id": "border_hover_color",
+      "label": "Border/ring colour on hover",
+      "default": "#f5a623"
+    },
+    {
+      "type": "range",
+      "id": "border_hover_width",
+      "label": "Border/ring width on hover",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Label text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text colour",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_hover_color",
+      "label": "Text colour on hover",
+      "default": "#f5a623"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text style",
+      "options": [
+        { "value": "none", "label": "Normal" },
+        { "value": "uppercase", "label": "Uppercase" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing (× 0.01em)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "info": "e.g. 5 = 0.05em",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_h",
+      "label": "Side padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_h_mobile",
+      "label": "Side padding (mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Category icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Custom icon (optional — leave blank to use default)"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Icon Strip",
+      "blocks": [
+        { "type": "icon", "settings": { "label": "Hunt" } },
+        { "type": "icon", "settings": { "label": "Kitchen" } },
+        { "type": "icon", "settings": { "label": "Pocket" } },
+        { "type": "icon", "settings": { "label": "Serrations" } },
+        { "type": "icon", "settings": { "label": "Scissors" } },
+        { "type": "icon", "settings": { "label": "Axes & Tools" } },
+        { "type": "icon", "settings": { "label": "Fishing" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

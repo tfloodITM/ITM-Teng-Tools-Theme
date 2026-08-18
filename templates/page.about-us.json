@@ -1,0 +1,215 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "itm-about-us": {
+      "type": "itm-about-us",
+      "blocks": {
+        "value-1": {
+          "type": "value",
+          "settings": {
+            "icon": "heart",
+            "heading": "Love & Respect",
+            "body": "We treat everyone — teammates, customers, and partners — with high esteem and genuine concern for their wellbeing.",
+            "icon_size": 40,
+            "icon_color": "#f5a623",
+            "heading_size": 14,
+            "body_size": 14
+          }
+        },
+        "value-2": {
+          "type": "value",
+          "settings": {
+            "icon": "own",
+            "heading": "Own Your Experience",
+            "body": "We take responsibility and stay proactive. If something needs doing, we step up and make it happen.",
+            "icon_size": 40,
+            "icon_color": "#f5a623",
+            "heading_size": 14,
+            "body_size": 14
+          }
+        },
+        "value-3": {
+          "type": "value",
+          "settings": {
+            "icon": "integrity",
+            "heading": "Honesty & Integrity",
+            "body": "We speak truth, act with authenticity, and keep our agreements — in every product and every interaction.",
+            "icon_size": 40,
+            "icon_color": "#f5a623",
+            "heading_size": 15,
+            "body_size": 14
+          }
+        },
+        "value-4": {
+          "type": "value",
+          "settings": {
+            "icon": "simplify",
+            "heading": "Simplify",
+            "body": "We streamline products, processes, and messaging. Sharpening should be clear, practical, and confidently repeatable.",
+            "icon_size": 40,
+            "icon_color": "#f5a623",
+            "heading_size": 14,
+            "body_size": 14
+          }
+        },
+        "value-5": {
+          "type": "value",
+          "settings": {
+            "icon": "improve",
+            "heading": "Continuous Improvement",
+            "body": "We reach for our highest potential — always refining our designs, our processes, and ourselves.",
+            "icon_size": 40,
+            "icon_color": "#f5a623",
+            "heading_size": 14,
+            "body_size": 14
+          }
+        },
+        "value-6": {
+          "type": "value",
+          "settings": {
+            "icon": "star",
+            "heading": "Enjoy What We Do",
+            "body": "We maintain balance and bring genuine energy to our work. A culture worth being part of makes everything better.",
+            "icon_size": 40,
+            "icon_color": "#f5a623",
+            "heading_size": 14,
+            "body_size": 14
+          }
+        },
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "number": "3-Year",
+            "label": "Warranty",
+            "stat_icon": "shopify://shop_images/ba7af304-8575-485c-a92b-7f73131cbc0b.svg",
+            "icon_size": 64,
+            "number_size": 30,
+            "label_size": 11,
+            "number_size_mobile": 16,
+            "label_size_mobile": 9,
+            "number_color": "",
+            "label_color": ""
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "number": "Ashland, OR",
+            "label": "Designed & Engineered",
+            "stat_icon": "shopify://shop_images/f1428d63-57cf-432a-8b92-f889a8f714c5.svg",
+            "icon_size": 64,
+            "number_size": 30,
+            "label_size": 11,
+            "number_size_mobile": 16,
+            "label_size_mobile": 10,
+            "number_color": "",
+            "label_color": ""
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "number": "Worldwide",
+            "label": "Trusted Globally",
+            "stat_icon": "shopify://shop_images/Untitled_design_4.png",
+            "icon_size": 64,
+            "number_size": 30,
+            "label_size": 11,
+            "number_size_mobile": 16,
+            "label_size_mobile": 10,
+            "number_color": "",
+            "label_color": ""
+          }
+        },
+        "stat-4": {
+          "type": "stat",
+          "settings": {
+            "number": "Fast & Easy",
+            "label": "Every Time",
+            "stat_icon": "shopify://shop_images/e4c1760e-76ab-4f81-adfc-8fd95782388e.svg",
+            "icon_size": 64,
+            "number_size": 30,
+            "label_size": 11,
+            "number_size_mobile": 16,
+            "label_size_mobile": 10,
+            "number_color": "",
+            "label_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "value-1",
+        "value-2",
+        "value-3",
+        "value-4",
+        "value-5",
+        "value-6",
+        "stat-1",
+        "stat-2",
+        "stat-3",
+        "stat-4"
+      ],
+      "settings": {
+        "hero_eyebrow": "Work Sharp",
+        "hero_heading": "About Work Sharp",
+        "hero_sub": "Fast. Easy. Consistent.",
+        "hero_image": "shopify://shop_images/Compressed-KO2_Hero_2_1.jpg",
+        "hero_overlay": 65,
+        "hero_color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "hero_italic": false,
+        "hero_align": "center",
+        "hero_padding_left": 40,
+        "hero_eyebrow_size": 11,
+        "hero_eyebrow_bold": true,
+        "hero_heading_size": 40,
+        "hero_heading_bold": true,
+        "hero_sub_size": 18,
+        "hero_sub_bold": false,
+        "story_eyebrow": "Our Story",
+        "story_heading": "Designed & Engineered in Ashland, Oregon",
+        "story_text": "<p>Work Sharp designs, engineers, and calibrates every sharpening machine in Ashland, OR. From the workbench to the field, every product is built around one simple principle: sharpening must be practical, trustworthy, and simple to replicate.</p><p>We source components from high-calibre manufacturers domestically and globally, enforcing stringent quality control and fair labour practices at every step — and back every product with a 3-year warranty and genuine customer support.</p>",
+        "story_image": "shopify://shop_images/Compressed-_DSC0969_1.webp",
+        "story_color_scheme": "scheme-4",
+        "story_italic": false,
+        "story_heading_align": "left",
+        "values_heading": "What We Stand For",
+        "values_color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "values_italic": false,
+        "values_align": "left",
+        "stats_color_scheme": "",
+        "stats_bg": "",
+        "stats_num_color": "#202020",
+        "stats_label_color": "#202020",
+        "stats_italic": false,
+        "au_eyebrow": "Work Sharp Australia",
+        "au_heading": "Bringing Global Innovation to Australia",
+        "au_text": "<p>We bring Work Sharp's globally trusted sharpening systems to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian tools and blades endure demanding conditions on worksites, in workshops, professional kitchens, and outdoors. Work Sharp helps reduce equipment downtime, extend blade life, and maintain superior performance with minimal effort — from knives and scissors to axes and chisels.</p>",
+        "au_image": "shopify://shop_images/RollingKnifeSharpener-Lifestyle-PocketKnife1-scaled.webp",
+        "au_color_scheme": "scheme-4",
+        "au_italic": true,
+        "au_heading_align": "left",
+        "cta_heading": "Ready To Keep Every Edge Sharp?",
+        "cta_sub": "Explore the full Work Sharp range — from pocket sharpeners to professional benchtop systems.",
+        "cta_btn_text": "Shop All Sharpeners",
+        "cta_btn_link": "",
+        "cta_color_scheme": "scheme-2",
+        "cta_italic": false,
+        "cta_align": "center",
+        "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "padding_top": 0,
+        "padding_bottom": 32
+      }
+    }
+  },
+  "order": [
+    "itm-about-us"
+  ]
+}

@@ -1,0 +1,10 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Store-specific theme settings: never take changes from other branches
+config/settings_data.json merge=keeplocal
+
+# Store-specific templates/layouts – optional but recommended
+templates/*.json    merge=keeplocal
+sections/*-group.json merge=keeplocal
+

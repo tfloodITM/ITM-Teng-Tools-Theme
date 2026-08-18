@@ -1,0 +1,1310 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-search.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+  {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<script src="{{ 'main-search.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  .template-search__header {
+    margin-bottom: 3rem;
+  }
+
+  .template-search__search {
+    margin: 0 auto 3.5rem;
+    max-width: 74.1rem;
+  }
+
+  .template-search__search .search {
+    margin-top: 3rem;
+  }
+
+  .template-search--empty {
+    padding-bottom: 18rem;
+  }
+
+  .search__input_main {
+    padding-left: 20px !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .template-search__header {
+      margin-bottom: 5rem;
+    }
+  }
+
+  .search__button .icon {
+    height: 1.8rem;
+  }
+</style>
+
+{%- liquid
+  assign sort_by = search.sort_by | default: search.default_sort_by
+  assign terms = search.terms | escape
+  assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+
+  assign show_facets_ui = false
+  if section.settings.enable_filtering or section.settings.enable_sorting
+    assign show_facets_ui = true
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .itm-search-grid {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-search-grid {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+    }
+  }
+
+  /* Wide layout — match collection pages */
+  #shopify-section-{{ section.id }} .page-width { max-width: 2560px; }
+
+  /* Always hide the native mobile drawer trigger — our FILTER / SORT buttons drive it. */
+  #shopify-section-{{ section.id }} .mobile-facets__wrapper > details > summary {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .facet-checkbox > svg { overflow: visible; }
+
+  #shopify-section-{{ section.id }} .facets__display-vertical.itm-ps-ready .facets__price,
+  #shopify-section-{{ section.id }} .facets__display-vertical.itm-ps-ready .facets__header-vertical { display: none; }
+
+  /* ===== Desktop: one left panel — all filter groups open + Sort at the top ===== */
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .facets__disclosure-vertical > .facets__display-vertical { display: block !important; }
+    #shopify-section-{{ section.id }} .facets__disclosure-vertical > summary { cursor: default; pointer-events: none; }
+    #shopify-section-{{ section.id }} .facets__disclosure-vertical > summary .icon-caret { display: none; }
+
+    #shopify-section-{{ section.id }} .facets-vertical { margin-top: 12px; position: relative; }
+    #shopify-section-{{ section.id }} .facets-vertical::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100vw;
+      transform: translateX(-50%);
+      border-top: 1px solid #d0d0d0;
+    }
+    #shopify-section-{{ section.id }} .itm-search-grid__grid { margin-top: 0; }
+    #shopify-section-{{ section.id }} .itm-cg__leftcol {
+      display: flex;
+      flex-direction: column;
+      padding-top: 1.6rem;
+    }
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort { margin: 0 0 1.6rem; padding-right: 3rem; text-align: left; }
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .facets-vertical-form { justify-content: flex-start; display: block; }
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .facet-filters { display: block; padding-left: 0; margin-left: 0; width: 100%; }
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .facet-filters__field {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 0.6rem;
+    }
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .facet-filters__label {
+      font-size: 1.4rem;
+      margin: 0 0 0.2rem 0;
+      text-align: left;
+    }
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .select,
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .select__select { width: 100%; }
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .select__select { font-size: 1.4rem; padding-left: 0; }
+  }
+
+  /* ===== Mobile: full-screen bottom sheet for Filter & Sort ===== */
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .facets-container { padding-top: 0; }
+
+    #shopify-section-{{ section.id }} .mobile-facets__wrapper { position: static; display: block; }
+    #shopify-section-{{ section.id }} .mobile-facets__inner {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      height: 100dvh;
+      margin: 0;
+      border: none;
+      border-radius: 0;
+      filter: none;
+      transform: translateY(100%) !important;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    #shopify-section-{{ section.id }} .mobile-facets__wrapper.is-cg-open .mobile-facets__inner { transform: translateY(0) !important; }
+    #shopify-section-{{ section.id }} .mobile-facets__wrapper .disclosure-has-popup > summary::before { display: none !important; }
+
+    #shopify-section-{{ section.id }} .mobile-facets__header { position: sticky; }
+    #shopify-section-{{ section.id }} .itm-cg__sheet-close {
+      position: absolute;
+      top: 50%;
+      right: 1.2rem;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #111;
+      z-index: 3;
+    }
+    #shopify-section-{{ section.id }} .itm-cg__sheet-close svg { width: 22px; height: 22px; }
+
+    #shopify-section-{{ section.id }} .active-facets-mobile { display: none; }
+
+    #shopify-section-{{ section.id }} .mobile-facets__details > .mobile-facets__submenu,
+    #shopify-section-{{ section.id }} .mobile-facets__submenu {
+      position: static !important;
+      transform: none !important;
+      visibility: visible !important;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      width: 100% !important;
+      height: auto !important;
+      z-index: auto !important;
+    }
+    #shopify-section-{{ section.id }} .mobile-facets__main.submenu-open { visibility: visible !important; }
+    #shopify-section-{{ section.id }} .mobile-facets__close-button,
+    #shopify-section-{{ section.id }} .mobile-facets__submenu .mobile-facets__footer { display: none; }
+
+    #shopify-section-{{ section.id }} .mobile-facets__details {
+      border-top: 1px solid rgba(var(--color-foreground), 0.12);
+    }
+    #shopify-section-{{ section.id }} .mobile-facets__details > summary {
+      padding: 16px 20px;
+      cursor: pointer;
+    }
+    #shopify-section-{{ section.id }} .mobile-facets__details > summary > div {
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    #shopify-section-{{ section.id }} .mobile-facets__arrow {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+      margin-top: -4px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, margin-top 0.2s ease;
+    }
+    #shopify-section-{{ section.id }} .mobile-facets__arrow > * { display: none; }
+    #shopify-section-{{ section.id }} .mobile-facets__details[open] .mobile-facets__arrow {
+      transform: rotate(225deg);
+      margin-top: 3px;
+    }
+
+    #shopify-section-{{ section.id }} .mobile-facets__wrapper[data-sheet-mode="filter"] [id^="Details-Mobile-SortBy"] { display: none; }
+    #shopify-section-{{ section.id }} .mobile-facets__wrapper[data-sheet-mode="sort"] .mobile-facets__details:not([id^="Details-Mobile-SortBy"]) { display: none; }
+  }
+{%- endstyle -%}
+
+{% paginate search.results by 24 %}
+  <div
+    class="template-search itm-search-grid{% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %}"
+    data-itm-search-section="{{ section.id }}"
+    data-price-max="{{ section.settings.price_slider_max | default: 0 }}"
+  >
+    <div class="template-search__header page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      <h1 class="h2 center">
+        {%- if search.performed -%}
+          {{- 'templates.search.title' | t -}}
+        {%- else -%}
+          {{- 'general.search.search' | t -}}
+        {%- endif -%}
+      </h1>
+
+      <div class="template-search__search">
+        {%- if settings.predictive_search_enabled -%}
+          <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
+        {%- endif -%}
+
+        <main-search>
+          <form
+            action="{{ routes.search_url }}"
+            method="get"
+            role="search"
+            class="search"
+          >
+            <div class="field">
+              <input
+                class="search__input field__input search__input_main"
+                id="Search-In-Template"
+                type="search"
+                name="q"
+                value="{{ search.terms | escape }}"
+                placeholder="{{ 'general.search.search' | t }}"
+                {%- if settings.predictive_search_enabled -%}
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-owns="predictive-search-results"
+                  aria-controls="predictive-search-results"
+                  aria-haspopup="listbox"
+                  aria-autocomplete="list"
+                  autocorrect="off"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                {%- endif -%}
+              >
+              <label class="field__label" for="Search-In-Template">
+                {{ 'general.search.search' | t }}
+              </label>
+
+              <input name="options[prefix]" type="hidden" value="last">
+
+              {%- if settings.predictive_search_enabled -%}
+                <div
+                  class="predictive-search predictive-search--search-template"
+                  tabindex="-1"
+                  data-predictive-search
+                >
+                  {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+                </div>
+
+                <span
+                  class="predictive-search-status visually-hidden"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              {%- endif -%}
+
+              <button
+                type="reset"
+                class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+                aria-label="{{ 'general.search.reset' | t }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-reset.svg' | inline_asset_content -}}
+                </span>
+              </button>
+
+              <button
+                type="submit"
+                class="search__button field__button"
+                aria-label="{{ 'general.search.search' | t }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-search.svg' | inline_asset_content -}}
+                </span>
+              </button>
+            </div>
+          </form>
+        </main-search>
+
+        {%- if settings.predictive_search_enabled -%}
+          </predictive-search>
+        {%- endif -%}
+      </div>
+
+      {%- if search.performed -%}
+        {%- unless section.settings.enable_filtering or section.settings.enable_sorting -%}
+          {%- if search.results_count > 0 -%}
+            <p role="status">
+              {{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}
+            </p>
+          {%- endif -%}
+        {%- endunless -%}
+        {%- if search.results_count == 0 and search.filters == empty -%}
+          <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- if search.performed -%}
+      <div class="page-width">
+        <div class="itm-cg__count-top medium-hide large-up-hide" data-count-slot></div>
+
+        {%- if search.filters != empty and show_facets_ui -%}
+          <div class="itm-cg__mbar medium-hide large-up-hide">
+            {%- if section.settings.enable_filtering -%}
+              <button type="button" class="itm-cg__mbtn" data-open-filters>
+                <span class="svg-wrapper">{{- 'icon-filter.svg' | inline_asset_content -}}</span>
+                <span>{{ 'products.facets.filter_button' | t | default: 'Filters' }}</span>
+              </button>
+            {%- endif -%}
+            {%- if section.settings.enable_sorting -%}
+              <button type="button" class="itm-cg__mbtn" data-open-sort aria-haspopup="dialog">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+                <span>{{ 'products.facets.sort_button' | t | default: 'Sort' }}</span>
+              </button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <div class="facets-vertical">
+          {%- if search.filters != empty and show_facets_ui -%}
+            <div class="itm-cg__leftcol">
+              {%- if section.settings.enable_sorting -%}
+                <facet-filters-form class="facets facets-vertical-sort small-hide itm-cg__desk-sort">
+                  <form id="FacetSortForm" class="facets-vertical-form">
+                    <div class="facet-filters sorting caption">
+                      <div class="facet-filters__field">
+                        <h2 class="facet-filters__label caption-large text-body">
+                          <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
+                        </h2>
+                        <div class="select">
+                          <select
+                            name="sort_by"
+                            class="facet-filters__sort select__select caption-large"
+                            id="SortBy"
+                            aria-describedby="a11y-refresh-page-message"
+                          >
+                            {%- for option in search.sort_options -%}
+                              <option
+                                value="{{ option.value | escape }}"
+                                {% if option.value == sort_by %}
+                                  selected="selected"
+                                {% endif %}
+                              >
+                                {{ option.name | escape }}
+                              </option>
+                            {%- endfor -%}
+                          </select>
+                          <span class="svg-wrapper">
+                            {{- 'icon-caret.svg' | inline_asset_content -}}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </facet-filters-form>
+              {%- endif -%}
+
+              {% render 'facets',
+                results: search,
+                enable_filtering: section.settings.enable_filtering,
+                enable_sorting: section.settings.enable_sorting,
+                filter_type: 'vertical',
+                price_slider: true,
+                paginate: paginate
+              %}
+            </div>
+          {%- endif -%}
+
+          <div class="product-grid-container" id="ProductGridContainer">
+            <div class="collection">
+              <div class="loading-overlay gradient"></div>
+
+              {%- if search.results.size == 0 -%}
+                <div class="itm-cg__empty" id="product-grid" data-id="{{ section.id }}">
+                  <p class="collection-empty">{{ 'sections.collection_template.empty' | t }}</p>
+                  {%- if search.filters != empty -%}
+                    <p class="collection-empty">
+                      {{
+                        'sections.collection_template.use_fewer_filters_html'
+                        | t: link: search_url, class: 'underlined-link link'
+                      }}
+                    </p>
+                  {%- endif -%}
+                </div>
+              {%- else -%}
+                <ul
+                  id="product-grid"
+                  data-id="{{ section.id }}"
+                  class="sbc__grid itm-search-grid__grid list-unstyled"
+                  style="--sbc-cols: {{ section.settings.columns_desktop }};"
+                >
+                  {%- for item in search.results -%}
+                    <li
+                      class="sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                      {% if settings.animations_reveal_on_scroll %}
+                        data-cascade style="--animation-order: {{ forloop.index }};"
+                      {% endif %}
+                    >
+                      {%- case item.object_type -%}
+                        {%- when 'product' -%}
+                          {% render 'itm-card-product-sbc',
+                            product: item,
+                            show_atc: true,
+                            atc_show_arrow: false,
+                            show_reviews: true,
+                            show_price: true
+                          %}
+                        {%- when 'article' -%}
+                          {% render 'article-card',
+                            article: item,
+                            show_image: true,
+                            show_date: section.settings.article_show_date,
+                            show_author: section.settings.article_show_author,
+                            show_badge: true,
+                            media_aspect_ratio: 1
+                          %}
+                        {%- when 'page' -%}
+                          <div class="article-card-wrapper card-wrapper underline-links-hover">
+                            <div
+                              class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}"
+                              style="--ratio-percent: 100%;"
+                            >
+                              <div class="card__content">
+                                <div class="card__information">
+                                  <h3 class="card__heading">
+                                    <a href="{{ item.url }}" class="full-unstyled-link">
+                                      {{ item.title | truncate: 50 | escape }}
+                                    </a>
+                                  </h3>
+                                </div>
+                                <div class="card__badge {{ settings.badge_position }}">
+                                  <span class="badge color-{{ settings.color_schemes | first }}">
+                                    {{- 'templates.search.page' | t -}}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      {%- endcase -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+                {%- if paginate.pages > 1 -%}
+                  {% render 'pagination', paginate: paginate %}
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+{% endpaginate %}
+
+<style>
+/* ==================== ITM SEARCH RESULTS GRID (sbc layout, matches collection pages) ==================== */
+
+.itm-cg__empty { padding: 24px 0 40px; }
+
+.itm-search-grid__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--sbc-cols, 4), 1fr);
+  background: transparent;
+  border-top: 1px solid #d0d0d0;
+  border-left: 1px solid #d0d0d0;
+  width: 100%;
+  max-width: 3840px;
+  margin: 12px auto 0;
+  box-sizing: border-box;
+  list-style: none;
+  padding: 0;
+}
+
+.itm-search-grid__grid > .sbc__card {
+  border-right: 1px solid #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+@media (max-width: 1200px) { .itm-search-grid__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px)  { .itm-search-grid__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 749px)  { .itm-search-grid__grid { grid-template-columns: repeat(2, 1fr); } }
+
+@media (min-width: 750px) {
+  .facets-vertical .product-grid-container {
+    padding-left: 2.4rem;
+    box-sizing: border-box;
+  }
+}
+
+/* ── Mobile FILTERS / SORT bar — two buttons split by a 1px hairline ── */
+.itm-cg__mbar {
+  display: flex;
+  gap: 1px;
+  background: #d0d0d0;
+  margin: 0 -1.5rem;
+}
+.itm-cg__mbtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 0;
+  background: #f5a623;
+  color: #000;
+  font-family: var(--font-heading-family);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.itm-cg__mbtn .svg-wrapper,
+.itm-cg__mbtn svg { width: 18px; height: 18px; }
+
+.itm-cg__count-top { margin: 0 0 12px; }
+.itm-cg__count-top:empty { display: none; }
+.itm-cg__count-top .product-count { margin: 0; justify-content: flex-start; }
+
+@media (max-width: 749px) {
+  .itm-cg__mbar { margin-bottom: 0; }
+  .itm-search-grid__grid {
+    width: auto;
+    margin: 0 -1.5rem;
+    border-left: none;
+    border-right: none;
+  }
+  .itm-search-grid__grid > .sbc__card:nth-child(2n) { border-right-color: transparent; }
+}
+
+/* ── Card ── */
+.sbc__card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.sbc__card,
+.sbc__card-img { background: #f2f2f2; }
+.sbc__arrow { color: #000000; }
+
+.sbc__img-wrap { position: relative; }
+.sbc__card-img-link { display: block; text-decoration: none; }
+
+.sbc__card-img {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.sbc__slide { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
+.sbc__slide.is-active { visibility: visible; opacity: 1; }
+
+.sbc__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  mix-blend-mode: multiply;
+}
+
+.sbc__ph-svg { width: 100%; height: 100%; opacity: 0.2; }
+
+.sbc__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+  padding: 4px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22));
+  opacity: 0.85;
+}
+.sbc__prev { left: 4px; }
+.sbc__next { right: 4px; }
+
+.sbc__zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10%;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.sbc__zone--prev { left: 0; }
+.sbc__zone--next { right: 0; }
+
+/* ── ATC row ── */
+.sbc__actions { display: flex; align-items: stretch; min-height: 40px; }
+
+.sbc__atc {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  border: none;
+  background: #f5a623;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-heading-family);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.sbc__atc:hover { filter: brightness(0.85); }
+.sbc__atc:disabled { opacity: 0.45; cursor: default; pointer-events: none; }
+
+.sbc__atc-arrow {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  margin-left: 6px;
+  stroke-width: 2.5;
+  overflow: visible;
+}
+
+.sbc__atc-divider { display: block; width: 1px; align-self: stretch; flex-shrink: 0; background: #ffffff; }
+
+.sbc__list-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  min-width: 36px;
+  text-decoration: none;
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+/* Higher specificity than assets/itm-wishlist.css's `button.sbc__list-btn { background: none }` */
+#shopify-section-{{ section.id }} .sbc__list-btn {
+  background: #f5a623;
+  color: #000000;
+}
+.sbc__list-btn:hover { filter: brightness(0.85); }
+
+.sbc__icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.sbc__icon-wrap svg { width: 18px; height: 18px; }
+
+.sbc__list-plus {
+  position: absolute;
+  bottom: -4px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  background: #000000;
+  color: #ffc107;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.sbc__list-plus::before,
+.sbc__list-plus::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.sbc__list-plus::before { width: 55%; height: 2px; }
+.sbc__list-plus::after  { width: 2px; height: 55%; }
+.sbc__list-btn.is-saved .sbc__list-plus { display: none; }
+
+/* ── Band ── */
+.sbc__card-band {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  text-decoration: none;
+  color: inherit;
+}
+.sbc__card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-height: 52px;
+  padding: 8px;
+  background: #2e2e2e;
+  color: #ffffff;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.sbc__rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  margin-bottom: 3px;
+  overflow: hidden;
+}
+.sbc__stars {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  letter-spacing: 1px;
+  vertical-align: middle;
+  font-size: 20px;
+}
+.sbc__stars-bg { display: block; line-height: 1; color: #f5a623; }
+.sbc__stars-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+  line-height: 1;
+  color: #f5a623;
+}
+.sbc__review-count {
+  font-weight: 400;
+  opacity: 0.85;
+  white-space: nowrap;
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #e3e3e3;
+}
+
+.sbc__card-title {
+  margin: 0 0 2px;
+  font-family: var(--font-heading-family);
+  text-transform: uppercase;
+  font-style: italic;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.sbc__card-price { margin: 0; font-size: 16px; font-weight: 400; color: #ffffff; opacity: 1; }
+.sbc__was { opacity: 0.55; margin-right: 4px; text-decoration: line-through; }
+
+@media (max-width: 749px) {
+  .sbc__stars { font-size: 11px; }
+  .sbc__review-count { font-size: 9px; }
+  .sbc__card-title { font-size: 11px; }
+  .sbc__card-price { font-size: 10px; }
+  .sbc__icon-wrap svg { width: 14px; height: 14px; }
+  .sbc__list-plus { width: 10px; height: 10px; bottom: -4px; right: -2px; }
+}
+
+/* ── Mobile sort — radio inputs hidden, options shown as visible rows ── */
+input.mobile-sort__radio {
+  position: absolute;
+  width: 1.6rem;
+  height: 1.6rem;
+  left: 2.1rem;
+  top: 1.2rem;
+  z-index: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+}
+.mobile-sort__check {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 1.4rem;
+}
+
+/* ── Price range slider (desktop sidebar) ── */
+.itm-pslider { display: block; position: relative; height: 50px; margin: 6px 0 2px; }
+.itm-pslider__rail { position: absolute; left: 0; right: 0; top: 36px; height: 4px; background: #ddd; border-radius: 2px; }
+.itm-pslider__fill { position: absolute; top: 0; height: 100%; background: #f5a623; border-radius: 2px; }
+.itm-pslider__handle {
+  -webkit-appearance: none; appearance: none;
+  position: absolute; left: 0; top: 36px; width: 100%; height: 4px;
+  margin: 0; padding: 0; background: transparent; pointer-events: none;
+}
+.itm-pslider__handle::-webkit-slider-runnable-track { -webkit-appearance: none; height: 4px; background: transparent; border: none; }
+.itm-pslider__handle::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; pointer-events: auto; cursor: pointer;
+  width: 18px; height: 18px; margin-top: -7px; border-radius: 50%; background: #fff; border: 2px solid #f5a623;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.itm-pslider__handle::-moz-range-track { height: 4px; background: transparent; border: none; }
+.itm-pslider__handle::-moz-range-thumb {
+  pointer-events: auto; cursor: pointer;
+  width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid #f5a623;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.itm-pslider__labels { display: flex; justify-content: space-between; margin: 0; font-size: 1.3rem; font-weight: 600; color: rgba(var(--color-foreground), 0.9); }
+</style>
+
+<script>
+(function () {
+  var section = document.querySelector('[data-itm-search-section="{{ section.id }}"]');
+  if (!section) return;
+
+  var countSlot = section.querySelector('[data-count-slot]');
+  var countEl   = section.querySelector('#ProductCount');
+  if (countSlot && countEl) countSlot.appendChild(countEl.closest('.product-count') || countEl);
+
+  function initCarousel(card) {
+    if (card.dataset.sbcInit === '1') return;
+    var wrap   = card.querySelector('.sbc__img-wrap');
+    var slides = card.querySelectorAll('.sbc__slide');
+    if (!wrap) return;
+    card.dataset.sbcInit = '1';
+    if (slides.length <= 1) return;
+
+    var current     = 0;
+    var isAnimating = false;
+    var DURATION    = 270;
+
+    function show(newIndex, direction) {
+      if (isAnimating) return;
+      newIndex = (newIndex + slides.length) % slides.length;
+      if (newIndex === current) return;
+      isAnimating = true;
+
+      var out = slides[current];
+      var inn = slides[newIndex];
+      var dir = direction === 'next' ? 1 : -1;
+
+      inn.style.visibility = 'visible';
+      inn.style.opacity    = '1';
+      inn.style.transition = 'none';
+      inn.style.transform  = 'translateX(' + (dir * 110) + '%)';
+      void inn.getBoundingClientRect();
+
+      var ease = 'transform ' + DURATION + 'ms cubic-bezier(0.25,0.1,0.25,1)';
+      inn.style.transition = ease;
+      inn.style.transform  = 'translateX(0)';
+      out.style.transition = ease;
+      out.style.transform  = 'translateX(' + (-dir * 110) + '%)';
+
+      setTimeout(function () {
+        out.classList.remove('is-active');
+        out.style.cssText = '';
+        inn.classList.add('is-active');
+        inn.style.cssText = '';
+        current     = newIndex;
+        isAnimating = false;
+      }, DURATION + 20);
+    }
+
+    var prevZone = wrap.querySelector('.sbc__zone--prev');
+    var nextZone = wrap.querySelector('.sbc__zone--next');
+
+    if (prevZone) prevZone.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      show(current - 1, 'prev');
+    });
+    if (nextZone) nextZone.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      show(current + 1, 'next');
+    });
+
+    var touchStartX = 0;
+    wrap.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    wrap.addEventListener('touchend', function (e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        show(diff > 0 ? current + 1 : current - 1, diff > 0 ? 'next' : 'prev');
+      }
+    }, { passive: true });
+  }
+
+  function initCards() {
+    section.querySelectorAll('.sbc__card').forEach(initCarousel);
+  }
+
+  function refreshCart(response, cart) {
+    if (!cart || !response || !response.sections || !cart.getSectionsToRender) return;
+    cart.getSectionsToRender().forEach(function (s) {
+      var el  = s.selector ? document.querySelector(s.selector) : document.getElementById(s.id);
+      var html = response.sections[s.id];
+      if (!el || html == null) return;
+      var src = new DOMParser().parseFromString(html, 'text/html').querySelector(s.selector || '.shopify-section');
+      if (src) el.innerHTML = src.innerHTML;
+    });
+    /* the drawer's own is-empty class isn't part of the swapped markup above — clear it
+       manually or the empty-cart layout (hidden header/footer, centered grid) sticks around */
+    if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+    var overlay = document.querySelector('#CartDrawer-Overlay');
+    if (overlay && cart.close) overlay.addEventListener('click', cart.close.bind(cart));
+  }
+
+  section.addEventListener('click', function (e) {
+    var btn = e.target.closest('.sbc__atc[data-variant-id]');
+    if (!btn || !section.contains(btn)) return;
+    e.preventDefault();
+    if (btn.disabled) return;
+
+    var variantId = btn.dataset.variantId;
+    var original  = btn.textContent;
+    btn.disabled  = true;
+    btn.textContent = 'Adding…';
+
+    var cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+    var formData = new FormData();
+    formData.append('id', variantId);
+    formData.append('quantity', 1);
+    if (cart && cart.getSectionsToRender) {
+      formData.append('sections', cart.getSectionsToRender().map(function (s) { return s.id; }).join(','));
+      formData.append('sections_url', window.location.pathname);
+    }
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Accept': 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' },
+      body: formData
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (response) {
+      if (response.status) { btn.textContent = 'Error'; return; }
+      btn.textContent = 'Added!';
+      refreshCart(response, cart);
+    })
+    .catch(function () { btn.textContent = 'Error'; })
+    .finally(function () {
+      setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 1500);
+    });
+  });
+
+  initCards();
+
+  var drawer  = section.querySelector('.mobile-facets__wrapper');
+  var details = drawer && drawer.querySelector('details');
+  var inner   = drawer && drawer.querySelector('.mobile-facets__inner');
+
+  function lockScroll(on) { document.documentElement.style.overflow = on ? 'hidden' : ''; }
+
+  function openDrawer(mode) {
+    if (!drawer || !details) return;
+    drawer.setAttribute('data-sheet-mode', mode);
+    details.open = true;
+    drawer.classList.add('is-cg-open');
+    lockScroll(true);
+    var label = mode === 'sort' ? 'Sort' : 'Filter';
+    drawer.querySelectorAll('.mobile-facets__heading').forEach(function (h) { h.textContent = label; });
+  }
+  function closeDrawer() {
+    if (!drawer || !details) return;
+    drawer.querySelectorAll('.mobile-facets__details[open]').forEach(function (d) { d.open = false; });
+    drawer.classList.remove('is-cg-open');
+    details.open = false;
+    lockScroll(false);
+  }
+
+  if (inner) {
+    var sheetHeader = inner.querySelector('.mobile-facets__header') || inner;
+    var xBtn = document.createElement('button');
+    xBtn.type = 'button';
+    xBtn.className = 'itm-cg__sheet-close';
+    xBtn.setAttribute('aria-label', 'Close');
+    xBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    xBtn.addEventListener('click', closeDrawer);
+    sheetHeader.appendChild(xBtn);
+  }
+
+  if (details) details.addEventListener('toggle', function () {
+    if (!details.open) { drawer.classList.remove('is-cg-open'); lockScroll(false); }
+  });
+
+  section.addEventListener('click', function (e) {
+    if (e.target.closest('[data-open-filters]')) { openDrawer('filter'); return; }
+    if (e.target.closest('[data-open-sort]'))    { openDrawer('sort');   return; }
+    if (e.target.closest('.mobile-facets__footer .button--primary')) { closeDrawer(); return; }
+  });
+
+  var gridContainer = section.querySelector('#ProductGridContainer');
+  if (gridContainer && 'MutationObserver' in window) {
+    var obs = new MutationObserver(function () { initCards(); });
+    obs.observe(gridContainer, { childList: true, subtree: true });
+  }
+
+  function num(v) { return parseFloat(String(v == null ? '' : v).replace(/[^0-9.]/g, '')); }
+
+  function initPriceSliders() {
+    section.querySelectorAll('[data-pslider]').forEach(function (sl) {
+      if (sl.dataset.psInit === '1') return;
+
+      var cur  = sl.getAttribute('data-cur') || '$';
+      var low  = sl.querySelector('[data-plow]');
+      var high = sl.querySelector('[data-phigh]');
+      var fill = sl.querySelector('[data-pfill]');
+      var loLab = sl.querySelector('[data-plow-label]');
+      var hiLab = sl.querySelector('[data-phigh-label]');
+      var disp = sl.closest('.facets__display-vertical') || sl.parentNode;
+      var gte  = disp.querySelector('input[id$="-GTE"]');
+      var lte  = disp.querySelector('input[id$="-LTE"]');
+
+      var max = num(lte && lte.getAttribute('data-max'));
+      if (isNaN(max) || max <= 0) max = num(sl.getAttribute('data-max'));
+      var override = num(section.getAttribute('data-price-max'));
+      if (!isNaN(override) && override > 0) max = override;
+      if (!low || !high || isNaN(max) || max <= 0) return;
+
+      sl.dataset.psInit = '1';
+      disp.classList.add('itm-ps-ready');
+
+      var loStart = num(gte && gte.value); if (isNaN(loStart)) loStart = 0;
+      var hiStart = num(lte && lte.value); if (isNaN(hiStart)) hiStart = max;
+      low.min = 0; low.max = max; low.step = 1; low.value = loStart;
+      high.min = 0; high.max = max; high.step = 1; high.value = hiStart;
+
+      function pct(v) { return (v / max) * 100; }
+      function paint() {
+        var lo = parseFloat(low.value) || 0;
+        var hi = parseFloat(high.value); if (isNaN(hi)) hi = max;
+        fill.style.left  = pct(lo) + '%';
+        fill.style.width = (pct(hi) - pct(lo)) + '%';
+        if (loLab) loLab.textContent = cur + Math.round(lo);
+        if (hiLab) hiLab.textContent = cur + Math.round(hi);
+      }
+      function clamp() {
+        var lo = parseFloat(low.value), hi = parseFloat(high.value);
+        if (lo > hi) {
+          if (document.activeElement === low) low.value = hi;
+          else high.value = lo;
+        }
+      }
+      function apply() {
+        var lo = Math.round(parseFloat(low.value) || 0);
+        var hi = Math.round(parseFloat(high.value)); if (isNaN(hi)) hi = max;
+        if (gte) gte.value = lo > 0   ? lo : '';
+        if (lte) lte.value = hi < max ? hi : '';
+        [gte, lte].forEach(function (inp) {
+          if (!inp) return;
+          inp.dispatchEvent(new Event('change', { bubbles: true }));
+          inp.dispatchEvent(new Event('input',  { bubbles: true }));
+        });
+      }
+
+      low.addEventListener('input', function () { clamp(); paint(); });
+      high.addEventListener('input', function () { clamp(); paint(); });
+      low.addEventListener('change', apply);
+      high.addEventListener('change', apply);
+      paint();
+    });
+  }
+
+  function forceOpenFilters() {
+    section.querySelectorAll('.facets__disclosure-vertical').forEach(function (d) {
+      if (!d.open) d.open = true;
+    });
+  }
+
+  forceOpenFilters();
+  initPriceSliders();
+  var facetForm = section.querySelector('#FacetFiltersForm');
+  if (facetForm && 'MutationObserver' in window) {
+    new MutationObserver(function () { forceOpenFilters(); initPriceSliders(); }).observe(facetForm, { childList: true, subtree: true });
+  }
+})();
+</script>
+
+{% if section.settings.image_shape == 'arch' %}
+  {{ 'mask-arch.svg' | inline_asset_content }}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-search.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.main-search.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "t:sections.main-search.settings.columns_mobile.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.main-search.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.main-search.settings.columns_mobile.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-search.settings.header__1.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-search.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-search.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-search.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.main-search.settings.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:sections.all.image_shape.options__1.label"
+        },
+        {
+          "value": "arch",
+          "label": "t:sections.all.image_shape.options__2.label"
+        },
+        {
+          "value": "blob",
+          "label": "t:sections.all.image_shape.options__3.label"
+        },
+        {
+          "value": "chevronleft",
+          "label": "t:sections.all.image_shape.options__4.label"
+        },
+        {
+          "value": "chevronright",
+          "label": "t:sections.all.image_shape.options__5.label"
+        },
+        {
+          "value": "diamond",
+          "label": "t:sections.all.image_shape.options__6.label"
+        },
+        {
+          "value": "parallelogram",
+          "label": "t:sections.all.image_shape.options__7.label"
+        },
+        {
+          "value": "round",
+          "label": "t:sections.all.image_shape.options__8.label"
+        }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "t:sections.main-search.settings.show_secondary_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-search.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.main-search.settings.show_rating.label",
+      "info": "t:sections.main-search.settings.show_rating.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "number",
+      "id": "price_slider_max",
+      "label": "Price slider max ($)",
+      "info": "Highest value on the price slider. Leave blank/0 to use the highest product price."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-search.settings.header__2.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "article_show_date",
+      "default": true,
+      "label": "t:sections.main-search.settings.article_show_date.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "article_show_author",
+      "default": false,
+      "label": "t:sections.main-search.settings.article_show_author.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,142 @@
+{% liquid
+  assign autoplay_param = 0
+  assign controls_param = 0
+
+  if section.settings.autoplay
+    assign autoplay_param = 1
+  endif
+
+  if section.settings.controls
+    assign controls_param = 1
+  endif
+%}
+
+<section class="video-hero color-{{ section.settings.color_scheme }} gradient" style="--vh: {{ section.settings.height }}vh">
+  <div class="page-width">
+    <div class="video-hero__wrap">
+      <div class="video-hero__media">
+        {% if section.settings.youtube_id != blank %}
+          <div class="video-embed">
+            <iframe
+              src="https://www.youtube.com/embed/{{ section.settings.youtube_id }}?autoplay={{ autoplay_param }}&mute=1&playsinline=1&controls={{ controls_param }}"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="video-hero__content">
+        {% if section.settings.heading != blank %}
+          <h2 class="video-hero__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.body != blank %}
+          <div class="rte video-hero__body">{{ section.settings.body }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .video-hero {
+      padding: 3.2rem 0 4.8rem;
+    }
+
+    .video-hero__wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(32rem, 0.9fr);
+      gap: 2.4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .video-hero__wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .video-hero__media {
+      min-width: 0;
+    }
+
+    .video-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--media-radius);
+      background: #000;
+      box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.12);
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video-hero__content {
+      background: rgba(var(--color-foreground), 0.04);
+      padding: 3.2rem;
+      border-radius: var(--text-boxes-radius);
+    }
+
+    .video-hero__heading {
+      margin: 0 0 1.4rem;
+      text-transform: uppercase;
+      font-style: italic;
+      line-height: 1.02;
+    }
+
+    .video-hero__body {
+      font-size: 1.7rem;
+      line-height: 1.8;
+    }
+
+    .video-hero__body > *:first-child {
+      margin-top: 0;
+    }
+
+    .video-hero__body > *:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 900px) {
+      .video-hero {
+        padding: 2.4rem 0 4rem;
+      }
+
+      .video-hero__content {
+        padding: 2.4rem;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Video hero (YouTube)",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "See it in action" },
+    { "type": "richtext", "id": "body", "label": "Body" },
+    { "type": "text", "id": "youtube_id", "label": "YouTube Video ID", "default": "dQw4w9WgXcQ" },
+    { "type": "range", "id": "height", "label": "Visual height (vh)", "min": 40, "max": 80, "step": 1, "default": 60 },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay (muted)", "default": true },
+    { "type": "checkbox", "id": "controls", "label": "Show controls", "default": true },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    }
+  ],
+  "presets": [
+    { "name": "Video hero" }
+  ]
+}
+{% endschema %}

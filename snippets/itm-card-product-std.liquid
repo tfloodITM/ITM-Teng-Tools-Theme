@@ -1,0 +1,81 @@
+{%- comment -%}
+  MACC-style card for STANDARD products, matching product-group cards.
+  Updated: Dec 9 2025 - Force sync
+
+  Params:
+    - product (Product) – required
+{%- endcomment -%}
+
+{%- assign primary_variant = product.selected_or_first_available_variant -%}
+
+<a href="{{ product.url }}" class="child-category-card">
+
+  <div class="child-category-card__image">
+    {%- comment -%} ITM: Using CDN for product images {%- endcomment -%}
+    {%- assign std_sku = product.selected_or_first_available_variant.sku | default: product.title | strip -%}
+    {%- if std_sku != blank -%}
+      <img
+        src="{% render 'itm-cdn-product-image', sku: std_sku, image_number: 1 %}"
+        data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
+        alt="{{ product.title | escape }}"
+        width="600"
+        height="600"
+        style="width: 100%; height: auto; object-fit: contain;"
+        loading="lazy"
+      >
+    {%- else -%}
+      <img
+        src="{{ 'image_coming_soon.png' | asset_url }}"
+        alt="{{ product.title | escape }}"
+        width="600"
+        height="600"
+        style="width: 100%; height: auto; object-fit: contain;"
+        loading="lazy"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="child-category-card__overlay-content">
+    {%- comment -%}
+      Overlay text:
+      - Always use product metafield custom.web_features
+      - Strip all HTML before output
+    {%- endcomment -%}
+
+    {%- assign overlay_text = '' -%}
+
+    {%- if product.metafields.custom.web_features != blank -%}
+      {%- assign raw_web_features = product.metafields.custom.web_features.value
+        | default: product.metafields.custom.web_features
+      -%}
+      {%- assign overlay_text = raw_web_features
+        | strip_html
+        | strip
+        | truncate: 350
+      -%}
+    {%- endif -%}
+
+    {%- if overlay_text != '' -%}
+      <p class="child-category-card__excerpt">
+        {{ overlay_text }}
+      </p>
+    {%- endif -%}
+  </div>
+
+
+    {%- if product.title != blank -%}
+      <p class="child-category-card__sku">
+        {{ product.title }}
+      </p>
+    {%- endif -%}
+
+  <h3 class="child-category-card__title">
+    {{ product.description | strip_html }}
+  </h3>
+
+  {%- if primary_variant -%}
+    <p class="child-category-card__price">
+      {{ primary_variant.price | money }}
+    </p>
+  {%- endif -%}
+</a>

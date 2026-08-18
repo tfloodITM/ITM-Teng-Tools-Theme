@@ -1,0 +1,59 @@
+{%- comment -%}
+  ITM CDN Product Image Helper
+  
+  Generates URLs for product images from ITM's CDN/blob storage.
+  
+  Pattern: https://assets.itmtools.com.au/products/{sku}/images/web/{sku}.jpg
+  
+  Params:
+    - sku: {String} Product SKU (required)
+    - image_number: {Number} Image number (1 = primary, 2+ = carousel images) - default: 1
+    - formats: {String} Comma-separated formats to try (default: 'jpg,png,webp')
+    - Note: cdn-image-simple.js will automatically try sku_1.jpg if sku.jpg 404s.
+    - media_type: {String} 'image', 'brochure', or 'manual' - default: 'image'
+    - width: {Number} Image width for sizing (default: 600)
+    - height: {Number} Image height for sizing (default: 600)
+    - alt: {String} Alt text for image
+    
+  Returns: Complete <img> tag or URL depending on context
+  
+  Usage:
+    {% render 'itm-cdn-product-image', sku: product.variants.first.sku, image_number: 1, alt: product.title %}
+{%- endcomment -%}
+
+{%- liquid
+  assign cdn_base = 'https://assets.itmtools.com.au/products'
+  assign img_number = image_number | default: 1
+  assign img_width = width | default: 600
+  assign img_height = height | default: 600
+  assign media = media_type | default: 'image'
+  assign sku_value = sku | strip
+
+  if sku_value == blank
+    assign final_url = 'image_coming_soon.png' | asset_url
+  else
+    if media == 'brochure'
+      assign filename = sku_value | append: '_Brochure.pdf'
+      assign final_url = cdn_base | append: '/' | append: sku_value | append: '/brochures/' | append: filename
+    elsif media == 'manual'
+      assign filename = sku_value | append: '_Manual.pdf'
+      assign final_url = cdn_base | append: '/' | append: sku_value | append: '/manuals/' | append: filename
+    else
+      comment Build image filename base
+      endcomment
+      if img_number == 1
+        assign base_filename = sku_value
+      else
+        assign base_filename = sku_value | append: '_' | append: img_number
+      endif
+      
+      comment Build primary URL. Fallback formats/primary variants are handled by cdn-image-simple.js.
+      endcomment
+      assign base_path = cdn_base | append: '/' | append: sku_value | append: '/images/web/' | append: base_filename
+      assign final_url = base_path | append: '.jpg'
+    endif
+  endif
+-%}
+
+{%- comment -%} Output the URL variable for use in parent template {%- endcomment -%}
+{{- final_url -}}

@@ -1,0 +1,82 @@
+<style>
+  html body #judgeme_product_reviews.jdgm-widget.jdgm-review-widget {
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  #shopify-section-{{ section.id }} .page-width:has(#judgeme_product_reviews) {
+    max-width: none !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    box-sizing: border-box !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .page-width:has(#judgeme_product_reviews) {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .itm-apps__heading {
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    padding: 0 1.5rem;
+    font-size: 24px !important;
+    color: #000000 !important;
+  }
+
+  #shopify-section-{{ section.id }} .itm-apps__heading::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: #f5a623;
+    margin: 10px auto 0;
+  }
+</style>
+
+{%- if section.settings.heading != blank -%}
+  <h2 class="itm-apps__heading inline-richtext h2">{{ section.settings.heading }}</h2>
+{%- endif -%}
+
+<div class="{% if section.settings.include_margins %}page-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+  {%- for block in section.blocks -%}
+    {% render block %}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.apps.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Optional heading shown above the app block(s). Leave blank to hide."
+    },
+    {
+      "type": "checkbox",
+      "id": "include_margins",
+      "default": true,
+      "label": "t:sections.apps.settings.include_margins.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.apps.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,90 @@
+{% comment %}
+  Renders a product media modal. Also see 'product-media-gallery'
+
+  Accepts:
+  - product: {Object} Product liquid object
+  - variant_images: {Array} Product images associated with a variant
+
+  Usage:
+  {% render 'product-media-modal' %}
+{% endcomment %}
+
+<product-modal id="ProductModal-{{ section.id }}" class="product-media-modal media-modal">
+  <div
+    class="product-media-modal__dialog"
+    role="dialog"
+    aria-label="{{ 'products.modal.label' | t }}"
+    aria-modal="true"
+    tabindex="-1"
+  >
+    <button
+      id="ModalClose-{{ section.id }}"
+      type="button"
+      class="product-media-modal__toggle"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {{ 'icon-close.svg' | inline_asset_content }}
+    </button>
+
+    <button
+      type="button"
+      class="product-media-modal__arrow product-media-modal__arrow--prev"
+      aria-label="Previous image"
+      data-modal-nav="prev"
+    >
+      {{ 'icon-caret.svg' | inline_asset_content }}
+    </button>
+
+    <button
+      type="button"
+      class="product-media-modal__arrow product-media-modal__arrow--next"
+      aria-label="Next image"
+      data-modal-nav="next"
+    >
+      {{ 'icon-caret.svg' | inline_asset_content }}
+    </button>
+
+    <div class="product-media-modal__counter" aria-live="polite" aria-atomic="true"></div>
+
+    <div
+      class="product-media-modal__content"
+      role="document"
+      aria-label="{{ 'products.modal.label' | t }}"
+      tabindex="0"
+    >
+      {%- comment -%} ITM: Using CDN for modal images {%- endcomment -%}
+      {%- assign product_sku = product.selected_or_first_available_variant.sku | default: product.title | strip -%}
+      
+      {%- if product_sku != blank -%}
+        {%- for img_num in (1..10) -%}
+          <img
+            class="global-media-settings global-media-settings--no-shadow"
+            src="{% render 'itm-cdn-product-image', sku: product_sku, image_number: img_num %}"
+            data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
+            alt="{{ product.title | escape }}"
+            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
+            width="1100"
+            height="1100"
+            loading="lazy"
+            data-media-id="{{ section.id }}-{{ img_num }}"
+          >
+        {%- endfor -%}
+      {%- else -%}
+        <img
+          class="global-media-settings global-media-settings--no-shadow"
+          src="{{ 'image_coming_soon.png' | asset_url }}"
+          alt="{{ product.title | escape }}"
+          width="1100"
+          height="1100"
+        >
+      {%- endif -%}
+      
+      {%- comment -%}
+      ITM: Original Shopify media loop commented out
+      {%- for media in product.media -%}
+        ... render videos/3D models ...
+      {%- endfor -%}
+      {%- endcomment -%}
+    </div>
+  </div>
+</product-modal>

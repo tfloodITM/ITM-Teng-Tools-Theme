@@ -1,0 +1,1313 @@
+{%- comment -%} ITM Theme - Updated Dec 9 2025 17:00 AEST - Force Shopify sync {%- endcomment -%}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'itm-product-card.css' | asset_url | stylesheet_tag }}
+{{ 'itm-sbc-card.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+  {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% if section.settings.quick_add == 'standard' %}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+{% if section.settings.quick_add == 'bulk' %}
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .parent-category-warning {
+    margin: 12px 0 24px;
+    padding: 12px 16px;
+    border: 1px solid #e0b300;
+    background: #fff9e0;
+    font-size: 0.95rem;
+  }
+
+  /* GRID layout — hairline borders matching sbc__card style */
+  .child-categories__grid {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
+    background: transparent;
+    border-top: 1px solid #d0d0d0;
+    border-left: 1px solid #d0d0d0;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .child-categories__grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+    }
+  }
+
+  .child-categories__grid > .sbc__card {
+    border-right: 1px solid #d0d0d0;
+    border-bottom: 1px solid #d0d0d0;
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .sbc__card-img { background: #f2f2f2; }
+  #shopify-section-{{ section.id }} .sbc__card-band { flex: 1; background: #2e2e2e; }
+  #shopify-section-{{ section.id }} .sbc__card-body {
+    background: #2e2e2e;
+    color: #ffffff;
+    align-items: flex-start;
+    text-align: left;
+  }
+  #shopify-section-{{ section.id }} .sbc__card-title { font-size: 13px; font-weight: 700; color: #ffffff; display: block; -webkit-line-clamp: unset; overflow: visible; }
+  #shopify-section-{{ section.id }} .sbc__card-price { font-size: 13px; font-weight: 400; color: #ffffff; }
+  #shopify-section-{{ section.id }} .sbc__review-count { font-size: 11px; }
+  #shopify-section-{{ section.id }} .sbc__actions { min-height: 40px; }
+  #shopify-section-{{ section.id }} .sbc__atc {
+    background: #f5a623;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .macc-collection-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .macc-collection-controls__search,
+  .macc-collection-controls__sort,
+  .macc-collection-controls__per-page {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .macc-collection-controls__search input,
+  .macc-select {
+    padding: 6px 10px;
+    border-radius: 0;
+    border: 1px solid rgba(var(--color-foreground), 0.18);
+    background-color: rgb(var(--color-background));
+  }
+
+  .macc-collection-controls__search input {
+    width: 300px;
+  }
+
+  .macc-collection-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .macc-select-sort {
+   max-width: 160px;
+  }
+
+  .macc-select-pages {
+   max-width: 60px;
+  }
+
+  .macc-collection-controls__search input:focus,
+  .macc-select:focus {
+    outline: none;
+    box-shadow: none; /* kills drop shadow */
+    border: 2px solid rgb(var(--color-button));
+  }
+
+  .macc-collection-controls,
+  .macc-collection-controls label,
+  .macc-collection-controls__search input,
+  .macc-select {
+    font-family: var(--font-body-family);
+    color: rgb(var(--color-foreground));
+  }
+
+  .macc-pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .macc-pagination__button {
+    padding: 6px 10px;
+    border-radius: 0;
+    border: 1px solid rgba(var(--color-foreground), 0.18);
+    background-color: rgb(var(--color-background));
+    font-family: var(--font-body-family);
+    color: rgb(var(--color-foreground));
+    cursor: pointer;
+  }
+
+  .macc-pagination__button[disabled] {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .macc-pagination__button--active {
+    border: 2px solid rgb(var(--color-button));
+    background-color: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+  }
+
+  .macc-pagination--bottom {
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* itm-cg layout — used by has_group_children path */
+  #shopify-section-{{ section.id }} .sbc__card-img { background: #f2f2f2; }
+  #shopify-section-{{ section.id }} .sbc__card-band { flex: 1; background: #2e2e2e; }
+  #shopify-section-{{ section.id }} .sbc__card-body {
+    background: #2e2e2e;
+    color: #ffffff;
+    align-items: flex-start;
+    text-align: left;
+  }
+  #shopify-section-{{ section.id }} .sbc__card-title { font-size: 13px; font-weight: 700; color: #ffffff; display: block; -webkit-line-clamp: unset; overflow: visible; }
+  #shopify-section-{{ section.id }} .sbc__card-price { font-size: 13px; font-weight: 400; color: #ffffff; }
+  #shopify-section-{{ section.id }} .sbc__review-count { font-size: 11px; }
+  #shopify-section-{{ section.id }} .sbc__actions { min-height: 40px; }
+  #shopify-section-{{ section.id }} .itm-cg__mbtn { min-height: 40px; }
+  #shopify-section-{{ section.id }} .sbc__atc {
+    background: #f5a623;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  #shopify-section-{{ section.id }} .sbc__list-btn { background: #f5a623; color: #000000; }
+  #shopify-section-{{ section.id }} .sbc__icon-wrap svg { width: 18px; height: 18px; }
+  #shopify-section-{{ section.id }} .sbc__list-plus {
+    width: 12px;
+    height: 12px;
+    background: #000000;
+    color: #ffc107;
+    bottom: -4px;
+    right: -4px;
+  }
+  #shopify-section-{{ section.id }} .page-width { max-width: 2560px; }
+
+  @media (max-width: 749px) {
+    /* Grid sits flush under FILTER/SORT buttons */
+    #shopify-section-{{ section.id }} .facets-container { padding-top: 0; }
+    /* Hide facets-rendered product count — we show our own above the buttons */
+    #shopify-section-{{ section.id }} #ProductCount { display: none; }
+    #shopify-section-{{ section.id }} .sbc__card-title { font-size: 11px; }
+    #shopify-section-{{ section.id }} .sbc__card-price { font-size: 11px; }
+    #shopify-section-{{ section.id }} .sbc__review-count { font-size: 9px; }
+    #shopify-section-{{ section.id }} .sbc__icon-wrap svg { width: 15px; height: 15px; }
+    #shopify-section-{{ section.id }} .sbc__list-plus { width: 10px; height: 10px; bottom: -3px; right: -3px; }
+  }
+
+  /* Hide the native Dawn mobile drawer trigger — our FILTER/SORT buttons drive it.
+     Clipped not display:none so Apply/Clear inside still works. */
+  #shopify-section-{{ section.id }} .mobile-facets__wrapper > details > summary {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .facets-vertical { margin-top: 12px; position: relative; }
+    #shopify-section-{{ section.id }} .facets-vertical::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100vw;
+      transform: translateX(-50%);
+      border-top: 1px solid #d0d0d0;
+    }
+    #shopify-section-{{ section.id }} .itm-cg__grid { margin-top: 0; }
+  }
+{% endstyle %}
+
+<style>
+.itm-cg__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--sbc-cols, 4), 1fr);
+  background: transparent;
+  border-top: 1px solid #d0d0d0;
+  border-left: 1px solid #d0d0d0;
+  width: 100%;
+  max-width: 3840px;
+  margin: 12px auto 0;
+  box-sizing: border-box;
+  list-style: none;
+  padding: 0;
+}
+.itm-cg__grid > .sbc__card {
+  border-right: 1px solid #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
+  min-width: 0;
+}
+@media (max-width: 1200px) { .itm-cg__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px)  { .itm-cg__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 749px)  {
+  .itm-cg__grid {
+    width: auto;
+    margin: 0 -1.5rem;
+    border-left: none;
+    border-right: none;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .itm-cg__grid > .sbc__card:nth-child(2n) { border-right-color: transparent; }
+}
+@media (min-width: 750px) {
+  .facets-vertical .product-grid-container { padding-left: 2.4rem; box-sizing: border-box; }
+}
+.itm-cg__mbar {
+  display: flex;
+  gap: 1px;
+  background: #d0d0d0;
+  margin: 0 -1.5rem;
+}
+.itm-cg__mbtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 0;
+  background: #f5a623;
+  color: #000;
+  font-family: var(--font-heading-family);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.itm-cg__mbtn .svg-wrapper,
+.itm-cg__mbtn svg { width: 18px; height: 18px; }
+
+.itm-cg__count-top { margin: 0; padding: 0; line-height: 1; text-align: center; }
+.itm-cg__count-top:empty { display: none; }
+.itm-cg__count-top .product-count { margin: 0; padding: 6px 0; text-align: center; justify-content: center; }
+
+@media (min-width: 750px) {
+  .itm-cg__leftcol {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.6rem;
+  }
+  .itm-cg__desk-sort { margin: 0 0 1.6rem; padding-right: 3rem; text-align: left; }
+  .itm-cg__desk-sort .facets-vertical-form { justify-content: flex-start; display: block; }
+  .itm-cg__desk-sort .facet-filters { display: block; padding-left: 0; margin-left: 0; }
+  .itm-cg__desk-sort .facet-filters__field { width: 100%; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0.6rem; }
+  .itm-cg__desk-sort .select,
+  .itm-cg__desk-sort .select__select { width: 100%; }
+  .itm-cg__desk-sort .select__select { font-size: 1.4rem; padding-left: 0; }
+}
+</style>
+
+{%- comment -%}
+  Build list of child collections for THIS collection
+  "priority|||title|||handle"
+{%- endcomment -%}
+{%- assign parent_collection = collection -%}
+{%- assign child_keys = '' -%}
+
+{%- for child in collections -%}
+  {%- assign parent_ref = child.metafields.custom.parent_category -%}
+  {%- if parent_ref -%}
+    {%- assign parent_val = parent_ref.value | default: parent_ref -%}
+    {%- if parent_val.id == parent_collection.id -%}
+      {%- assign priority_raw = child.metafields.custom.sort_priority | default: 9999 -%}
+      {%- assign priority_int = priority_raw | plus: 0 -%}
+      {%- assign priority_str = priority_int | prepend: '0000' | slice: -4, 4 -%}
+
+      {%- assign sort_key = priority_str
+        | append: '|||'
+        | append: child.title
+        | append: '|||'
+        | append: child.handle
+      -%}
+
+      {%- assign child_keys = child_keys | append: sort_key | append: ',,' -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign child_keys_array = child_keys | split: ',,' | sort -%}
+
+{%- assign has_children = false -%}
+{%- assign has_group_children = false -%}
+
+{%- for key in child_keys_array -%}
+  {%- if key != '' -%}
+    {%- assign has_children = true -%}
+
+    {%- assign parts = key | split: '|||' -%}
+    {%- assign child_handle = parts[2] -%}
+    {%- assign child_collection = collections[child_handle] -%}
+
+    {%- if child_collection and child_collection.metafields.custom.product_group -%}
+      {%- assign c_pg_val = child_collection.metafields.custom.product_group.value
+        | default: child_collection.metafields.custom.product_group -%}
+      {%- if c_pg_val == true or c_pg_val == 'true' or c_pg_val == 1 or c_pg_val == '1' -%}
+        {%- assign has_group_children = true -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div
+  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
+  data-collection-section="{{ section.id }}"
+  data-itm-cg-section="{{ section.id }}"
+>
+  {%- paginate collection.products by 200 -%}
+
+    {%- comment -%} Boolean flag for whether this collection has any products {%- endcomment -%}
+    {%- assign has_products = false -%}
+    {%- if collection.products_count > 0 -%}
+      {%- assign has_products = true -%}
+    {%- endif -%}
+
+    {%- assign is_product_group = false -%}
+    {%- if collection.metafields.custom.product_group -%}
+      {%- assign pg_val = collection.metafields.custom.product_group.value | default: collection.metafields.custom.product_group -%}
+      {%- if pg_val == true or pg_val == 'true' or pg_val == 1 or pg_val == '1' -%}
+        {%- assign is_product_group = true -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {% comment %}
+      Modes:
+      - If this collection IS a product_group → show the table layout only
+      - Else if it has ONLY plain child collections (no product groups, no products) → simple grid, no controls
+      - Else if it has group children but NO products → groups-only with controls
+      - Else if it has products and/or group children → full MACC grid with controls
+    {% endcomment %}
+
+    {% if is_product_group %}
+
+      {%- comment -%} This collection itself is a product-group → show table only {%- endcomment -%}
+      <div class="page-width">
+        {% render 'itm-product-group-grid', collection: collection %}
+      </div>
+
+    {% elsif has_children and has_group_children == false and has_products == false %}
+
+      {%- comment -%}
+        Only plain child collections, no products, no product_group children:
+        - Simple nav-style grid, NO MACC controls.
+      {%- endcomment -%}
+      <div class="page-width">
+        <ul
+          id="product-grid"
+          data-id="{{ section.id }}"
+          class="child-categories__grid"
+        >
+          {%- assign order_index = 0 -%}
+          {%- for key in child_keys_array -%}
+            {%- if key != '' -%}
+              {%- assign parts = key | split: '|||' -%}
+              {%- assign child_handle = parts[2] -%}
+              {%- assign child_collection = collections[child_handle] -%}
+
+              {%- assign order_index = order_index | plus: 1 -%}
+              <li
+                class="child-categories__item sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ order_index }};"
+                {% endif %}
+              >
+                {% render 'itm-card-product-group', group_collection: child_collection %}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        <!-- Bottom pagination (used only by JS controls in other modes) -->
+        <div class="macc-pagination macc-pagination--bottom" id="macc-pagination-bottom-{{ section.id }}"></div>
+      </div>
+
+    {% elsif has_group_children %}
+
+      {%- comment -%}
+        Collection has product-group children.
+        Renders with left-side facets sidebar + sbc card grid matching itm-collection-grid.
+        Group children cards always show; direct products are filterable via facets.
+      {%- endcomment -%}
+      <div class="page-width">
+
+        {%- comment -%} Count sub-collection cards + direct products for mobile count display {%- endcomment -%}
+        {%- assign grp_count = 0 -%}
+        {%- for key in child_keys_array -%}
+          {%- if key != '' -%}{%- assign grp_count = grp_count | plus: 1 -%}{%- endif -%}
+        {%- endfor -%}
+        {%- assign total_display_count = grp_count | plus: collection.products_count -%}
+
+        <div class="itm-cg__count-top medium-hide large-up-hide">
+          <p class="product-count">{{ total_display_count }} products</p>
+        </div>
+
+        {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+          <div class="itm-cg__mbar medium-hide large-up-hide">
+            {%- if section.settings.enable_filtering -%}
+              <button type="button" class="itm-cg__mbtn" data-open-filters>
+                <span class="svg-wrapper">{{- 'icon-filter.svg' | inline_asset_content -}}</span>
+                <span>{{ 'products.facets.filter_button' | t | default: 'Filters' }}</span>
+              </button>
+            {%- endif -%}
+            {%- if section.settings.enable_sorting -%}
+              <button type="button" class="itm-cg__mbtn" data-open-sort aria-haspopup="dialog">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+                <span>{{ 'products.facets.sort_button' | t | default: 'Sort' }}</span>
+              </button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <div class="facets-vertical">
+          {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+            <div class="itm-cg__leftcol">
+              {%- if section.settings.enable_sorting -%}
+                <facet-filters-form class="facets facets-vertical-sort small-hide itm-cg__desk-sort">
+                  <form id="FacetSortForm" class="facets-vertical-form">
+                    <div class="facet-filters sorting caption">
+                      <div class="facet-filters__field">
+                        <h2 class="facet-filters__label caption-large text-body">
+                          <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
+                        </h2>
+                        <div class="select">
+                          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                          <select name="sort_by" class="facet-filters__sort select__select caption-large" id="SortBy" aria-describedby="a11y-refresh-page-message">
+                            {%- for option in collection.sort_options -%}
+                              <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected="selected"{% endif %}>{{ option.name | escape }}</option>
+                            {%- endfor -%}
+                          </select>
+                          <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </facet-filters-form>
+              {%- endif -%}
+              {% render 'facets',
+                results: collection,
+                enable_filtering: section.settings.enable_filtering,
+                enable_sorting: section.settings.enable_sorting,
+                filter_type: 'vertical',
+                price_slider: true,
+                paginate: paginate
+              %}
+            </div>
+          {%- endif -%}
+
+          <div class="product-grid-container" id="ProductGridContainer">
+            <div class="collection">
+              <div class="loading-overlay gradient"></div>
+              <ul
+                id="product-grid"
+                data-id="{{ section.id }}"
+                class="sbc__grid itm-cg__grid list-unstyled"
+                style="--sbc-cols: {{ section.settings.columns_desktop }};"
+              >
+                {%- assign order_index = 0 -%}
+                {%- for key in child_keys_array -%}
+                  {%- if key != '' -%}
+                    {%- assign parts = key | split: '|||' -%}
+                    {%- assign child_handle = parts[2] -%}
+                    {%- assign child_collection = collections[child_handle] -%}
+                    {%- assign order_index = order_index | plus: 1 -%}
+                    <li
+                      class="sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                      {% if settings.animations_reveal_on_scroll %}
+                        data-cascade
+                        style="--animation-order: {{ order_index }};"
+                      {% endif %}
+                    >
+                      {% render 'itm-card-product-group', group_collection: child_collection %}
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- for product in collection.products -%}
+                  {%- assign order_index = order_index | plus: 1 -%}
+                  <li
+                    class="sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
+                      style="--animation-order: {{ order_index }};"
+                    {% endif %}
+                  >
+                    {% render 'itm-card-product-sbc',
+                      product: product,
+                      show_atc: true,
+                      show_reviews: true,
+                      show_price: true
+                    %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    {% elsif has_products %}
+
+      {%- comment -%}
+        Products only (no product-group children) — full MACC controls.
+      {%- endcomment -%}
+
+      <div class="page-width">
+        <!-- Custom search + sort + per-page controls -->
+        <div class="macc-collection-controls" id="CollectionControls-{{ section.id }}">
+
+          <!-- LEFT SIDE -->
+          <div class="macc-collection-controls__search">
+            <input
+              id="macc-search-{{ section.id }}"
+              type="search"
+              placeholder="Filter by code..."
+            >
+          </div>
+
+          <!-- RIGHT SIDE: sort + per-page + pagination -->
+          <div class="macc-collection-controls-right">
+            <div class="macc-collection-controls__sort">
+              <select id="macc-sort-{{ section.id }}" class="macc-select macc-select-sort">
+                <option value="bestsellers">Bestsellers</option>
+                <option value="price_asc">Price low–high</option>
+                <option value="price_desc">Price high–low</option>
+                <option value="sku_asc">Code A–Z</option>
+                <option value="sku_desc">Code Z–A</option>
+                <option value="desc_asc">Description A–Z</option>
+                <option value="desc_desc">Description Z–A</option>
+              </select>
+            </div>
+
+            <div class="macc-collection-controls__per-page">
+              <select id="macc-per-page-{{ section.id }}" class="macc-select macc-select-pages">
+                <option value="16">16</option>
+                <option value="24">24</option>
+                <option value="32">32</option>
+                <option value="48">48</option>
+                <option value="60">60</option>
+                <option value="72">72</option>
+                <option value="84">84</option>
+                <option value="96">96</option>
+                <option value="102">102</option>
+              </select>
+            </div>
+
+            <!-- Pagination inline with controls (JS-managed) -->
+            <div class="macc-pagination" id="macc-pagination-{{ section.id }}"></div>
+          </div>
+        </div>
+
+        <div
+          class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          id="ProductGridContainer"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+          {% endif %}
+        >
+          <div class="collection">
+            <div class="loading-overlay gradient"></div>
+
+            <ul
+              id="product-grid"
+              data-id="{{ section.id }}"
+              class="child-categories__grid"
+            >
+              {%- assign order_index = 0 -%}
+
+              {%- comment -%}
+                1) Render all child collections that are product_groups
+                - data-price is based on the child collection's primary product price
+                - data-sku is from primary product's primary variant SKU
+                - data-desc from child collection description
+              {%- endcomment -%}
+              {%- for key in child_keys_array -%}
+                {%- if key != '' -%}
+                  {%- assign parts = key | split: '|||' -%}
+                  {%- assign child_handle = parts[2] -%}
+                  {%- assign child_collection = collections[child_handle] -%}
+
+                  {%- comment -%}
+                    Determine primary product + price + sku for this group
+                  {%- endcomment -%}
+                  {%- assign group_price = 0 -%}
+                  {%- assign group_sku = '' -%}
+                  {%- assign group_desc = child_collection.metafields.custom.web_features | strip_html | strip | default: '' -%}
+
+                  {%- comment -%}
+                    Primary product resolution priority for this child product-group collection:
+
+                    1) child_collection.metafields.custom.primary_product_ref (Product reference)
+                    2) First product in child_collection.products with metafield custom.primary_product = true/'true'/1/'1'
+                    3) Fallback: child_collection.products.first
+                  {%- endcomment -%}
+
+                  {%- assign primary_product = nil -%}
+
+                  {%- comment -%} 1) Collection-level product reference metafield {%- endcomment -%}
+                  {%- if child_collection.metafields.custom.primary_product_ref -%}
+                    {%- assign primary_product = child_collection.metafields.custom.primary_product_ref.value
+                      | default: child_collection.metafields.custom.primary_product_ref -%}
+                  {%- endif -%}
+
+                  {%- comment -%} 2) If not set, fall back to scanning current-page products {%- endcomment -%}
+                  {%- if primary_product == blank -%}
+                    {%- for p in child_collection.products -%}
+                      {%- if p.metafields.custom.primary_product -%}
+                        {%- assign prim_val = p.metafields.custom.primary_product.value
+                          | default: p.metafields.custom.primary_product -%}
+                        {%- if prim_val == true or prim_val == 'true' or prim_val == 1 or prim_val == '1' -%}
+                          {%- assign primary_product = p -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+
+                  {%- comment -%} 3) Final fallback: first product on this collection {%- endcomment -%}
+                  {%- if primary_product == blank and child_collection.products.first -%}
+                    {%- assign primary_product = child_collection.products.first -%}
+                  {%- endif -%}
+
+
+                      {%- if primary_product -%}
+                        {%- assign primary_variant = primary_product.selected_or_first_available_variant -%}
+                        {%- if primary_variant and primary_variant.price and primary_variant.price > 0 -%}
+                          {%- assign group_price = primary_variant.price | divided_by: 100.0 -%}
+                        {%- endif -%}
+                        {%- if primary_variant and primary_variant.sku != blank -%}
+                          {%- assign group_sku = primary_variant.sku -%}
+                        {%- endif -%}
+                      {%- endif -%}
+
+                      {%- assign order_index = order_index | plus: 1 -%}
+                      <li
+                        class="child-categories__item sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                        data-item-type="group"
+                        data-title="{{ child_collection.title | escape }}"
+                        data-price="{{ group_price }}"
+                        data-sku="{{ group_sku | escape }}"
+                        data-desc="{{ group_desc | escape }}"
+                        {% if settings.animations_reveal_on_scroll %}
+                          data-cascade
+                          style="--animation-order: {{ order_index }};"
+                        {% endif %}
+                      >
+                        {% render 'itm-card-product-group', group_collection: child_collection %}
+                      </li>
+
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- comment -%}
+                2) Render products as standard product cards
+                - data-price uses product.price (min variant price) in store currency units.
+                - data-sku uses first_available_variant.sku
+                - data-desc uses product.metafields.custom.web_features
+              {%- endcomment -%}
+              {%- for product in collection.products -%}
+                {%- assign order_index = order_index | plus: 1 -%}
+
+                {%- assign std_variant = product.selected_or_first_available_variant -%}
+                {%- assign std_sku = '' -%}
+                {%- if std_variant and std_variant.sku != blank -%}
+                  {%- assign std_sku = std_variant.sku -%}
+                {%- endif -%}
+                {%- assign std_desc = product.metafields.custom.web_features | strip_html | strip | default: '' -%}
+
+                <li
+                  class="child-categories__item sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  data-item-type="product"
+                  data-title="{{ product.title | escape }}"
+                  data-price="{{ product.price | divided_by: 100.0 }}"
+                  data-sku="{{ std_sku | escape }}"
+                  data-desc="{{ std_desc | escape }}"
+                  {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    style="--animation-order: {{ order_index }};"
+                  {% endif %}
+                >
+                  {% render 'itm-card-product-std', product: product %}
+                </li>
+              {%- endfor -%}
+            </ul>
+            <!-- Bottom pagination (JS-managed) -->
+            <div class="macc-pagination macc-pagination--bottom" id="macc-pagination-bottom-{{ section.id }}"></div>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+
+      {%- comment -%} Fallback: Empty collection with no children {%- endcomment -%}
+      <div class="page-width">
+        <p class="collection-empty">{{ 'sections.collection_template.empty' | t }}</p>
+        <p class="collection-empty">{{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class: 'underlined-link link' }}</p>
+      </div>
+
+    {% endif %}
+
+  {%- endpaginate -%}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var sectionEl = document.querySelector('[data-collection-section="{{ section.id }}"]');
+    if (!sectionEl) return;
+
+    var grid = sectionEl.querySelector('#product-grid');
+    if (!grid) return;
+
+    var controls = sectionEl.querySelector('#CollectionControls-{{ section.id }}');
+    // If no controls bar is present (e.g. plain child collections only, or product-group table),
+    // skip JS-based grid pagination.
+    if (!controls) return;
+
+    var searchInput   = controls.querySelector('#macc-search-{{ section.id }}');
+    var sortSelect    = controls.querySelector('#macc-sort-{{ section.id }}');
+    var perPageSelect = controls.querySelector('#macc-per-page-{{ section.id }}');
+
+    var paginationTop    = sectionEl.querySelector('#macc-pagination-{{ section.id }}');
+    var paginationBottom = sectionEl.querySelector('#macc-pagination-bottom-{{ section.id }}');
+
+    var liNodes = grid.querySelectorAll('.child-categories__item');
+
+    // Build the items model from existing DOM (groups + products)
+    var items = Array.prototype.map.call(liNodes, function(li, index) {
+      var title = (li.getAttribute('data-title') || '').toLowerCase();
+      var price = parseFloat(li.getAttribute('data-price') || '0');
+      if (isNaN(price)) price = 0;
+      var sku   = (li.getAttribute('data-sku') || '').toLowerCase();
+      var desc  = (li.getAttribute('data-desc') || '').toLowerCase();
+
+      return {
+        el: li,
+        title: title,
+        price: price,
+        sku: sku,
+        desc: desc,
+        originalIndex: index
+      };
+    });
+
+    // Default sort: Bestsellers
+    var state = {
+      sort: 'bestsellers',      // default sort
+      search: '',             // lowercase search string
+      perPage: perPageSelect ? parseInt(perPageSelect.value, 10) || items.length : items.length,
+      page: 1,
+      totalPages: 1
+    };
+
+    // Make the UI reflect the default sort if the select exists
+    if (sortSelect) {
+      sortSelect.value = 'bestsellers';
+    }
+
+    function renderPagination() {
+      var containers = [paginationTop, paginationBottom].filter(function(c) { return !!c; });
+
+      containers.forEach(function(container) {
+        container.innerHTML = '';
+
+        if (state.totalPages <= 1) {
+          return;
+        }
+
+        // Prev button
+        var prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.className = 'macc-pagination__button';
+        prevBtn.textContent = '< Prev';
+        prevBtn.disabled = state.page <= 1;
+        prevBtn.setAttribute('data-page', state.page - 1);
+        container.appendChild(prevBtn);
+
+        // Numeric page buttons
+        for (var i = 1; i <= state.totalPages; i++) {
+          var pageBtn = document.createElement('button');
+          pageBtn.type = 'button';
+          pageBtn.className = 'macc-pagination__button';
+          if (i === state.page) {
+            pageBtn.className += ' macc-pagination__button--active';
+          }
+          pageBtn.textContent = i;
+          pageBtn.setAttribute('data-page', i);
+          container.appendChild(pageBtn);
+        }
+
+        // Next button
+        var nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.className = 'macc-pagination__button';
+        nextBtn.textContent = 'Next >';
+        nextBtn.disabled = state.page >= state.totalPages;
+        nextBtn.setAttribute('data-page', state.page + 1);
+        container.appendChild(nextBtn);
+      });
+    }
+
+    function applyFilterAndSort() {
+      var visible = items.slice();
+
+      // SEARCH filter (by SKU)
+      if (state.search && state.search.length > 0) {
+        visible = visible.filter(function(item) {
+          return item.sku.indexOf(state.search) !== -1;
+        });
+      }
+
+      // SORT
+      visible.sort(function(a, b) {
+        switch (state.sort) {
+          case 'price_asc':
+            return a.price - b.price;
+          case 'price_desc':
+            return b.price - a.price;
+          case 'sku_asc':
+            return a.sku.localeCompare(b.sku);
+          case 'sku_desc':
+            return b.sku.localeCompare(a.sku);
+          case 'desc_asc':
+            return a.desc.localeCompare(b.desc);
+          case 'desc_desc':
+            return b.desc.localeCompare(a.desc);
+          case 'bestsellers':
+          default:
+            // Keep original DOM order (approx "bestsellers" as provided by Shopify)
+            return a.originalIndex - b.originalIndex;
+        }
+      });
+
+      // Hide all
+      items.forEach(function(item) {
+        item.el.style.display = 'none';
+      });
+
+      var maxPer = state.perPage || visible.length;
+
+      // Calculate pagination
+      state.totalPages = Math.max(1, Math.ceil(visible.length / maxPer));
+      if (state.page > state.totalPages) {
+        state.page = state.totalPages;
+      }
+      if (state.page < 1) {
+        state.page = 1;
+      }
+
+      var startIndex = (state.page - 1) * maxPer;
+      var endIndex = startIndex + maxPer;
+
+      // Re-order items in the DOM without unnecessary node moves.
+      // grid.appendChild always detaches then re-inserts, which resets CSS animations — causing
+      // scroll-trigger elements to animate twice. Instead, only move items that are out of
+      // position, and suppress the animation on them since they've already been seen.
+      visible.forEach(function(item, index) {
+        var targetSlot = grid.children[index];
+        if (targetSlot !== item.el) {
+          // Only suppress animation for items that have been seen before (not newly AJAX-loaded).
+          if (!item.isNew) {
+            item.el.classList.add('scroll-trigger--cancel');
+          }
+          grid.insertBefore(item.el, targetSlot || null);
+        }
+        if (index >= startIndex && index < endIndex) {
+          item.el.style.display = '';
+        } else {
+          item.el.style.display = 'none';
+        }
+      });
+
+      // After layout, all current items are no longer new.
+      items.forEach(function(item) { item.isNew = false; });
+
+      renderPagination();
+    }
+
+    // --------- Load additional collection pages via AJAX (view=macc-grid-ajax) ---------
+    // Build a Set of SKUs already rendered server-side, so AJAX pages don't duplicate them.
+    var renderedSkus = new Set();
+    items.forEach(function(item) {
+      if (item.sku) renderedSkus.add(item.sku);
+    });
+
+    var currentPage   = 2;      // we've already rendered page 1 in Liquid
+    var isLoadingMore = false;
+    var hasMorePages  = true;
+
+    function loadMorePages() {
+      if (isLoadingMore || !hasMorePages) return;
+      isLoadingMore = true;
+
+      var url = '/collections/{{ collection.handle }}?page=' + currentPage + '&view=macc-grid-ajax';
+
+      fetch(url)
+        .then(function(response) {
+          if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+          }
+          return response.text();
+        })
+        .then(function(html) {
+          var trimmed = (html || '').trim();
+
+          // No content → no more pages
+          if (!trimmed) {
+            hasMorePages = false;
+            return;
+          }
+
+          var temp = document.createElement('div');
+          temp.innerHTML = trimmed;
+
+          var newLis = temp.querySelectorAll('li.child-categories__item');
+
+          if (!newLis.length) {
+            hasMorePages = false;
+            return;
+          }
+
+          // Append each new <li> to the grid and to our items array,
+          // skipping any SKU already rendered server-side to prevent duplicates.
+          newLis.forEach(function(li) {
+            var title = (li.getAttribute('data-title') || '').toLowerCase();
+            var price = parseFloat(li.getAttribute('data-price') || '0');
+            if (isNaN(price)) price = 0;
+            var sku   = (li.getAttribute('data-sku') || '').toLowerCase();
+            var desc  = (li.getAttribute('data-desc') || '').toLowerCase();
+
+            if (sku && renderedSkus.has(sku)) return; // already on page, skip
+            if (sku) renderedSkus.add(sku);
+
+            items.push({
+              el: li,
+              title: title,
+              price: price,
+              sku: sku,
+              desc: desc,
+              originalIndex: items.length,  // append at the end
+              isNew: true  // mark as unseen so applyFilterAndSort lets it animate
+            });
+            // Do NOT appendChild here — applyFilterAndSort will position it correctly.
+          });
+
+          currentPage += 1;
+
+          // Try to pull the next page until we run out
+          loadMorePages();
+        })
+        .catch(function(err) {
+          console.error('Error loading more collection pages:', err);
+          hasMorePages = false;
+        })
+        .finally(function() {
+          isLoadingMore = false;
+          // Re-apply filter & sort with the new items included
+          applyFilterAndSort();
+        });
+    }
+
+    // Search
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        state.search = (searchInput.value || '').toLowerCase();
+        state.page = 1;
+        applyFilterAndSort();
+      });
+    }
+
+    // Sort select
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function() {
+        state.sort = sortSelect.value || 'bestsellers';
+        state.page = 1;
+        applyFilterAndSort();
+      });
+    }
+
+    // Per-page select
+    if (perPageSelect) {
+      perPageSelect.addEventListener('change', function() {
+        state.perPage = parseInt(perPageSelect.value, 10) || items.length;
+        state.page = 1;
+        applyFilterAndSort();
+      });
+    }
+
+    // Pagination click handler (top + bottom)
+    [paginationTop, paginationBottom].forEach(function(container) {
+      if (!container) return;
+      container.addEventListener('click', function(event) {
+        var btn = event.target.closest('[data-page]');
+        if (!btn) return;
+        var newPage = parseInt(btn.getAttribute('data-page'), 10);
+        if (isNaN(newPage)) return;
+        if (newPage < 1 || newPage > (state.totalPages || 1)) return;
+        state.page = newPage;
+        applyFilterAndSort();
+        // Optional: scroll back to top of grid
+        // sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Initial ordering on page-1 items
+    applyFilterAndSort();
+
+    // Kick off loading of pages 2+ (they'll be merged into items and re-sorted)
+    loadMorePages();
+  });
+</script>
+
+<script>
+(function () {
+  var section = document.querySelector('[data-itm-cg-section="{{ section.id }}"]');
+  if (!section) return;
+
+  var drawer  = section.querySelector('.mobile-facets__wrapper');
+  var details = drawer && drawer.querySelector('details');
+  var inner   = drawer && drawer.querySelector('.mobile-facets__inner');
+  if (!drawer) return;
+
+  function lockScroll(on) { document.documentElement.style.overflow = on ? 'hidden' : ''; }
+
+  function openDrawer(mode) {
+    if (!details) return;
+    drawer.setAttribute('data-sheet-mode', mode);
+    details.open = true;
+    drawer.classList.add('is-cg-open');
+    lockScroll(true);
+    var label = mode === 'sort' ? 'Sort' : 'Filter';
+    drawer.querySelectorAll('.mobile-facets__heading').forEach(function (h) { h.textContent = label; });
+  }
+
+  function closeDrawer() {
+    if (!details) return;
+    drawer.querySelectorAll('.mobile-facets__details[open]').forEach(function (d) { d.open = false; });
+    drawer.classList.remove('is-cg-open');
+    details.open = false;
+    lockScroll(false);
+  }
+
+  if (inner) {
+    var xBtn = document.createElement('button');
+    xBtn.type = 'button';
+    xBtn.className = 'itm-cg__sheet-close';
+    xBtn.setAttribute('aria-label', 'Close');
+    xBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    xBtn.addEventListener('click', closeDrawer);
+    var sheetHeader = inner.querySelector('.mobile-facets__header') || inner;
+    sheetHeader.appendChild(xBtn);
+  }
+
+  if (details) details.addEventListener('toggle', function () {
+    if (!details.open) { drawer.classList.remove('is-cg-open'); lockScroll(false); }
+  });
+
+  section.addEventListener('click', function (e) {
+    if (e.target.closest('[data-open-filters]')) { openDrawer('filter'); return; }
+    if (e.target.closest('[data-open-sort]'))    { openDrawer('sort');   return; }
+    if (e.target.closest('.mobile-facets__footer .button--primary')) { closeDrawer(); return; }
+  });
+})();
+</script>
+
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-product-grid.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 16,
+      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "select",
+      "id": "per_page_default",
+      "label": "Default products per page (front-end)",
+      "options": [
+        { "value": "12", "label": "12" },
+        { "value": "24", "label": "24" },
+        { "value": "36", "label": "36" }
+      ],
+      "default": "24"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.main-collection-product-grid.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "t:sections.main-collection-product-grid.settings.columns_mobile.label",
+      "options": [
+        { "value": "1", "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__1.label" },
+        { "value": "2", "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__3.content"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+    },
+    {
+      "type": "select",
+      "id": "filter_type",
+      "options": [
+        { "value": "horizontal", "label": "t:sections.main-collection-product-grid.settings.filter_type.options__1.label" },
+        { "value": "vertical", "label": "t:sections.main-collection-product-grid.settings.filter_type.options__2.label" },
+        { "value": "drawer", "label": "t:sections.main-collection-product-grid.settings.filter_type.options__3.label" }
+      ],
+      "default": "horizontal",
+      "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "header",
+      "content": "Product group — Hero panel"
+    },
+    {
+      "type": "checkbox",
+      "id": "pg_show_enquiry_cta",
+      "default": true,
+      "label": "Show 'Make an enquiry' button"
+    },
+    {
+      "type": "text",
+      "id": "pg_related_product",
+      "label": "Compatible product handle",
+      "info": "Enter the product handle (from the product URL, e.g. work-sharp-wskts). More reliable than the product picker."
+    },
+    {
+      "type": "text",
+      "id": "pg_related_card_label",
+      "label": "Compatible product card heading",
+      "default": "Compatible with"
+    },
+    {
+      "type": "range",
+      "id": "pg_related_label_size",
+      "label": "Heading font size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "pg_related_card_bg",
+      "label": "Card background colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pg_related_card_text_color",
+      "label": "Card text colour",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "pg_related_card_star_color",
+      "label": "Star review colour",
+      "default": "#f5a200"
+    },
+    {
+      "type": "color",
+      "id": "pg_related_card_border_color",
+      "label": "Card border colour",
+      "default": "#cccccc"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

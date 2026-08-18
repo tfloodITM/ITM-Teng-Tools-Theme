@@ -1,0 +1,51 @@
+<section class="logo-marquee" aria-label="Major distributors">
+<div class="page-width">
+{% if section.settings.heading != blank %}
+<h2 class="section-title">{{ section.settings.heading }}</h2>
+{% endif %}
+</div>
+<div class="logo-marquee__track" style="--speed: {{ section.settings.speed }}s">
+<div class="logo-marquee__inner">
+{% for block in section.blocks %}
+<a class="logo-marquee__item" href="{{ block.settings.link }}" target="_blank" rel="noopener" {{ block.shopify_attributes }}>
+{% if block.settings.logo %}
+<img src="{{ block.settings.logo | image_url: width: 240 }}" alt="{{ block.settings.alt }}" loading="lazy" height="105"/>
+{% endif %}
+</a>
+{% endfor %}
+{%- comment -%} duplicate for seamless loop {%- endcomment -%}
+{% for block in section.blocks %}
+<a class="logo-marquee__item" href="{{ block.settings.link }}" target="_blank" rel="noopener">
+{% if block.settings.logo %}
+<img src="{{ block.settings.logo | image_url: width: 240 }}" alt="{{ block.settings.alt }}" loading="lazy" height="105"/>
+{% endif %}
+</a>
+{% endfor %}
+</div>
+</div>
+<style>
+.logo-marquee{padding:1rem 0;border-block:1px solid var(--color-foreground-10)}
+.logo-marquee__track{overflow:hidden}
+.logo-marquee__inner{display:flex;gap:3rem;align-items:center;animation:scroll var(--speed,25s) linear infinite}
+.logo-marquee__item img{opacity:1;transition:opacity .2s}
+@keyframes scroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+</style>
+</section>
+{% schema %}
+{
+"name":"Logo marquee",
+"settings":[
+{"type":"text","id":"heading","label":"Heading","default":"Trusted by leading distributors"},
+{"type":"range","id":"speed","label":"Scroll speed (s)","min":10,"max":60,"step":1,"default":25}
+],
+"blocks":[
+{"type":"logo","name":"Logo","settings":[
+{"type":"image_picker","id":"logo","label":"Logo"},
+{"type":"text","id":"alt","label":"Alt text"},
+{"type":"url","id":"link","label":"Optional link"}
+]}
+],
+"max_blocks":20,
+"presets":[{"name":"Logo marquee","blocks":[{"type":"logo"},{"type":"logo"},{"type":"logo"},{"type":"logo"}]}]
+}
+{% endschema %}

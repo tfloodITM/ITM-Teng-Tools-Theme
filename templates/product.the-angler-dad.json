@@ -1,0 +1,678 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "static_rating_eWWPEm": {
+          "type": "static_rating",
+          "settings": {
+            "static_rating_value": 5,
+            "static_rating_text": "1500+ Reviews",
+            "show_in_aside": false
+          }
+        },
+        "judge_me_reviews_preview_badge_tUtRpG": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
+          "settings": {}
+        },
+        "rating_kPnxgM": {
+          "type": "rating",
+          "disabled": true,
+          "settings": {
+            "show_in_aside": false
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "bold_price": false,
+            "show_payment_terms": false,
+            "show_in_aside": false
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle",
+            "show_in_aside": false
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+            "custom_atc_text": "Add to cart",
+            "atc_border_color": "#000000",
+            "show_in_aside": false
+          }
+        },
+        "afterpay_on_site_messaging_payments_messaging_DkrKVr": {
+          "type": "shopify://apps/afterpay-on-site-messaging/blocks/payments-messaging/f45a5524-d177-4475-bf59-281efd2215a8",
+          "settings": {
+            "text_align": "inherit",
+            "margin_top": 16,
+            "margin_bottom": 16,
+            "color": "#000000",
+            "size": "xs",
+            "intro_text": "or",
+            "show_interest_free": true,
+            "payment_amount_is_bold": false,
+            "show_with": true,
+            "logo_type": "badge",
+            "logo_theme": "black-on-mint",
+            "modal_link_style": "learn-more-text",
+            "modal_theme": "mint",
+            "breakpoint": 749,
+            "text_align_mobile": "inherit",
+            "margin_top_mobile": 16,
+            "margin_bottom_mobile": 16,
+            "show_lower_limit": true,
+            "show_upper_limit": true,
+            "show_if_outside_limits": true,
+            "product": "{{product}}"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": false,
+            "show_in_aside": false,
+            "inline_with_quantity": false
+          }
+        },
+        "sku_7Cinxp": {
+          "type": "sku",
+          "settings": {
+            "text_style": "body",
+            "show_in_aside": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "sharpens_wQANeh": {
+          "type": "sharpens",
+          "settings": {
+            "show_in_aside": false
+          }
+        },
+        "bundle_contents_adBnCe": {
+          "type": "bundle_contents",
+          "settings": {
+            "bundle_heading": "INCLUDED IN THIS BUNDLE",
+            "bundle_heading_size": 14,
+            "bundle_heading_size_mobile": 14,
+            "bundle_image_height": 400,
+            "bundle_image_height_mobile": 140,
+            "bundle_text_size": 13,
+            "bundle_text_size_mobile": 13,
+            "bundle_item1_image": "shopify://shop_images/d54aece8f0e2dbe61655eeaa24607666_531d77fd-66dd-4c7a-b97f-f46c061e5eea.jpg",
+            "bundle_item1_text": "Guided Field Sharpener",
+            "bundle_item2_image": "shopify://shop_images/766befe2f239acbccec6e8b57e47c7b3.jpg",
+            "bundle_item2_text": "Folding Field Sharpener",
+            "bundle_item3_text": "",
+            "bundle_item4_text": "",
+            "show_in_aside": false
+          }
+        },
+        "metafield_html_jT6RcY": {
+          "type": "metafield_html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_description",
+            "manual_html": "<p><strong>THE ULTIMATE KNIFE AND HOOK SHARPENING COMBO EVERY DAY WHOS A FISHERMEN NEEDS. Covers Dad's blade needs from the tackle box to the boat.</strong></p><p>The Folding Field Sharpener rides in a pocket or clips to a vest for fast touch-ups between spots — a 400 grit diamond plate and fine ceramic plate, built-in 20°/25° angle guides, and a folding glass-filled nylon frame that shrugs off drops and saltwater spray. The Guided Field Sharpener steps it up for full trip-prep: coarse and fine diamond plates, a ceramic hone, a leather strop, and a dedicated fish hook groove, all in a compact system that keeps fillet knives clean and predictable through a full day on the water. One handles the quick fix mid-cast, the other handles the complete edge before he ever leaves the driveway. This Father's Day, give the angler in your life a setup that means the only thing dull left is the fish's memory.</p>",
+            "manual_text_size": 16,
+            "padding_top": 0,
+            "show_in_aside": false
+          }
+        },
+        "custom_liquid_gEerYH": {
+          "type": "custom_liquid",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "{%- assign guided = all_products['wsgfs221'] -%}\n{%- assign folding = all_products['wsedcffs'] -%}\n{%- assign component_total = 0 -%}\n{%- if guided != empty %}{% assign component_total = component_total | plus: guided.price %}{% endif -%}\n{%- if folding != empty %}{% assign component_total = component_total | plus: folding.price %}{% endif -%}\n{%- assign savings = component_total | minus: product.price -%}\n\n<div class=\"adb-root\">\n<style>\n  .adb-root{\n    --adb-black:#1c1c1c;--adb-gold:#e0a534;--adb-gold-dark:#c88f26;\n    --adb-gray:#f2f1ee;--adb-text:#232323;--adb-muted:#6b6b6b;--adb-border:#e5e2db;\n    font-family:inherit;color:var(--adb-text);line-height:1.55;\n  }\n  .adb-root *{box-sizing:border-box;}\n  .adb-root h1,.adb-root h2,.adb-root h3,.adb-root h4{margin:0;letter-spacing:.3px;}\n  .adb-root .adb-wrap{max-width:1080px;margin:0 auto;padding:0 24px;}\n  .adb-root .adb-eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:700;color:var(--adb-gold-dark);}\n  .adb-root .adb-btn{display:inline-block;background:var(--adb-gold);color:var(--adb-black);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:16px 36px;border:0;border-radius:3px;text-decoration:none;font-size:15px;cursor:pointer;}\n  .adb-root .adb-btn:hover{background:var(--adb-gold-dark);}\n  .adb-root .adb-sec{padding:64px 0;}\n  .adb-root .adb-alt{background:var(--adb-gray);}\n  .adb-root .adb-hero{background:var(--adb-black);color:#fff;padding:70px 0;text-align:center;}\n  .adb-root .adb-hero .adb-eyebrow{color:var(--adb-gold);}\n  .adb-root .adb-hero h1{font-size:38px;color:#fff;margin:14px auto 18px;max-width:780px;}\n  .adb-root .adb-hero p{max-width:620px;margin:0 auto 28px;color:#d8d8d8;font-size:17px;}\n  .adb-root .adb-hero-stats{display:flex;gap:36px;justify-content:center;margin-top:34px;flex-wrap:wrap;}\n  .adb-root .adb-hero-stats div{font-size:13px;color:#bdbdbd;text-align:center;}\n  .adb-root .adb-hero-stats strong{display:block;color:#fff;font-size:20px;}\n  .adb-root .adb-story{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;}\n  .adb-root .adb-story-quote{background:#fff;border-left:4px solid var(--adb-gold);padding:22px 26px;font-size:18px;font-style:italic;margin:22px 0;}\n  .adb-root .adb-story-quote span{display:block;font-style:normal;font-size:13px;color:var(--adb-muted);margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}\n  .adb-root .adb-story-img{border-radius:8px;overflow:hidden;min-height:340px;background:linear-gradient(135deg,#2b3d34,#111);}\n  .adb-root .adb-story-img img{width:100%;height:100%;object-fit:cover;display:block;}\n  .adb-root .adb-objections h2{text-align:center;font-size:28px;margin-bottom:8px;}\n  .adb-root .adb-sub{text-align:center;color:var(--adb-muted);max-width:600px;margin:0 auto 40px;}\n  .adb-root .adb-obj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}\n  .adb-root .adb-obj-card{background:#fff;border:1px solid var(--adb-border);border-radius:8px;padding:26px 20px;}\n  .adb-root .adb-obj-card .adb-tag{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#b23b3b;font-weight:700;margin-bottom:10px;}\n  .adb-root .adb-obj-card h4{font-size:16px;margin-bottom:10px;}\n  .adb-root .adb-obj-card p{font-size:14px;color:var(--adb-muted);margin:0;}\n  .adb-root .adb-proquotes h2{text-align:center;font-size:28px;}\n  .adb-root .adb-pq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}\n  .adb-root .adb-pq-card{background:#fff;border:1px solid var(--adb-border);border-radius:8px;padding:24px;}\n  .adb-root .adb-pq-card .adb-stars{color:var(--adb-gold-dark);font-size:14px;margin-bottom:10px;}\n  .adb-root .adb-pq-card p.adb-quote{font-size:15px;margin:0 0 14px;}\n  .adb-root .adb-pq-name{font-size:13px;font-weight:700;}\n  .adb-root .adb-pq-role{font-size:12px;color:var(--adb-muted);}\n  .adb-root .adb-compare h2{text-align:center;font-size:28px;margin-bottom:40px;}\n  .adb-root .adb-compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}\n  .adb-root .adb-compare-card{background:#fff;border:1px solid var(--adb-border);border-radius:8px;padding:28px;}\n  .adb-root .adb-compare-card .adb-media{display:flex;align-items:center;gap:12px;margin-bottom:16px;}\n  .adb-root .adb-compare-card .adb-media img{width:56px;height:56px;object-fit:contain;border-radius:6px;background:var(--adb-gray);}\n  .adb-root .adb-compare-card h3{font-size:18px;margin-bottom:2px;}\n  .adb-root .adb-compare-card .adb-price{font-size:13px;color:var(--adb-muted);}\n  .adb-root .adb-compare-card .adb-when{font-size:13px;color:var(--adb-gold-dark);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 16px;}\n  .adb-root .adb-compare-card ul{padding-left:18px;margin:0;font-size:14px;}\n  .adb-root .adb-compare-card li{margin-bottom:6px;}\n  .adb-root .adb-trustbar{display:flex;justify-content:center;gap:56px;flex-wrap:wrap;text-align:center;padding:36px 0;border-top:1px solid var(--adb-border);border-bottom:1px solid var(--adb-border);}\n  .adb-root .adb-trustbar div{font-size:13px;max-width:150px;color:var(--adb-muted);}\n  .adb-root .adb-trustbar strong{display:block;font-size:15px;color:var(--adb-text);margin-bottom:4px;}\n  .adb-root .adb-urgency{background:var(--adb-black);color:#fff;text-align:center;padding:34px 0;}\n  .adb-root .adb-urgency .adb-eyebrow{color:var(--adb-gold);}\n  .adb-root .adb-urgency h3{color:#fff;font-size:22px;margin:10px 0 6px;}\n  .adb-root .adb-urgency p{color:#c9c9c9;font-size:14px;margin:0;}\n  .adb-root .adb-faq h2{text-align:center;font-size:28px;margin-bottom:36px;}\n  .adb-root .adb-faq-item{border-bottom:1px solid var(--adb-border);padding:6px 0;}\n  .adb-root .adb-faq-item summary{font-size:15px;font-weight:700;padding:14px 0;cursor:pointer;list-style:none;}\n  .adb-root .adb-faq-item summary::-webkit-details-marker{display:none;}\n  .adb-root .adb-faq-item summary:after{content:\"+\";float:right;color:var(--adb-gold-dark);font-weight:700;}\n  .adb-root .adb-faq-item[open] summary:after{content:\"\\2013\";}\n  .adb-root .adb-faq-item p{font-size:14px;color:var(--adb-muted);margin:0 0 16px;}\n  .adb-root .adb-finalcta{text-align:center;background:var(--adb-gray);padding:60px 0;}\n  .adb-root .adb-finalcta h2{font-size:26px;margin-bottom:10px;}\n  .adb-root .adb-finalcta p{color:var(--adb-muted);margin-bottom:24px;}\n  .adb-root .adb-price-line{font-size:15px;color:var(--adb-muted);margin-top:16px;}\n  .adb-root .adb-price-line s{color:#b0b0b0;}\n  .adb-root .adb-price-line strong{color:var(--adb-text);font-size:18px;}\n  .adb-root .adb-savings{display:inline-block;margin-top:10px;background:#eef7ee;color:#2f6b2f;font-weight:700;font-size:13px;padding:6px 14px;border-radius:20px;}\n  @media(max-width:800px){\n    .adb-root .adb-story{grid-template-columns:1fr;}\n    .adb-root .adb-obj-grid{grid-template-columns:1fr 1fr;}\n    .adb-root .adb-pq-grid{grid-template-columns:1fr;}\n    .adb-root .adb-compare-grid{grid-template-columns:1fr;}\n  }\n</style>\n\n<!-- HERO -->\n<div class=\"adb-hero\">\n  <div class=\"adb-wrap\">\n    <div class=\"adb-eyebrow\">Father's Day &middot; The Angler Dad Bundle</div>\n    <h1>The Difference Between A Story About \"The One That Got Away\" And A Photo Of The One He Caught.</h1>\n    <p>A dull hook loses fish. A dull knife wastes the catch. This Father's Day, give the angler in your life the two tools that keep every edge &mdash; hook to fillet knife &mdash; sharp from the tackle box to the cleaning table.</p>\n    {% form 'product', product %}\n      <input type=\"hidden\" name=\"id\" value=\"{{ product.selected_or_first_available_variant.id }}\">\n      <button type=\"submit\" name=\"add\" class=\"adb-btn\">Shop The Angler Dad Bundle &mdash; {{ product.price | money }}</button>\n    {% endform %}\n    <div class=\"adb-hero-stats\">\n      <div><strong>4.9&#9733;</strong>1,500+ Reviews</div>\n      <div><strong>3 Yrs</strong>Warranty</div>\n      <div><strong>30 Days</strong>Money-Back</div>\n      <div><strong>2-in-1</strong>Pocket + Full Kit</div>\n    </div>\n  </div>\n</div>\n\n<!-- STORY -->\n<div class=\"adb-sec\">\n  <div class=\"adb-wrap\">\n    <div class=\"adb-story\">\n      <div>\n        <div class=\"adb-eyebrow\">Sharp Matters</div>\n        <h2 style=\"font-size:26px;margin:10px 0 16px;\">Even The Pros Miss Fish Over A Dull Hook</h2>\n        <p style=\"color:var(--adb-muted);\">Richy Harrod, Work Sharp's Lead Brand Ambassador, was on a hot walleye bite &mdash; hooking up again and again with a lure that had worked hundreds of times before. Then he started missing hook sets. Again. And again.</p>\n        <div class=\"adb-story-quote\">\n          \"I quickly checked the sharpness of the hook and found it 'dull as a post!' ... Once my hook was again laser sharp, I never missed a fish and we had an amazing day on the water.\"\n          <span>Richy Harrod &mdash; Lead Brand Ambassador, Work Sharp</span>\n        </div>\n        <p style=\"color:var(--adb-muted);font-size:14px;\">The fix takes 7&ndash;8 passes through a diamond groove. The Guided Field Sharpener in this bundle has that exact groove built in &mdash; so it's not a \"someday\" tool, it's the one already sitting in the tackle box when it matters.</p>\n      </div>\n      <div class=\"adb-story-img\"></div>\n    </div>\n  </div>\n</div>\n\n<!-- OBJECTIONS -->\n<div class=\"adb-sec adb-alt adb-objections\">\n  <div class=\"adb-wrap\">\n    <h2>Before You Add To Cart, Dad's Already Asking...</h2>\n    <p class=\"adb-sub\">The honest answers to what he'd actually say if he saw this in his stocking.</p>\n    <div class=\"adb-obj-grid\">\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"I've already got one\"</div>\n        <h4>These aren't duplicates &mdash; they're a system.</h4>\n        <p>The Folding Sharpener rides in his pocket for a mid-cast touch-up. The Guided Field Sharpener stays in the tackle box or truck for full trip-prep &mdash; coarse to razor edge, plus a hook groove and fish-safe fillet honing the folding one doesn't have.</p>\n      </div>\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"I'll mess it up\"</div>\n        <h4>Built-in angle guides do the thinking.</h4>\n        <p>20&deg;/25&deg; guides lock the angle for him &mdash; no freehand guesswork, no ruined edge. If he can run a hook through a slot 7&ndash;8 times, he can use this. That's the whole skill required.</p>\n      </div>\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"Is it worth it?\"</div>\n        <h4>It's the tool between him and the fish.</h4>\n        <p>A $40 lure with a dull hook catches nothing. A $150 knife that won't hold an edge ruins the fillet. This bundle protects every dollar already spent on gear &mdash; and every fish he brings home.</p>\n      </div>\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"Will it get there in time?\"</div>\n        <h4>In stock, ready to ship now.</h4>\n        <p>Father's Day (AU) lands Sunday, 6 September 2026. Order now and it's on the porch with plenty of room to spare &mdash; no last-minute panic-buying a gift card.</p>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- PRO STAFF QUOTES -->\n<div class=\"adb-sec adb-proquotes\">\n  <div class=\"adb-wrap\">\n    <h2>Trusted By The People Who Fish For A Living</h2>\n    <p class=\"adb-sub\">Not paid actors. Work Sharp's own pro staff and brand ambassadors reach for the Guided Field Sharpener on every trip.</p>\n    <div class=\"adb-pq-grid\">\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"I keep a Work Sharp Guided Field Sharpener nearby and religiously sharpen each of my lures before fishing. If the hook doesn't easily scratch the back of your fingernail, it needs to be sharpened.\"</p>\n        <div class=\"adb-pq-name\">Danny Coyne</div>\n        <div class=\"adb-pq-role\">Work Sharp Pro Staffer, Trout &amp; Kokanee Expert</div>\n      </div>\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"Upholding the integrity of the meat from a fish requires a razor sharp blade &mdash; one that won't tear at the delicate meat as you clean and portion out your catch. That's why we recommend having a Guided Field Sharpener in the tackle box, your fishing bib, or carrying pack.\"</p>\n        <div class=\"adb-pq-name\">Bobby &amp; Robin Shindelar</div>\n        <div class=\"adb-pq-role\">Founders, Western Ice Fishing Association</div>\n      </div>\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"My favorite sharpener for out in the field is the Guided Field Sharpener because I can carry it with me anywhere.\"</p>\n        <div class=\"adb-pq-name\">Ben Saurman</div>\n        <div class=\"adb-pq-role\">In-House Fishing Expert, Work Sharp</div>\n      </div>\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"When it comes time to clean a limit of trout... the blade should be clean and sharp. If it needs a touch-up, take a few swipes on the Work Sharp Guided Field Sharpener.\"</p>\n        <div class=\"adb-pq-name\">Gary Lewis</div>\n        <div class=\"adb-pq-role\">Work Sharp Pro Staff</div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- COMPARISON -->\n<div class=\"adb-sec adb-alt adb-compare\">\n  <div class=\"adb-wrap\">\n    <h2>One Bundle. Every Moment Covered.</h2>\n    <div class=\"adb-compare-grid\">\n      <div class=\"adb-compare-card\">\n        <div class=\"adb-media\">\n          {% if folding != empty and folding.featured_image %}<img src=\"{{ folding.featured_image | image_url: width: 112 }}\" alt=\"{{ folding.title | escape }}\">{% endif %}\n          <div>\n            <h3>{% if folding != empty %}{{ folding.title }}{% else %}Folding Field Sharpener{% endif %}</h3>\n            {% if folding != empty %}<div class=\"adb-price\">{{ folding.price | money }}</div>{% endif %}\n          </div>\n        </div>\n        <div class=\"adb-when\">For: mid-cast, pocket, quick touch-ups</div>\n        <ul>\n          <li>400 grit diamond plate + 20&deg; guide</li>\n          <li>Fine ceramic plate + 25&deg; guide</li>\n          <li>Glass-filled nylon frame, folds shut</li>\n          <li>Metal pivot + pocket clip &mdash; clips to a vest or waders</li>\n          <li>Ultra-compact, goes wherever he goes</li>\n        </ul>\n      </div>\n      <div class=\"adb-compare-card\">\n        <div class=\"adb-media\">\n          {% if guided != empty and guided.featured_image %}<img src=\"{{ guided.featured_image | image_url: width: 112 }}\" alt=\"{{ guided.title | escape }}\">{% endif %}\n          <div>\n            <h3>{% if guided != empty %}{{ guided.title }}{% else %}Guided Field Sharpener{% endif %}</h3>\n            {% if guided != empty %}<div class=\"adb-price\">{{ guided.price | money }}</div>{% endif %}\n          </div>\n        </div>\n        <div class=\"adb-when\">For: tackle box, boat, full trip-prep</div>\n        <ul>\n          <li>220 grit coarse + 600 grit fine diamond plates (magnetic swap)</li>\n          <li>Fine ceramic rod with dedicated hook-sharpening groove</li>\n          <li>Second ceramic rod for serrations</li>\n          <li>Leather strop with chromium oxide compound for a razor finish</li>\n          <li>Broadhead wrench + lanyard hole, 4.6oz, 3-year warranty</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- TRUST BAR -->\n<div class=\"adb-wrap\">\n  <div class=\"adb-trustbar\">\n    <div><strong>3-Year Warranty</strong>Every Work Sharp tool, backed.</div>\n    <div><strong>30-Day Money Back</strong>No-questions-asked returns.</div>\n    <div><strong>1,500+ Reviews</strong>4.9 average rating.</div>\n    <div><strong>Guidefitter Partner</strong>Used by 450+ professional hunting &amp; fishing outfitters.</div>\n  </div>\n</div>\n\n<!-- URGENCY -->\n<div class=\"adb-urgency\">\n  <div class=\"adb-wrap\">\n    <div class=\"adb-eyebrow\">Father's Day is Sunday, 6 September 2026</div>\n    <h3>In Stock, Ready To Ship Today</h3>\n    <p>Order now to make sure it's wrapped and ready &mdash; not stuck in transit.</p>\n  </div>\n</div>\n\n<!-- FAQ -->\n<div class=\"adb-sec adb-faq\">\n  <div class=\"adb-wrap\">\n    <h2>Still Deciding?</h2>\n    <details class=\"adb-faq-item\">\n      <summary>Does he need to buy anything else to use it?</summary>\n      <p>No. Both sharpeners come ready to use out of the box &mdash; diamond plates, ceramic rods and (on the Guided Field Sharpener) a leather strop are all included. Nothing extra required.</p>\n    </details>\n    <details class=\"adb-faq-item\">\n      <summary>Is it only for knives?</summary>\n      <p>No &mdash; this bundle also handles fish hooks, broadheads, small axes, scissors and serrated blades. If Dad hunts as well as fishes, it covers that gear too.</p>\n    </details>\n    <details class=\"adb-faq-item\">\n      <summary>What if he's never sharpened anything in his life?</summary>\n      <p>That's exactly who this is built for. The angle guides remove the guesswork &mdash; there's no freehand technique to learn, just follow the built-in slot.</p>\n    </details>\n    <details class=\"adb-faq-item\">\n      <summary>What's the return policy if he already has a favourite sharpener?</summary>\n      <p>30-day money-back guarantee, no questions asked. Every Work Sharp product also carries a 3-year warranty.</p>\n    </details>\n  </div>\n</div>\n\n<!-- FINAL CTA -->\n<div class=\"adb-finalcta\">\n  <div class=\"adb-wrap\">\n    <h2>Give The Gift That Makes Every Trip Better</h2>\n    <p>The Angler Dad Bundle &mdash; Folding Field Sharpener + Guided Field Sharpener</p>\n    {% form 'product', product %}\n      <input type=\"hidden\" name=\"id\" value=\"{{ product.selected_or_first_available_variant.id }}\">\n      <button type=\"submit\" name=\"add\" class=\"adb-btn\">Add To Cart &mdash; {{ product.price | money }}</button>\n    {% endform %}\n    {% if guided != empty and folding != empty %}\n      <div class=\"adb-price-line\">\n        Buy separately: {{ folding.title }} {{ folding.price | money }} + {{ guided.title }} {{ guided.price | money }} = <s>{{ component_total | money }}</s>\n        &nbsp;&rarr;&nbsp; <strong>This bundle: {{ product.price | money }}</strong>\n      </div>\n      {% if savings > 0 %}<div class=\"adb-savings\">You save {{ savings | money }} bundling today</div>{% endif %}\n    {% endif %}\n  </div>\n</div>\n\n</div>",
+            "show_in_aside": false
+          }
+        },
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle",
+            "show_in_aside": false,
+            "inline_with_quantity": false
+          }
+        },
+        "inventory_JHti79": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "body",
+            "inventory_threshold": 10,
+            "show_inventory_quantity": false,
+            "show_in_aside": false,
+            "force_in_stock": true,
+            "inv_font_size": 13,
+            "inv_bold": false,
+            "inv_pad_top": 0,
+            "inv_pad_bottom": 0
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share",
+            "show_in_aside": true
+          }
+        }
+      },
+      "block_order": [
+        "static_rating_eWWPEm",
+        "judge_me_reviews_preview_badge_tUtRpG",
+        "rating_kPnxgM",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "afterpay_on_site_messaging_payments_messaging_DkrKVr",
+        "buy_buttons",
+        "sku_7Cinxp",
+        "title",
+        "sharpens_wQANeh",
+        "bundle_contents_adBnCe",
+        "metafield_html_jT6RcY",
+        "custom_liquid_gEerYH",
+        "caption",
+        "inventory_JHti79",
+        "share"
+      ],
+      "settings": {
+        "use_manual_images": true,
+        "manual_image_1": "shopify://shop_images/7.webp",
+        "manual_image_2": "shopify://shop_images/8.webp",
+        "manual_image_3": "shopify://shop_images/a9f5cad5-9104-400c-8ff8-ea7041de34a0.webp",
+        "manual_image_4": "shopify://shop_images/Untitled_design_8.webp",
+        "image_count": 6,
+        "image_columns": 2,
+        "image_ratio": "1 / 1",
+        "image_fit": "contain",
+        "image_cell_bg": "#f4f4f4",
+        "image_dot_active_color": "#2e2e2e",
+        "info_align": "left",
+        "info_sticky_top": 20,
+        "info_pad_top": 12,
+        "info_pad_right": 20,
+        "info_pad_bottom": 24,
+        "info_pad_left": 24,
+        "info_mobile_pad_top": 0,
+        "info_mobile_pad_right": 16,
+        "info_mobile_pad_bottom": 24,
+        "info_mobile_pad_left": 16,
+        "heading_size": 24,
+        "heading_color": "#2e2e2e",
+        "reviews_size": 14,
+        "sku_size": 14,
+        "sku_color": "#2e2e2e",
+        "body_size": 14,
+        "body_color": "#2e2e2e",
+        "price_size": 14,
+        "price_color": "#2e2e2e",
+        "atc_size": 16,
+        "atc_bg": "#f5a623",
+        "atc_color": "#2e2e2e",
+        "qty_btn_gap": 0,
+        "guarantee_size": 12,
+        "guarantee_color": "#2e2e2e",
+        "show_cta_block": false,
+        "trust_enable": true,
+        "trust_layout": "horizontal",
+        "trust_mb_icon": "shopify://shop_images/474301ae-8c69-4943-be53-9747db725135.svg",
+        "trust_mb_heading": "30-day money-back guarantee",
+        "trust_mb_text": "",
+        "trust_ship_icon": "shopify://shop_images/ba7af304-8575-485c-a92b-7f73131cbc0b.svg",
+        "trust_ship_text": "3-year warranty",
+        "trust_warranty_icon": "shopify://shop_images/e4c1760e-76ab-4f81-adfc-8fd95782388e.svg",
+        "trust_warranty_heading": "Free shipping on orders over $99",
+        "trust_warranty_text": "",
+        "trust_heading_size": 10,
+        "trust_text_size": 13,
+        "trust_color": "#2e2e2e",
+        "trust_sub_color": "#666666",
+        "trust_heading_bold": true,
+        "trust_sub_bold": false,
+        "trust_icon_color": "#2e2e2e",
+        "trust_icon_size": 56,
+        "trust_icon_gap": 12,
+        "trust_row_gap": 14,
+        "trust_divider_color": "#d0d0d0",
+        "trust_divider_height": 55,
+        "trust_margin_top": 8,
+        "trust_margin_bottom": 0,
+        "show_info_accordions": true,
+        "info_accordions_open": false,
+        "info_accordions_margin_top": 16,
+        "acc1_heading": "",
+        "acc1_source": "richtext",
+        "acc1_metafield": "",
+        "acc1_content": "",
+        "acc2_heading": "",
+        "acc2_source": "richtext",
+        "acc2_metafield": "",
+        "acc2_content": "",
+        "acc_title_size": 14,
+        "acc_title_bold": true,
+        "acc_title_color": "#2e2e2e",
+        "acc_content_size": 14,
+        "acc_content_color": "#2e2e2e",
+        "sp_breadcrumb": 0,
+        "pad_breadcrumb_top": 0,
+        "pad_breadcrumb_bottom": 0,
+        "sp_title": 0,
+        "sp_sku": 0,
+        "sp_reviews": 0,
+        "sp_body": 0,
+        "sp_price": 0,
+        "sp_purchase": 0,
+        "sp_guarantee": 0,
+        "payin4_text_before": "Pay in 4 interest-free payments of",
+        "payin4_text_after": "with",
+        "payin4_font_size": 13,
+        "payin4_color": "#2e2e2e",
+        "payin4_paypal_height": 18,
+        "payin4_afterpay_height": 22,
+        "payin4_gap": 8,
+        "payin4_margin_top": 12,
+        "payin4_margin_bottom": 12,
+        "payin4_mob_pad_top": 0,
+        "payin4_mob_pad_bottom": 14,
+        "price_pad_top": 0,
+        "price_pad_bottom": 0,
+        "price_mob_pad_top": 0,
+        "price_mob_pad_bottom": 0,
+        "sku_pad_top": 0,
+        "sku_pad_bottom": 0,
+        "sku_mob_pad_top": 0,
+        "sku_mob_pad_bottom": 14,
+        "mob_pad_purchase_bottom": 14,
+        "mob_heading_size": 16,
+        "mob_reviews_size": 14,
+        "mob_inv_size": 12,
+        "mob_price_size": 0,
+        "mob_sku_size": 0,
+        "mob_body_size": 0,
+        "mob_atc_size": 0,
+        "mob_reviews_pad_top": 6,
+        "mob_reviews_pad_bottom": 6,
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-a92d779d-4837-4c4b-872b-8dd479a231fe",
+        "media_size": "large",
+        "constrain_to_viewport": false,
+        "media_fit": "cover",
+        "gallery_layout": "columns",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "hide_variants": true,
+        "enable_video_looping": true,
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "custom_liquid_xcRbVR": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{%- assign guided = all_products['wsgfs221'] -%}\n{%- assign folding = all_products['wsedcffs'] -%}\n{%- assign component_total = 0 -%}\n{%- if guided != empty %}{% assign component_total = component_total | plus: guided.price %}{% endif -%}\n{%- if folding != empty %}{% assign component_total = component_total | plus: folding.price %}{% endif -%}\n{%- assign savings = component_total | minus: product.price -%}\n\n<div class=\"adb-root\">\n<style>\n  .adb-root{\n    --adb-black:#1c1c1c;--adb-gold:#e0a534;--adb-gold-dark:#c88f26;\n    --adb-gray:#f2f1ee;--adb-text:#232323;--adb-muted:#6b6b6b;--adb-border:#e5e2db;\n    font-family:inherit;color:var(--adb-text);line-height:1.55;\n  }\n  .adb-root *{box-sizing:border-box;}\n  .adb-root h1,.adb-root h2,.adb-root h3,.adb-root h4{margin:0;letter-spacing:.3px;}\n  .adb-root .adb-wrap{max-width:1080px;margin:0 auto;padding:0 24px;}\n  .adb-root .adb-eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:700;color:var(--adb-gold-dark);}\n  .adb-root .adb-btn{display:inline-block;background:var(--adb-gold);color:var(--adb-black);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:16px 36px;border:0;border-radius:3px;text-decoration:none;font-size:15px;cursor:pointer;}\n  .adb-root .adb-btn:hover{background:var(--adb-gold-dark);}\n  .adb-root .adb-sec{padding:64px 0;}\n  .adb-root .adb-alt{background:var(--adb-gray);}\n  .adb-root .adb-hero{background:var(--adb-black);color:#fff;padding:70px 0;text-align:center;}\n  .adb-root .adb-hero .adb-eyebrow{color:var(--adb-gold);}\n  .adb-root .adb-hero h1{font-size:38px;color:#fff;margin:14px auto 18px;max-width:780px;}\n  .adb-root .adb-hero p{max-width:620px;margin:0 auto 28px;color:#d8d8d8;font-size:17px;}\n  .adb-root .adb-hero-stats{display:flex;gap:36px;justify-content:center;margin-top:34px;flex-wrap:wrap;}\n  .adb-root .adb-hero-stats div{font-size:13px;color:#bdbdbd;text-align:center;}\n  .adb-root .adb-hero-stats strong{display:block;color:#fff;font-size:20px;}\n  .adb-root .adb-story{display:grid;grid-template-columns:1fr 1.25fr;gap:48px;align-items:center;}\n  .adb-root .adb-story-quote{background:#fff;border-left:4px solid var(--adb-gold);padding:22px 26px;font-size:18px;font-style:italic;margin:22px 0;}\n  .adb-root .adb-story-quote span{display:block;font-style:normal;font-size:13px;color:var(--adb-muted);margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}\n  .adb-root .adb-story-img{border-radius:8px;overflow:hidden;}\n  .adb-root .adb-story-img img{width:100%;height:auto;display:block;}\n  .adb-root .adb-objections h2{text-align:center;font-size:28px;margin-bottom:8px;}\n  .adb-root .adb-sub{text-align:center;color:var(--adb-muted);max-width:600px;margin:0 auto 40px;}\n  .adb-root .adb-obj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}\n  .adb-root .adb-obj-card{background:#fff;border:1px solid var(--adb-border);border-radius:8px;padding:26px 20px;}\n  .adb-root .adb-obj-card .adb-tag{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#b23b3b;font-weight:700;margin-bottom:10px;}\n  .adb-root .adb-obj-card h4{font-size:16px;margin-bottom:10px;}\n  .adb-root .adb-obj-card p{font-size:14px;color:var(--adb-muted);margin:0;}\n  .adb-root .adb-proquotes h2{text-align:center;font-size:28px;}\n  .adb-root .adb-pq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}\n  .adb-root .adb-pq-card{background:#fff;border:1px solid var(--adb-border);border-radius:8px;padding:24px;}\n  .adb-root .adb-pq-card .adb-stars{color:var(--adb-gold-dark);font-size:14px;margin-bottom:10px;}\n  .adb-root .adb-pq-card p.adb-quote{font-size:15px;margin:0 0 14px;}\n  .adb-root .adb-pq-name{font-size:13px;font-weight:700;}\n  .adb-root .adb-pq-role{font-size:12px;color:var(--adb-muted);}\n  .adb-root .adb-compare h2{text-align:center;font-size:28px;margin-bottom:40px;}\n  .adb-root .adb-compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}\n  .adb-root .adb-compare-card{background:#fff;border:1px solid var(--adb-border);border-radius:8px;padding:28px;}\n  .adb-root .adb-compare-card .adb-media{display:flex;align-items:center;gap:12px;margin-bottom:16px;}\n  .adb-root .adb-compare-card .adb-media img{width:56px;height:56px;object-fit:contain;border-radius:6px;background:var(--adb-gray);}\n  .adb-root .adb-compare-card h3{font-size:18px;margin-bottom:2px;}\n  .adb-root .adb-compare-card .adb-price{font-size:13px;color:var(--adb-muted);}\n  .adb-root .adb-compare-card .adb-when{font-size:13px;color:var(--adb-gold-dark);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 16px;}\n  .adb-root .adb-compare-card ul{padding-left:18px;margin:0;font-size:14px;}\n  .adb-root .adb-compare-card li{margin-bottom:6px;}\n  .adb-root .adb-trustbar{display:flex;justify-content:center;gap:56px;flex-wrap:wrap;text-align:center;padding:36px 0;border-top:1px solid var(--adb-border);border-bottom:1px solid var(--adb-border);}\n  .adb-root .adb-trustbar div{font-size:13px;max-width:150px;color:var(--adb-muted);}\n  .adb-root .adb-trustbar strong{display:block;font-size:15px;color:var(--adb-text);margin-bottom:4px;}\n  .adb-root .adb-urgency{background:var(--adb-black);color:#fff;text-align:center;padding:34px 0;}\n  .adb-root .adb-urgency .adb-eyebrow{color:var(--adb-gold);}\n  .adb-root .adb-urgency h3{color:#fff;font-size:22px;margin:10px 0 6px;}\n  .adb-root .adb-urgency p{color:#c9c9c9;font-size:14px;margin:0;}\n  .adb-root .adb-faq h2{text-align:center;font-size:28px;margin-bottom:36px;}\n  .adb-root .adb-faq-item{border-bottom:1px solid var(--adb-border);padding:6px 0;}\n  .adb-root .adb-faq-item summary{font-size:15px;font-weight:700;padding:14px 0;cursor:pointer;list-style:none;}\n  .adb-root .adb-faq-item summary::-webkit-details-marker{display:none;}\n  .adb-root .adb-faq-item summary:after{content:\"+\";float:right;color:var(--adb-gold-dark);font-weight:700;}\n  .adb-root .adb-faq-item[open] summary:after{content:\"\\2013\";}\n  .adb-root .adb-faq-item p{font-size:14px;color:var(--adb-muted);margin:0 0 16px;}\n  .adb-root .adb-finalcta{text-align:center;background:var(--adb-gray);padding:60px 0;}\n  .adb-root .adb-finalcta h2{font-size:26px;margin-bottom:10px;}\n  .adb-root .adb-finalcta p{color:var(--adb-muted);margin-bottom:24px;}\n  .adb-root .adb-price-line{font-size:15px;color:var(--adb-muted);margin-top:16px;}\n  .adb-root .adb-price-line s{color:#b0b0b0;}\n  .adb-root .adb-price-line strong{color:var(--adb-text);font-size:18px;}\n  .adb-root .adb-savings{display:inline-block;margin-top:10px;background:#eef7ee;color:#2f6b2f;font-weight:700;font-size:13px;padding:6px 14px;border-radius:20px;}\n  @media(max-width:800px){\n    .adb-root .adb-story{grid-template-columns:1fr;}\n    .adb-root .adb-obj-grid{grid-template-columns:1fr 1fr;}\n    .adb-root .adb-pq-grid{grid-template-columns:1fr;}\n    .adb-root .adb-compare-grid{grid-template-columns:1fr;}\n  }\n</style>\n\n<!-- HERO -->\n<div class=\"adb-hero\">\n  <div class=\"adb-wrap\">\n    <div class=\"adb-eyebrow\">Father's Day &middot; The Angler Dad Bundle</div>\n    <h1>The Difference Between A Story About \"The One That Got Away\" And A Photo Of The One He Caught.</h1>\n    <p>A dull hook loses fish. A dull knife wastes the catch. This Father's Day, give the angler in your life the two tools that keep every edge &mdash; hook to fillet knife &mdash; sharp from the tackle box to the cleaning table.</p>\n    {% form 'product', product %}\n      <input type=\"hidden\" name=\"id\" value=\"{{ product.selected_or_first_available_variant.id }}\">\n      <button type=\"submit\" name=\"add\" class=\"adb-btn\">Shop The Angler Dad Bundle &mdash; {{ product.price | money }}</button>\n    {% endform %}\n    <div class=\"adb-hero-stats\">\n      <div><strong>4.9&#9733;</strong>1,500+ Reviews</div>\n      <div><strong>3 Yrs</strong>Warranty</div>\n      <div><strong>30 Days</strong>Money-Back</div>\n      <div><strong>2-in-1</strong>Pocket + Full Kit</div>\n    </div>\n  </div>\n</div>\n\n<!-- STORY -->\n<div class=\"adb-sec\">\n  <div class=\"adb-wrap\">\n    <div class=\"adb-story\">\n      <div>\n        <div class=\"adb-eyebrow\">Sharp Matters</div>\n        <h2 style=\"font-size:26px;margin:10px 0 16px;\">Even The Pros Miss Fish Over A Dull Hook</h2>\n        <p style=\"color:var(--adb-muted);\">Richy Harrod, Work Sharp's Lead Brand Ambassador, was on a hot walleye bite &mdash; hooking up again and again with a lure that had worked hundreds of times before. Then he started missing hook sets. Again. And again.</p>\n        <div class=\"adb-story-quote\">\n          \"I quickly checked the sharpness of the hook and found it 'dull as a post!' ... Once my hook was again laser sharp, I never missed a fish and we had an amazing day on the water.\"\n          <span>Richy Harrod &mdash; Lead Brand Ambassador, Work Sharp</span>\n        </div>\n        <p style=\"color:var(--adb-muted);font-size:14px;\">The fix takes 7&ndash;8 passes through a diamond groove. The Guided Field Sharpener in this bundle has that exact groove built in &mdash; so it's not a \"someday\" tool, it's the one already sitting in the tackle box when it matters.</p>\n      </div>\n      <div class=\"adb-story-img\"><img src=\"https://cdn.shopify.com/s/files/1/0778/6928/5630/files/ddc58593-8419-45e2-a449-748c62f93d6e.png?v=1785104083\" alt=\"Sharpening a fish hook on the water with the Work Sharp Guided Field Sharpener\" loading=\"lazy\"></div>\n    </div>\n  </div>\n</div>\n\n<!-- OBJECTIONS -->\n<div class=\"adb-sec adb-alt adb-objections\">\n  <div class=\"adb-wrap\">\n    <h2>Before You Add To Cart, Dad's Already Asking...</h2>\n    <p class=\"adb-sub\">The honest answers to what he'd actually say if he saw this in his stocking.</p>\n    <div class=\"adb-obj-grid\">\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"I've already got one\"</div>\n        <h4>These aren't duplicates &mdash; they're a system.</h4>\n        <p>The Folding Sharpener rides in his pocket for a mid-cast touch-up. The Guided Field Sharpener stays in the tackle box or truck for full trip-prep &mdash; coarse to razor edge, plus a hook groove and fish-safe fillet honing the folding one doesn't have.</p>\n      </div>\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"I'll mess it up\"</div>\n        <h4>Built-in angle guides do the thinking.</h4>\n        <p>20&deg;/25&deg; guides lock the angle for him &mdash; no freehand guesswork, no ruined edge. If he can run a hook through a slot 7&ndash;8 times, he can use this. That's the whole skill required.</p>\n      </div>\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"Is it worth it?\"</div>\n        <h4>It's the tool between him and the fish.</h4>\n        <p>A $40 lure with a dull hook catches nothing. A $150 knife that won't hold an edge ruins the fillet. This bundle protects every dollar already spent on gear &mdash; and every fish he brings home.</p>\n      </div>\n      <div class=\"adb-obj-card\">\n        <div class=\"adb-tag\">\"Will it get there in time?\"</div>\n        <h4>In stock, ready to ship now.</h4>\n        <p>Father's Day (AU) lands Sunday, 6 September 2026. Order now and it's on the porch with plenty of room to spare &mdash; no last-minute panic-buying a gift card.</p>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- PRO STAFF QUOTES -->\n<div class=\"adb-sec adb-proquotes\">\n  <div class=\"adb-wrap\">\n    <h2>Trusted By The People Who Fish For A Living</h2>\n    <p class=\"adb-sub\">Not paid actors. Work Sharp's own pro staff and brand ambassadors reach for the Guided Field Sharpener on every trip.</p>\n    <div class=\"adb-pq-grid\">\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"I keep a Work Sharp Guided Field Sharpener nearby and religiously sharpen each of my lures before fishing. If the hook doesn't easily scratch the back of your fingernail, it needs to be sharpened.\"</p>\n        <div class=\"adb-pq-name\">Danny Coyne</div>\n        <div class=\"adb-pq-role\">Work Sharp Pro Staffer, Trout &amp; Kokanee Expert</div>\n      </div>\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"Upholding the integrity of the meat from a fish requires a razor sharp blade &mdash; one that won't tear at the delicate meat as you clean and portion out your catch. That's why we recommend having a Guided Field Sharpener in the tackle box, your fishing bib, or carrying pack.\"</p>\n        <div class=\"adb-pq-name\">Bobby &amp; Robin Shindelar</div>\n        <div class=\"adb-pq-role\">Founders, Western Ice Fishing Association</div>\n      </div>\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"My favorite sharpener for out in the field is the Guided Field Sharpener because I can carry it with me anywhere.\"</p>\n        <div class=\"adb-pq-name\">Ben Saurman</div>\n        <div class=\"adb-pq-role\">In-House Fishing Expert, Work Sharp</div>\n      </div>\n      <div class=\"adb-pq-card\">\n        <div class=\"adb-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n        <p class=\"adb-quote\">\"When it comes time to clean a limit of trout... the blade should be clean and sharp. If it needs a touch-up, take a few swipes on the Work Sharp Guided Field Sharpener.\"</p>\n        <div class=\"adb-pq-name\">Gary Lewis</div>\n        <div class=\"adb-pq-role\">Work Sharp Pro Staff</div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- COMPARISON -->\n<div class=\"adb-sec adb-alt adb-compare\">\n  <div class=\"adb-wrap\">\n    <h2>One Bundle. Every Moment Covered.</h2>\n    <div class=\"adb-compare-grid\">\n      <div class=\"adb-compare-card\">\n        <div class=\"adb-media\">\n          {% if folding != empty and folding.featured_image %}<img src=\"{{ folding.featured_image | image_url: width: 112 }}\" alt=\"{{ folding.title | escape }}\">{% endif %}\n          <div>\n            <h3>{% if folding != empty %}{{ folding.title }}{% else %}Folding Field Sharpener{% endif %}</h3>\n            {% if folding != empty %}<div class=\"adb-price\">{{ folding.price | money }}</div>{% endif %}\n          </div>\n        </div>\n        <div class=\"adb-when\">For: mid-cast, pocket, quick touch-ups</div>\n        <ul>\n          <li>400 grit diamond plate + 20&deg; guide</li>\n          <li>Fine ceramic plate + 25&deg; guide</li>\n          <li>Glass-filled nylon frame, folds shut</li>\n          <li>Metal pivot + pocket clip &mdash; clips to a vest or waders</li>\n          <li>Ultra-compact, goes wherever he goes</li>\n        </ul>\n      </div>\n      <div class=\"adb-compare-card\">\n        <div class=\"adb-media\">\n          {% if guided != empty and guided.featured_image %}<img src=\"{{ guided.featured_image | image_url: width: 112 }}\" alt=\"{{ guided.title | escape }}\">{% endif %}\n          <div>\n            <h3>{% if guided != empty %}{{ guided.title }}{% else %}Guided Field Sharpener{% endif %}</h3>\n            {% if guided != empty %}<div class=\"adb-price\">{{ guided.price | money }}</div>{% endif %}\n          </div>\n        </div>\n        <div class=\"adb-when\">For: tackle box, boat, full trip-prep</div>\n        <ul>\n          <li>220 grit coarse + 600 grit fine diamond plates (magnetic swap)</li>\n          <li>Fine ceramic rod with dedicated hook-sharpening groove</li>\n          <li>Second ceramic rod for serrations</li>\n          <li>Leather strop with chromium oxide compound for a razor finish</li>\n          <li>Broadhead wrench + lanyard hole, 4.6oz, 3-year warranty</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- TRUST BAR -->\n<div class=\"adb-wrap\">\n  <div class=\"adb-trustbar\">\n    <div><strong>3-Year Warranty</strong>Every Work Sharp tool, backed.</div>\n    <div><strong>30-Day Money Back</strong>No-questions-asked returns.</div>\n    <div><strong>1,500+ Reviews</strong>4.9 average rating.</div>\n    <div><strong>Guidefitter Partner</strong>Used by 450+ professional hunting &amp; fishing outfitters.</div>\n  </div>\n</div>\n\n<!-- URGENCY -->\n<div class=\"adb-urgency\">\n  <div class=\"adb-wrap\">\n    <div class=\"adb-eyebrow\">Father's Day is Sunday, 6 September 2026</div>\n    <h3>In Stock, Ready To Ship Today</h3>\n    <p>Order now to make sure it's wrapped and ready &mdash; not stuck in transit.</p>\n  </div>\n</div>\n\n<!-- FAQ -->\n<div class=\"adb-sec adb-faq\">\n  <div class=\"adb-wrap\">\n    <h2>Still Deciding?</h2>\n    <details class=\"adb-faq-item\">\n      <summary>Does he need to buy anything else to use it?</summary>\n      <p>No. Both sharpeners come ready to use out of the box &mdash; diamond plates, ceramic rods and (on the Guided Field Sharpener) a leather strop are all included. Nothing extra required.</p>\n    </details>\n    <details class=\"adb-faq-item\">\n      <summary>Is it only for knives?</summary>\n      <p>No &mdash; this bundle also handles fish hooks, broadheads, small axes, scissors and serrated blades. If Dad hunts as well as fishes, it covers that gear too.</p>\n    </details>\n    <details class=\"adb-faq-item\">\n      <summary>What if he's never sharpened anything in his life?</summary>\n      <p>That's exactly who this is built for. The angle guides remove the guesswork &mdash; there's no freehand technique to learn, just follow the built-in slot.</p>\n    </details>\n    <details class=\"adb-faq-item\">\n      <summary>What's the return policy if he already has a favourite sharpener?</summary>\n      <p>30-day money-back guarantee, no questions asked. Every Work Sharp product also carries a 3-year warranty.</p>\n    </details>\n  </div>\n</div>\n\n<!-- FINAL CTA -->\n<div class=\"adb-finalcta\">\n  <div class=\"adb-wrap\">\n    <h2>Give The Gift That Makes Every Trip Better</h2>\n    <p>The Angler Dad Bundle &mdash; Folding Field Sharpener + Guided Field Sharpener</p>\n    {% form 'product', product %}\n      <input type=\"hidden\" name=\"id\" value=\"{{ product.selected_or_first_available_variant.id }}\">\n      <button type=\"submit\" name=\"add\" class=\"adb-btn\">Add To Cart &mdash; {{ product.price | money }}</button>\n    {% endform %}\n    {% if guided != empty and folding != empty %}\n      <div class=\"adb-price-line\">\n        Buy separately: {{ folding.title }} {{ folding.price | money }} + {{ guided.title }} {{ guided.price | money }} = <s>{{ component_total | money }}</s>\n        &nbsp;&rarr;&nbsp; <strong>This bundle: {{ product.price | money }}</strong>\n      </div>\n      {% if savings > 0 %}<div class=\"adb-savings\">You save {{ savings | money }} bundling today</div>{% endif %}\n    {% endif %}\n  </div>\n</div>\n\n</div>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "itm_divider_NgTqPP": {
+      "type": "itm-divider",
+      "disabled": true,
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "rich_text_rFnfkL": {
+      "type": "rich-text",
+      "blocks": {
+        "text_kgFaWm": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.description }}"
+          }
+        }
+      },
+      "block_order": [
+        "text_kgFaWm"
+      ],
+      "disabled": true,
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "itm_product_html_section_cTrJ3L": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_cNUQ3n": {
+          "type": "heading",
+          "settings": {
+            "heading": "Features",
+            "heading_size": "h2"
+          }
+        },
+        "html_RydWT4": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_features",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_cNUQ3n",
+        "html_RydWT4"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "faq_accordion": false,
+        "padding_top": 12,
+        "padding_bottom": 24
+      }
+    },
+    "itm_divider_4r6Erm": {
+      "type": "itm-divider",
+      "disabled": true,
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "itm_product_html_section_36h4yM": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_UQ7kMk": {
+          "type": "heading",
+          "settings": {
+            "heading": "Specifications",
+            "heading_size": "h2"
+          }
+        },
+        "html_FPPfLK": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_specifications",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_UQ7kMk",
+        "html_FPPfLK"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "full_width": true,
+        "faq_accordion": false,
+        "padding_top": 12,
+        "padding_bottom": 24
+      }
+    },
+    "itm_divider_ntrjc9": {
+      "type": "itm-divider",
+      "disabled": true,
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "itm_main_video_grid_FbdBEm": {
+      "type": "itm-main-video-grid",
+      "blocks": {
+        "video_VMh7qx": {
+          "type": "video",
+          "settings": {
+            "title": "",
+            "description": "",
+            "youtube_id": "",
+            "vimeo_id": ""
+          }
+        },
+        "video_xganWL": {
+          "type": "video",
+          "settings": {
+            "title": "",
+            "description": "",
+            "youtube_id": "",
+            "vimeo_id": ""
+          }
+        },
+        "video_LcmQtz": {
+          "type": "video",
+          "settings": {
+            "title": "",
+            "description": "",
+            "youtube_id": "",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_VMh7qx",
+        "video_xganWL",
+        "video_LcmQtz"
+      ],
+      "name": "Video grid",
+      "settings": {
+        "heading": "How-tos & Reviews",
+        "full_width": true,
+        "video_source": "metafield",
+        "video_metafield_id": "custom.video_slugs",
+        "color_scheme": "",
+        "columns_desktop": 2,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "itm_divider_gtCkdm": {
+      "type": "itm-divider",
+      "disabled": true,
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "itm_product_html_section_PKGKW3": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_kRXczW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Includes",
+            "heading_size": "h2"
+          }
+        },
+        "html_mrzhR7": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_includes",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_kRXczW",
+        "html_mrzhR7"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "faq_accordion": false,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "178175961502958bc5": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_VMaJQc": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": true,
+            "empty_state": "other_products_reviews"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_VMaJQc"
+      ],
+      "settings": {
+        "heading": "Customer Reviews",
+        "include_margins": true
+      }
+    },
+    "itm_product_html_section_LLYAFL": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_HceV6g": {
+          "type": "heading",
+          "settings": {
+            "heading": "FAQs",
+            "heading_size": "h2"
+          }
+        },
+        "html_aGChCq": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_faqs",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_HceV6g",
+        "html_aGChCq"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "",
+        "full_width": true,
+        "faq_accordion": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "related-products": {
+      "type": "itm-related-products",
+      "settings": {
+        "heading": "Related Products",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "card_img_bg": "#f2f2f2",
+        "arrow_color": "#000000",
+        "card_band_bg": "#2e2e2e",
+        "card_band_text": "#ffffff",
+        "text_align": "left",
+        "show_reviews": true,
+        "star_size": 20,
+        "star_color": "#f5a623",
+        "star_empty_color": "#f5a623",
+        "title_size": 16,
+        "title_size_mobile": 11,
+        "title_weight": "700",
+        "show_price": true,
+        "price_size": 16,
+        "price_size_mobile": 10,
+        "price_weight": "400",
+        "price_color": "#ffffff",
+        "show_atc": true,
+        "atc_height": 40,
+        "atc_font_size": 12,
+        "atc_font_weight": "700",
+        "atc_bg": "#f5a623",
+        "atc_color": "#000000",
+        "actions_divider_color": "#ffffff",
+        "list_btn_bg": "#f5a623",
+        "side_padding_desktop": 0,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_xcRbVR",
+    "itm_divider_NgTqPP",
+    "rich_text_rFnfkL",
+    "itm_product_html_section_cTrJ3L",
+    "itm_divider_4r6Erm",
+    "itm_product_html_section_36h4yM",
+    "itm_divider_ntrjc9",
+    "itm_main_video_grid_FbdBEm",
+    "itm_divider_gtCkdm",
+    "itm_product_html_section_PKGKW3",
+    "178175961502958bc5",
+    "itm_product_html_section_LLYAFL",
+    "related-products"
+  ]
+}

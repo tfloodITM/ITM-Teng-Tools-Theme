@@ -1,0 +1,67 @@
+{%- comment -%}
+  Reusable slider controls: arrows + bar indicators
+
+  Required params:
+  - slider_id      : ID of the scrollable / slider element (string)
+  - pages          : number of pages/slides (integer)
+
+  Optional params:
+  - wrapper_class  : extra classes for the outer wrapper
+  - prev_classes   : extra classes for prev button (for section JS hooks)
+  - next_classes   : extra classes for next button
+  - show_arrows    : boolean-like (default true)
+{%- endcomment -%}
+
+{%- liquid
+  assign slider_id     = slider_id | default: ''
+  assign pages         = pages | default: 0
+  assign wrapper_class = wrapper_class | default: ''
+  assign prev_classes  = prev_classes | default: ''
+  assign next_classes  = next_classes | default: ''
+  assign show_arrows   = show_arrows | default: true
+-%}
+
+{%- if pages > 1 and slider_id != '' -%}
+  <div class="slider-buttons {{ wrapper_class | escape }}">
+    {%- if show_arrows -%}
+      <button
+        type="button"
+        class="slider-button slider-button--prev {{ prev_classes }}"
+        name="previous"
+        aria-label="Previous slide"
+        aria-controls="{{ slider_id }}"
+      >
+        <span class="svg-wrapper">
+          {{ 'icon-caret.svg' | inline_asset_content }}
+        </span>
+      </button>
+    {%- endif -%}
+
+    <div class="slideshow__control-wrapper">
+      {%- for i in (1..pages) -%}
+        <button
+          class="slider-counter__link link"
+          aria-label="Go to slide {{ i }}"
+          aria-controls="{{ slider_id }}"
+          aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+        >
+          <span class="carousel-indicator" aria-hidden="true"></span>
+        </button>
+      {%- endfor -%}
+    </div>
+
+    {%- if show_arrows -%}
+      <button
+        type="button"
+        class="slider-button slider-button--next {{ next_classes }}"
+        name="next"
+        aria-label="Next slide"
+        aria-controls="{{ slider_id }}"
+      >
+        <span class="svg-wrapper">
+          {{ 'icon-caret.svg' | inline_asset_content }}
+        </span>
+      </button>
+    {%- endif -%}
+  </div>
+{%- endif -%}

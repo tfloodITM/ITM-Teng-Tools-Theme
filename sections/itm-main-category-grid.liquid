@@ -1,0 +1,288 @@
+{%- style -%}
+  /* 4 — Categories: full width, 150px padding */
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: 100% !important;
+    padding-left: 150px !important;
+    padding-right: 150px !important;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+  @media (min-width: 750px) and (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+    }
+  }
+{%- endstyle -%}
+
+<section class="cat-grid"
+         style="--pad-top: {{ section.settings.padding_top }}px; --pad-bottom: {{ section.settings.padding_bottom }}px;">
+
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width">
+      {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      <div class="cat-grid__wrap" style="--cols: {{ section.settings.columns }};">
+        {% for block in section.blocks %}
+          {% assign col = block.settings.collection %}
+
+          {% if col %}
+            {% assign hover_mf = col.metafields.custom.category_hover %}
+            {% assign has_hover = false %}
+            {% if block.settings.hover_image or hover_mf %}
+              {% assign has_hover = true %}
+            {% endif %}
+
+            <a class="cat-card {% if has_hover %}has-hover{% endif %}" href="{{ col.url }}" {{ block.shopify_attributes }}>
+              <!-- MEDIA (square) -->
+              <div class="cat-card__media">
+                <div class="img img--primary">
+                  {% if block.settings.image != blank %}
+                    {% assign alt_text = block.settings.title | default: col.title %}
+                    {{ block.settings.image | image_url: width: 1400 | image_tag: alt: alt_text }}
+                  {% elsif col.image != blank %}
+                    {% assign alt_text = col.title %}
+                    {{ col.image | image_url: width: 1400 | image_tag: alt: alt_text }}
+                  {% else %}
+                    <div class="cat-card__ph">{{ col.title }}</div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- BAND (under the image) -->
+              <div class="cat-card__band">
+                <span class="cat-card__title">{{ block.settings.title | default: col.title }}</span>
+              </div>
+
+              {%- comment -%} FULL-CARD HOVER OVERLAY (manual image or collection metafield only) {%- endcomment -%}
+              {% if has_hover %}
+                <div class="cat-card__hover">
+                  {% if block.settings.hover_image %}
+                    {% assign alt_text = block.settings.title | default: col.title %}
+                    {{ block.settings.hover_image | image_url: width: 2000 | image_tag: alt: alt_text }}
+                  {% elsif hover_mf %}
+                    {{ hover_mf | image_url: width: 2000 | image_tag: alt: col.title }}
+                  {% endif %}
+                </div>
+              {% endif %}
+            </a>
+          {% else %}
+            <div class="cat-card cat-card--empty" {{ block.shopify_attributes }}>
+              <div class="cat-card__ph">Select a collection</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+<style>
+/* =====================  CAT GRID (SECTION)  ===================== */
+
+/* Section padding */
+.cat-grid {
+  padding-top: var(--pad-top, 40px);
+  padding-bottom: var(--pad-bottom, 40px);
+}
+
+/* Shrink vertical padding on mobile */
+@media (max-width: 640px) {
+  .cat-grid {
+    padding-top: calc(var(--pad-top, 40px) * 0.6);
+    padding-bottom: calc(var(--pad-bottom, 40px) * 0.6);
+  }
+}
+
+/* =====================  HEADING  ===================== */
+.cat-grid .section-title {
+  text-align: center;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: var(--s-2, 1rem);
+}
+
+/* =====================  GRID  ===================== */
+.cat-grid .cat-grid__wrap {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), 1fr);
+  gap: var(--s-2, 1rem);
+}
+
+/* Tablet → 2 columns */
+@media (max-width: 900px) {
+  .cat-grid .cat-grid__wrap { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Mobile → stay 2 columns */
+@media (max-width: 640px) {
+  .cat-grid .cat-grid__wrap { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =====================  CARD  ===================== */
+.cat-grid .cat-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 12px;
+  position: relative;   /* for hover overlay */
+  overflow: hidden;
+}
+
+/* =====================  MEDIA (SQUARE)  ===================== */
+.cat-grid .cat-card__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #f2f2f2;
+  border-radius: 12px;
+  padding: 12px;
+  transition: opacity 0.25s ease; /* fade when hover active */
+}
+
+.cat-grid .cat-card__media .img { position: absolute; inset: 12px; }
+
+.cat-grid .cat-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+
+/* Tighten media padding on small screens */
+@media (max-width: 640px) {
+  .cat-grid .cat-card__media { padding: 8px; }
+  .cat-grid .cat-card__media .img { inset: 8px; }
+}
+
+/* =====================  FULL-CARD HOVER OVERLAY  ===================== */
+/* Not using per-media swap anymore */
+.cat-grid .img--hover { display: none; }
+
+/* Default hidden; only enabled for .has-hover cards */
+.cat-grid .cat-card__hover {
+  display: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;              /* sits behind band */
+  pointer-events: none;    /* keep entire <a> clickable */
+  background: rgb(var(--color-background));
+}
+
+.cat-grid .cat-card__hover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* fill whole card (media + band area) */
+  object-position: center;
+}
+
+/* Activate hover only when a hover asset exists (card gets .has-hover in Liquid) */
+.cat-grid .cat-card.has-hover .cat-card__hover { display: block; }
+.cat-grid .cat-card.has-hover:hover .cat-card__hover { opacity: 1; }
+.cat-grid .cat-card.has-hover:hover .cat-card__media { opacity: 0; }
+
+/* =====================  BAND (UNDER IMAGE)  ===================== */
+.cat-grid .cat-card__band {
+  position: relative;      /* stacking context */
+  z-index: 1;              /* above hover image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 10px;
+  margin: 5px 0;
+  background: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+  border-top: none;
+}
+
+@media (max-width: 640px) {
+  .cat-grid .cat-card__band { height: 34px; }
+}
+
+/* =====================  BAND TITLE  ===================== */
+.cat-grid .cat-card__title {
+  margin: 0;
+  line-height: 1;
+  font-family: var(--homecat-font, var(--font-heading, system-ui));
+  font-size: var(--homecat-size, 16px);
+  font-weight: var(--homecat-weight, 700);
+  text-transform: var(--homecat-transform, uppercase);
+  font-style: var(--homecat-style, italic);
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+  .cat-grid .cat-card__title {
+    font-size: clamp(14px, 3.8vw, var(--homecat-size, 16px));
+  }
+}
+
+/* =====================  PLACEHOLDER  ===================== */
+.cat-grid .cat-card__ph {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: #888;
+}
+</style>
+
+</section>
+
+{% schema %}
+{
+  "name": "Product categories grid",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Product categories" },
+    { "type": "range", "id": "columns", "label": "Columns", "min": 2, "max": 5, "step": 1, "default": 3 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Primary image (optional)" },
+        { "type": "image_picker", "id": "hover_image", "label": "Hover image (optional)" },
+        { "type": "text", "id": "title", "label": "Override title (optional)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Product categories" }]
+}
+{% endschema %}

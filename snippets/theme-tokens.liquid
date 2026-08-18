@@ -1,0 +1,32 @@
+<style id="theme-tokens">
+  :root {
+    /* Colors */
+    --brand-primary: {{ settings.brand_primary }};
+    --brand-accent:  {{ settings.brand_accent }};
+    --brand-bg:      {{ settings.brand_bg }};
+    --brand-fg:      {{ settings.brand_fg }};
+    --brand-muted:   {{ settings.brand_muted }};
+
+    /* Typography */
+    --font-body: {{ settings.font_body.family | default: 'system-ui' }};
+    --font-heading: {{ settings.font_heading.family | default: 'system-ui' }};
+    --type-scale: {{ settings.type_scale | default: 100 }}%;
+
+    /* Layout */
+    --radius: {{ settings.radius | default: 16 }}px;
+    --container-max: {{ settings.container_max | default: 1200 }}px;
+    --space: {{ settings.space_unit | default: 8 }}px;
+
+    /* Derived spacing scale */
+    --s-1: calc(var(--space) * 0.5);
+    --s-2: var(--space);
+    --s-3: calc(var(--space) * 1.5);
+    --s-4: calc(var(--space) * 2);
+    --s-6: calc(var(--space) * 3);
+
+    /* Buttons */
+    --btn-radius: {% case settings.button_shape %}
+      {% when 'sharp' %}0px{% when 'pill' %}999px{% else %}calc(var(--radius) * 1){% endcase %};
+    --btn-transform: {% if settings.button_upper %}uppercase{% else %}none{% endif %};
+  }
+</style>

@@ -1,0 +1,14 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Node / tooling (if you add build tools later)
+node_modules/
+dist/
+.vscode/
+.idea/
+*.log
+
+# Shopify CLI stuff
+.shopify-cli.yml
+.firecrawl/

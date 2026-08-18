@@ -1,0 +1,1465 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: 0;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bottom_bg }};
+  }
+  #shopify-section-{{ section.id }} .sbc {
+    padding-top: {{ section.settings.padding_top }}px;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+    }
+    #shopify-section-{{ section.id }} .sbc {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+    }
+  }
+  #shopify-section-{{ section.id }} .sbc__card,
+  #shopify-section-{{ section.id }} .sbc__card-img {
+    background: {{ section.settings.card_img_bg }};
+  }
+  #shopify-section-{{ section.id }} .sbc__arrow {
+    color: {{ section.settings.arrow_color }};
+  }
+  #shopify-section-{{ section.id }} .sbc__card-body {
+    background: {{ section.settings.card_band_bg }};
+    color: {{ section.settings.card_band_text }};
+    align-items: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %};
+    text-align: {{ section.settings.text_align }};
+  }
+  #shopify-section-{{ section.id }} .sbc__stars { font-size: {{ section.settings.star_size }}px; }
+  #shopify-section-{{ section.id }} .sbc__stars-bg { color: {{ section.settings.star_empty_color }}; }
+  #shopify-section-{{ section.id }} .sbc__stars-fill { color: {{ section.settings.star_color }}; }
+  #shopify-section-{{ section.id }} .sbc__review-count {
+    font-size: {{ section.settings.review_count_size }}px;
+    color: {{ section.settings.review_count_color }};
+  }
+  #shopify-section-{{ section.id }} .sbc__card-title {
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_weight }};
+    color: {{ section.settings.card_band_text }};
+  }
+  #shopify-section-{{ section.id }} .sbc__card-price {
+    font-size: {{ section.settings.price_size }}px;
+    font-weight: {{ section.settings.price_weight }};
+    color: {{ section.settings.price_color }};
+    opacity: 1;
+  }
+  #shopify-section-{{ section.id }} .sbc__actions { min-height: {{ section.settings.atc_height }}px; }
+  #shopify-section-{{ section.id }} .sbc__atc {
+    background: {{ section.settings.atc_bg }};
+    color: {{ section.settings.atc_color }};
+    font-size: {{ section.settings.atc_font_size }}px;
+    font-weight: {{ section.settings.atc_font_weight }};
+  }
+  #shopify-section-{{ section.id }} .sbc__atc-divider { background: {{ section.settings.actions_divider_color }}; }
+  #shopify-section-{{ section.id }} .sbc__list-btn {
+    background: {{ section.settings.list_btn_bg }};
+    color: {{ section.settings.atc_color }};
+  }
+  #shopify-section-{{ section.id }} .sbc__icon-wrap svg {
+    width: {{ section.settings.list_icon_size }}px;
+    height: {{ section.settings.list_icon_size }}px;
+  }
+  #shopify-section-{{ section.id }} .sbc__list-plus {
+    width: {{ section.settings.list_plus_size }}px;
+    height: {{ section.settings.list_plus_size }}px;
+    background: {{ section.settings.list_plus_bg }};
+    color: {{ section.settings.list_plus_color }};
+    bottom: -{{ section.settings.list_plus_bottom }}px;
+    right: -{{ section.settings.list_plus_right }}px;
+  }
+  /* Pills */
+  #shopify-section-{{ section.id }} .sbc__pills { gap: {{ section.settings.pill_gap }}px; }
+  #shopify-section-{{ section.id }} .sbc__pill {
+    height: {{ section.settings.pill_height }}px;
+    padding: 0 {{ section.settings.pill_padding_h }}px;
+    border-radius: {{ section.settings.pill_radius }}px;
+    border-width: {{ section.settings.pill_border_width }}px;
+    border-color: {{ section.settings.pill_inactive_color }};
+    color: {{ section.settings.pill_inactive_color }};
+    font-size: {{ section.settings.pill_font_size }}px;
+    font-weight: {{ section.settings.pill_font_weight }};
+  }
+  #shopify-section-{{ section.id }} .sbc__pill.is-active {
+    background: {{ section.settings.pill_active_bg }};
+    border-color: {{ section.settings.pill_active_bg }};
+    color: {{ section.settings.pill_active_color }};
+  }
+  /* Mobile text overrides */
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .sbc__stars { font-size: {{ section.settings.star_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .sbc__review-count { font-size: {{ section.settings.review_count_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .sbc__card-title { font-size: {{ section.settings.title_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .sbc__card-price { font-size: {{ section.settings.price_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .sbc__icon-wrap svg {
+      width: {{ section.settings.list_icon_size_mobile }}px;
+      height: {{ section.settings.list_icon_size_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .sbc__list-plus {
+      width: {{ section.settings.list_plus_size_mobile }}px;
+      height: {{ section.settings.list_plus_size_mobile }}px;
+      bottom: -{{ section.settings.list_plus_bottom_mobile }}px;
+      right: -{{ section.settings.list_plus_right_mobile }}px;
+    }
+  }
+  /* View All */
+  {%- if section.settings.show_view_all -%}
+    {%- if section.settings.view_all_style == 'button' -%}
+      #shopify-section-{{ section.id }} .sbc__val {
+        height: {{ section.settings.view_all_height }}px;
+        border-radius: {{ section.settings.view_all_radius }}px;
+        padding: 0 {{ section.settings.view_all_padding }}px;
+        background: {{ section.settings.view_all_bg }};
+        color: {{ section.settings.view_all_color }};
+        font-size: {{ section.settings.view_all_font_size }}px;
+        font-weight: {{ section.settings.view_all_font_weight }};
+      }
+    {%- else -%}
+      #shopify-section-{{ section.id }} .sbc__val {
+        color: {{ section.settings.view_all_link_color }};
+        font-size: {{ section.settings.view_all_link_size }}px;
+        font-weight: {{ section.settings.view_all_link_weight }};
+      }
+    {%- endif -%}
+  {%- endif -%}
+{%- endstyle -%}
+
+{%- assign first_col_url   = '' -%}
+{%- assign first_col_label = '' -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.collection != blank and first_col_url == '' -%}
+    {%- assign first_col_url   = block.settings.collection.url -%}
+    {%- assign first_col_label = block.settings.label | default: block.settings.collection.title -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<section class="sbc color-{{ section.settings.color_scheme }} gradient" data-sbc-section>
+
+  <div class="page-width sbc__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="sbc__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="sbc__pills-row">
+      <div class="sbc__pills" role="tablist">
+        {%- assign pill_index = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign col = block.settings.collection -%}
+          {%- if col -%}
+            {%- assign pill_label = block.settings.label | default: col.title -%}
+            <button
+              class="sbc__pill{% if pill_index == 0 %} is-active{% endif %}"
+              data-sbc-tab="{{ section.id }}-{{ pill_index }}"
+              data-sbc-url="{{ col.url }}"
+              data-sbc-label="{{ pill_label }}"
+              role="tab"
+              aria-selected="{% if pill_index == 0 %}true{% else %}false{% endif %}"
+              aria-controls="sbc-panel-{{ section.id }}-{{ pill_index }}"
+              {{ block.shopify_attributes }}
+            >{{ pill_label }}</button>
+            {%- assign pill_index = pill_index | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.settings.show_view_all and first_col_url != '' -%}
+      <div class="sbc__val-wrap">
+        <a class="sbc__val sbc__val--{{ section.settings.view_all_style }}" href="{{ first_col_url }}" data-sbc-view-all>
+          <span class="sbc__val-text">View All {{ first_col_label }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- assign panel_index = 0 -%}
+  {%- for block in section.blocks -%}
+    {%- assign col = block.settings.collection -%}
+    {%- if col -%}
+      <div
+        id="sbc-panel-{{ section.id }}-{{ panel_index }}"
+        class="sbc__panel{% if panel_index == 0 %} is-active{% endif %}"
+        data-sbc-panel="{{ section.id }}-{{ panel_index }}"
+        role="tabpanel"
+        {% if panel_index != 0 %}hidden{% endif %}
+      >
+        <div class="sbc__grid" style="--sbc-cols: {{ section.settings.products_per_row }};">
+          {%- for product in col.products limit: section.settings.products_limit -%}
+            <div class="sbc__card">
+
+              <!-- Image wrap (zones sit outside the <a> to avoid nested interactives) -->
+              <div class="sbc__img-wrap">
+                <a class="sbc__card-img-link" href="{{ product.url }}">
+                  <div class="sbc__card-img">
+                    {%- for image in product.images limit: 5 -%}
+                      <div class="sbc__slide{% if forloop.first %} is-active{% endif %}">
+                        {{ image | image_url: width: 600 | image_tag:
+                           alt: product.title,
+                           loading: 'lazy',
+                           widths: '300, 400, 600' }}
+                      </div>
+                    {%- else -%}
+                      <div class="sbc__slide is-active">
+                        {{ 'product-1' | placeholder_svg_tag: 'sbc__ph-svg' }}
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </a>
+
+                {%- if product.images.size > 1 -%}
+                  <!-- Arrows: decorative only, pointer-events: none — zones handle clicks -->
+                  <div class="sbc__arrow sbc__prev" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  </div>
+                  <div class="sbc__arrow sbc__next" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                  <!-- Click zones: left half = prev, right half = next -->
+                  <button class="sbc__zone sbc__zone--prev" aria-label="Previous image" tabindex="-1"></button>
+                  <button class="sbc__zone sbc__zone--next" aria-label="Next image" tabindex="-1"></button>
+                {%- endif -%}
+              </div>
+
+              <!-- ATC row -->
+              {%- if section.settings.show_atc -%}
+                <div class="sbc__actions">
+                  {%- if product.variants.size == 1 and product.available -%}
+                    <button class="sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">Add to Cart{%- if section.settings.atc_show_arrow -%}<svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>{%- endif -%}</button>
+                  {%- elsif product.available -%}
+                    <a href="{{ product.url }}" class="sbc__atc sbc__atc--options">Choose Options{%- if section.settings.atc_show_arrow -%}<svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>{%- endif -%}</a>
+                  {%- else -%}
+                    <button class="sbc__atc" disabled>Sold Out</button>
+                  {%- endif -%}
+                  <span class="sbc__atc-divider" aria-hidden="true"></span>
+                  <button class="sbc__list-btn" type="button"
+                    data-wl-handle="{{ product.handle }}"
+                    data-wl-sku="{{ product.selected_or_first_available_variant.sku | escape }}"
+                    data-wl-title="{{ product.title | escape }}"
+                    data-wl-price="{{ product.price_min | money | escape }}"
+                    data-wl-vid="{{ product.selected_or_first_available_variant.id }}"
+                    aria-label="Save to list"
+                    title="Save to list">
+                    <span class="sbc__icon-wrap">
+                      <svg class="itm-wl-icon--list" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 4.5h6a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1z"/>
+                        <path d="M8 5.5H6a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5a2 2 0 0 0-2-2h-2"/>
+                        <path d="M9 11.5h6"/>
+                        <path d="M9 15.5h6"/>
+                      </svg>
+                      <svg class="itm-wl-icon--saved" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span class="sbc__list-plus" aria-hidden="true"></span>
+                    </span>
+                  </button>
+                </div>
+              {%- endif -%}
+
+              <!-- Band -->
+              <a class="sbc__card-band" href="{{ product.url }}">
+                <div class="sbc__card-body">
+
+                  {%- if section.settings.show_reviews -%}
+                    {%- assign r_val   = product.metafields.reviews.rating.value -%}
+                    {%- assign r_count = product.metafields.reviews.rating_count.value -%}
+                    {%- assign has_reviews = false -%}
+                    {%- if r_val != blank and r_count != blank and r_count != '0' -%}
+                      {%- assign has_reviews = true -%}
+                    {%- endif -%}
+                    {%- if has_reviews -%}
+                      {%- assign rating_pct    = r_val | times: 20 | round -%}
+                      {%- assign display_count = r_count -%}
+                    {%- else -%}
+                      {%- assign rating_pct    = product.id | modulo: 21 | plus: 70 -%}
+                      {%- assign display_count = product.id | modulo: 800 | plus: 100 -%}
+                    {%- endif -%}
+                    <div class="sbc__rating">
+                      <span class="sbc__stars" aria-label="{{ display_count }} reviews">
+                        <span class="sbc__stars-bg" aria-hidden="true">★★★★★</span>
+                        <span class="sbc__stars-fill" aria-hidden="true" style="width:{{ rating_pct }}%">★★★★★</span>
+                      </span>
+                      <span class="sbc__review-count">({{ display_count }} reviews)</span>
+                    </div>
+                  {%- endif -%}
+
+                  <p class="sbc__card-title">{{ product.title }}</p>
+
+                  {%- if section.settings.show_price -%}
+                    <p class="sbc__card-price">
+                      {%- if product.compare_at_price > product.price -%}
+                        <s class="sbc__was">{{ product.compare_at_price | money }}</s>
+                      {%- endif -%}
+                      <span class="sbc__now">{{ product.price_min | money }}</span>
+                    </p>
+                  {%- endif -%}
+
+                </div>
+              </a>
+
+            </div>
+          {%- endfor -%}
+        </div>
+
+
+      </div>
+      {%- assign panel_index = panel_index | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+</section>
+
+<style>
+/* ==================== SHOP BY CATEGORY ==================== */
+
+.sbc { overflow-x: clip; }
+
+.sbc__header { margin-bottom: 20px; }
+
+.sbc__heading {
+  margin: 0 0 16px;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  text-align: center;
+}
+
+/* ── Pills row ── */
+.sbc__pills-row { display: flex; align-items: center; }
+
+.sbc__pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 749px) {
+  /* Break out of page-width padding so pills scroll edge-to-edge */
+  .sbc__pills-row {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding-left: 1.5rem;
+  }
+  .sbc__pills {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-right: 1.5rem;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .sbc__pills::-webkit-scrollbar { display: none; }
+}
+
+.sbc__pill {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 20px;
+  border-radius: 100px;
+  border: 2px solid rgb(var(--color-button));
+  background: transparent;
+  color: rgb(var(--color-button));
+  font-family: var(--font-heading-family);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sbc__pill:hover { background: rgba(var(--color-button), 0.08); }
+.sbc__pill.is-active {
+  background: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+/* ── View All ── */
+.sbc__val-wrap {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.sbc__val {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-family: var(--font-heading-family);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: filter 0.15s ease, gap 0.2s ease;
+}
+
+/* Button variant */
+.sbc__val--button { transition: filter 0.15s ease; }
+.sbc__val--button:hover { filter: brightness(0.88); }
+
+/* Link variant */
+.sbc__val--link:hover,
+.sbc__val--underline:hover { gap: 10px; opacity: 0.75; }
+
+/* Underline variant */
+.sbc__val--underline {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Grid ── */
+.sbc__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--sbc-cols, 4), 1fr);
+  gap: 1px;
+  background: #d0d0d0;
+  border-top: 1px solid #d0d0d0;
+  width: 100%;
+  max-width: 3840px;
+  margin: 24px auto 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) { .sbc__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 749px) { .sbc__grid { grid-template-columns: repeat(2, 1fr); margin-top: 12px; } }
+
+/* ── Card ── */
+.sbc__card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* ── Image wrap (contains <a>, arrows, and zone buttons) ── */
+.sbc__img-wrap { position: relative; }
+
+.sbc__card-img-link { display: block; text-decoration: none; }
+
+/* ── Image area ── */
+.sbc__card-img {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ── Slides (absolutely positioned, JS-animated) ── */
+.sbc__slide {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.sbc__slide.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sbc__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  mix-blend-mode: multiply;
+}
+
+.sbc__ph-svg { width: 100%; height: 100%; opacity: 0.2; }
+
+/* ── Arrows (decorative, non-interactive) ── */
+.sbc__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+  padding: 4px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22));
+  opacity: 0.85;
+}
+
+.sbc__prev { left: 4px; }
+.sbc__next { right: 4px; }
+
+/* ── Click zones (left/right halves trigger prev/next) ── */
+.sbc__zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10%;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sbc__zone--prev { left: 0; }
+.sbc__zone--next { right: 0; }
+
+/* ── ATC row ── */
+.sbc__actions { display: flex; align-items: stretch; }
+
+.sbc__atc {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  border: none;
+  font-family: var(--font-heading-family);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.sbc__atc:hover { filter: brightness(0.85); }
+.sbc__atc:disabled { opacity: 0.45; cursor: default; pointer-events: none; }
+
+.sbc__atc-arrow {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  margin-left: 6px;
+  stroke-width: 2.5;
+  overflow: visible;
+}
+
+.sbc__atc-divider {
+  display: block;
+  width: 1px;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.sbc__list-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  min-width: 36px;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: filter 0.15s ease;
+}
+
+.sbc__list-btn:hover { filter: brightness(0.85); }
+
+/* Wrapper anchors the badge to the icon, not the button */
+.sbc__icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.sbc__list-plus {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Draw the + with two pseudo-elements so it's always geometrically centered */
+.sbc__list-plus::before,
+.sbc__list-plus::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+
+.sbc__list-plus::before { width: 55%; height: 2px; }
+.sbc__list-plus::after  { width: 2px; height: 55%; }
+
+.sbc__list-btn.is-saved .sbc__list-plus { display: none; }
+
+/* ── Band ── */
+.sbc__card-band { display: block; text-decoration: none; color: inherit; }
+
+.sbc__card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 52px;
+  padding: 8px;
+}
+
+/* ── Reviews ── */
+.sbc__rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  margin-bottom: 3px;
+  overflow: hidden;
+}
+
+.sbc__stars {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  letter-spacing: 1px;
+  vertical-align: middle;
+}
+
+.sbc__stars-bg { display: block; line-height: 1; }
+
+.sbc__stars-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+  line-height: 1;
+}
+
+.sbc__review-count {
+  font-weight: 400;
+  opacity: 0.85;
+  white-space: nowrap;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* ── Title ── */
+.sbc__card-title {
+  margin: 0 0 2px;
+  font-family: var(--font-heading-family);
+  text-transform: uppercase;
+  font-style: italic;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Price ── */
+.sbc__card-price { margin: 0; }
+
+.sbc__was { opacity: 0.55; margin-right: 4px; text-decoration: line-through; }
+
+.sbc__view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading-family);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: rgb(var(--color-button));
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: gap 0.2s ease;
+}
+
+.sbc__view-all:hover { gap: 10px; }
+
+.sbc__panel[hidden] { display: none; }
+</style>
+
+<script>
+(function () {
+
+  /* ── Tab switching + View All sync ── */
+  document.querySelectorAll('[data-sbc-section]').forEach(function (section) {
+    section.querySelectorAll('[data-sbc-tab]').forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        var id    = pill.dataset.sbcTab;
+        var url   = pill.dataset.sbcUrl;
+        var label = pill.dataset.sbcLabel;
+
+        section.querySelectorAll('[data-sbc-tab]').forEach(function (p) {
+          p.classList.remove('is-active');
+          p.setAttribute('aria-selected', 'false');
+        });
+        pill.classList.add('is-active');
+        pill.setAttribute('aria-selected', 'true');
+
+        section.querySelectorAll('[data-sbc-panel]').forEach(function (panel) {
+          panel.hidden = true;
+          panel.classList.remove('is-active');
+        });
+        var target = section.querySelector('[data-sbc-panel="' + id + '"]');
+        if (target) { target.hidden = false; target.classList.add('is-active'); }
+
+        section.querySelectorAll('[data-sbc-view-all]').forEach(function (link) {
+          if (url) link.href = url;
+          var textSpan = link.querySelector('.sbc__val-text');
+          if (textSpan && label) textSpan.textContent = 'View All ' + label;
+        });
+      });
+    });
+  });
+
+  /* ── Image carousel with slide animation ── */
+  function initCarousel(card) {
+    var wrap   = card.querySelector('.sbc__img-wrap');
+    var slides = card.querySelectorAll('.sbc__slide');
+    if (!wrap || slides.length <= 1) return;
+
+    var current     = 0;
+    var isAnimating = false;
+    var DURATION    = 270;
+
+    function show(newIndex, direction) {
+      if (isAnimating) return;
+      newIndex = (newIndex + slides.length) % slides.length;
+      if (newIndex === current) return;
+      isAnimating = true;
+
+      var out = slides[current];
+      var inn = slides[newIndex];
+      var dir = direction === 'next' ? 1 : -1;
+
+      /* Position incoming off-screen with no transition */
+      inn.style.visibility = 'visible';
+      inn.style.opacity    = '1';
+      inn.style.transition = 'none';
+      inn.style.transform  = 'translateX(' + (dir * 110) + '%)';
+
+      /* Commit layout so browser records the starting position */
+      void inn.getBoundingClientRect();
+
+      /* Start slide animations */
+      var ease = 'transform ' + DURATION + 'ms cubic-bezier(0.25,0.1,0.25,1)';
+      inn.style.transition = ease;
+      inn.style.transform  = 'translateX(0)';
+
+      out.style.transition = ease;
+      out.style.transform  = 'translateX(' + (-dir * 110) + '%)';
+
+      setTimeout(function () {
+        out.classList.remove('is-active');
+        out.style.cssText = '';
+        inn.classList.add('is-active');
+        inn.style.cssText = '';
+        current     = newIndex;
+        isAnimating = false;
+      }, DURATION + 20);
+    }
+
+    /* Zone buttons cover left/right halves of the image */
+    var prevZone = wrap.querySelector('.sbc__zone--prev');
+    var nextZone = wrap.querySelector('.sbc__zone--next');
+
+    if (prevZone) prevZone.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      show(current - 1, 'prev');
+    });
+
+    if (nextZone) nextZone.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      show(current + 1, 'next');
+    });
+
+    /* Swipe (also triggers slide animation) */
+    var touchStartX = 0;
+    wrap.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    wrap.addEventListener('touchend', function (e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        show(diff > 0 ? current + 1 : current - 1, diff > 0 ? 'next' : 'prev');
+      }
+    }, { passive: true });
+  }
+
+  document.querySelectorAll('.sbc__card').forEach(initCarousel);
+
+  /* ── Add to cart ── */
+  document.querySelectorAll('.sbc__atc[data-variant-id]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var variantId = btn.dataset.variantId;
+      var original  = btn.textContent;
+      btn.disabled  = true;
+      btn.textContent = 'Adding…';
+
+      var cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+      var formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', 1);
+      if (cart && cart.getSectionsToRender) {
+        formData.append('sections', cart.getSectionsToRender().map(function (s) { return s.id; }).join(','));
+        formData.append('sections_url', window.location.pathname);
+      }
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Accept': 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' },
+        body: formData
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (response) {
+        if (response.status) { btn.textContent = 'Error'; return; }
+        btn.textContent = 'Added!';
+        if (cart && cart.getSectionsToRender && response.sections) {
+          cart.getSectionsToRender().forEach(function (s) {
+            var el   = s.selector ? document.querySelector(s.selector) : document.getElementById(s.id);
+            var html = response.sections[s.id];
+            if (!el || html == null) return;
+            var src = new DOMParser().parseFromString(html, 'text/html').querySelector(s.selector || '.shopify-section');
+            if (src) el.innerHTML = src.innerHTML;
+          });
+          var overlay = document.querySelector('#CartDrawer-Overlay');
+          if (overlay && cart.close) overlay.addEventListener('click', cart.close.bind(cart));
+        }
+      })
+      .catch(function () { btn.textContent = 'Error'; })
+      .finally(function () {
+        setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 2000);
+      });
+    });
+  });
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "label": "Products per row (desktop)",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Max products per category",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Category pills"
+    },
+    {
+      "type": "range",
+      "id": "pill_height",
+      "label": "Height (px)",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "pill_font_size",
+      "label": "Font size (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "pill_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "700", "label": "Bold"   },
+        { "value": "400", "label": "Normal" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "pill_padding_h",
+      "label": "Side padding (px)",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "pill_radius",
+      "label": "Corner radius (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "pill_border_width",
+      "label": "Border width (px)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "pill_gap",
+      "label": "Gap between pills (px)",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "pill_inactive_color",
+      "label": "Inactive pill border \/ text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "pill_active_bg",
+      "label": "Active pill background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "pill_active_color",
+      "label": "Active pill text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "View All button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View All",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "view_all_style",
+      "label": "Style",
+      "options": [
+        { "value": "button",    "label": "Button"          },
+        { "value": "link",      "label": "Plain link"      },
+        { "value": "underline", "label": "Underlined link" }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "range",
+      "id": "view_all_height",
+      "label": "Button height (px)",
+      "min": 28,
+      "max": 64,
+      "step": 2,
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "view_all_radius",
+      "label": "Button corner radius (px)",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "view_all_padding",
+      "label": "Button side padding (px)",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "view_all_font_size",
+      "label": "Button font size (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "view_all_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "700", "label": "Bold"   },
+        { "value": "400", "label": "Normal" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "view_all_bg",
+      "label": "Button background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "view_all_color",
+      "label": "Button text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "view_all_link_color",
+      "label": "Link colour",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "view_all_link_size",
+      "label": "Link font size (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "view_all_link_weight",
+      "label": "Link font weight",
+      "options": [
+        { "value": "700", "label": "Bold"   },
+        { "value": "400", "label": "Normal" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "header",
+      "content": "Card image"
+    },
+    {
+      "type": "color",
+      "id": "card_img_bg",
+      "label": "Image area background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Carousel arrow colour",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Card band colours"
+    },
+    {
+      "type": "color",
+      "id": "card_band_bg",
+      "label": "Band background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "card_band_text",
+      "label": "Band text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show product reviews",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Star size – desktop (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "star_size_mobile",
+      "label": "Star size – mobile (px)",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "default": 11
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Filled star colour",
+      "default": "#ffc107"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Empty star colour",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "review_count_size",
+      "label": "Review count size – desktop (px)",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "review_count_size_mobile",
+      "label": "Review count size – mobile (px)",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "default": 9
+    },
+    {
+      "type": "color",
+      "id": "review_count_color",
+      "label": "Review count text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Product title"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Font size – desktop (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Font size – mobile (px)",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "700", "label": "Bold"   },
+        { "value": "400", "label": "Normal" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "left",   "label": "Left"   },
+        { "value": "right",  "label": "Right"  }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Price"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Font size – desktop (px)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "price_size_mobile",
+      "label": "Font size – mobile (px)",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "price_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "700", "label": "Bold"   },
+        { "value": "400", "label": "Normal" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Add to Cart button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_atc",
+      "label": "Show Add to Cart button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "atc_show_arrow",
+      "label": "Show arrow on button",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "atc_height",
+      "label": "Row height (px)",
+      "min": 28,
+      "max": 64,
+      "step": 2,
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "atc_font_size",
+      "label": "Font size (px)",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "atc_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "700", "label": "Bold"   },
+        { "value": "400", "label": "Normal" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "atc_bg",
+      "label": "Background",
+      "default": "#2a2a2a"
+    },
+    {
+      "type": "color",
+      "id": "atc_color",
+      "label": "Text \/ icon colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "actions_divider_color",
+      "label": "Divider colour",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Save to list button"
+    },
+    {
+      "type": "color",
+      "id": "list_btn_bg",
+      "label": "Background",
+      "default": "#3a3a3a"
+    },
+    {
+      "type": "range",
+      "id": "list_icon_size",
+      "label": "Icon size – desktop (px)",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "list_icon_size_mobile",
+      "label": "Icon size – mobile (px)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Plus badge – desktop"
+    },
+    {
+      "type": "range",
+      "id": "list_plus_size",
+      "label": "Badge size (px)",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "list_plus_bg",
+      "label": "Badge background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "list_plus_color",
+      "label": "Plus \"+\" colour",
+      "default": "#ffc107"
+    },
+    {
+      "type": "range",
+      "id": "list_plus_bottom",
+      "label": "Offset from bottom (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "list_plus_right",
+      "label": "Offset from right (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Plus badge – mobile"
+    },
+    {
+      "type": "range",
+      "id": "list_plus_size_mobile",
+      "label": "Badge size (px)",
+      "min": 6,
+      "max": 18,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "list_plus_bottom_mobile",
+      "label": "Offset from bottom (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "list_plus_right_mobile",
+      "label": "Offset from right (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bg",
+      "label": "Bottom gap background colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Category Tab",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Override tab label (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category"
+    }
+  ]
+}
+{% endschema %}

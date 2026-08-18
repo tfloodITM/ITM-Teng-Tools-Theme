@@ -1,0 +1,207 @@
+<section class="brand-overview color-{{ section.settings.color_scheme }} gradient"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="page-width">
+    <div class="brand-overview__inner">
+
+      <div class="brand-overview__col brand-overview__col--icon">
+        {% if section.settings.icon != blank %}
+          <div class="brand-overview__icon">
+            {{ section.settings.icon 
+              | image_url: width: section.settings.icon_width
+              | image_tag:
+                loading: 'lazy',
+                class: 'brand-overview__icon-img'
+            }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="brand-overview__col brand-overview__col--text">
+
+        {% if section.settings.heading != blank %}
+          <h2 class="brand-overview__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <div class="brand-overview__body rte body-size--{{ section.settings.body_size }}">
+            {{ section.settings.body }}
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .brand-overview__inner {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+      text-align: left;
+    }
+
+    /* Mobile: stack columns, center icon */
+    @media screen and (max-width: 749px) {
+      .brand-overview__col--icon {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 16px;
+      }
+
+      .brand-overview__icon-img {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    /* Desktop: two columns, icon column fixed width */
+    @media screen and (min-width: 750px) {
+      .brand-overview__inner {
+        flex-direction: row;
+        gap: 40px;
+        align-items: center; /* vertical align icon + text */
+      }
+
+      .brand-overview__col--icon {
+        flex: 0 0 {{ section.settings.icon_width }}px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .brand-overview__col--text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .brand-overview__icon-img {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    .brand-overview__icon {
+      margin: 0;
+      padding: 0;
+      line-height: 0;
+    }
+
+    .brand-overview__icon-img {
+      display: block;
+      max-width: {{ section.settings.icon_width }}px;
+      width: 100%;
+      height: auto;
+      vertical-align: middle;
+    }
+
+    .brand-overview__heading {
+      margin-bottom: 1rem;
+    }
+
+    /* -------------------------
+       TEXT SIZE CONTROLS
+       ------------------------- */
+    .body-size--small {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .body-size--normal {
+      font-size: 1.4rem;
+      line-height: 1.6;
+    }
+
+    .body-size--large {
+      font-size: 2rem;
+      line-height: 1.7;
+    }
+  </style>
+
+</section>
+
+{% schema %}
+{
+  "name": "Brand overview",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "Icon or small image"
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "min": 40,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "label": "Icon width",
+      "default": 200
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why we love this brand"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Content",
+      "default": "<p>Use this section to give a quick overview of the brand, what they stand for, and why your customers should care.</p>"
+    },
+    {
+      "type": "select",
+      "id": "body_size",
+      "label": "Body text size",
+      "default": "normal",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "normal", "label": "Normal" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand overview"
+    }
+  ]
+}
+{% endschema %}

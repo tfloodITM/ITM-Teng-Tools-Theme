@@ -1,0 +1,134 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "footer-0": {
+          "type": "link_list",
+          "settings": {
+            "heading": "SHOP BY CATEGORY",
+            "menu": "product-categories"
+          }
+        },
+        "footer-1": {
+          "type": "link_list",
+          "disabled": true,
+          "settings": {
+            "heading": "SHOP BY USE",
+            "menu": "product-categories"
+          }
+        },
+        "link_list_JUFgtL": {
+          "type": "link_list",
+          "settings": {
+            "heading": "SUPPORT & RESOURCES",
+            "menu": "support-resources-drop"
+          }
+        },
+        "footer-2": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "heading": "NEED ASSISTANCE? WE'RE HERE TO HELP",
+            "subtext": ""
+          }
+        }
+      },
+      "block_order": [
+        "footer-0",
+        "footer-1",
+        "link_list_JUFgtL",
+        "footer-2"
+      ],
+      "settings": {
+        "top_border_width": 1,
+        "top_border_color": "#000000",
+        "bg_style": "scheme",
+        "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "custom_bg": "#1a1a1a",
+        "custom_text": "#ffffff",
+        "heading_font": "montserrat_n7",
+        "link_font": "montserrat_n4",
+        "max_width": 3840,
+        "padding_left": 40,
+        "padding_right": 40,
+        "padding_left_mobile": 10,
+        "padding_right_mobile": 10,
+        "column_gap": 56,
+        "brand_col_width": 1,
+        "menu_col_width": 2,
+        "news_col_width": 1,
+        "footer_logo": "shopify://shop_images/cropedd.png",
+        "logo_width": 215,
+        "tagline": "<p>Precision knife & tool sharpeners for the kitchen, workshop and field.</p>",
+        "tagline_size": 14,
+        "tagline_weight": "400",
+        "tagline_line_height": 1.6,
+        "tagline_color": "",
+        "show_rating": true,
+        "rating_value": "4.9",
+        "review_count_text": "1,500+ Reviews",
+        "star_size": 17,
+        "star_color": "#f5a623",
+        "rating_text_size": 13,
+        "rating_text_color": "",
+        "mh_size": 13,
+        "mh_weight": "700",
+        "mh_transform": "uppercase",
+        "mh_spacing": 0.5,
+        "mh_color": "",
+        "ml_size": 14,
+        "ml_weight": "400",
+        "ml_line_height": 1.4,
+        "menu_item_gap": 10,
+        "heading_gap": 14,
+        "ml_color": "",
+        "ml_hover_color": "",
+        "head_divider": true,
+        "list_divider": false,
+        "divider_width": 1,
+        "divider_color": "#e3e3e3",
+        "newsletter_enable": true,
+        "newsletter_heading": "Join the community",
+        "nh_size": 16,
+        "nh_weight": "700",
+        "nh_color": "",
+        "newsletter_text": "<p>Sharpening tips, new releases and subscriber-only offers.</p>",
+        "news_panel_bg": "",
+        "news_panel_padding": 0,
+        "news_panel_radius": 8,
+        "news_input_width": 420,
+        "news_input_height": 48,
+        "news_input_radius": 8,
+        "news_input_bg": "",
+        "news_input_border": "",
+        "news_input_text": "",
+        "news_btn_bg": "#f5a623",
+        "news_btn_color": "#000000",
+        "enable_follow_on_shop": true,
+        "klaviyo_company_id": "VqFEDB",
+        "klaviyo_list_id": "RHbD8J",
+        "show_social": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 24,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

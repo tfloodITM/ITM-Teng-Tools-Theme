@@ -1,0 +1,792 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "ws_hero_split": {
+      "type": "itm-ws-hero-split",
+      "name": "Hero Split",
+      "settings": {
+        "desktop_layout": "split",
+        "mobile_layout": "single",
+        "mobile_panel": "image",
+        "desktop_height": 700,
+        "mobile_height": 510,
+        "mob_overlay_padding_top": 100,
+        "mob_overlay_padding_bottom": 24,
+        "mob_heading_font_size": 28,
+        "mob_subtext_font_size": 14,
+        "mob_btn_font_size": 13,
+        "mob_btn_padding_v": 12,
+        "mob_btn_padding_h": 24,
+        "mob_btn_min_height": 0,
+        "left_image_url": "https://cdn.shopify.com/s/files/1/0778/6928/5630/files/KE-use-kitchen-1.webp?v=1780980800",
+        "heading": "Bring back the edge",
+        "subtext": "From kitchen knives to pocket blades and workshop tools — the right sharpener for every edge you own.",
+        "subtext_max_width": 620,
+        "tags": "Kitchen · Workshop · Hunting · Trail",
+        "tag1_label": "",
+        "tag1_link": "",
+        "tag2_label": "",
+        "tag2_link": "",
+        "tag3_label": "",
+        "tag3_link": "",
+        "tag4_label": "",
+        "tag4_link": "",
+        "tag5_label": "",
+        "tag5_link": "",
+        "btn_font_size": 12,
+        "btn_font_weight": "700",
+        "btn_text_transform": "uppercase",
+        "btn_letter_spacing": 4,
+        "btn_padding_v": 12,
+        "btn_padding_h": 18,
+        "btn_min_height": 46,
+        "btn_border_radius": 50,
+        "cta_label": "SHOP SHARPENERS",
+        "cta_link": "/collections/all",
+        "cta_style": "filled",
+        "cta_arrow": true,
+        "cta_text_color": "#000000",
+        "cta_border_color": "#f5a623",
+        "cta_fill_color": "#f5a623",
+        "cta2_label": "find best sharpener for me",
+        "cta2_link": "",
+        "cta2_style": "filled",
+        "cta2_arrow": true,
+        "cta2_text_color": "#ffffff",
+        "cta2_border_color": "#f4b220",
+        "cta2_fill_color": "",
+        "cta2_glow": true,
+        "cta_position": "middle-left",
+        "video": "shopify://files/videos/worksharp-home-page-video.mp4",
+        "video_url": "",
+        "slideshow_autoplay": true,
+        "slideshow_speed": 5,
+        "show_arrows": true,
+        "show_dots": true
+      }
+    },
+    "itm_main_shop_by_category_yy7X6n": {
+      "type": "itm-main-shop-by-category",
+      "blocks": {
+        "tab_GaRcK7": {
+          "type": "tab",
+          "settings": {
+            "collection": "benchtop-knife-sharpeners",
+            "label": ""
+          }
+        },
+        "tab_na3iXH": {
+          "type": "tab",
+          "settings": {
+            "collection": "electric-knife-sharpeners",
+            "label": ""
+          }
+        },
+        "tab_ekirmp": {
+          "type": "tab",
+          "settings": {
+            "collection": "accessories-consumables",
+            "label": ""
+          }
+        },
+        "tab_GiEw63": {
+          "type": "tab",
+          "settings": {
+            "collection": "portable-pocket-knife-sharpeners",
+            "label": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab_GaRcK7",
+        "tab_na3iXH",
+        "tab_ekirmp",
+        "tab_GiEw63"
+      ],
+      "name": "Shop by Category",
+      "settings": {
+        "heading": "Shop by Category",
+        "products_per_row": 4,
+        "products_limit": 8,
+        "pill_height": 38,
+        "pill_font_size": 10,
+        "pill_font_weight": "700",
+        "pill_padding_h": 12,
+        "pill_radius": 100,
+        "pill_border_width": 2,
+        "pill_gap": 8,
+        "pill_inactive_color": "#000000",
+        "pill_active_bg": "#000000",
+        "pill_active_color": "#ffffff",
+        "show_view_all": true,
+        "view_all_style": "underline",
+        "view_all_height": 44,
+        "view_all_radius": 4,
+        "view_all_padding": 28,
+        "view_all_font_size": 10,
+        "view_all_font_weight": "700",
+        "view_all_bg": "#1a1a1a",
+        "view_all_color": "#ffffff",
+        "view_all_link_color": "#1a1a1a",
+        "view_all_link_size": 10,
+        "view_all_link_weight": "700",
+        "card_img_bg": "#f2f2f2",
+        "arrow_color": "#000000",
+        "card_band_bg": "#2e2e2e",
+        "card_band_text": "#ffffff",
+        "show_reviews": true,
+        "star_size": 20,
+        "star_size_mobile": 11,
+        "star_color": "#f5a623",
+        "star_empty_color": "#f5a623",
+        "review_count_size": 14,
+        "review_count_size_mobile": 9,
+        "review_count_color": "#e3e3e3",
+        "title_size": 16,
+        "title_size_mobile": 11,
+        "title_weight": "700",
+        "text_align": "left",
+        "show_price": true,
+        "price_size": 16,
+        "price_size_mobile": 10,
+        "price_weight": "400",
+        "price_color": "#ffffff",
+        "show_atc": true,
+        "atc_show_arrow": false,
+        "atc_height": 40,
+        "atc_font_size": 12,
+        "atc_font_weight": "700",
+        "atc_bg": "#f5a623",
+        "atc_color": "#000000",
+        "actions_divider_color": "#ffffff",
+        "list_btn_bg": "#f5a623",
+        "list_icon_size": 22,
+        "list_icon_size_mobile": 18,
+        "list_plus_size": 12,
+        "list_plus_bg": "#000000",
+        "list_plus_color": "#ffc107",
+        "list_plus_bottom": 4,
+        "list_plus_right": 3,
+        "list_plus_size_mobile": 10,
+        "list_plus_bottom_mobile": 4,
+        "list_plus_right_mobile": 2,
+        "color_scheme": "",
+        "bottom_bg": "#f2f2f2",
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    },
+    "itm_mobile_video_hero_edGwdH": {
+      "type": "itm-mobile-video-hero",
+      "name": "Mobile Video Hero",
+      "settings": {
+        "video": "shopify://files/videos/worksharp-home-page-video.mp4",
+        "video_url": "",
+        "height": 420,
+        "bg": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "padding_bg": "#f2f2f2"
+      }
+    },
+    "slideshow_rJwghf": {
+      "type": "itm-main-slideshow",
+      "blocks": {
+        "slide_eHLmPW": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ws-hero-1.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_raVbTM": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ws-hero-2.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_9CGrPc": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ws-hero-3.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_tjQYqa": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ws-hero-4.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_G4Nc4M": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ws-hero-5.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_eHLmPW",
+        "slide_raVbTM",
+        "slide_9CGrPc",
+        "slide_tjQYqa",
+        "slide_G4Nc4M"
+      ],
+      "disabled": true,
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "ambient",
+        "show_text_below": false,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "cats": {
+      "type": "itm-main-category-grid",
+      "blocks": {
+        "category_tmgxMy": {
+          "type": "category",
+          "settings": {
+            "collection": "portable-pocket-knife-sharpeners",
+            "image": "shopify://shop_images/d54aece8f0e2dbe61655eeaa24607666.jpg",
+            "hover_image": "shopify://shop_images/510f8f60c81ffde8a549a7c9b763d2c2.jpg",
+            "title": ""
+          }
+        },
+        "category_pMmtb7": {
+          "type": "category",
+          "settings": {
+            "collection": "benchtop-knife-sharpeners",
+            "hover_image": "shopify://shop_images/ec378b9abbd18ba91557b6b0cab83a06.jpg",
+            "title": ""
+          }
+        },
+        "category_f7xwmW": {
+          "type": "category",
+          "settings": {
+            "collection": "electric-knife-sharpeners",
+            "image": "shopify://shop_images/9004b8b7f0a9384e9869831f3bf38637.jpg",
+            "hover_image": "shopify://shop_images/eyJidWNrZXQiOiJ3ZWItbmluamEtaW1hZ2VzIiwia2V5Ijoid29ya3NoYXJwdG9vbHMyXC9jb250ZW50LWZpbGVcL1dTS1RTLUtPMi1JXzkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImhlaWdodCI6NjAwLCJmaXQiOiJ.webp",
+            "title": ""
+          }
+        },
+        "category_T4gjyA": {
+          "type": "category",
+          "settings": {
+            "collection": "accessories-consumables",
+            "image": "shopify://shop_images/4a73572cd79466d155b9200ab73644fc.jpg",
+            "hover_image": "shopify://shop_images/9d3e4e06dc65bdee622bbb6efbc98fc5.jpg",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_tmgxMy",
+        "category_pMmtb7",
+        "category_f7xwmW",
+        "category_T4gjyA"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "h2 {text-align: center;}"
+      ],
+      "name": "ITM Homepage Categories",
+      "settings": {
+        "heading": "WORK SHARP SHARPENERS",
+        "columns": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 12,
+        "padding_bottom": 20
+      }
+    },
+    "features": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "item_69Xxkw": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/ws-3yr-icon.webp",
+            "title": "3 Year Warranty",
+            "text": "Hassle Free, No Hoops To Jump Through, Just Straight To The Point."
+          }
+        },
+        "item_RapjVn": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/ws-usa-icon.webp",
+            "title": "USA Based, Australian Stocked",
+            "text": "Designed, Engineered & Calibrated in Ashland, Oregon."
+          }
+        },
+        "item_n6AdgC": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/ws-wc-icon.webp",
+            "title": "World Class Service",
+            "text": "Our Sharpening Experts Are There To Offer Support And Tips When You Need It."
+          }
+        }
+      },
+      "block_order": [
+        "item_69Xxkw",
+        "item_RapjVn",
+        "item_n6AdgC"
+      ],
+      "name": "ITM Features (Icons)",
+      "settings": {
+        "section_bg": "#ffffff",
+        "color_scheme": "scheme-2",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_bg": "#f2f2f2",
+        "icon_color": "#000000",
+        "title_size": 18,
+        "title_size_mobile": 12,
+        "title_weight": "800",
+        "desc_size": 14,
+        "desc_size_mobile": 10,
+        "desc_weight": "400"
+      }
+    },
+    "testimonial_hero_FHJ9rn": {
+      "type": "itm-main-testimonial-hero",
+      "disabled": true,
+      "name": "Testimonial hero",
+      "settings": {
+        "blog": "testimonial",
+        "post_limit": 5,
+        "section_heading": "",
+        "card_heading": "WHAT OUR CUSTOMERS SAY",
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "vidHero": {
+      "type": "itm-main-video-hero",
+      "disabled": true,
+      "name": "ITM Video Hero (YT)",
+      "settings": {
+        "heading": "GIFTING MADE SIMPLE.",
+        "body": "<p>From beginner to expert, from big budget to humble - the perfect knife sharpener is here.</p>",
+        "youtube_id": "51UWe0YmGeY",
+        "height": 80,
+        "autoplay": false,
+        "controls": false,
+        "color_scheme": "scheme-4"
+      }
+    },
+    "ws_featured_products": {
+      "type": "itm-ws-featured-products",
+      "disabled": true,
+      "name": "Featured Products",
+      "settings": {
+        "heading": "FEATURED PRODUCTS",
+        "product_handles": "wsbchpaj-i,wsbchpaj-pro,wsbchbss-i,wsktnrks-i",
+        "review_counts": "247,189,312,156",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "itm_category_image_grid_V3iHkc": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_RTUrFW": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/images_1.webp",
+            "title": "For the Kitchen",
+            "subtitle": "Shop now",
+            "link": ""
+          }
+        },
+        "category_XahK4k": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Blacktail_Giveaway-10_1.webp",
+            "title": "for the hunt",
+            "subtitle": "Shop now",
+            "link": ""
+          }
+        },
+        "category_GkqUYX": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Compressed-KO2_Hero_2_1.jpg",
+            "title": "for the shop",
+            "subtitle": "Shop now",
+            "link": ""
+          }
+        },
+        "category_VqaFM4": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Compressed-_DSC0969_1.webp",
+            "title": "for the trail",
+            "subtitle": "Shop now",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_RTUrFW",
+        "category_XahK4k",
+        "category_GkqUYX",
+        "category_VqaFM4"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "Find the right tool for you",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#f2f2f2",
+        "divider_width": 1,
+        "divider_width_mobile": 1,
+        "divider_color": "#f2f2f2",
+        "radius": 0,
+        "height": 500,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 26,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "400",
+        "subtitle_color": "#ffffff"
+      }
+    },
+    "ws_reviews": {
+      "type": "itm-ws-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "name": "Dylan",
+            "initials": "DL",
+            "avatar_color": "#e07b39",
+            "time": "1 year ago",
+            "title": "My mind is blown!",
+            "text": "So I have the original guided sharpener they first came out with and it works perfect for sharpening. I've decided to upgrade and the first stone got my knife to an amazing working edge. Absolutely worth it if you're a knife user/hunter/fisherman. JUST BUY IT ONCE AND CRY ONCE.",
+            "helpful_count": 14
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "name": "Trevor G.",
+            "initials": "TG",
+            "avatar_color": "#5b8dd9",
+            "time": "1 year ago",
+            "title": "Razor sharp with no effort!",
+            "text": "Super impressed with how fast I was able to get my collection of fillet knives razor sharp. Super happy with the excellent performance with little effort!",
+            "helpful_count": 7
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "name": "Ed P.",
+            "initials": "EP",
+            "avatar_color": "#7b9e6b",
+            "time": "1 year ago",
+            "title": "Great addition",
+            "text": "Great addition to keep in your kit. Compact and easy to use. Works great if you just need to do a touch up. Just like all Work Sharp products it's built to last.",
+            "helpful_count": 8
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "name": "Chuck F.",
+            "initials": "CF",
+            "avatar_color": "#9b6b9b",
+            "time": "1 year ago",
+            "title": "I love this sharpener!",
+            "text": "It's 5 star. I see some reviews on how it needs a leather strop. I put one on myself. It will be in my pocket everywhere I go. Hoping replaceable ceramic hone and diamond plate replacements are in Worksharps future for it.",
+            "helpful_count": 14
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "name": "Boone B.",
+            "initials": "BB",
+            "avatar_color": "#c9a84c",
+            "time": "1 year ago",
+            "title": "FOLDING FIELD SHARPENER",
+            "text": "This thing is great..compact...light...but offers a big package in small platform! Works great for bringing back your edge after hard use in the field or just to hone up your edge on every day uses..recommend highly!!",
+            "helpful_count": 10
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "name": "Mike R.",
+            "initials": "MR",
+            "avatar_color": "#5b9e9e",
+            "time": "2 years ago",
+            "title": "Best sharpener I've owned",
+            "text": "I've tried many sharpeners over the years and this is by far the best. Easy to use, consistent results every time. My knives have never been sharper. Highly recommend to anyone serious about maintaining their blades.",
+            "helpful_count": 21
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5",
+        "review_6"
+      ],
+      "name": "Customer Reviews",
+      "settings": {
+        "heading": "Customer Reviews",
+        "review_count_text": "4,199 Reviews"
+      }
+    },
+    "featured_blog_yf4hXf": {
+      "type": "itm-home-blog",
+      "name": "Home Blog Grid",
+      "settings": {
+        "blog": "education-hub",
+        "show_title": true,
+        "heading": "Education Hub",
+        "subtitle": "",
+        "subtitle_size": 14,
+        "subtitle_color": "#666666",
+        "subtitle_weight": "400",
+        "header_gap": 32,
+        "show_filters": true,
+        "pill_height": 38,
+        "pill_font_size": 14,
+        "pill_font_weight": "700",
+        "pill_padding_h": 20,
+        "pill_radius": 100,
+        "pill_border_width": 2,
+        "pill_gap": 8,
+        "pill_inactive_color": "#000000",
+        "feat_article_1": "education-hub/work-sharp-gift-guide-for-2025",
+        "feat_article_2": "education-hub/sharpening-your-kitchen-knife-is-easy",
+        "feat_article_3": "",
+        "featured_color": "#f5a623",
+        "featured_bar_height": 4,
+        "featured_image_ratio": "16 / 9",
+        "hover_line_color": "#f5a623",
+        "hover_line_height": 10,
+        "post_limit": 4,
+        "columns_desktop": "4",
+        "card_gap": 8,
+        "image_ratio": "16 / 9",
+        "card_radius": 8,
+        "card_bg": "#f2f2f2",
+        "card_border": true,
+        "card_padding": 16,
+        "show_category": true,
+        "badge_bg": "#f2f2f2",
+        "badge_color": "#000000",
+        "badge_font_size": 8,
+        "badge_padding_h": 10,
+        "badge_padding_v": 3,
+        "badge_radius": 4,
+        "title_size": 14,
+        "title_color": "#1a1a1a",
+        "show_excerpt": true,
+        "excerpt_words": 20,
+        "excerpt_size": 14,
+        "excerpt_color": "#555555",
+        "show_date": false,
+        "date_size": 12,
+        "date_color": "#555555",
+        "read_more_text": "Read more →",
+        "read_more_size": 13,
+        "read_more_color": "#f5a623",
+        "show_view_all": true,
+        "view_all_text": "View all articles →",
+        "view_all_link": "",
+        "view_all_height": 48,
+        "view_all_padding": 32,
+        "view_all_radius": 4,
+        "view_all_font_size": 12,
+        "view_all_font_weight": "700",
+        "view_all_bg": "#1a1a1a",
+        "view_all_color": "#ffffff",
+        "section_padding_h": 40,
+        "section_padding_h_mobile": 8,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "fp": {
+      "type": "itm-main-featured-product-hero",
+      "custom_css": [
+        "h2 {text-align: left;}"
+      ],
+      "name": "ITM Featured Product Hero",
+      "settings": {
+        "product": "wsbchpaj-pro",
+        "color_scheme": "scheme-4",
+        "kicker": "NEW RELEASE !",
+        "name_override": "PRECISION ADJUST PRO",
+        "custom_image": "shopify://shop_images/paj-pro-hero.png",
+        "hero_height": 20,
+        "feather_center": -80,
+        "feather_radius": 80,
+        "feather_softness": 10,
+        "invert_curve": false
+      }
+    },
+    "colTabs": {
+      "type": "itm-main-collection-tabs",
+      "blocks": {
+        "tab_DRRnqA": {
+          "type": "tab",
+          "settings": {
+            "collection": "portable-pocket-knife-sharpeners",
+            "title": "",
+            "content": "",
+            "image_alt": "",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "tab_eANN83": {
+          "type": "tab",
+          "settings": {
+            "collection": "benchtop-knife-sharpeners",
+            "title": "",
+            "content": "",
+            "image_alt": "",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "tab_iW6TRF": {
+          "type": "tab",
+          "settings": {
+            "collection": "electric-knife-sharpeners",
+            "title": "",
+            "content": "",
+            "image_alt": "",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "tab_CiFeRV": {
+          "type": "tab",
+          "settings": {
+            "collection": "accessories-consumables",
+            "title": "",
+            "content": "",
+            "image_alt": "",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab_DRRnqA",
+        "tab_eANN83",
+        "tab_iW6TRF",
+        "tab_CiFeRV"
+      ],
+      "custom_css": [
+        "h2 {text-align: center;}"
+      ],
+      "name": "ITM Info Tabs",
+      "settings": {
+        "collection": "",
+        "heading": "PRODUCT INFORMATION",
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "show_image": true,
+        "image_position": "left",
+        "cta_label": "MORE DETAILS",
+        "cta_link": ""
+      }
+    }
+  },
+  "order": [
+    "ws_hero_split",
+    "itm_main_shop_by_category_yy7X6n",
+    "itm_mobile_video_hero_edGwdH",
+    "slideshow_rJwghf",
+    "cats",
+    "features",
+    "testimonial_hero_FHJ9rn",
+    "vidHero",
+    "ws_featured_products",
+    "itm_category_image_grid_V3iHkc",
+    "ws_reviews",
+    "featured_blog_yf4hXf",
+    "fp",
+    "colTabs"
+  ]
+}

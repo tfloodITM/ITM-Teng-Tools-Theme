@@ -1,0 +1,1304 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{%- comment -%}
+  ITM Footer — rebuilt + fully customisable.
+  Layout (desktop):  [ Logo + tagline + star rating ]  [ up to 4 menu columns ]  [ Email signup ]
+  Mobile:            Logo block (static) -> menu columns as <details> accordions -> Email signup (static).
+  Menu columns are blocks (link_list / text) so existing footer menus carry over.
+{%- endcomment -%}
+
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign has_social_icons = true
+  if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
+    assign has_social_icons = false
+  endif
+
+  assign footer_logo = section.settings.footer_logo | default: settings.logo
+  assign col_count = section.blocks.size | at_most: 4 | at_least: 1
+  assign star_pct = section.settings.rating_value | times: 20 | at_most: 100
+
+  assign use_custom_bg = false
+  if section.settings.bg_style == 'custom'
+    assign use_custom_bg = true
+  endif
+
+  assign hf = section.settings.heading_font
+  assign lf = section.settings.link_font
+-%}
+
+{%- style -%}
+  {{ hf | font_face: font_display: 'swap' }}
+  {{ lf | font_face: font_display: 'swap' }}
+
+  #shopify-section-{{ section.id }} .itm-footer {
+    {%- if use_custom_bg -%}
+      background-color: {{ section.settings.custom_bg }};
+      --ft-fg-rgb: {{ section.settings.custom_text | color_extract: 'red' }},{{ section.settings.custom_text | color_extract: 'green' }},{{ section.settings.custom_text | color_extract: 'blue' }};
+    {%- else -%}
+      --ft-fg-rgb: var(--color-foreground);
+    {%- endif -%}
+    margin-top: {{ section.settings.margin_top }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.top_border_width > 0 %}border-top: {{ section.settings.top_border_width }}px solid {{ section.settings.top_border_color }};{% endif %}
+  }
+  #shopify-section-{{ section.id }} .itm-footer__wrap {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding-left: {{ section.settings.padding_left }}px;
+    padding-right: {{ section.settings.padding_right }}px;
+  }
+
+  /* ── Main grid: brand | columns | newsletter ── */
+  #shopify-section-{{ section.id }} .itm-footer__main {
+    display: grid;
+    grid-template-columns: {{ section.settings.brand_col_width }}fr {{ section.settings.menu_col_width }}fr {{ section.settings.news_col_width }}fr;
+    grid-template-areas: "brand cols news";
+    gap: {{ section.settings.column_gap }}px;
+    align-items: start;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__brand { grid-area: brand; }
+  #shopify-section-{{ section.id }} .itm-footer__cols  { grid-area: cols; }
+  #shopify-section-{{ section.id }} .itm-footer__news  { grid-area: news; }
+
+  /* ── Brand block (logo + text + rating) ── */
+  #shopify-section-{{ section.id }} .itm-footer__logo img {
+    display: block;
+    width: {{ section.settings.logo_width }}px;
+    max-width: 100%;
+    height: auto;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__logo-text {
+    font-family: {{ hf.family }}, {{ hf.fallback_families }};
+    font-size: 2.4rem;
+    font-weight: {{ hf.weight }};
+    letter-spacing: .02em;
+    margin: 0;
+    color: rgb(var(--ft-fg-rgb));
+  }
+  #shopify-section-{{ section.id }} .itm-footer__tagline {
+    font-family: {{ lf.family }}, {{ lf.fallback_families }};
+    margin: 1.4rem 0 0;
+    font-size: {{ section.settings.tagline_size }}px;
+    font-weight: {{ section.settings.tagline_weight }};
+    line-height: {{ section.settings.tagline_line_height }};
+    color: {{ section.settings.tagline_color | default: 'rgba(var(--ft-fg-rgb), .72)' }};
+    max-width: 38ch;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__tagline p { margin: 0 0 .6rem; }
+
+  /* ── Star rating ── */
+  #shopify-section-{{ section.id }} .itm-footer__rating {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-top: 1.8rem;
+  }
+  #shopify-section-{{ section.id }} .itm-stars {
+    position: relative;
+    display: inline-block;
+    font-size: {{ section.settings.star_size }}px;
+    line-height: 1;
+    letter-spacing: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  #shopify-section-{{ section.id }} .itm-stars::before {
+    content: "\2605\2605\2605\2605\2605";
+    color: rgba(var(--ft-fg-rgb), .2);
+  }
+  #shopify-section-{{ section.id }} .itm-stars::after {
+    content: "\2605\2605\2605\2605\2605";
+    color: {{ section.settings.star_color }};
+    position: absolute;
+    top: 0; left: 0;
+    width: {{ star_pct }}%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__rating-text {
+    font-family: {{ lf.family }}, {{ lf.fallback_families }};
+    font-size: {{ section.settings.rating_text_size }}px;
+    color: {{ section.settings.rating_text_color | default: 'rgba(var(--ft-fg-rgb), .8)' }};
+  }
+  #shopify-section-{{ section.id }} .itm-footer__rating-text strong {
+    color: {{ section.settings.rating_text_color | default: 'rgb(var(--ft-fg-rgb))' }};
+    font-weight: 700;
+  }
+
+  /* ── Menu columns ── */
+  #shopify-section-{{ section.id }} .itm-footer__cols {
+    display: grid;
+    grid-template-columns: repeat({{ col_count }}, minmax(0, 1fr));
+    gap: {{ section.settings.menu_item_gap | plus: 22 }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__col { border: 0; }
+  #shopify-section-{{ section.id }} .itm-footer__col-head {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 {{ section.settings.heading_gap }}px;
+    padding-bottom: {% if section.settings.head_divider %}{{ section.settings.heading_gap }}px{% else %}0{% endif %};
+    font-family: {{ hf.family }}, {{ hf.fallback_families }};
+    font-size: {{ section.settings.mh_size }}px;
+    font-weight: {{ section.settings.mh_weight }};
+    letter-spacing: {{ section.settings.mh_spacing }}px;
+    text-transform: {{ section.settings.mh_transform }};
+    color: {{ section.settings.mh_color | default: 'rgb(var(--ft-fg-rgb))' }};
+    {% if section.settings.head_divider %}border-bottom: {{ section.settings.divider_width }}px solid {{ section.settings.divider_color }};{% endif %}
+  }
+  #shopify-section-{{ section.id }} .itm-footer__col-head::-webkit-details-marker { display: none; }
+  #shopify-section-{{ section.id }} .itm-footer__col-icon {
+    flex: 0 0 auto;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .2s ease;
+    display: none; /* desktop: hidden */
+  }
+  #shopify-section-{{ section.id }} .itm-footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.menu_item_gap }}px;
+    {% if section.settings.list_divider %}padding-bottom: {{ section.settings.heading_gap }}px; border-bottom: {{ section.settings.divider_width }}px solid {{ section.settings.divider_color }};{% endif %}
+  }
+  #shopify-section-{{ section.id }} .itm-footer__list a,
+  #shopify-section-{{ section.id }} .itm-footer__col .rte,
+  #shopify-section-{{ section.id }} .itm-footer__col .rte a {
+    font-family: {{ lf.family }}, {{ lf.fallback_families }};
+    font-size: {{ section.settings.ml_size }}px;
+    font-weight: {{ section.settings.ml_weight }};
+    line-height: {{ section.settings.ml_line_height }};
+  }
+  #shopify-section-{{ section.id }} .itm-footer__list a,
+  #shopify-section-{{ section.id }} .itm-footer__col .rte a {
+    text-decoration: none;
+    color: {{ section.settings.ml_color | default: 'rgba(var(--ft-fg-rgb), .78)' }};
+    transition: color .15s ease;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__list a:hover,
+  #shopify-section-{{ section.id }} .itm-footer__col .rte a:hover {
+    color: {{ section.settings.ml_hover_color | default: 'rgb(var(--ft-fg-rgb))' }};
+    text-decoration: underline;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__col .rte {
+    color: {{ section.settings.ml_color | default: 'rgba(var(--ft-fg-rgb), .72)' }};
+    {% if section.settings.list_divider %}padding-bottom: {{ section.settings.heading_gap }}px; border-bottom: {{ section.settings.divider_width }}px solid {{ section.settings.divider_color }};{% endif %}
+  }
+
+  /* ── Newsletter ── */
+  #shopify-section-{{ section.id }} .itm-footer__news-inner {
+    {% if section.settings.news_panel_bg != blank %}background: {{ section.settings.news_panel_bg }};{% endif %}
+    padding: {{ section.settings.news_panel_padding }}px;
+    border-radius: {{ section.settings.news_panel_radius }}px;
+    text-align: left;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__news-heading {
+    font-family: {{ hf.family }}, {{ hf.fallback_families }};
+    text-align: left;
+    margin: 0 0 1rem;
+    font-size: {{ section.settings.nh_size }}px;
+    font-weight: {{ section.settings.nh_weight }};
+    color: {{ section.settings.nh_color | default: 'rgb(var(--ft-fg-rgb))' }};
+  }
+  #shopify-section-{{ section.id }} .itm-footer__news-text {
+    font-family: {{ lf.family }}, {{ lf.fallback_families }};
+    margin: 0 0 1.6rem;
+    font-size: {{ section.settings.ml_size }}px;
+    line-height: 1.55;
+    color: {{ section.settings.ml_color | default: 'rgba(var(--ft-fg-rgb), .72)' }};
+  }
+  #shopify-section-{{ section.id }} .itm-newsletter__field {
+    position: relative;
+    display: flex;
+    max-width: {{ section.settings.news_input_width }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-newsletter__input {
+    flex: 1 1 auto;
+    height: {{ section.settings.news_input_height }}px;
+    padding: 0 {{ section.settings.news_input_height | minus: 8 }}px 0 16px;
+    font-family: {{ lf.family }}, {{ lf.fallback_families }};
+    font-size: {{ section.settings.ml_size }}px;
+    color: {{ section.settings.news_input_text | default: 'rgb(var(--ft-fg-rgb))' }};
+    background: {{ section.settings.news_input_bg | default: 'rgba(var(--ft-fg-rgb), .04)' }};
+    border: 1px solid {{ section.settings.news_input_border | default: 'rgba(var(--ft-fg-rgb), .25)' }};
+    border-radius: {{ section.settings.news_input_radius }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-newsletter__input:focus {
+    outline: none;
+    border-color: {{ section.settings.news_btn_bg }};
+  }
+  #shopify-section-{{ section.id }} .itm-newsletter__input::placeholder { color: rgba(var(--ft-fg-rgb), .5); }
+  #shopify-section-{{ section.id }} .itm-newsletter__btn {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: {{ section.settings.news_input_height | minus: 8 }}px;
+    height: {{ section.settings.news_input_height | minus: 8 }}px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: {{ section.settings.news_input_radius | minus: 2 | at_least: 0 }}px;
+    cursor: pointer;
+    background: {{ section.settings.news_btn_bg }};
+    color: {{ section.settings.news_btn_color }};
+  }
+  #shopify-section-{{ section.id }} .itm-newsletter__btn .icon { width: 18px; height: 18px; }
+  #shopify-section-{{ section.id }} .itm-newsletter__btn:hover { opacity: .9; }
+  #shopify-section-{{ section.id }} .itm-newsletter__msg {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    color: rgb(var(--ft-fg-rgb));
+  }
+  #shopify-section-{{ section.id }} .itm-newsletter__msg[hidden] { display: none; }
+  #shopify-section-{{ section.id }} .itm-newsletter__msg .icon { width: 16px; height: 16px; }
+  #shopify-section-{{ section.id }} .itm-footer__follow { margin-top: 1.4rem; }
+
+  /* ── Bottom bar ── */
+  #shopify-section-{{ section.id }} .itm-footer__bottom {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: {{ section.settings.divider_width }}px solid {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .itm-footer__bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__copy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    font-family: {{ lf.family }}, {{ lf.fallback_families }};
+    font-size: 1.2rem;
+    color: rgba(var(--ft-fg-rgb), .7);
+  }
+  #shopify-section-{{ section.id }} .itm-footer__copy a { color: inherit; text-decoration: none; }
+  #shopify-section-{{ section.id }} .itm-footer__copy a:hover { text-decoration: underline; }
+  #shopify-section-{{ section.id }} .itm-footer__policies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  #shopify-section-{{ section.id }} .itm-footer__bottom-right .list-payment { margin: 0; }
+  #shopify-section-{{ section.id }} .footer__list-social { margin: 0; }
+
+  /* ── Tablet ── */
+  @media screen and (max-width: 989px) and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .itm-footer__main {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "brand news"
+        "cols cols";
+      gap: 40px;
+    }
+    #shopify-section-{{ section.id }} .itm-footer__cols {
+      grid-template-columns: repeat({{ col_count }}, minmax(0, 1fr));
+      margin-top: 8px;
+    }
+  }
+
+  /* ── Mobile: stack + accordion columns ── */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-footer__wrap {
+      padding-left: {{ section.settings.padding_left_mobile }}px;
+      padding-right: {{ section.settings.padding_right_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-footer__main {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "brand"
+        "cols"
+        "news";
+      gap: 8px;
+    }
+    #shopify-section-{{ section.id }} .itm-footer__brand { margin-bottom: 16px; }
+    #shopify-section-{{ section.id }} .itm-footer__news  { margin-top: 24px; }
+
+    #shopify-section-{{ section.id }} .itm-footer__cols {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    #shopify-section-{{ section.id }} .itm-footer__col {
+      border-top: {{ section.settings.divider_width }}px solid {{ section.settings.divider_color }};
+    }
+    #shopify-section-{{ section.id }} .itm-footer__col-head {
+      cursor: pointer;
+      margin: 0;
+      padding: 16px 2px;
+    }
+    #shopify-section-{{ section.id }} .itm-footer__col-icon { display: block; }
+    #shopify-section-{{ section.id }} .itm-footer__col[open] .itm-footer__col-icon {
+      transform: rotate(225deg);
+    }
+    #shopify-section-{{ section.id }} .itm-footer__list,
+    #shopify-section-{{ section.id }} .itm-footer__col .rte {
+      padding: 0 2px 18px;
+      border-bottom: 0;
+    }
+  }
+
+  /* ── Desktop / tablet: columns always expanded (override <details>) ── */
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .itm-footer__list,
+    #shopify-section-{{ section.id }} .itm-footer__col .rte {
+      display: block !important;
+    }
+    #shopify-section-{{ section.id }} .itm-footer__col-head { pointer-events: none; }
+  }
+{%- endstyle -%}
+
+<footer class="itm-footer{% unless use_custom_bg %} color-{{ section.settings.color_scheme }} gradient{% endunless %}">
+  <div class="itm-footer__wrap">
+    <div class="itm-footer__main">
+
+      {%- comment -%}── Brand (logo + tagline + rating) ──{%- endcomment -%}
+      <div class="itm-footer__brand">
+        <a href="{{ routes.root_url }}" class="itm-footer__logo" aria-label="{{ shop.name | escape }}">
+          {%- if footer_logo != blank -%}
+            {{ footer_logo | image_url: width: 600 | image_tag:
+              loading: 'lazy',
+              widths: '120, 240, 360, 480, 600',
+              alt: shop.name,
+              sizes: '(max-width: 749px) 60vw, 280px'
+            }}
+          {%- else -%}
+            <span class="itm-footer__logo-text">{{ shop.name | escape }}</span>
+          {%- endif -%}
+        </a>
+
+        {%- if section.settings.tagline != blank -%}
+          <div class="itm-footer__tagline rte">{{ section.settings.tagline }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.show_rating -%}
+          <div class="itm-footer__rating">
+            <span class="itm-stars" role="img"
+              aria-label="Rated {{ section.settings.rating_value }} out of 5{% if section.settings.review_count_text != blank %} from {{ section.settings.review_count_text }}{% endif %}"></span>
+            <span class="itm-footer__rating-text">
+              <strong>{{ section.settings.rating_value }}</strong>
+              {%- if section.settings.review_count_text != blank -%}
+                &middot; {{ section.settings.review_count_text }}
+              {%- endif -%}
+            </span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%}── Menu columns (blocks) — accordions on mobile ──{%- endcomment -%}
+      <div class="itm-footer__cols">
+        {%- for block in section.blocks -%}
+          <details class="itm-footer__col" open {{ block.shopify_attributes }}>
+            <summary class="itm-footer__col-head">
+              {{ block.settings.heading | default: '' }}
+              <span class="itm-footer__col-icon" aria-hidden="true"></span>
+            </summary>
+
+            {%- case block.type -%}
+              {%- when 'link_list' -%}
+                {%- if block.settings.menu != blank -%}
+                  <ul class="itm-footer__list">
+                    {%- for link in block.settings.menu.links -%}
+                      <li><a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              {%- when 'text' -%}
+                <div class="rte">{{ block.settings.subtext }}</div>
+            {%- endcase -%}
+          </details>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%}── Newsletter (right) — static on mobile ──{%- endcomment -%}
+      <div class="itm-footer__news">
+        <div class="itm-footer__news-inner">
+          {%- if section.settings.newsletter_enable -%}
+            {%- if section.settings.newsletter_heading != blank -%}
+              <h2 class="itm-footer__news-heading">{{ section.settings.newsletter_heading }}</h2>
+            {%- endif -%}
+            {%- if section.settings.newsletter_text != blank -%}
+              <div class="itm-footer__news-text rte">{{ section.settings.newsletter_text }}</div>
+            {%- endif -%}
+
+            <form id="ContactFooter-{{ section.id }}" class="itm-newsletter" data-klaviyo-newsletter novalidate>
+              <div class="itm-newsletter__field">
+                <input
+                  id="NewsletterForm--{{ section.id }}"
+                  type="email"
+                  name="email"
+                  class="itm-newsletter__input"
+                  aria-label="{{ 'newsletter.label' | t }}"
+                  aria-required="true"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  aria-describedby="ContactFooter-{{ section.id }}-error ContactFooter-{{ section.id }}-success"
+                  placeholder="{{ 'newsletter.label' | t }}"
+                  required
+                >
+                <button type="submit" class="itm-newsletter__btn" aria-label="{{ 'newsletter.button_label' | t }}">
+                  <span class="svg-wrapper icon">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                </button>
+              </div>
+              <small class="itm-newsletter__msg" id="ContactFooter-{{ section.id }}-error" data-klaviyo-error hidden>
+                <span class="svg-wrapper icon">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+                <span data-klaviyo-error-text></span>
+              </small>
+              <h3 class="itm-newsletter__msg" id="ContactFooter-{{ section.id }}-success" data-klaviyo-success tabindex="-1" hidden>
+                <span class="svg-wrapper icon">{{- 'icon-success.svg' | inline_asset_content -}}</span>
+                {{- 'newsletter.success' | t }}
+              </h3>
+            </form>
+          {%- endif -%}
+
+          {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
+            <div class="itm-footer__follow">{{ shop | login_button: action: 'follow' }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+
+    {%- comment -%}── Bottom bar ──{%- endcomment -%}
+    <div class="itm-footer__bottom">
+      <div class="itm-footer__bottom-inner">
+        <div class="itm-footer__copy">
+          <span>&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url }}</span>
+          {%- if section.settings.show_policy and shop.policies.size > 0 -%}
+            <ul class="itm-footer__policies">
+              {%- for policy in shop.policies -%}
+                {%- if policy != blank -%}
+                  <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        <div class="itm-footer__bottom-right">
+          {%- if section.settings.show_social and has_social_icons -%}
+            {%- render 'social-icons', class: 'footer__list-social' -%}
+          {%- endif -%}
+          {%- if section.settings.payment_enable and shop.enabled_payment_types.size > 0 -%}
+            <ul class="list list-payment" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="list-payment__item">{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var sec = document.getElementById('shopify-section-{{ section.id }}');
+  if (!sec) return;
+  var cols = sec.querySelectorAll('.itm-footer__col');
+  if (!cols.length) return;
+  var mq = window.matchMedia('(min-width: 750px)');
+  function sync() {
+    /* Desktop/tablet: force every column open (non-collapsible).
+       Mobile: collapse so each acts as a tap-to-expand accordion. */
+    for (var i = 0; i < cols.length; i++) { cols[i].open = mq.matches; }
+  }
+  sync();
+  if (mq.addEventListener) { mq.addEventListener('change', sync); }
+  else if (mq.addListener) { mq.addListener(sync); }
+})();
+</script>
+
+<script>
+(function () {
+  var form = document.getElementById('ContactFooter-{{ section.id }}');
+  if (!form) return;
+
+  var companyId = {{ section.settings.klaviyo_company_id | json }};
+  var listId = {{ section.settings.klaviyo_list_id | json }};
+  var input = form.querySelector('input[type="email"]');
+  var button = form.querySelector('button[type="submit"]');
+  var errorEl = form.querySelector('[data-klaviyo-error]');
+  var errorTextEl = form.querySelector('[data-klaviyo-error-text]');
+  var successEl = form.querySelector('[data-klaviyo-success]');
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    errorEl.hidden = true;
+    successEl.hidden = true;
+
+    if (!companyId || !listId) {
+      errorTextEl.textContent = 'Newsletter signup is not fully configured yet — add the Klaviyo public API key and list ID in Theme settings > Footer > Email signup.';
+      errorEl.hidden = false;
+      return;
+    }
+
+    var email = input.value.trim();
+    if (!email) return;
+
+    button.disabled = true;
+
+    fetch('https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(companyId), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'revision': '2024-10-15'
+      },
+      body: JSON.stringify({
+        data: {
+          type: 'subscription',
+          attributes: {
+            profile: {
+              data: {
+                type: 'profile',
+                attributes: { email: email }
+              }
+            }
+          },
+          relationships: {
+            list: {
+              data: { type: 'list', id: listId }
+            }
+          }
+        }
+      })
+    })
+      .then(function (response) {
+        button.disabled = false;
+        if (response.ok) {
+          form.reset();
+          successEl.hidden = false;
+          successEl.focus();
+        } else {
+          errorTextEl.textContent = 'Something went wrong. Please try again.';
+          errorEl.hidden = false;
+        }
+      })
+      .catch(function () {
+        button.disabled = false;
+        errorTextEl.textContent = 'Something went wrong. Please try again.';
+        errorEl.hidden = false;
+      });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "Menu column",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Quick links",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text column",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Need help?",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background & colour"
+    },
+    {
+      "type": "range",
+      "id": "top_border_width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "label": "Top border thickness",
+      "info": "Set to 0 to hide.",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "top_border_color",
+      "label": "Top border colour",
+      "default": "#e3e3e3"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Background style",
+      "options": [
+        { "value": "scheme", "label": "Theme colour scheme" },
+        { "value": "custom", "label": "Custom colours" }
+      ],
+      "default": "scheme"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme (when using theme scheme)",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "custom_text",
+      "label": "Custom text colour",
+      "info": "Base colour used for headings, links and icons when 'Custom colours' is selected.",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Fonts"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading font",
+      "default": "montserrat_n7"
+    },
+    {
+      "type": "font_picker",
+      "id": "link_font",
+      "label": "Body / link font",
+      "default": "montserrat_n4"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 3840,
+      "step": 40,
+      "unit": "px",
+      "label": "Max content width",
+      "info": "Match the header (3840 = full width).",
+      "default": 3840
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Left padding — desktop",
+      "info": "Match the header (default 20).",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Right padding — desktop",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Left padding — mobile",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Right padding — mobile",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 24,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between zones",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "brand_col_width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Logo zone width (ratio)",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "menu_col_width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Menus zone width (ratio)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "news_col_width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Email zone width (ratio)",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Brand — logo & tagline"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Logo",
+      "info": "Defaults to the theme logo if left blank."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 320,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 150
+    },
+    {
+      "type": "richtext",
+      "id": "tagline",
+      "label": "Text under logo",
+      "default": "<p>Precision knife & tool sharpeners for the kitchen, workshop and field.</p>"
+    },
+    {
+      "type": "range",
+      "id": "tagline_size",
+      "min": 11,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Tagline size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "tagline_weight",
+      "label": "Tagline weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "tagline_line_height",
+      "min": 1.2,
+      "max": 2,
+      "step": 0.1,
+      "label": "Tagline line height",
+      "default": 1.6
+    },
+    {
+      "type": "color",
+      "id": "tagline_color",
+      "label": "Tagline colour (blank = auto)"
+    },
+    {
+      "type": "header",
+      "content": "Star rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating (out of 5)",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "review_count_text",
+      "label": "Reviews text",
+      "default": "1,500+ Reviews"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Star size",
+      "default": 17
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star colour",
+      "default": "#f5a623"
+    },
+    {
+      "type": "range",
+      "id": "rating_text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Rating text size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "rating_text_color",
+      "label": "Rating text colour (blank = auto)"
+    },
+    {
+      "type": "header",
+      "content": "Menu headings"
+    },
+    {
+      "type": "range",
+      "id": "mh_size",
+      "min": 10,
+      "max": 26,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "mh_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "mh_transform",
+      "label": "Heading case",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "none", "label": "As typed" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "mh_spacing",
+      "min": 0,
+      "max": 4,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Heading letter spacing",
+      "default": 0.5
+    },
+    {
+      "type": "color",
+      "id": "mh_color",
+      "label": "Heading colour (blank = auto)"
+    },
+    {
+      "type": "header",
+      "content": "Menu links"
+    },
+    {
+      "type": "range",
+      "id": "ml_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Link size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "ml_weight",
+      "label": "Link weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "ml_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Link line height",
+      "default": 1.4
+    },
+    {
+      "type": "range",
+      "id": "menu_item_gap",
+      "min": 4,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Gap between links",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "min": 4,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Gap below heading",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "ml_color",
+      "label": "Link colour (blank = auto)"
+    },
+    {
+      "type": "color",
+      "id": "ml_hover_color",
+      "label": "Link hover colour (blank = auto)"
+    },
+    {
+      "type": "header",
+      "content": "Divider lines",
+      "info": "Thin lines around the menu columns."
+    },
+    {
+      "type": "checkbox",
+      "id": "head_divider",
+      "label": "Line under each heading",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "list_divider",
+      "label": "Line below the links",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Line thickness",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Line colour",
+      "default": "#e3e3e3"
+    },
+    {
+      "type": "header",
+      "content": "Email signup"
+    },
+    {
+      "type": "checkbox",
+      "id": "newsletter_enable",
+      "label": "Show email signup",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "Join the community"
+    },
+    {
+      "type": "range",
+      "id": "nh_size",
+      "min": 12,
+      "max": 26,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "nh_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "nh_color",
+      "label": "Heading colour (blank = auto)"
+    },
+    {
+      "type": "richtext",
+      "id": "newsletter_text",
+      "label": "Text",
+      "default": "<p>Sharpening tips, new releases and subscriber-only offers.</p>"
+    },
+    {
+      "type": "color",
+      "id": "news_panel_bg",
+      "label": "Signup panel background (blank = none)"
+    },
+    {
+      "type": "range",
+      "id": "news_panel_padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Panel padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "news_panel_radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Panel corner radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "news_input_width",
+      "min": 240,
+      "max": 520,
+      "step": 10,
+      "unit": "px",
+      "label": "Input max width",
+      "default": 420
+    },
+    {
+      "type": "range",
+      "id": "news_input_height",
+      "min": 40,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Input height",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "news_input_radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Input corner radius",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "news_input_bg",
+      "label": "Input background (blank = auto)"
+    },
+    {
+      "type": "color",
+      "id": "news_input_border",
+      "label": "Input border (blank = auto)"
+    },
+    {
+      "type": "color",
+      "id": "news_input_text",
+      "label": "Input text colour (blank = auto)"
+    },
+    {
+      "type": "color",
+      "id": "news_btn_bg",
+      "label": "Button background",
+      "default": "#f5a623"
+    },
+    {
+      "type": "color",
+      "id": "news_btn_color",
+      "label": "Button icon colour",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_follow_on_shop",
+      "label": "Enable Follow on Shop",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo integration"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_company_id",
+      "label": "Klaviyo public API key (Company ID)",
+      "info": "Klaviyo admin → Settings → API Keys → Public API Key."
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "Klaviyo list ID",
+      "info": "Klaviyo admin → Lists & Segments → open the list → the ID is in the URL."
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social icons",
+      "info": "Set links in Theme settings → Social media.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_enable",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy",
+      "label": "Show policy links",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.footer.settings.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "link_list" },
+      { "type": "link_list" },
+      { "type": "link_list" },
+      { "type": "text" }
+    ]
+  }
+}
+{% endschema %}

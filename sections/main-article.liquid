@@ -1,0 +1,633 @@
+{{ 'section-blog-post.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign known_cats = 'Gift Guide,In The Kitchen,Learn To Sharpen,Press,Sharp Matters,The Workshop' | split: ','
+  assign article_cat = ''
+  for c in known_cats
+    if article.tags contains c
+      assign article_cat = c
+      break
+    endif
+  endfor
+
+  assign word_count = article.content | strip_html | strip_newlines | split: ' ' | size
+  assign read_min = word_count | divided_by: 200 | at_least: 1
+
+  assign quiz_heading = section.settings.quiz_heading
+  if article.metafields.custom.quiz_heading != blank
+    assign quiz_heading = article.metafields.custom.quiz_heading
+  endif
+  assign share_url = request.origin | append: article.url
+
+  # background style: custom gradient vs theme color scheme
+  assign hero_class = 'article-hero article-hero--gradient'
+  if section.settings.header_bg_style == 'scheme'
+    assign hero_class = 'article-hero color-' | append: section.settings.header_color_scheme | append: ' gradient'
+  endif
+
+  assign quiz_class = 'art-card'
+  assign quiz_style = 'background:' | append: section.settings.quiz_bg | append: ';color:' | append: section.settings.quiz_text_color | append: ';'
+  assign quiz_head_style = 'color:' | append: section.settings.quiz_heading_color
+  if section.settings.quiz_use_scheme
+    assign quiz_class = 'art-card color-' | append: section.settings.quiz_scheme | append: ' gradient'
+    assign quiz_style = ''
+    assign quiz_head_style = ''
+  endif
+
+  assign brand_class = 'art-card'
+  assign brand_style = 'background:' | append: section.settings.brand_bg | append: ';color:' | append: section.settings.brand_text_color | append: ';'
+  if section.settings.brand_use_scheme
+    assign brand_class = 'art-card color-' | append: section.settings.brand_scheme | append: ' gradient'
+    assign brand_style = ''
+  endif
+
+  assign news_class = ''
+  assign news_style = 'background:' | append: section.settings.news_bg | append: ';color:' | append: section.settings.news_text_color | append: ';'
+  if section.settings.news_use_scheme
+    assign news_class = 'color-' | append: section.settings.news_scheme | append: ' gradient'
+    assign news_style = ''
+  endif
+
+  # Button fills: flat colour vs theme colour scheme (uses the scheme's button colour)
+  assign quiz_btn_class = ''
+  assign quiz_btn_style = 'background:' | append: section.settings.quiz_btn_bg | append: ';color:' | append: section.settings.quiz_btn_text | append: ';'
+  if section.settings.quiz_btn_use_scheme
+    assign quiz_btn_class = ' color-' | append: section.settings.quiz_btn_scheme
+    assign quiz_btn_style = 'background:rgb(var(--color-button));color:rgb(var(--color-button-text));'
+  endif
+
+  assign news_btn_class = ''
+  assign news_btn_style = 'background:' | append: section.settings.news_btn_bg | append: ';color:' | append: section.settings.news_btn_text | append: ';'
+  if section.settings.news_btn_use_scheme
+    assign news_btn_class = ' color-' | append: section.settings.news_btn_scheme
+    assign news_btn_style = 'background:rgb(var(--color-button));color:rgb(var(--color-button-text));'
+  endif
+
+  # TOC card fill: optional theme colour scheme
+  assign toc_class = 'art-card'
+  if section.settings.toc_use_scheme
+    assign toc_class = 'art-card color-' | append: section.settings.toc_scheme | append: ' gradient'
+  endif
+
+  assign fi_block = nil
+  assign title_block = nil
+  for block in section.blocks
+    case block.type
+      when 'featured_image'
+        assign fi_block = block
+      when 'title'
+        assign title_block = block
+    endcase
+  endfor
+-%}
+
+{%- style -%}
+  .article-template{
+    --art-max: 120rem; --art-side: 30rem; --art-gap: 5rem;
+    --card-align: {{ section.settings.card_align }};
+    --card-radius: {{ section.settings.card_radius }}px;
+    --card-bw: {{ section.settings.card_border_width }}px;
+    --card-border: {{ section.settings.card_border_color }};
+    --card-h: {{ section.settings.card_heading_size }}px;
+    --card-t: {{ section.settings.card_text_size }}px;
+    --btn-radius: {{ section.settings.btn_radius }}px;
+    --field-radius: {{ section.settings.field_radius }}px;
+    --field-size: {{ section.settings.news_input_size }}px;
+    --card-pad: {{ section.settings.card_padding }}px;
+    --brand-logo-w: {{ section.settings.brand_logo_width }}px;
+    --brand-logo-gap: {{ section.settings.brand_logo_gap }}px;
+  }
+
+  /* ---------- gradient hero ---------- */
+  /* section-blog-post.css adds margin-top:5rem to the first child (unless it's the stock hero container) — that was the gap above our hero */
+  .article-template > *:first-child{ margin-top:0 !important; }
+
+  .article-hero{ padding: 4rem 0 4.5rem; {% if section.settings.hero_border_width > 0 %}border-bottom: {{ section.settings.hero_border_width }}px solid {{ section.settings.hero_border_color }};{% endif %} }
+  .article-hero--gradient{ background: linear-gradient(135deg, {{ section.settings.header_grad_start }}, {{ section.settings.header_grad_end }}); color: {{ section.settings.header_text }}; }
+  .article-hero__inner{ max-width: var(--art-max); margin:0 auto; padding-inline: 2rem; text-align: {{ section.settings.header_alignment }}; }
+  .article-hero__crumbs{ font-size:1.3rem; opacity:.8; margin-bottom:1.6rem; }
+  .article-hero__crumbs a{ color:inherit; text-decoration:none; }
+  .article-hero__crumbs a:hover{ text-decoration:underline; }
+  .article-hero__crumbs .sep{ margin:0 .6rem; opacity:.5; }
+  .article-hero__title{ margin:0; font-size: clamp(2.8rem, 4.2vw, 4.6rem); line-height:1.12; letter-spacing:-.01em; }
+  .article-hero__meta{ display:flex; flex-wrap:wrap; gap:.6rem 1.4rem; align-items:center; margin-top:1.8rem; font-size:1.4rem; opacity:.9; {% if section.settings.header_alignment == 'center' %}justify-content:center;{% endif %} }
+  .article-hero__cat{ background: rgba(0,0,0,.08); padding:.4rem 1.2rem; border-radius:100px; font-weight:600; text-decoration:none; color:inherit; }
+  .article-hero__cat:hover{ background:rgba(0,0,0,.16); }
+  .article-hero__meta .dot{ opacity:.4; }
+
+  /* ---------- featured image ---------- */
+  .article-feature{ max-width: var(--art-max); margin:0 auto; padding: 0 2rem; transform: translateY(-2.5rem); }
+  .article-feature__frame{ max-width: {{ section.settings.feature_max_width }}px; margin:0 auto; aspect-ratio: {{ section.settings.feature_ratio }}; border-radius:12px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,.12); background:rgba(var(--color-foreground),.06); }
+  .article-feature__frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------- body ---------- */
+  .article-body{ max-width: var(--art-max); margin:0 auto; padding: 1rem 2rem 0; }
+  @media (min-width:990px){
+    .article-body{ display:grid; grid-template-columns: minmax(0,1fr) var(--art-side); gap: var(--art-gap); align-items:start; }
+    .article-body__side{ position:sticky; top:9rem; align-self:start; display:flex; flex-direction:column; gap:2.4rem; }
+  }
+  .article-body__main{ min-width:0; }
+  /* mobile: hide the sidebar (its content is repeated in the bottom segments) */
+  @media (max-width:989px){ .article-body__side{ display:none; } }
+  .article-template__content{ font-size:1.7rem; line-height:1.75; }
+  .article-template__content > *:first-child{ margin-top:0; }
+  /* base.css forces h2{text-align:center} site-wide; keep article body + section headings left-aligned with the text */
+  .article-template__content :is(h1,h2,h3,h4,h5,h6){ text-align:left; }
+  .article-related__head{ text-align:left; }
+  .article-template__content h2{ margin-top:3.4rem; scroll-margin-top:9rem; }
+  .article-template__content h3{ margin-top:2.4rem; scroll-margin-top:9rem; }
+  .article-template__content img{ border-radius:8px; }
+
+  /* shared card */
+  .art-card{ border:var(--card-bw) solid var(--card-border); border-radius:var(--card-radius); padding:var(--card-pad); text-align:var(--card-align, left); }
+  .art-card__title{ margin:0 0 .8rem; font-size:var(--card-h); line-height:1.2; text-align:var(--card-align, left); }
+  .art-card__text{ margin:0; font-size:var(--card-t); line-height:1.55; text-align:var(--card-align, left); }
+
+  /* TOC */
+  .article-toc__head{ margin:0 0 1.2rem; font-size:1.2rem; letter-spacing:.08em; text-transform:uppercase; font-weight:700; opacity:.65; }
+  /* Cap visible items; scroll within the box past the limit so the sidebar height stays put */
+  .article-toc__nav{ max-height: {{ section.settings.toc_max_items | default: 7 | times: 2.8 }}rem; overflow-y:auto; scrollbar-width:thin; scrollbar-color: rgba(var(--color-foreground),.25) transparent; }
+  .article-toc__nav::-webkit-scrollbar{ width:6px; }
+  .article-toc__nav::-webkit-scrollbar-thumb{ background:rgba(var(--color-foreground),.22); border-radius:3px; }
+  .article-toc__nav::-webkit-scrollbar-track{ background:transparent; }
+  .article-toc__nav a{ display:block; padding:.45rem 0 .45rem 1.2rem; font-size:1.4rem; line-height:1.35; color:rgba(var(--color-foreground),.78); text-decoration:none; border-left:2px solid rgba(var(--color-foreground),.12); }
+  .article-toc__nav a:hover{ color:rgb(var(--color-foreground)); }
+  .article-toc__nav a.is-sub{ padding-left:2.6rem; font-size:1.3rem; }
+  .article-toc__nav a.is-active{ border-left-color: {{ section.settings.accent }}; color:rgb(var(--color-foreground)); font-weight:600; }
+
+  /* share */
+  .art-share{ display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; margin:2.4rem 0; justify-content: var(--card-align); }
+  .art-share__label{ font-size:1.4rem; font-weight:600; margin-right:.4rem; }
+  .art-share__btn{ display:inline-flex; align-items:center; justify-content:center; width:3.6rem; height:3.6rem; border-radius:8px; background:rgba(var(--color-foreground),.07); color:rgb(var(--color-foreground)); transition:background .15s, transform .15s; }
+  .art-share__btn:hover{ background:rgba(var(--color-foreground),.16); transform:translateY(-1px); }
+
+  /* brand box */
+  .art-brand__logo img{ display:block; max-width:var(--brand-logo-w); height:auto; margin-bottom:var(--brand-logo-gap); }
+  .art-brand__name{ font-size:2rem; font-weight:800; letter-spacing:.02em; margin-bottom:var(--brand-logo-gap); }
+  .art-brand--wide{ display:flex; gap:2.4rem; align-items:center; margin:3rem 0; text-align:left; }
+  .art-brand--wide .art-brand__logo img,.art-brand--wide .art-brand__name{ margin-bottom:0; max-width:18rem; flex:0 0 auto; }
+  @media (max-width:749px){ .art-brand--wide{ flex-direction:column; align-items:flex-start; } }
+
+  /* google preferred source */
+  .art-gsource{ display:flex; align-items:center; gap:1rem; border:var(--card-bw) solid var(--card-border); border-radius:var(--card-radius); padding:1.2rem 1.6rem; text-decoration:none; color:rgb(var(--color-foreground)); font-size:1.4rem; font-weight:600; line-height:1.25; }
+  .art-gsource:hover{ background:rgba(var(--color-foreground),.04); }
+
+  /* quiz CTA */
+  .art-quiz .button{ width:100%; border:0; cursor:pointer; }
+  .art-quiz--wide{ margin:4rem 0 0; padding:3.6rem 3rem; }
+  .art-quiz--wide .art-card__title{ font-size: calc(var(--card-h) + .8rem); }
+  .art-quiz--wide .art-card__text{ max-width:52rem; {% if section.settings.card_align == 'center' %}margin-inline:auto;{% endif %} }
+  .art-quiz--wide .button{ width:auto; padding-inline:3.5rem; }
+  .art-quiz__btnrow{ margin-top:1.6rem; }
+
+  /* newsletter */
+  .art-news{ border:var(--card-bw) solid var(--card-border); border-radius:var(--card-radius); padding:2.8rem 3rem; margin:3rem 0 0; display:flex; flex-wrap:wrap; align-items:center; gap:2rem 3rem; }
+  .art-news__copy{ flex:1 1 24rem; text-align:var(--card-align); }
+  .art-news__title{ margin:0 0 .4rem; font-size:var(--card-h); line-height:1.15; text-align:var(--card-align, left); }
+  .art-news__sub{ margin:0; font-size:var(--card-t); opacity:.85; }
+  .art-news form{ flex:1 1 26rem; }
+  .art-news__row{ display:flex; gap:1rem; }
+  .art-news__input{ flex:1; min-width:0; padding:1.2rem 1.4rem; font-size:var(--field-size); line-height:1.2; border:1px solid rgba(0,0,0,.2); border-radius:var(--field-radius); background:#fff; color:#1a1a1a; }
+  .art-news__input::placeholder{ color:rgba(0,0,0,.45); }
+  .art-news__ok{ font-weight:600; margin:0; }
+  .art-news__disclaimer{ flex:1 1 100%; margin:1rem 0 0; font-size:1.2rem; line-height:1.4; opacity:.7; }
+  .art-news__disclaimer a{ color:inherit; text-decoration:underline; }
+  .art-news .button{ border:0; cursor:pointer; border-radius:var(--btn-radius); white-space:nowrap; }
+  @media (max-width:749px){ .art-news__row{ flex-direction:column; } .art-news .button{ width:100%; } }
+  /* round the button AND Dawn's ::after border overlay (which is otherwise square) */
+  .art-quiz .button,.art-news .button{ border-radius:var(--btn-radius); overflow:hidden; }
+  .art-quiz .button::after,.art-news .button::after{ border-radius:var(--btn-radius) !important; }
+
+  /* back-to-blog */
+  .article-foot{ max-width: var(--art-max); margin:0 auto; padding:4rem 2rem; text-align:center; }
+
+  /* related */
+  .article-related{ max-width: var(--art-max); margin:5rem auto 1rem; padding:0 2rem; }
+  .article-related__head{ margin:0 0 2.4rem; }
+  .article-related__grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(26rem,1fr)); gap:2.4rem; }
+  .article-related__card{ text-decoration:none; color:inherit; display:flex; flex-direction:column; border:var(--card-bw) solid var(--card-border); border-radius:var(--card-radius); overflow:hidden; background:{{ section.settings.related_bg }}; transition:box-shadow .2s, transform .2s; }
+  .article-related__card:hover{ box-shadow:0 10px 26px rgba(0,0,0,.10); transform:translateY(-2px); }
+  .article-related__media{ aspect-ratio:16/10; overflow:hidden; background:rgba(var(--color-foreground),.06); }
+  .article-related__media img{ width:100%; height:100%; object-fit:cover; }
+  .article-related__inner{ padding:1.8rem 2rem 2rem; display:flex; flex-direction:column; gap:.8rem; flex:1; }
+  .article-related__cat{ font-size:1.2rem; text-transform:uppercase; letter-spacing:.05em; opacity:.6; }
+  .article-related__title{ font-size:1.8rem; line-height:1.25; margin:0; }
+  .article-related__card:hover .article-related__title{ text-decoration:underline; }
+  .article-related__excerpt{ font-size:1.4rem; line-height:1.5; opacity:.8; margin:0; }
+  .article-related__foot{ font-size:1.2rem; opacity:.6; margin-top:auto; padding-top:.4rem; }
+
+  @media (max-width:749px){
+    .article-hero{ padding:2.8rem 0 3.2rem; }
+    .article-feature{ transform:none; padding-top:2rem; }
+  }
+{%- endstyle -%}
+
+{%- comment -%} reusable card chunks {%- endcomment -%}
+{%- capture brand_inner -%}
+  {%- if section.settings.brand_logo -%}
+    <div class="art-brand__logo">{{ section.settings.brand_logo | image_url: width: 360 | image_tag: loading: 'lazy', alt: section.settings.brand_name | default: shop.name }}</div>
+  {%- else -%}
+    <div class="art-brand__name" style="color:{{ section.settings.brand_text_color }}">{{ section.settings.brand_name | default: shop.name }}</div>
+  {%- endif -%}
+{%- endcapture -%}
+
+<article class="article-template">
+
+  {%- comment -%} ---------- hero ---------- {%- endcomment -%}
+  <div class="{{ hero_class }}">
+    <div class="article-hero__inner">
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="article-hero__crumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a><span class="sep">/</span><a href="{{ blog.url }}">{{ blog.title | escape }}</a>{%- if article_cat != blank -%}<span class="sep">/</span><a href="{{ blog.url }}/tagged/{{ article_cat | handle }}">{{ article_cat }}</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+      <h1 class="article-hero__title">{{ article.title | escape }}</h1>
+      {%- if section.settings.show_meta -%}
+        <div class="article-hero__meta">
+          {%- if article_cat != blank -%}<a class="article-hero__cat" href="{{ blog.url }}/tagged/{{ article_cat | handle }}">{{ article_cat }}</a>{%- endif -%}
+          {%- if title_block == nil or title_block.settings.blog_show_date -%}<span>{{ article.published_at | time_tag: format: 'date' }}</span>{%- endif -%}
+          <span class="dot">&middot;</span><span>{{ read_min }} min read</span>
+          {%- if title_block.settings.blog_show_author -%}<span class="dot">&middot;</span><span>{{ article.author }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ---------- featured image ---------- {%- endcomment -%}
+  {%- if article.image and fi_block != nil -%}
+    <div class="article-feature" {{ fi_block.shopify_attributes }}>
+      <div class="article-feature__frame">
+        <img srcset="{{ article.image | image_url: width: 700 }} 700w, {{ article.image | image_url: width: 1100 }} 1100w, {{ article.image | image_url: width: 1500 }} 1500w" sizes="(min-width: 990px) 1000px, 100vw" src="{{ article.image | image_url: width: 1100 }}" loading="eager" fetchpriority="high" width="{{ article.image.width }}" height="{{ article.image.height }}" alt="{{ article.image.alt | escape }}">
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ---------- body ---------- {%- endcomment -%}
+  <div class="article-body">
+    <div class="article-body__main">
+      <div class="article-template__content rte" id="ArticleContent">{{ article.content }}</div>
+      {%- for block in section.blocks -%}{%- if block.type == '@app' -%}<div class="element-margin-top">{% render block %}</div>{%- endif -%}{%- endfor -%}
+
+      {%- comment -%} ===== bottom segments ===== {%- endcomment -%}
+      {%- if section.settings.show_quiz_cta -%}
+        <div class="art-quiz art-quiz--wide {{ quiz_class }}" style="{{ quiz_style }}">
+          <h2 class="art-card__title" style="{{ quiz_head_style }}">{{ quiz_heading }}</h2>
+          {%- if section.settings.quiz_text != blank -%}<p class="art-card__text">{{ section.settings.quiz_text }}</p>{%- endif -%}
+          <div class="art-quiz__btnrow"><button type="button" class="button{{ quiz_btn_class }}" data-quiz-open style="{{ quiz_btn_style }}">{{ section.settings.quiz_button | default: 'Start the quiz' }}</button></div>
+        </div>
+      {%- endif -%}
+
+      {% render 'article-share-icons', share_url: share_url, share_title: article.title %}
+
+      {%- if section.settings.show_brand -%}
+        <div class="art-brand art-brand--wide {{ brand_class }}" style="{{ brand_style }}">
+          {{ brand_inner }}
+          {%- if section.settings.brand_blurb_bottom != blank -%}<div class="art-card__text">{{ section.settings.brand_blurb_bottom }}</div>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_newsletter -%}
+        <div class="art-news {{ news_class }}" style="{{ news_style }}">
+          <div class="art-news__copy">
+            <h2 class="art-news__title">{{ section.settings.newsletter_heading }}</h2>
+            {%- if section.settings.newsletter_text != blank -%}<p class="art-news__sub">{{ section.settings.newsletter_text }}</p>{%- endif -%}
+          </div>
+          {%- form 'customer' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter, education-hub">
+            {%- if form.posted_successfully? -%}
+              <p class="art-news__ok">Thanks for subscribing!</p>
+            {%- else -%}
+              <div class="art-news__row">
+                <label class="visually-hidden" for="ArtNewsEmail">Email</label>
+                <input id="ArtNewsEmail" type="email" name="contact[email]" class="art-news__input" placeholder="{{ section.settings.news_placeholder | default: 'Your email' | escape }}" autocomplete="email" required>
+                <button type="submit" class="button art-news__btn{{ news_btn_class }}" style="{{ news_btn_style }}">{{ section.settings.news_btn_label | default: 'Subscribe' }}</button>
+              </div>
+              {%- if section.settings.news_disclaimer != blank -%}<div class="art-news__disclaimer">{{ section.settings.news_disclaimer }}</div>{%- endif -%}
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <aside class="article-body__side">
+      {%- if section.settings.show_brand -%}
+        <div class="art-brand {{ brand_class }}" style="{{ brand_style }}">
+          {{ brand_inner }}
+          {%- if section.settings.brand_blurb_side != blank -%}<div class="art-card__text">{{ section.settings.brand_blurb_side }}</div>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {% render 'article-share-icons', share_url: share_url, share_title: article.title %}
+
+      {%- if section.settings.show_google_source and section.settings.google_source_link != blank -%}
+        <a class="art-gsource" href="{{ section.settings.google_source_link }}" target="_blank" rel="noopener">
+          <svg width="22" height="22" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.3 35 24 35c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.2-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 5.1 29.6 3 24 3 16 3 9.1 7.6 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.9 26.7 37 24 37c-5.3 0-9.7-2.6-11.3-7l-6.5 5C9.1 42.3 16 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C40.9 36.5 45 30.8 45 24c0-1.2-.1-2.3-.4-3.5z"/></svg>
+          <span>Add as a preferred source on Google</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_toc -%}
+        <div class="{{ toc_class }} article-toc" id="ArticleTOC" hidden>
+          <p class="article-toc__head">In this guide</p>
+          <nav class="article-toc__nav" id="ArticleTOCNav"></nav>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_quiz_cta -%}
+        <div class="art-quiz {{ quiz_class }}" style="{{ quiz_style }}">
+          <h2 class="art-card__title" style="{{ quiz_head_style }}">{{ quiz_heading }}</h2>
+          {%- if section.settings.quiz_text != blank -%}<p class="art-card__text">{{ section.settings.quiz_text }}</p>{%- endif -%}
+          <div class="art-quiz__btnrow"><button type="button" class="button{{ quiz_btn_class }}" data-quiz-open style="{{ quiz_btn_style }}">{{ section.settings.quiz_button | default: 'Start the quiz' }}</button></div>
+        </div>
+      {%- endif -%}
+    </aside>
+  </div>
+
+  {%- comment -%} ---------- related ---------- {%- endcomment -%}
+  {%- if section.settings.show_related -%}
+    {%- assign rel_count = section.settings.related_count -%}
+    {%- assign shown = 0 -%}
+    {%- capture related_cards -%}
+      {%- for a in blog.articles -%}
+        {%- if shown >= rel_count -%}{%- break -%}{%- endif -%}
+        {%- assign is_match = false -%}
+        {%- if a.id != article.id and article_cat != blank and a.tags contains article_cat -%}{%- assign is_match = true -%}{%- endif -%}
+        {%- if is_match -%}
+          {%- assign shown = shown | plus: 1 -%}
+          {%- render 'article-related-card', a: a, settings: section.settings, known_cats: known_cats -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if shown < rel_count -%}
+        {%- for a in blog.articles -%}
+          {%- if shown >= rel_count -%}{%- break -%}{%- endif -%}
+          {%- unless a.id == article.id or article_cat != blank and a.tags contains article_cat -%}
+            {%- assign shown = shown | plus: 1 -%}
+            {%- render 'article-related-card', a: a, settings: section.settings, known_cats: known_cats -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- if shown > 0 -%}
+      <div class="article-related">
+        <h2 class="article-related__head">{{ section.settings.related_heading | default: 'Related articles' }}</h2>
+        <div class="article-related__grid">{{ related_cards }}</div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  <div class="article-foot">
+    <a href="{{ blog.url }}" class="article-template__link link animate-arrow">
+      <span class="icon-wrap"><span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span></span>
+      {{ 'blogs.article.back_to_blog' | t: title: blog.title | escape }}
+    </a>
+  </div>
+
+  {%- if blog.comments_enabled? -%}
+    <div class="article-template__comment-wrapper background-secondary">
+      <div id="comments" class="page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- if article.comments_count > 0 -%}
+          {%- assign anchorId = '#Comments-' | append: article.id -%}
+          <h2 id="Comments-{{ article.id }}" tabindex="-1">{{ 'blogs.article.comments' | t: count: article.comments_count }}</h2>
+          {% paginate article.comments by 5 %}
+            <div class="article-template__comments">
+              {%- if comment.status == 'pending' and comment.content -%}
+                <article id="{{ comment.id }}" class="article-template__comments-comment">{{ comment.content }}<footer class="right"><span class="circle-divider caption-with-letter-spacing">{{ comment.author }}</span></footer></article>
+              {%- endif -%}
+              {%- for comment in article.comments -%}
+                <article id="{{ comment.id }}" class="article-template__comments-comment">{{ comment.content }}<footer class="right"><span class="circle-divider caption-with-letter-spacing">{{ comment.author }}</span><span class="caption-with-letter-spacing">{{- comment.created_at | time_tag: format: 'date' -}}</span></footer></article>
+              {%- endfor -%}
+              {% render 'pagination', paginate: paginate, anchor: anchorId %}
+            </div>
+          {% endpaginate %}
+        {%- endif -%}
+        {% form 'new_comment', article %}
+          {%- liquid
+            assign post_message = 'blogs.article.success'
+            if blog.moderated? and comment.status == 'unapproved'
+              assign post_message = 'blogs.article.success_moderated'
+            endif
+          -%}
+          <h2>{{ 'blogs.article.comment_form_title' | t }}</h2>
+          {%- if form.errors -%}
+            <div class="form__message" role="alert"><h3 class="form-status caption-large text-body" tabindex="-1" autofocus><span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>{{ 'templates.contact.form.error_heading' | t }}</h3></div>
+            <ul class="form-status-list caption-large">{%- for field in form.errors -%}<li><a href="#CommentForm-{{ field }}" class="link">{%- if form.errors.translated_fields[field] contains 'author' -%}{{ 'blogs.article.name' | t }}{%- elsif form.errors.translated_fields[field] contains 'body' -%}{{ 'blogs.article.message' | t }}{%- else -%}{{ form.errors.translated_fields[field] }}{%- endif -%} {{ form.errors.messages[field] }}</a></li>{%- endfor -%}</ul>
+          {%- elsif form.posted_successfully? -%}
+            <div class="form-status-list form__message" role="status"><h3 class="form-status" tabindex="-1" autofocus><span class="svg-wrapper">{{- 'icon-success.svg' | inline_asset_content -}}</span>{{ post_message | t }}</h3></div>
+          {%- endif -%}
+          <div {% if blog.moderated? == false %}class="article-template__comments-fields"{% endif %}>
+            <div class="article-template__comment-fields">
+              <div class="field field--with-error">
+                <input type="text" name="comment[author]" id="CommentForm-author" class="field__input" autocomplete="name" value="{{ form.author }}" aria-required="true" required {% if form.errors contains 'author' %}aria-invalid="true" aria-describedby="CommentForm-author-error"{% endif %} placeholder="{{ 'blogs.article.name' | t }}">
+                <label class="field__label" for="CommentForm-author">{{- 'blogs.article.name' | t }} <span aria-hidden="true">*</span></label>
+                {%- if form.errors contains 'author' -%}<small id="CommentForm-author-error"><span class="form__message"><span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>{{- 'blogs.article.name' | t }} {{ form.errors.messages.author }}.</span></small>{%- endif -%}
+              </div>
+              <div class="field field--with-error">
+                <input type="email" name="comment[email]" id="CommentForm-email" autocomplete="email" class="field__input" value="{{ form.email }}" autocorrect="off" autocapitalize="off" aria-required="true" required {% if form.errors contains 'email' %}aria-invalid="true" aria-describedby="CommentForm-email-error"{% endif %} placeholder="{{ 'blogs.article.email' | t }}">
+                <label class="field__label" for="CommentForm-email">{{- 'blogs.article.email' | t }} <span aria-hidden="true">*</span></label>
+                {%- if form.errors contains 'email' -%}<small id="CommentForm-email-error"><span class="form__message"><span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>{{- 'blogs.article.email' | t }} {{ form.errors.messages.email }}.</span></small>{%- endif -%}
+              </div>
+            </div>
+            <div class="field field--with-error">
+              <textarea rows="5" name="comment[body]" id="CommentForm-body" class="text-area field__input" aria-required="true" required {% if form.errors contains 'body' %}aria-invalid="true" aria-describedby="CommentForm-body-error"{% endif %} placeholder="{{ 'blogs.article.message' | t }}">{{ form.body }}</textarea>
+              <label class="form__label field__label" for="CommentForm-body">{{- 'blogs.article.message' | t }} <span aria-hidden="true">*</span></label>
+            </div>
+            {%- if form.errors contains 'body' -%}<small id="CommentForm-body-error"><span class="form__message"><span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>{{- 'blogs.article.message' | t }} {{ form.errors.messages.body }}.</span></small>{%- endif -%}
+          </div>
+          {%- if blog.moderated? -%}<p class="article-template__comment-warning caption">{{ 'blogs.article.moderated' | t }}</p>{%- endif -%}
+          <input type="submit" class="button" value="{{ 'blogs.article.post' | t }}">
+        {% endform %}
+      </div>
+    </div>
+  {%- endif -%}
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ request.origin | append: article.url | json }} },
+  "headline": {{ article.title | json }},
+  "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+  "dateModified": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+  "author": { "@type": "Person", "name": {{ article.author | json }} },
+  "publisher": { "@type": "Organization", "name": {{ shop.name | json }}{% if settings.logo %}, "logo": { "@type": "ImageObject", "url": {{ settings.logo | image_url: width: 600 | json }} }{% endif %} }{% if article.image %},
+  "image": [ {{ article.image | image_url: width: 1200 | json }} ]{% endif %}{% if article.excerpt != blank %},
+  "description": {{ article.excerpt | strip_html | json }}{% else %},
+  "description": {{ article.content | strip_html | truncatewords: 40 | json }}{% endif %}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ request.origin | json }} },
+    { "@type": "ListItem", "position": 2, "name": {{ blog.title | json }}, "item": {{ request.origin | append: blog.url | json }} },
+    { "@type": "ListItem", "position": 3, "name": {{ article.title | json }}, "item": {{ request.origin | append: article.url | json }} }
+  ]
+}
+</script>
+
+{%- if section.settings.show_toc -%}
+<script>
+(function(){
+  var content=document.getElementById('ArticleContent'),toc=document.getElementById('ArticleTOC'),nav=document.getElementById('ArticleTOCNav');
+  if(!content||!toc||!nav) return;
+  var heads=content.querySelectorAll('h2, h3');
+  if(heads.length < {{ section.settings.toc_min_headings | default: 3 }}){ toc.remove(); return; }
+  var links=[],byId={};
+  heads.forEach(function(h,i){ if(!h.id){ h.id='sec-'+(h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||('h'+i)); } var a=document.createElement('a'); a.href='#'+h.id; a.textContent=h.textContent.trim(); if(h.tagName==='H3'){a.className='is-sub';} nav.appendChild(a); links.push(a); byId[h.id]=a; });
+  toc.hidden=false;
+  /* Keep the active link inside the (scrollable) TOC box as the reader moves down */
+  function ensureVisible(a){
+    var nr=nav.getBoundingClientRect(), ar=a.getBoundingClientRect();
+    if(ar.top < nr.top){ nav.scrollTo({top: nav.scrollTop + (ar.top - nr.top) - 8, behavior:'smooth'}); }
+    else if(ar.bottom > nr.bottom){ nav.scrollTo({top: nav.scrollTop + (ar.bottom - nr.bottom) + 8, behavior:'smooth'}); }
+  }
+  if('IntersectionObserver' in window){ var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove('is-active');});var x=byId[e.target.id];if(x){x.classList.add('is-active');ensureVisible(x);}}});},{rootMargin:'-10% 0px -80% 0px'}); heads.forEach(function(h){obs.observe(h);}); }
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-article.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "header", "content": "Hero header" },
+    { "type": "select", "id": "header_bg_style", "label": "Header background", "default": "gradient", "options": [ { "value": "gradient", "label": "Custom gradient" }, { "value": "scheme", "label": "Theme color scheme" } ] },
+    { "type": "color_scheme", "id": "header_color_scheme", "label": "Header color scheme (when using scheme)", "default": "scheme-2" },
+    { "type": "color", "id": "header_grad_start", "label": "Gradient start", "default": "#f4f1ec" },
+    { "type": "color", "id": "header_grad_end", "label": "Gradient end", "default": "#e7ebf0" },
+    { "type": "color", "id": "header_text", "label": "Header text color", "default": "#1a1a1a" },
+    { "type": "select", "id": "header_alignment", "label": "Header alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+    { "type": "checkbox", "id": "show_breadcrumbs", "label": "Show breadcrumbs", "default": true },
+    { "type": "checkbox", "id": "show_meta", "label": "Show meta row", "default": true },
+    { "type": "range", "id": "hero_border_width", "label": "Header bottom border thickness", "info": "Line under the header area. Set to 0 to hide.", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 1 },
+    { "type": "color", "id": "hero_border_color", "label": "Header bottom border colour", "default": "#e3e3e3" },
+
+    { "type": "header", "content": "Featured image" },
+    { "type": "select", "id": "feature_ratio", "label": "Image ratio (uniform)", "default": "16 / 9", "options": [ { "value": "16 / 9", "label": "16:9 wide" }, { "value": "2 / 1", "label": "2:1 banner" }, { "value": "3 / 2", "label": "3:2" }, { "value": "4 / 3", "label": "4:3" } ] },
+    { "type": "range", "id": "feature_max_width", "min": 600, "max": 1400, "step": 20, "unit": "px", "label": "Image max width", "default": 1000 },
+
+    { "type": "header", "content": "Card & box appearance (shared)" },
+    { "type": "select", "id": "card_align", "label": "Box text alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ] },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "Corner radius", "default": 10 },
+    { "type": "range", "id": "card_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "color", "id": "card_border_color", "label": "Border color", "default": "#e3e3e3" },
+    { "type": "range", "id": "card_heading_size", "min": 14, "max": 34, "step": 1, "unit": "px", "label": "Box heading size", "default": 20 },
+    { "type": "range", "id": "card_text_size", "min": 12, "max": 18, "step": 1, "unit": "px", "label": "Box text size", "default": 14 },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 30, "step": 1, "unit": "px", "label": "Button corner radius", "default": 6 },
+    { "type": "range", "id": "field_radius", "min": 0, "max": 30, "step": 1, "unit": "px", "label": "Input field corner radius", "default": 8 },
+    { "type": "range", "id": "card_padding", "min": 8, "max": 40, "step": 1, "unit": "px", "label": "Box inner padding", "default": 20 },
+
+    { "type": "header", "content": "Brand box" },
+    { "type": "checkbox", "id": "show_brand", "label": "Show brand box", "default": true },
+    { "type": "image_picker", "id": "brand_logo", "label": "Brand logo (use a dark/black logo)" },
+    { "type": "range", "id": "brand_logo_width", "min": 60, "max": 240, "step": 5, "unit": "px", "label": "Logo width", "default": 140 },
+    { "type": "range", "id": "brand_logo_gap", "min": 0, "max": 30, "step": 1, "unit": "px", "label": "Space below logo", "default": 8 },
+    { "type": "text", "id": "brand_name", "label": "Brand name (shown if no logo)", "default": "Work Sharp" },
+    { "type": "checkbox", "id": "brand_use_scheme", "label": "Use theme color scheme for fill", "default": false },
+    { "type": "color_scheme", "id": "brand_scheme", "label": "Brand box color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "brand_bg", "label": "Brand box fill (when not using scheme)", "default": "#ffffff" },
+    { "type": "color", "id": "brand_text_color", "label": "Brand text color", "default": "#1a1a1a" },
+    { "type": "textarea", "id": "brand_blurb_side", "label": "Sidebar blurb", "default": "Work Sharp is a globally trusted, highly rated manufacturer of precision knife & tool sharpeners for the kitchen, workshop and field." },
+    { "type": "textarea", "id": "brand_blurb_bottom", "label": "Bottom blurb", "default": "Work Sharp builds award-winning sharpeners used by home cooks, hunters and tradespeople worldwide. Keep every edge razor sharp." },
+
+    { "type": "header", "content": "Quiz CTA" },
+    { "type": "checkbox", "id": "show_quiz_cta", "label": "Show quiz CTA", "default": true },
+    { "type": "checkbox", "id": "quiz_use_scheme", "label": "Use theme color scheme for fill", "default": false },
+    { "type": "color_scheme", "id": "quiz_scheme", "label": "Quiz box color scheme", "default": "scheme-2" },
+    { "type": "color", "id": "quiz_bg", "label": "Box fill (when not using scheme)", "default": "#f4b220" },
+    { "type": "color", "id": "quiz_heading_color", "label": "Heading color", "default": "#1a1a1a" },
+    { "type": "color", "id": "quiz_text_color", "label": "Text color", "default": "#2e2e2e" },
+    { "type": "checkbox", "id": "quiz_btn_use_scheme", "label": "Button: use theme colour scheme fill", "default": false },
+    { "type": "color_scheme", "id": "quiz_btn_scheme", "label": "Button colour scheme", "default": "scheme-1" },
+    { "type": "color", "id": "quiz_btn_bg", "label": "Button fill (when not using scheme)", "default": "#2e2e2e" },
+    { "type": "color", "id": "quiz_btn_text", "label": "Button text (when not using scheme)", "default": "#ffffff" },
+    { "type": "text", "id": "quiz_heading", "label": "Heading", "default": "Find the best sharpener for me" },
+    { "type": "textarea", "id": "quiz_text", "label": "Text", "default": "Answer a few quick questions and we'll match you to the ideal Work Sharp sharpener." },
+    { "type": "text", "id": "quiz_button", "label": "Button label", "default": "Start the quiz" },
+
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show email signup", "default": true },
+    { "type": "checkbox", "id": "news_use_scheme", "label": "Use theme color scheme for fill", "default": false },
+    { "type": "color_scheme", "id": "news_scheme", "label": "Newsletter box color scheme", "default": "scheme-2" },
+    { "type": "color", "id": "news_bg", "label": "Box fill (when not using scheme)", "default": "#f4f1ec" },
+    { "type": "color", "id": "news_text_color", "label": "Text color", "default": "#1a1a1a" },
+    { "type": "checkbox", "id": "news_btn_use_scheme", "label": "Button: use theme colour scheme fill", "default": false },
+    { "type": "color_scheme", "id": "news_btn_scheme", "label": "Button colour scheme", "default": "scheme-1" },
+    { "type": "color", "id": "news_btn_bg", "label": "Button fill (when not using scheme)", "default": "#2e2e2e" },
+    { "type": "color", "id": "news_btn_text", "label": "Button text (when not using scheme)", "default": "#ffffff" },
+    { "type": "text", "id": "news_btn_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "news_placeholder", "label": "Email field placeholder", "default": "Your email" },
+    { "type": "range", "id": "news_input_size", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Input/placeholder text size", "default": 15 },
+    { "type": "text", "id": "newsletter_heading", "label": "Heading", "default": "Subscribe for sharpening tips & updates" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Text", "default": "Join the Work Sharp email list for guides, new products and offers." },
+    { "type": "richtext", "id": "news_disclaimer", "label": "Disclaimer text (below form)", "default": "<p>By clicking “Subscribe” you agree to our Privacy Policy and consent to Work Sharp using your contact data for newsletter purposes.</p>" },
+
+    { "type": "header", "content": "Google preferred source" },
+    { "type": "checkbox", "id": "show_google_source", "label": "Show Google preferred-source button", "default": false },
+    { "type": "url", "id": "google_source_link", "label": "Preferred source link" },
+
+    { "type": "header", "content": "Table of contents" },
+    { "type": "checkbox", "id": "show_toc", "label": "Show table of contents", "default": true },
+    { "type": "checkbox", "id": "toc_use_scheme", "label": "TOC card: use theme colour scheme fill", "default": false },
+    { "type": "color_scheme", "id": "toc_scheme", "label": "TOC card colour scheme", "default": "scheme-1" },
+    { "type": "range", "id": "toc_min_headings", "min": 2, "max": 8, "step": 1, "label": "Min headings to show", "default": 3 },
+    { "type": "range", "id": "toc_max_items", "min": 4, "max": 20, "step": 1, "label": "Max items before scroll", "default": 7 },
+    { "type": "color", "id": "accent", "label": "TOC active accent", "default": "#f5a623" },
+
+    { "type": "header", "content": "Related articles" },
+    { "type": "checkbox", "id": "show_related", "label": "Show related articles", "default": true },
+    { "type": "text", "id": "related_heading", "label": "Heading", "default": "Related articles" },
+    { "type": "range", "id": "related_count", "min": 2, "max": 6, "step": 1, "label": "Number of articles", "default": 3 },
+    { "type": "color", "id": "related_bg", "label": "Card fill", "default": "#f7f7f5" },
+    { "type": "checkbox", "id": "related_show_image", "label": "Show image", "default": false },
+    { "type": "checkbox", "id": "related_show_category", "label": "Show category", "default": true },
+    { "type": "checkbox", "id": "related_show_author", "label": "Show author", "default": false },
+    { "type": "checkbox", "id": "related_show_excerpt", "label": "Show excerpt", "default": true },
+    { "type": "checkbox", "id": "related_show_readtime", "label": "Show reading time", "default": true },
+    { "type": "checkbox", "id": "related_show_date", "label": "Show date", "default": true }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "featured_image",
+      "name": "t:sections.main-article.blocks.featured_image.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select", "id": "image_height", "default": "adapt",
+          "label": "t:sections.main-article.blocks.featured_image.settings.image_height.label",
+          "options": [
+            { "value": "adapt", "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__1.label" },
+            { "value": "small", "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__2.label" },
+            { "value": "medium", "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__3.label" },
+            { "value": "large", "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__4.label" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "t:sections.main-article.blocks.title.name",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "blog_show_date", "default": true, "label": "t:sections.main-article.blocks.title.settings.blog_show_date.label" },
+        { "type": "checkbox", "id": "blog_show_author", "default": false, "label": "t:sections.main-article.blocks.title.settings.blog_show_author.label" }
+      ]
+    },
+    { "type": "content", "name": "t:sections.main-article.blocks.content.name", "limit": 1 },
+    {
+      "type": "share",
+      "name": "t:sections.main-article.blocks.share.name",
+      "limit": 2,
+      "settings": [
+        { "type": "text", "id": "share_label", "label": "t:sections.main-article.blocks.share.settings.text.label", "default": "t:sections.main-article.blocks.share.settings.text.default" }
+      ]
+    }
+  ]
+}
+{% endschema %}

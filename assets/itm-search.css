@@ -1,0 +1,30 @@
+.search__input {
+  border-radius: 0;
+  padding-left: 10px;
+}
+
+.predictive-search-results {
+  margin-top: 1px;
+}
+
+.search__input.field__input {
+  padding-left: 6px;
+}
+
+:focus-visible .search__input.field__input {
+  z-index: 3;
+}
+
+  /* Hide browser default blue "X" in search inputs */
+  .ws-search__input::-webkit-search-cancel-button,
+  .ws-search__input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* Extra safety for some browsers */
+  .ws-search__input::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }

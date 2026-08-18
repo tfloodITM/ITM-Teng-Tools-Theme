@@ -1,0 +1,25 @@
+{% layout none %}
+
+{%- assign parent_collection = collection -%}
+
+{%- paginate parent_collection.products by 50 -%}
+  {%- for product in parent_collection.products -%}
+    {%- assign std_variant = product.selected_or_first_available_variant -%}
+    {%- assign std_sku = '' -%}
+    {%- if std_variant and std_variant.sku != blank -%}
+      {%- assign std_sku = std_variant.sku -%}
+    {%- endif -%}
+    {%- assign std_desc = product.metafields.custom.web_features | strip_html | strip | default: '' -%}
+
+    <li
+      class="child-categories__item"
+      data-item-type="product"
+      data-title="{{ product.title | escape }}"
+      data-price="{{ product.price | divided_by: 100.0 }}"
+      data-sku="{{ std_sku | escape }}"
+      data-desc="{{ std_desc | escape }}"
+    >
+      {% render 'itm-card-product-std', product: product %}
+    </li>
+  {%- endfor -%}
+{%- endpaginate -%}

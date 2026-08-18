@@ -1,0 +1,84 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "show_title": true,
+        "header_bg_style": "scheme",
+        "header_color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "header_grad_start": "#f4f1ec",
+        "header_grad_end": "#e7ebf0",
+        "header_text": "#1a1a1a",
+        "header_alignment": "center",
+        "show_breadcrumbs": true,
+        "hero_border_width": 1,
+        "hero_border_color": "#000000",
+        "subtitle": "Dive into the Education Hub. Whether you're honing skills for the kitchen, sharpening your outdoor gear, or tending to that custom pocket knife, we have you covered. Straight-talk tutorials, pro tips, and the lowdown on everything knife sharpening—all served up with no fluff. Gear up and make sharp happen.",
+        "subtitle_size": 14,
+        "subtitle_color": "#666666",
+        "subtitle_weight": "400",
+        "header_gap": 32,
+        "show_filters": true,
+        "pill_height": 38,
+        "pill_font_size": 14,
+        "pill_font_weight": "700",
+        "pill_padding_h": 20,
+        "pill_radius": 100,
+        "pill_border_width": 2,
+        "pill_gap": 8,
+        "pill_inactive_color": "#000000",
+        "feat_article_1": "education-hub/best-sharpeners-under-50-gift-guide",
+        "feat_article_2": "education-hub/this-is-the-ken-onion-elite-mk-2",
+        "feat_article_3": "",
+        "featured_color": "#f5a623",
+        "featured_bar_height": 4,
+        "featured_image_ratio": "16 / 9",
+        "hover_line_color": "#f5a623",
+        "hover_line_height": 10,
+        "articles_per_page": 8,
+        "columns_desktop": "4",
+        "card_gap": 8,
+        "image_ratio": "16 / 9",
+        "card_radius": 8,
+        "card_bg": "#f2f2f2",
+        "card_border": true,
+        "card_padding": 16,
+        "show_category": true,
+        "badge_bg": "#f2f2f2",
+        "badge_color": "#000000",
+        "badge_font_size": 8,
+        "badge_padding_h": 10,
+        "badge_padding_v": 3,
+        "badge_radius": 4,
+        "title_size": 14,
+        "title_color": "#1a1a1a",
+        "show_excerpt": true,
+        "excerpt_words": 20,
+        "excerpt_size": 14,
+        "excerpt_color": "#555555",
+        "show_date": true,
+        "date_size": 12,
+        "date_color": "#555555",
+        "read_more_text": "Read more →",
+        "read_more_size": 13,
+        "read_more_color": "#f5a623",
+        "section_padding_h": 40,
+        "section_padding_h_mobile": 8,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

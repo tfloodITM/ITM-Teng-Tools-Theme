@@ -1,0 +1,191 @@
+{%- comment -%} ITM Theme - Updated Dec 9 2025 17:00 AEST - Force Shopify sync {%- endcomment -%}
+{% unless collection.metafields.custom.product_group %}
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* Wide collection layout — match grid/filters/breadcrumbs at 2560px */
+  #shopify-section-{{ section.id }} .page-width { max-width: 2560px; }
+
+  /* Adjustable padding above/below the title + description */
+  #shopify-section-{{ section.id }} .collection-hero__inner {
+    padding-top: {{ section.settings.padding_top | default: 12 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 16 }}px;
+  }
+  #shopify-section-{{ section.id }} .collection-hero__title { margin-top: 0; }
+
+  /* Custom banner image — sits on the right, same row as the title/text on desktop;
+     stacks full-width below the text on mobile. Width is a % of the row. */
+  #shopify-section-{{ section.id }} .itm-banner-img {
+    flex: 0 0 auto;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    min-height: 0;
+    margin-top: 1.5rem;
+  }
+  #shopify-section-{{ section.id }} .itm-banner-img img { width: 100%; height: 100%; object-fit: {{ section.settings.image_fit | default: 'cover' }}; }
+  /* Hide the banner image on mobile */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-banner-img { display: none; }
+  }
+  @media screen and (min-width: 750px) {
+    /* Title + description always take the left half of the row (even with no image) */
+    #shopify-section-{{ section.id }} .collection-hero__text-wrapper {
+      flex: 0 0 50%;
+      max-width: 50%;
+      min-width: 0;
+      padding-right: 2rem;
+      box-sizing: border-box;
+    }
+    #shopify-section-{{ section.id }} .itm-banner-img {
+      width: {{ section.settings.image_width | default: 50 }}%;
+      height: {{ section.settings.image_height | default: 300 }}px;
+      margin-top: 0;
+      margin-left: auto;   /* right-align the image in the remaining half */
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign banner_img = section.settings.banner_image
+  if banner_img == blank
+    assign banner_img = collection.image
+  endif
+  assign has_banner = false
+  if section.settings.show_collection_image and banner_img != blank
+    assign has_banner = true
+  endif
+-%}
+
+<div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
+  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    <div class="collection-hero__text-wrapper">
+      <h2 class="collection-hero__title">
+        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+        {{- collection.title | escape -}}
+      </h2>
+
+      {%- if section.settings.show_collection_description -%}
+        <div class="collection-hero__description rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if has_banner -%}
+      <div class="media gradient itm-banner-img">
+        <img
+          srcset="
+            {{ banner_img | image_url: width: 400 }} 400w,
+            {{ banner_img | image_url: width: 750 }} 750w,
+            {{ banner_img | image_url: width: 1100 }} 1100w,
+            {{ banner_img | image_url: width: 1500 }} 1500w
+          "
+          src="{{ banner_img | image_url: width: 1100 }}"
+          sizes="{{ section.settings.image_width | default: 100 }}vw"
+          alt="{{ banner_img.alt | escape }}"
+          width="{{ banner_img.width }}"
+          height="{{ banner_img.height }}"
+          loading="lazy"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+{% endunless %}
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+    },
+    {
+      "type": "header",
+      "content": "Banner image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "Show banner image"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Image",
+      "info": "Overrides the collection's own image. If left empty, the collection image is used."
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover", "label": "Cover (fill the box, may crop)" },
+        { "value": "contain", "label": "Contain (show the whole image)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Image width (desktop)",
+      "info": "How much of the row the image takes (it sits to the right of the text). 50% = half.",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Image height",
+      "min": 100,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

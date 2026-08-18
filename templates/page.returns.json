@@ -1,0 +1,100 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "returns_hub": {
+      "type": "itm-returns-hub",
+      "name": "Returns Hub",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Submit Your Request",
+            "text": "Requests must be submitted within 30 days of delivery."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Cover Return Shipping",
+            "text": "Return shipping is at your cost."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Wait for Approval",
+            "text": "Wait for approval before sending anything back."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "title": "Get Refunded",
+            "text": "Refunds go to your original payment method within 10 business days of us receiving the item."
+          }
+        },
+        "info_faulty": {
+          "type": "info_card",
+          "settings": {
+            "heading": "Faulty, Damaged or Wrong Item?",
+            "text": "<p>Don't use the returns flow — email <a href=\"mailto:info@worksharptools.com.au\">info@worksharptools.com.au</a> and we'll sort it out directly, at our cost.</p>",
+            "link_label": "Warranty & Service",
+            "link": "/pages/warranty-service"
+          }
+        },
+        "info_retailer": {
+          "type": "info_card",
+          "settings": {
+            "heading": "Bought from a Retailer?",
+            "text": "<p>Products purchased through a distributor need to go back to their place of purchase.</p>",
+            "link_label": "Read the full refund policy",
+            "link": "/policies/refund-policy"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "info_faulty",
+        "info_retailer"
+      ],
+      "settings": {
+        "eyebrow": "30-DAY MONEY-BACK GUARANTEE",
+        "heading": "Returns & Refunds",
+        "subtext": "We offer a 30-day money-back guarantee on everything bought directly from us.",
+        "card_icon": "",
+        "card_kicker": "READY TO SEND SOMETHING BACK?",
+        "card_heading": "Start Your Return",
+        "card_subtext": "All you need to start the return process is the email you used in your order.",
+        "card_link": "https://account.worksharptools.com.au/orders",
+        "steps_heading": "What You Need to Know",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "hide_title": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "returns_hub",
+    "main"
+  ]
+}

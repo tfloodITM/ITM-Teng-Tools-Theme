@@ -1,0 +1,311 @@
+{%- assign handles = section.settings.product_handles | split: ',' -%}
+{%- assign review_counts = section.settings.review_counts | split: ',' -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding: 60px 0;
+    background: #fff;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .itm-fp__heading {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    padding: 0 150px;
+  }
+  #shopify-section-{{ section.id }} .itm-fp__wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 150px;
+  }
+  #shopify-section-{{ section.id }} .itm-fp__grid {
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    flex: 1;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card {
+    text-decoration: none;
+    color: inherit;
+    background: #f2f2f2;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    flex: 0 0 calc(25% - 18px);
+    min-width: calc(25% - 18px);
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card:hover {
+    transform: translateY(-4px);
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card__info {
+    padding: 16px;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card__stars {
+    color: #f4b220;
+    font-size: 22px;
+    margin: 8px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card__review-count {
+    color: #888;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card__title {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    line-height: 1.4;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card__price {
+    color: #000;
+    font-weight: 400;
+    margin: 6px 0 14px;
+    font-size: 14px;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card__atc {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #f4b220;
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+  #shopify-section-{{ section.id }} .itm-fp-card__atc:hover {
+    background: #e0a010;
+    transform: translateY(-2px);
+  }
+  #shopify-section-{{ section.id }} .itm-fp__btn {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    background: #f4b220;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-fp__btn--prev {
+    left: 128px;
+    transform: translateX(-50%);
+  }
+  #shopify-section-{{ section.id }} .itm-fp__btn--next {
+    right: 128px;
+    transform: translateX(50%);
+  }
+  #shopify-section-{{ section.id }} .itm-fp__footer {
+    text-align: center;
+    margin-top: 40px;
+  }
+  #shopify-section-{{ section.id }} .itm-fp__view-all {
+    display: inline-block;
+    padding: 14px 48px;
+    border: 2px solid #000;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    transition: background 0.2s, color 0.2s;
+  }
+  #shopify-section-{{ section.id }} .itm-fp__view-all:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-fp__heading {
+      padding: 0 20px;
+      font-size: 18px;
+    }
+    #shopify-section-{{ section.id }} .itm-fp__wrap {
+      padding: 0 44px;
+    }
+    #shopify-section-{{ section.id }} .itm-fp-card {
+      flex: 0 0 100%;
+      min-width: 100%;
+    }
+    #shopify-section-{{ section.id }} .itm-fp__btn--prev {
+      left: 4px;
+      transform: none;
+    }
+    #shopify-section-{{ section.id }} .itm-fp__btn--next {
+      right: 4px;
+      transform: none;
+    }
+  }
+
+  @media (min-width: 750px) and (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .itm-fp__heading {
+      padding: 0 40px;
+    }
+    #shopify-section-{{ section.id }} .itm-fp__wrap {
+      padding: 0 60px;
+    }
+    #shopify-section-{{ section.id }} .itm-fp-card {
+      flex: 0 0 calc(50% - 12px);
+      min-width: calc(50% - 12px);
+    }
+    #shopify-section-{{ section.id }} .itm-fp__btn--prev {
+      left: 18px;
+      transform: none;
+    }
+    #shopify-section-{{ section.id }} .itm-fp__btn--next {
+      right: 18px;
+      transform: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- if section.settings.heading != blank -%}
+  <h2 class="itm-fp__heading">{{ section.settings.heading }}</h2>
+{%- endif -%}
+
+<div class="itm-fp__wrap">
+  <button class="itm-fp__btn itm-fp__btn--prev" id="itm-fp-prev-{{ section.id }}" aria-label="Previous products">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+
+  <div class="itm-fp__grid" id="itm-fp-grid-{{ section.id }}">
+    {%- comment -%} Render products twice for carousel loop effect {%- endcomment -%}
+    {%- for pass in (1..2) -%}
+      {%- for handle_raw in handles -%}
+        {%- assign handle = handle_raw | strip -%}
+        {%- assign product = all_products[handle] -%}
+        {%- if product.id -%}
+          {%- assign rcount = review_counts[forloop.index0] | strip | default: '0' -%}
+          {%- assign is_dupe = false -%}
+          {%- if pass == 2 -%}{%- assign is_dupe = true -%}{%- endif -%}
+          <a href="{{ product.url }}" class="itm-fp-card"{% if is_dupe %} aria-hidden="true" tabindex="-1"{% endif %}>
+            <div class="itm-fp-card__img">
+              {%- if product.featured_image -%}
+                {{
+                  product.featured_image
+                  | image_url: width: 600
+                  | image_tag: alt: product.title, loading: 'lazy'
+                }}
+              {%- endif -%}
+            </div>
+            <div class="itm-fp-card__info">
+              <div class="itm-fp-card__stars">
+                ★★★★★
+                <span class="itm-fp-card__review-count">({{ rcount }} reviews)</span>
+              </div>
+              <p class="itm-fp-card__title">{{ product.title }}</p>
+              <p class="itm-fp-card__price">{{ product.price | money }}</p>
+              <span class="itm-fp-card__atc">ADD TO CART</span>
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+
+  <button class="itm-fp__btn itm-fp__btn--next" id="itm-fp-next-{{ section.id }}" aria-label="Next products">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+</div>
+
+{%- if section.settings.view_all_link != blank -%}
+  <div class="itm-fp__footer">
+    <a href="{{ section.settings.view_all_link }}" class="itm-fp__view-all">VIEW ALL PRODUCTS</a>
+  </div>
+{%- endif -%}
+
+<script>
+  (function () {
+    var grid = document.getElementById('itm-fp-grid-{{ section.id }}');
+    var prevBtn = document.getElementById('itm-fp-prev-{{ section.id }}');
+    var nextBtn = document.getElementById('itm-fp-next-{{ section.id }}');
+    if (!grid || !prevBtn || !nextBtn) return;
+
+    function cardStep() {
+      var card = grid.querySelector('.itm-fp-card');
+      if (!card) return 0;
+      var gap = parseFloat(getComputedStyle(grid).gap) || 24;
+      return card.offsetWidth + gap;
+    }
+
+    nextBtn.addEventListener('click', function () {
+      grid.scrollLeft += cardStep();
+    });
+    prevBtn.addEventListener('click', function () {
+      grid.scrollLeft -= cardStep();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FEATURED PRODUCTS"
+    },
+    {
+      "type": "text",
+      "id": "product_handles",
+      "label": "Product handles (comma-separated)",
+      "default": "wsbchpaj-i,wsbchpaj-pro,wsbchbss-i,wsktnrks-i",
+      "info": "Enter Shopify product handles separated by commas, in the order you want them displayed"
+    },
+    {
+      "type": "text",
+      "id": "review_counts",
+      "label": "Review counts (comma-separated, matches handle order)",
+      "default": "247,189,312,156",
+      "info": "Displayed review counts for each product, in the same order as product handles"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products"
+    }
+  ]
+}
+{% endschema %}

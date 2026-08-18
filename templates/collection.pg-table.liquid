@@ -1,0 +1,175 @@
+{% layout none %}
+
+{%- assign pg = collection -%}
+
+{%- paginate pg.products by 50 -%}
+  <table class="pg__table-fragment">
+    <tbody>
+      {%- for product in pg.products -%}
+        {%- assign v = product.selected_or_first_available_variant -%}
+        {%- assign row_price = 0 -%}
+        {%- assign row_sku = '' -%}
+        {%- if v -%}
+          {%- if v.price and v.price > 0 -%}
+            {%- assign row_price = v.price | divided_by: 100.0 -%}
+          {%- endif -%}
+          {%- if v.sku != blank -%}
+            {%- assign row_sku = v.sku -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- assign specs_raw = product.metafields.custom.web_specifications.value | default: '' -%}
+        {%- assign spec_lines = specs_raw | split: '<br>' -%}
+        {%- assign d_belt_type = '' -%}
+        {%- assign d_grit = '' -%}
+        {%- assign d_uses = '' -%}
+        {%- assign d_belt_material = '' -%}
+        {%- assign d_belt_size = '' -%}
+        {%- assign d_is_bundle = 'false' -%}
+        {%- for spec_line in spec_lines -%}
+          {%- assign lc = spec_line | strip -%}
+          {%- if lc contains 'Belt Types:' -%}
+            {%- assign d_belt_type = lc | remove: 'Belt Types:' | strip -%}
+            {%- assign d_is_bundle = 'true' -%}
+          {%- elsif lc contains 'Belt Type:' -%}
+            {%- assign d_belt_type = lc | remove: 'Belt Type:' | strip -%}
+          {%- elsif lc contains 'Grit:' -%}
+            {%- assign d_grit = lc | remove: 'Grit:' | strip -%}
+          {%- elsif lc contains 'Belt Material:' -%}
+            {%- assign d_belt_material = lc | remove: 'Belt Material:' | strip -%}
+          {%- elsif lc contains 'Belt Size:' -%}
+            {%- assign d_belt_size = lc | remove: 'Belt Size:' | strip -%}
+          {%- elsif lc contains 'Uses:' -%}
+            {%- assign d_uses = lc | remove: 'Uses:' | strip -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- assign d_available = 'false' -%}
+        {%- if product.available -%}{%- assign d_available = 'true' -%}{%- endif -%}
+        {%- assign d_inv_qty = 0 -%}
+        {%- if v -%}{%- assign d_inv_qty = v.inventory_quantity | default: 0 -%}{%- endif -%}
+
+        <tr
+          data-price="{{ row_price }}"
+          data-sku="{{ row_sku | escape }}"
+          data-variant-id="{% if v %}{{ v.id }}{% endif %}"
+          data-available="{{ d_available }}"
+          data-inventory-qty="{{ d_inv_qty }}"
+          data-product-url="{{ product.url | escape }}"
+          data-product-title="{{ product.title | escape }}"
+          data-img-src="{% if row_sku != blank %}{% render 'itm-cdn-product-image', sku: row_sku, image_number: 1 %}{% endif %}"
+          data-belt-type="{{ d_belt_type | escape }}"
+          data-grit="{{ d_grit | escape }}"
+          data-uses="{{ d_uses | escape }}"
+          data-belt-material="{{ d_belt_material | escape }}"
+          data-belt-size="{{ d_belt_size | escape }}"
+          data-is-bundle="{{ d_is_bundle }}"
+        >
+          <td data-label="Image" class="pg__cell-img">
+            <button
+              type="button"
+              class="pg__image-trigger"
+              aria-label="Open image for {{ product.title | escape }}"
+            >
+              {%- assign table_sku = product.selected_or_first_available_variant.sku | default: product.title | strip -%}
+              {%- if table_sku != blank -%}
+                <img
+                  src="{% render 'itm-cdn-product-image', sku: table_sku, image_number: 1 %}"
+                  data-full-src="{% render 'itm-cdn-product-image', sku: table_sku, image_number: 1 %}"
+                  data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
+                  alt="{{ product.title | escape }}"
+                  width="240"
+                  height="240"
+                  loading="lazy"
+                >
+              {%- else -%}
+                <div class="pg__img-placeholder" style="background-image: url({{ 'image_coming_soon.png' | asset_url }}); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+              {%- endif -%}
+            </button>
+          </td>
+
+          <td data-label="Code">
+            {{ product.title }}
+          </td>
+
+          <td data-label="Product Name">
+            {{ product.description }}
+          </td>
+
+          <td data-label="Specifications" class="pg__specs">
+            {%- if product.metafields.custom.web_specifications
+                  and product.metafields.custom.web_specifications.value != blank -%}
+              {{ product.metafields.custom.web_specifications.value }}
+            {%- else -%}
+              <div>-</div>
+            {%- endif -%}
+          </td>
+
+          {%- unless settings.information_only_mode -%}
+          <td data-label="Stock Level" class="pg__stock">
+            {%- if v and v.inventory_management == 'shopify' -%}
+              <p class="product__inventory pg__inventory" role="status">
+                {%- if v.inventory_quantity > 0 -%}
+                  <span class="svg-wrapper pg__inventory-icon pg__inventory-icon--in">
+                    {{- 'icon-inventory-status.svg' | inline_asset_content -}}
+                  </span>
+                  {{- 'products.product.inventory_in_stock' | t -}}
+                {%- else -%}
+                  {%- if v.inventory_policy == 'continue' -%}
+                    <span class="svg-wrapper pg__inventory-icon pg__inventory-icon--continue">
+                      {{- 'icon-inventory-status.svg' | inline_asset_content -}}
+                    </span>
+                    {{- 'products.product.inventory_out_of_stock_continue_selling' | t -}}
+                  {%- else -%}
+                    <span class="svg-wrapper pg__inventory-icon pg__inventory-icon--out">
+                      {{- 'icon-inventory-status.svg' | inline_asset_content -}}
+                    </span>
+                    {{- 'products.product.inventory_out_of_stock' | t -}}
+                  {%- endif -%}
+                {%- endif -%}
+              </p>
+            {%- else -%}
+              <p class="product__inventory pg__inventory">
+                {{ 'products.product.inventory_out_of_stock' | t }}
+              </p>
+            {%- endif -%}
+          </td>
+          {%- endunless -%}
+
+          <td data-label="Actions" class="pg__actions">
+            <div class="pg__price">
+              {%- if v -%}
+                {{ v.price | money }}
+              {%- else -%}
+                -
+              {%- endif -%}
+            </div>
+
+            {%- unless settings.information_only_mode -%}
+            <div class="pg__cart">
+              {%- if v and product.available -%}
+                <form method="post" action="{{ routes.cart_add_url }}" class="pg__cart-form">
+                  <input type="hidden" name="id" value="{{ v.id }}">
+                  <input class="pg__qty-input" type="number" name="quantity" min="1" value="1">
+                  <button type="submit" class="button button--primary pg__cart-btn">
+                    Add to cart
+                  </button>
+                </form>
+              {%- else -%}
+                <button class="button button--secondary pg__cart-btn" disabled>
+                  Sold out
+                </button>
+              {%- endif -%}
+            </div>
+            {%- endunless -%}
+          </td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+
+  <div
+    id="pg-next-url"
+    data-next-url="{% if paginate.next %}{{ paginate.next.url | escape }}{% endif %}"
+  ></div>
+{%- endpaginate -%}

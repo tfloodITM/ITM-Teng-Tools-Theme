@@ -1,0 +1,80 @@
+{%- comment -%}
+  MACC-style card for product-group collections.
+  Renders using the sbc__card structure to match itm-card-product-sbc visually.
+
+  Params:
+    - group_collection (Collection) – required
+{%- endcomment -%}
+
+{%- assign coll = group_collection -%}
+
+{%- assign is_product_group = false -%}
+{%- if coll.metafields.custom.product_group -%}
+  {%- assign pg_val = coll.metafields.custom.product_group.value | default: coll.metafields.custom.product_group -%}
+  {%- if pg_val == true or pg_val == 'true' or pg_val == 1 or pg_val == '1' -%}
+    {%- assign is_product_group = true -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign primary_product = nil -%}
+{%- for p in coll.products -%}
+  {%- if p.metafields.custom.primary_product -%}
+    {%- assign prim_val = p.metafields.custom.primary_product.value | default: p.metafields.custom.primary_product -%}
+    {%- if prim_val == true or prim_val == 'true' or prim_val == 1 or prim_val == '1' -%}
+      {%- assign primary_product = p -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if primary_product == nil and coll.products.first -%}
+  {%- assign primary_product = coll.products.first -%}
+{%- endif -%}
+
+{%- assign primary_variant = nil -%}
+{%- if primary_product -%}
+  {%- assign primary_variant = primary_product.selected_or_first_available_variant -%}
+{%- endif -%}
+
+<div class="sbc__img-wrap">
+  <a class="sbc__card-img-link" href="{{ coll.url }}">
+    <div class="sbc__card-img">
+      {%- if coll.image -%}
+        <div class="sbc__slide is-active">
+          {{ coll.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: coll.title }}
+        </div>
+      {%- elsif primary_product -%}
+        {%- assign group_sku = primary_product.selected_or_first_available_variant.sku | default: primary_product.title | strip -%}
+        <div class="sbc__slide is-active">
+          <img
+            src="{% render 'itm-cdn-product-image', sku: group_sku, image_number: 1 %}"
+            data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
+            alt="{{ primary_product.title | escape }}"
+            width="600"
+            height="600"
+            loading="lazy"
+          >
+        </div>
+      {%- else -%}
+        <div class="sbc__slide is-active">
+          <img src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ coll.title | escape }}" width="600" height="600" loading="lazy">
+        </div>
+      {%- endif -%}
+    </div>
+  </a>
+</div>
+
+<div class="sbc__actions">
+  <a href="{{ coll.url }}" class="sbc__atc">Shop Range</a>
+</div>
+
+<a class="sbc__card-band" href="{{ coll.url }}">
+  <div class="sbc__card-body">
+    <div class="sbc__rating">
+      <span class="sbc__review-count" style="text-transform:uppercase;letter-spacing:0.04em;">Product Category</span>
+    </div>
+    <p class="sbc__card-title">{{ coll.title }}</p>
+    {%- if is_product_group and primary_variant and primary_variant.price > 0 -%}
+      <p class="sbc__card-price">From {{ primary_variant.price | money }}</p>
+    {%- endif -%}
+  </div>
+</a>

@@ -1,0 +1,111 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "blocks": {
+        "caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "Work Sharp video library",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "See Work Sharp In Action",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Explore product walkthroughs, sharpening guides, and hands-on demonstrations from across the Work Sharp range. Use this page to highlight a featured YouTube video at the top and a browsable library underneath.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "padding_top": 36,
+        "padding_bottom": 20
+      }
+    },
+    "video_hero": {
+      "type": "itm-main-video-hero",
+      "settings": {
+        "heading": "Featured video",
+        "body": "<p>Use this area for your strongest video, such as a brand overview, featured product demonstration, or campaign launch piece.<\/p>",
+        "youtube_id": "dQw4w9WgXcQ",
+        "height": 60,
+        "autoplay": false,
+        "controls": true,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "video_grid": {
+      "type": "itm-main-video-grid",
+      "blocks": {
+        "video_1": {
+          "type": "video",
+          "settings": {
+            "title": "Product Overview",
+            "description": "<p>Replace this sample with a core product or range introduction.<\/p>",
+            "youtube_id": "aqz-KE-bpKQ",
+            "vimeo_id": ""
+          }
+        },
+        "video_2": {
+          "type": "video",
+          "settings": {
+            "title": "Sharpening Guide",
+            "description": "<p>Use blocks for sharpening tutorials, product demos, or support content.<\/p>",
+            "youtube_id": "M7lc1UVf-VE",
+            "vimeo_id": ""
+          }
+        },
+        "video_3": {
+          "type": "video",
+          "settings": {
+            "title": "Product Demo",
+            "description": "<p>Add as many YouTube videos as needed in the theme editor.<\/p>",
+            "youtube_id": "ysz5S6PUM-U",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3"
+      ],
+      "settings": {
+        "heading": "Watch More Videos",
+        "color_scheme": "scheme-1",
+        "columns_desktop": 3
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "video_hero",
+    "video_grid"
+  ]
+}

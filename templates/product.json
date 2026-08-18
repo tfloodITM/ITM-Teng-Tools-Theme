@@ -1,0 +1,607 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "judge_me_reviews_preview_badge_tUtRpG": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "rating_kPnxgM": {
+          "type": "rating",
+          "disabled": true,
+          "settings": {
+            "show_in_aside": false
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "bold_price": false,
+            "show_payment_terms": false,
+            "show_in_aside": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+            "custom_atc_text": "Add to cart",
+            "atc_border_color": "#000000",
+            "show_in_aside": false
+          }
+        },
+        "afterpay_on_site_messaging_payments_messaging_DkrKVr": {
+          "type": "shopify://apps/afterpay-on-site-messaging/blocks/payments-messaging/f45a5524-d177-4475-bf59-281efd2215a8",
+          "settings": {
+            "text_align": "inherit",
+            "margin_top": 16,
+            "margin_bottom": 16,
+            "color": "#000000",
+            "size": "xs",
+            "intro_text": "or",
+            "show_interest_free": true,
+            "payment_amount_is_bold": false,
+            "show_with": true,
+            "logo_type": "badge",
+            "logo_theme": "black-on-mint",
+            "modal_link_style": "learn-more-text",
+            "modal_theme": "mint",
+            "breakpoint": 749,
+            "text_align_mobile": "inherit",
+            "margin_top_mobile": 16,
+            "margin_bottom_mobile": 16,
+            "show_lower_limit": true,
+            "show_upper_limit": true,
+            "show_if_outside_limits": true,
+            "product": "{{product}}"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "show_in_aside": false,
+            "inline_with_quantity": false
+          }
+        },
+        "sku_7Cinxp": {
+          "type": "sku",
+          "settings": {
+            "text_style": "body",
+            "show_in_aside": false
+          }
+        },
+        "sharpens_wQANeh": {
+          "type": "sharpens",
+          "settings": {
+            "show_in_aside": false
+          }
+        },
+        "metafield_html_jT6RcY": {
+          "type": "metafield_html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_description",
+            "manual_html": "",
+            "show_in_aside": false
+          }
+        },
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle",
+            "show_in_aside": false,
+            "inline_with_quantity": false
+          }
+        },
+        "inventory_JHti79": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "body",
+            "inventory_threshold": 10,
+            "show_inventory_quantity": false,
+            "show_in_aside": false,
+            "inv_font_size": 13,
+            "inv_bold": false,
+            "inv_pad_top": 0,
+            "inv_pad_bottom": 0
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share",
+            "show_in_aside": true
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_preview_badge_tUtRpG",
+        "rating_kPnxgM",
+        "price",
+        "title",
+        "quantity_selector",
+        "afterpay_on_site_messaging_payments_messaging_DkrKVr",
+        "buy_buttons",
+        "sku_7Cinxp",
+        "sharpens_wQANeh",
+        "metafield_html_jT6RcY",
+        "caption",
+        "inventory_JHti79",
+        "share"
+      ],
+      "settings": {
+        "image_count": 6,
+        "image_columns": 2,
+        "image_ratio": "1 / 1",
+        "image_fit": "contain",
+        "image_cell_bg": "#f4f4f4",
+        "image_dot_active_color": "#2e2e2e",
+        "info_align": "left",
+        "info_sticky_top": 20,
+        "info_pad_top": 12,
+        "info_pad_right": 20,
+        "info_pad_bottom": 24,
+        "info_pad_left": 24,
+        "info_mobile_pad_top": 0,
+        "info_mobile_pad_right": 16,
+        "info_mobile_pad_bottom": 24,
+        "info_mobile_pad_left": 16,
+        "heading_size": 24,
+        "heading_color": "#2e2e2e",
+        "reviews_size": 14,
+        "sku_size": 14,
+        "sku_color": "#2e2e2e",
+        "body_size": 16,
+        "body_color": "#2e2e2e",
+        "price_size": 14,
+        "price_color": "#2e2e2e",
+        "atc_size": 16,
+        "atc_bg": "#f5a623",
+        "atc_color": "#2e2e2e",
+        "qty_btn_gap": 0,
+        "guarantee_size": 12,
+        "guarantee_color": "#2e2e2e",
+        "show_cta_block": false,
+        "trust_enable": true,
+        "trust_layout": "horizontal",
+        "trust_mb_icon": "shopify://shop_images/474301ae-8c69-4943-be53-9747db725135.svg",
+        "trust_mb_heading": "30-day money-back guarantee",
+        "trust_mb_text": "",
+        "trust_ship_icon": "shopify://shop_images/ba7af304-8575-485c-a92b-7f73131cbc0b.svg",
+        "trust_ship_text": "3-year warranty",
+        "trust_warranty_icon": "shopify://shop_images/e4c1760e-76ab-4f81-adfc-8fd95782388e.svg",
+        "trust_warranty_heading": "Free shipping on orders over $99",
+        "trust_warranty_text": "",
+        "trust_heading_size": 10,
+        "trust_text_size": 13,
+        "trust_color": "#2e2e2e",
+        "trust_sub_color": "#666666",
+        "trust_heading_bold": true,
+        "trust_sub_bold": false,
+        "trust_icon_color": "#2e2e2e",
+        "trust_icon_size": 56,
+        "trust_icon_gap": 12,
+        "trust_row_gap": 14,
+        "trust_divider_color": "#d0d0d0",
+        "trust_divider_height": 55,
+        "trust_margin_top": 8,
+        "trust_margin_bottom": 0,
+        "show_info_accordions": true,
+        "info_accordions_open": false,
+        "info_accordions_margin_top": 16,
+        "acc1_heading": "",
+        "acc1_source": "richtext",
+        "acc1_metafield": "",
+        "acc1_content": "",
+        "acc2_heading": "",
+        "acc2_source": "richtext",
+        "acc2_metafield": "",
+        "acc2_content": "",
+        "acc_title_size": 14,
+        "acc_title_bold": true,
+        "acc_title_color": "#2e2e2e",
+        "acc_content_size": 14,
+        "acc_content_color": "#2e2e2e",
+        "sp_breadcrumb": 0,
+        "pad_breadcrumb_top": 0,
+        "pad_breadcrumb_bottom": 0,
+        "sp_title": 0,
+        "sp_sku": 0,
+        "sp_reviews": 0,
+        "sp_body": 20,
+        "sp_price": 0,
+        "sp_purchase": 0,
+        "sp_guarantee": 0,
+        "payin4_text_before": "Pay in 4 interest-free payments of",
+        "payin4_text_after": "with",
+        "payin4_font_size": 13,
+        "payin4_color": "#2e2e2e",
+        "payin4_paypal_height": 18,
+        "payin4_afterpay_height": 22,
+        "payin4_gap": 8,
+        "payin4_margin_top": 12,
+        "payin4_margin_bottom": 12,
+        "payin4_mob_pad_top": 0,
+        "payin4_mob_pad_bottom": 14,
+        "price_pad_top": 0,
+        "price_pad_bottom": 0,
+        "price_mob_pad_top": 0,
+        "price_mob_pad_bottom": 0,
+        "sku_pad_top": 0,
+        "sku_pad_bottom": 0,
+        "sku_mob_pad_top": 0,
+        "sku_mob_pad_bottom": 14,
+        "mob_pad_purchase_bottom": 14,
+        "mob_heading_size": 16,
+        "mob_reviews_size": 14,
+        "mob_inv_size": 12,
+        "mob_price_size": 0,
+        "mob_sku_size": 0,
+        "mob_body_size": 0,
+        "mob_atc_size": 0,
+        "mob_reviews_pad_top": 6,
+        "mob_reviews_pad_bottom": 6,
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-a92d779d-4837-4c4b-872b-8dd479a231fe",
+        "media_size": "large",
+        "constrain_to_viewport": false,
+        "media_fit": "cover",
+        "gallery_layout": "columns",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "hide_variants": true,
+        "enable_video_looping": true,
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "itm_divider_NgTqPP": {
+      "type": "itm-divider",
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "rich_text_rFnfkL": {
+      "type": "rich-text",
+      "blocks": {
+        "text_kgFaWm": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.description }}"
+          }
+        }
+      },
+      "block_order": [
+        "text_kgFaWm"
+      ],
+      "disabled": true,
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "itm_product_html_section_cTrJ3L": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_cNUQ3n": {
+          "type": "heading",
+          "settings": {
+            "heading": "Features",
+            "heading_size": "h2"
+          }
+        },
+        "html_RydWT4": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_features",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_cNUQ3n",
+        "html_RydWT4"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "faq_accordion": false,
+        "padding_top": 12,
+        "padding_bottom": 24
+      }
+    },
+    "itm_divider_4r6Erm": {
+      "type": "itm-divider",
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "itm_product_html_section_36h4yM": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_UQ7kMk": {
+          "type": "heading",
+          "settings": {
+            "heading": "Specifications",
+            "heading_size": "h2"
+          }
+        },
+        "html_FPPfLK": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_specifications",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_UQ7kMk",
+        "html_FPPfLK"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "full_width": true,
+        "faq_accordion": false,
+        "padding_top": 12,
+        "padding_bottom": 24
+      }
+    },
+    "itm_divider_ntrjc9": {
+      "type": "itm-divider",
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "itm_main_video_grid_FbdBEm": {
+      "type": "itm-main-video-grid",
+      "blocks": {
+        "video_VMh7qx": {
+          "type": "video",
+          "settings": {
+            "title": "",
+            "description": "",
+            "youtube_id": "",
+            "vimeo_id": ""
+          }
+        },
+        "video_xganWL": {
+          "type": "video",
+          "settings": {
+            "title": "",
+            "description": "",
+            "youtube_id": "",
+            "vimeo_id": ""
+          }
+        },
+        "video_LcmQtz": {
+          "type": "video",
+          "settings": {
+            "title": "",
+            "description": "",
+            "youtube_id": "",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_VMh7qx",
+        "video_xganWL",
+        "video_LcmQtz"
+      ],
+      "name": "Video grid",
+      "settings": {
+        "heading": "How-tos & Reviews",
+        "full_width": true,
+        "video_source": "metafield",
+        "video_metafield_id": "custom.video_slugs",
+        "color_scheme": "",
+        "columns_desktop": 2,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "itm_divider_gtCkdm": {
+      "type": "itm-divider",
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
+      }
+    },
+    "itm_product_html_section_PKGKW3": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_kRXczW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Includes",
+            "heading_size": "h2"
+          }
+        },
+        "html_mrzhR7": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_includes",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_kRXczW",
+        "html_mrzhR7"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "full_width": true,
+        "faq_accordion": false,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "178175961502958bc5": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_VMaJQc": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": true,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_VMaJQc"
+      ],
+      "settings": {
+        "heading": "Customer Reviews",
+        "include_margins": true
+      }
+    },
+    "itm_product_html_section_LLYAFL": {
+      "type": "itm-product-html-section",
+      "blocks": {
+        "heading_HceV6g": {
+          "type": "heading",
+          "settings": {
+            "heading": "FAQs",
+            "heading_size": "h2"
+          }
+        },
+        "html_aGChCq": {
+          "type": "html",
+          "settings": {
+            "source": "metafield",
+            "metafield_id": "custom.web_faqs",
+            "manual_html": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_HceV6g",
+        "html_aGChCq"
+      ],
+      "name": "HTML Section",
+      "settings": {
+        "color_scheme": "",
+        "full_width": true,
+        "faq_accordion": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "related-products": {
+      "type": "itm-related-products",
+      "settings": {
+        "heading": "Related Products",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "card_img_bg": "#f2f2f2",
+        "arrow_color": "#000000",
+        "card_band_bg": "#2e2e2e",
+        "card_band_text": "#ffffff",
+        "text_align": "left",
+        "show_reviews": true,
+        "star_size": 20,
+        "star_color": "#f5a623",
+        "star_empty_color": "#f5a623",
+        "title_size": 16,
+        "title_size_mobile": 11,
+        "title_weight": "700",
+        "show_price": true,
+        "price_size": 16,
+        "price_size_mobile": 10,
+        "price_weight": "400",
+        "price_color": "#ffffff",
+        "show_atc": true,
+        "atc_height": 40,
+        "atc_font_size": 12,
+        "atc_font_weight": "700",
+        "atc_bg": "#f5a623",
+        "atc_color": "#000000",
+        "actions_divider_color": "#ffffff",
+        "list_btn_bg": "#f5a623",
+        "side_padding_desktop": 0,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "itm_divider_NgTqPP",
+    "rich_text_rFnfkL",
+    "itm_product_html_section_cTrJ3L",
+    "itm_divider_4r6Erm",
+    "itm_product_html_section_36h4yM",
+    "itm_divider_ntrjc9",
+    "itm_main_video_grid_FbdBEm",
+    "itm_divider_gtCkdm",
+    "itm_product_html_section_PKGKW3",
+    "178175961502958bc5",
+    "itm_product_html_section_LLYAFL",
+    "related-products"
+  ]
+}

@@ -1,0 +1,262 @@
+{%- comment -%}
+  ITM custom mega menu (desktop). Block-driven from the Header section.
+
+  Ordering convention: a `mega_item` block starts a top-level entry; the
+  `mega_column` / `mega_promo` / `mega_card` blocks that follow it belong to
+  that item's panel, until the next `mega_item`.
+
+  Pass the section in: {% render 'itm-mega-menu', section: section %}
+{%- endcomment -%}
+
+{%- assign accent = section.settings.mega_accent_color | default: '#F5A623' -%}
+
+{%- style -%}
+  /* position:relative + z-index lifts the whole menu (and its drop-down panels)
+     above the trust/USP bar that sits in the next grid row */
+  .itm-mega{ --mega-accent: {{ accent }}; width:100%; position:relative; z-index:5; }
+  .itm-mega__bar{
+    position:relative;
+    display:flex;
+    align-items:center;
+    /* shrink the gap as the screen narrows so items never wrap (drawer takes over at <=989px) */
+    gap:clamp(10px, 1.5vw, 28px);
+    list-style:none;
+    margin:0;
+    padding:0;
+    flex-wrap:nowrap;
+  }
+  .itm-mega__item{ margin:0; }
+  .itm-mega__item--dropdown{ position:relative; }
+  .itm-mega__top{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:{{ section.settings.nav_padding_y | default: 8 }}px 0;
+    font-weight:700;
+    font-size:{{ section.settings.nav_font_size | default: 15 }}px;
+    letter-spacing:.01em;
+    color:rgb(var(--color-foreground, 17,17,17));
+    text-decoration:none;
+    border-bottom:3px solid transparent;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .itm-mega__item:hover > .itm-mega__top,
+  .itm-mega__item:focus-within > .itm-mega__top{
+    border-bottom-color:var(--mega-accent);
+  }
+  .itm-mega__caret{ display:inline-flex; transition:transform .15s ease; }
+  .itm-mega__caret svg{ width:11px; height:11px; }
+  .itm-mega__item:hover > .itm-mega__top .itm-mega__caret,
+  .itm-mega__item:focus-within > .itm-mega__top .itm-mega__caret{ transform:rotate(180deg); }
+
+  /* ---- panels ---- */
+  .itm-mega__panel{
+    position:absolute;
+    top:100%;
+    z-index:50;
+    background:#fff;
+    /* the panel is always a light surface, so force dark text regardless of the
+       header colour scheme (header foreground is white on the dark bar, which
+       would otherwise render the links white-on-white / invisible) */
+    color:#111;
+    --color-foreground:17,17,17;
+    box-shadow:0 16px 30px rgba(0,0,0,.12);
+    border-top:1px solid rgba(0,0,0,.06);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .15s ease, visibility .15s ease;
+  }
+  .itm-mega__item:hover > .itm-mega__panel,
+  .itm-mega__item:focus-within > .itm-mega__panel{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+
+  /* full-width panels (columns + cards) span the nav bar width */
+  .itm-mega__panel--columns,
+  .itm-mega__panel--cards{ left:0; right:0; }
+  .itm-mega__inner{ margin:0 auto; padding:32px 20px 40px; }
+  .itm-mega__panel--columns .itm-mega__inner{ max-width:1100px; display:flex; gap:56px; justify-content:center; }
+  .itm-mega__panel--cards .itm-mega__inner{
+    max-width:1700px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
+    gap:16px;
+  }
+
+  /* columns */
+  .itm-mega__col{ min-width:150px; }
+  .itm-mega__col-heading{
+    margin:0 0 14px;
+    font-weight:700;
+    font-size:15px;
+    color:rgb(var(--color-foreground, 17,17,17));
+  }
+  .itm-mega__links{ list-style:none; margin:0; padding:0; }
+  .itm-mega__links li{ margin:0 0 12px; }
+  .itm-mega__link{
+    text-decoration:none;
+    font-size:14px;
+    color:rgba(var(--color-foreground, 17,17,17), .8);
+    transition:color .15s ease;
+  }
+  .itm-mega__link:hover{ color:var(--mega-accent); }
+
+  /* promo tile */
+  .itm-mega__promo{
+    position:relative;
+    flex:0 0 280px;
+    min-height:240px;
+    border-radius:4px;
+    overflow:hidden;
+    display:flex;
+    text-decoration:none;
+    background:#222;
+  }
+  .itm-mega__promo-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .itm-mega__promo-body{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:20px;
+    width:100%;
+    background:linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05) 60%, transparent);
+  }
+  .itm-mega__promo-heading{ color:#fff; font-size:22px; font-weight:700; line-height:1.2; max-width:80%; }
+
+  /* image cards */
+  .itm-mega__card{
+    position:relative;
+    display:flex;
+    min-height:230px;
+    border-radius:2px;
+    overflow:hidden;
+    text-decoration:none;
+    background:#222;
+  }
+  .itm-mega__card-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .itm-mega__card::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.1) 55%, rgba(0,0,0,.15));
+  }
+  .itm-mega__card-label{
+    position:absolute; top:14px; left:14px; z-index:1;
+    color:#fff; font-size:17px; font-weight:700;
+  }
+  .itm-mega__card-btn{ position:absolute; left:14px; bottom:14px; z-index:1; }
+
+  /* shared button */
+  .itm-mega__btn{
+    display:inline-block;
+    background:var(--mega-accent);
+    color:#111;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:11px 22px;
+    border-radius:2px;
+    align-self:flex-start;
+  }
+
+  /* simple dropdown */
+  .itm-mega__panel--dropdown{ left:0; min-width:240px; }
+  .itm-mega__panel--dropdown .itm-mega__inner{ padding:18px 26px; display:block; }
+  .itm-mega__panel--dropdown .itm-mega__col-heading{ display:none; }
+  .itm-mega__panel--dropdown .itm-mega__links li{ margin:0; }
+  .itm-mega__panel--dropdown .itm-mega__link{
+    display:block;
+    padding:11px 0;
+    font-weight:600;
+    font-size:15px;
+    color:rgb(var(--color-foreground, 17,17,17));
+  }
+  .itm-mega__panel--dropdown .itm-mega__link:hover{ color:var(--mega-accent); }
+
+  /* The header section forces `.header__inline-menu a { color:#fff !important }`
+     (white text on the dark bar). That rule also hits the panel's links, making
+     them white-on-white on the light panel. Re-assert dark text with a more
+     specific selector + !important so the links are actually visible. */
+  .itm-mega__panel a.itm-mega__link{ color:#111 !important; }
+  .itm-mega__panel a.itm-mega__link:hover{ color:var(--mega-accent) !important; }
+{%- endstyle -%}
+
+<nav class="header__inline-menu itm-mega" aria-label="{{ 'sections.header.menu' | t | default: 'Primary' }}">
+  <ul class="itm-mega__bar" role="list">
+    {%- assign panel_open = false -%}
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+
+        {%- when 'mega_item' -%}
+          {%- if panel_open -%}</div></div></li>{%- assign panel_open = false -%}{%- endif -%}
+          {%- assign lay = block.settings.layout -%}
+          {%- if lay == 'link' -%}
+            <li class="itm-mega__item" {{ block.shopify_attributes }}>
+              <a class="itm-mega__top" href="{{ block.settings.link | default: '#' }}">{{ block.settings.title }}</a>
+            </li>
+          {%- else -%}
+            <li class="itm-mega__item itm-mega__item--{{ lay }}" {{ block.shopify_attributes }}>
+              <a class="itm-mega__top" href="{{ block.settings.link | default: '#' }}" aria-haspopup="true">
+                {{ block.settings.title }}
+                <span class="itm-mega__caret" aria-hidden="true">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+              </a>
+              <div class="itm-mega__panel itm-mega__panel--{{ lay }}">
+                <div class="itm-mega__inner">
+            {%- assign panel_open = true -%}
+          {%- endif -%}
+
+        {%- when 'mega_column' -%}
+          {%- if panel_open -%}
+            <div class="itm-mega__col" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <p class="itm-mega__col-heading">{{ block.settings.heading }}</p>
+              {%- endif -%}
+              {%- if block.settings.menu != blank -%}
+                <ul class="itm-mega__links" role="list">
+                  {%- for link in block.settings.menu.links -%}
+                    <li><a class="itm-mega__link" href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+        {%- when 'mega_promo' -%}
+          {%- if panel_open -%}
+            <a class="itm-mega__promo" href="{{ block.settings.button_link | default: '#' }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'itm-mega__promo-img', alt: block.settings.heading }}
+              {%- elsif block.settings.image_url != blank -%}
+                <img class="itm-mega__promo-img" src="{{ block.settings.image_url }}" alt="{{ block.settings.heading | escape }}" loading="lazy">
+              {%- endif -%}
+              <span class="itm-mega__promo-body">
+                {%- if block.settings.heading != blank -%}<span class="itm-mega__promo-heading">{{ block.settings.heading }}</span>{%- endif -%}
+                {%- if block.settings.button_label != blank -%}<span class="itm-mega__btn">{{ block.settings.button_label }}</span>{%- endif -%}
+              </span>
+            </a>
+          {%- endif -%}
+
+        {%- when 'mega_card' -%}
+          {%- if panel_open -%}
+            <a class="itm-mega__card" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'itm-mega__card-img', alt: block.settings.label }}
+              {%- elsif block.settings.image_url != blank -%}
+                <img class="itm-mega__card-img" src="{{ block.settings.image_url }}" alt="{{ block.settings.label | escape }}" loading="lazy">
+              {%- endif -%}
+              {%- if block.settings.label != blank -%}<span class="itm-mega__card-label">{{ block.settings.label }}</span>{%- endif -%}
+              {%- if block.settings.button_label != blank -%}<span class="itm-mega__btn itm-mega__card-btn">{{ block.settings.button_label }}</span>{%- endif -%}
+            </a>
+          {%- endif -%}
+
+      {%- endcase -%}
+    {%- endfor -%}
+    {%- if panel_open -%}</div></div></li>{%- endif -%}
+  </ul>
+</nav>

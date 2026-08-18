@@ -1,0 +1,338 @@
+{%- style -%}
+  /* 11 — Collection Tabs: full width, 150px padding */
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: 100% !important;
+    padding-left: 150px !important;
+    padding-right: 150px !important;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+  @media (min-width: 750px) and (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+    }
+  }
+{%- endstyle -%}
+
+{% assign section_col = section.settings.collection %}
+
+<section class="col-tabs color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {% if section.settings.heading != blank %}
+      <h2 class="section-title">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+<!-- TAB BAR -->
+<div class="coltabs__tabs">
+  <button class="tabs-nav__arrow button tabs-nav__arrow--prev" aria-label="Scroll left" type="button">&#10094;</button>
+
+  <div class="tabs-nav" data-carousel>
+    <div class="tabs" role="tablist">
+      {% for block in section.blocks %}
+        <button class="tab{% if forloop.first %} is-active{% endif %}"
+                role="tab"
+                aria-selected="{{ forloop.first }}"
+                aria-controls="panel-{{ section.id }}-{{ forloop.index }}"
+                id="tab-{{ section.id }}-{{ forloop.index }}"
+                {{ block.shopify_attributes }}>
+          {{ block.settings.title | default: block.settings.collection.title | capitalize }}
+        </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <button class="tabs-nav__arrow button tabs-nav__arrow--next" aria-label="Scroll right" type="button">&#10095;</button>
+</div>
+
+
+    <!-- CONTENT BOX -->
+    <div class="coltabs__panelbox">
+      {% for block in section.blocks %}
+        {% assign bcol = block.settings.collection | default: section_col %}
+        <div id="panel-{{ section.id }}-{{ forloop.index }}"
+             class="panel{% if forloop.first %} is-active{% endif %}"
+             role="tabpanel"
+             aria-labelledby="tab-{{ section.id }}-{{ forloop.index }}">
+
+          <div class="panel__grid panel__grid--{{ section.settings.image_position }}">
+            {% assign tab_image = block.settings.image | default: bcol.image %}
+            {% if section.settings.show_image and tab_image != blank %}
+              <div class="panel__media">
+                {{ tab_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: block.settings.image_alt | default: bcol.title }}
+              </div>
+            {% endif %}
+            <div class="panel__content">
+              <div class="rte">
+                {% if block.settings.content != blank %}
+                  {{ block.settings.content }}
+                {% else %}
+                  {% assign seo_mf = bcol.metafields.custom.seo_description %}
+                  {% if seo_mf != blank %}
+                    {{ seo_mf | metafield_tag }}
+                  {% else %}
+                    {{ bcol.description }}
+                  {% endif %}
+                {% endif %}
+              </div>
+
+              {%- assign btn_label = block.settings.cta_label | default: section.settings.cta_label -%}
+              {%- assign btn_link  = block.settings.cta_link  | default: section.settings.cta_link | default: bcol.url | default: '#' -%}
+              {% if btn_label != blank %}
+                <a class="button coltabs__btn" href="{{ btn_link }}">{{ btn_label }}</a>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+/* =====================  COLLECTION TABS  ===================== */
+
+/* ---- Tabs base look ---- */
+.col-tabs .tab{
+  font-family: var(--font-body-family), sans-serif;
+  appearance:none;
+  background:#f2f2f2;
+  color:#111;
+  margin:0;
+  padding:14px 18px;
+  text-align:center;
+  font-weight:700;
+  text-transform:capitalize;
+  letter-spacing:.02em;
+  cursor:pointer;
+  position:relative;
+
+  border:1px solid;
+  border-top-color:#fff;
+  border-left-color:#fff;
+  border-right-color:#fff;
+  border-bottom-color:transparent; /* show panel top line under INACTIVE tabs */
+}
+.col-tabs .tab + .tab{ margin-left:-1px; } /* seamless vertical borders */
+
+/* ACTIVE tab: draw a 5px bar in button color that covers the panel top line */
+.col-tabs .tab.is-active{
+  background:#fff;
+  border-top-color:#f2f2f2;
+  border-left-color:#f2f2f2;
+  border-right-color:#f2f2f2;
+  border-bottom-color:transparent;
+  position:relative;
+}
+.col-tabs .tab.is-active::after{
+  content:"";
+  position:absolute;
+  left:-1px;
+  right:-1px;
+  bottom:-1px;                      /* overlap panel top border by 1px */
+  height:6px;                       /* 5px visible bar + 1px cover */
+  background: rgb(var(--color-button)); /* same color as buttons */
+  pointer-events:none;
+}
+
+/* ---- Panel container: full border (incl. TOP) ---- */
+.col-tabs .coltabs__panelbox{
+  position:relative;
+  background:#fff;
+  border:1px solid #000;  /* this is the baseline under INACTIVE tabs */
+}
+
+.col-tabs .panel{ display:none; }
+.col-tabs .panel.is-active{ display:block; }
+
+/* ---- TAB BAR & SCROLLER ---- */
+.col-tabs .coltabs__tabs{
+  display:flex;
+  align-items:stretch;
+  gap:.5rem;
+  margin-bottom:0;        /* no negative overlap */
+  position:relative;
+}
+
+/* Tabs viewport (no border; allow ::after to hang over panel) */
+.col-tabs .tabs-nav{
+  position:relative;
+  flex:1 1 auto;
+  overflow-x:hidden;      /* hide horizontal overflow */
+  overflow-y:visible;     /* allow the bar to render over panel */
+  background:#f2f2f2;
+}
+
+/* Scrollable track */
+.col-tabs .tabs{
+  display:flex;
+  flex-wrap:nowrap;
+  overflow-x:auto; overflow-y:hidden;
+  gap:0;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x proximity;
+  will-change:transform;
+
+  /* hide scrollbar */
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.col-tabs .tabs::-webkit-scrollbar{ display:none; }
+
+.col-tabs .tab{ flex:0 0 auto; white-space:nowrap; }
+
+/* ---- Panel inner layout ---- */
+.col-tabs .panel__grid{
+  display:grid;
+  gap:28px;
+  padding:24px;
+  align-items:start;
+  grid-template-columns:minmax(0,30%) 1fr;
+  background:#fff;
+}
+.col-tabs .panel__grid--right{ grid-template-columns:1fr minmax(0,30%); }
+.col-tabs .panel__grid--right .panel__media{ order:2; }
+.col-tabs .panel__grid--right .panel__content{ order:1; }
+@media (max-width: 900px){
+  .col-tabs .panel__grid,
+  .col-tabs .panel__grid--right{ grid-template-columns:1fr; }
+  .col-tabs .panel__grid--right .panel__media,
+  .col-tabs .panel__grid--right .panel__content{ order:0; }
+}
+.col-tabs .panel__media{ padding:8px 0; align-self:start; justify-self:start; }
+.col-tabs .panel__media img{ max-width:100%; height:auto; display:block; }
+.col-tabs .coltabs__btn{ margin-top:18px; }
+
+/* ---- Chevron buttons (theme colors) ---- */
+.col-tabs .tabs-nav__arrow.button{
+  width:42px; height:42px; min-width:42px; min-height:42px;
+  padding:0 !important; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:var(--buttons-radius,8px);
+  box-shadow:none;
+  background: rgb(var(--color-button));
+  color:     rgb(var(--color-button-text));
+  border:1px solid rgb(var(--color-button));
+  transition:filter .2s ease;
+}
+.col-tabs .tabs-nav__arrow.button:hover{ filter:brightness(.95); }
+.col-tabs .tabs-nav__arrow[disabled]{ opacity:.4; cursor:default; }
+.col-tabs .tabs-nav__arrow.is-hidden{ display:none; }
+
+/* ---- Responsive layouts ---- */
+@media (max-width: 1099px){
+  .col-tabs .tab{ scroll-snap-align:start; }
+}
+@media (min-width: 1100px){
+  .col-tabs .tabs{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  }
+  .col-tabs .tabs-nav__arrow{ display:none; }
+}
+
+</style>
+
+<script>
+(function(){
+  const root = document.currentScript.closest('.col-tabs');
+  if(!root) return;
+
+  const nav   = root.querySelector('.tabs-nav');
+  const track = root.querySelector('.tabs');
+  const prev  = root.querySelector('.tabs-nav__arrow--prev');
+  const next  = root.querySelector('.tabs-nav__arrow--next');
+
+  // --- panel switching (your existing) ---
+  const tabs   = root.querySelectorAll('.tab');
+  const panels = root.querySelectorAll('.panel');
+  tabs.forEach((btn,i)=>{
+    btn.addEventListener('click',()=>{
+      tabs.forEach(b=>b.classList.remove('is-active'));
+      panels.forEach(p=>p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      panels[i].classList.add('is-active');
+    });
+  });
+
+  // --- carousel helpers ---
+  function tabStepWidth(){
+    const first = track.children[0];
+    if(!first) return 120;
+    const s = getComputedStyle(first);
+    const w = first.getBoundingClientRect().width +
+              parseFloat(s.marginLeft) + parseFloat(s.marginRight);
+    return Math.max(80, Math.round(w));
+  }
+
+  function updateArrows(){
+    const maxScroll = Math.max(0, track.scrollWidth - nav.clientWidth);
+    const needArrows = maxScroll > 0;
+
+    // Show/hide arrows when everything fits (no forced overflow)
+    prev.classList.toggle('is-hidden', !needArrows);
+    next.classList.toggle('is-hidden', !needArrows);
+
+    if (!needArrows) return; // nothing else to do
+
+    const atStart = track.scrollLeft <= 1;
+    const atEnd   = track.scrollLeft >= (maxScroll - 1);
+    prev.disabled = atStart;
+    next.disabled = atEnd;
+  }
+
+  function scrollByStep(dir){
+    track.scrollBy({ left: dir * tabStepWidth(), behavior: 'smooth' });
+  }
+
+  next.addEventListener('click', ()=> scrollByStep(1));
+  prev.addEventListener('click', ()=> scrollByStep(-1));
+  track.addEventListener('scroll', updateArrows);
+  window.addEventListener('resize', updateArrows);
+
+  // init
+  updateArrows();
+})();
+</script>
+
+
+
+</section>
+
+{% schema %}
+{
+  "name": "Collection tabs",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Fallback collection" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Everything about this collection" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
+    { "type": "select", "id": "image_position", "label": "Image position", "options": [
+      { "value": "left",  "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ], "default": "left" },
+    { "type": "text", "id": "cta_label", "label": "Default button label" },
+    { "type": "url",  "id": "cta_link",  "label": "Default button link" }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Tab collection (optional)" },
+        { "type": "text", "id": "title", "label": "Tab title" },
+        { "type": "richtext", "id": "content", "label": "Custom content (overrides custom.seo_description if set)" },
+        { "type": "image_picker", "id": "image", "label": "Tab image (fallbacks to tab collection image)" },
+        { "type": "text", "id": "image_alt", "label": "Tab image alt text" },
+        { "type": "text", "id": "cta_label", "label": "Tab button label (optional)" },
+        { "type": "url",  "id": "cta_link",  "label": "Tab button link (defaults to tab collection)" }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [{ "name": "Collection tabs" }]
+}
+{% endschema %}

@@ -1,0 +1,116 @@
+/* ITM Theme - Updated Dec 9 2025 - Force sync */
+/* Shared grid items (li) */
+.child-categories__item {
+  margin: 0;
+}
+
+/* Base card */
+.child-category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e2e2;
+  text-decoration: none;
+  overflow: hidden;
+  background: #fff;
+  height: 100%;
+}
+
+.child-category-card__image {
+  padding: 16px;
+}
+
+.child-category-card__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Dark overlay via pseudo-element – ALWAYS present */
+.child-category-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: 1;
+}
+
+.child-category-card:hover::before {
+  opacity: 1;
+}
+
+/* Centered overlay copy */
+.child-category-card__overlay-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  padding: 20px;
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.child-category-card__excerpt {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.child-category-card:hover .child-category-card__excerpt {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Title */
+.child-category-card__title {
+  margin:0;
+  padding: 0 10px 6px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #111;
+  position: relative;
+  z-index: 3;
+  transition: color .25s ease;
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+
+/* Price + SKU */
+.child-category-card__price {
+  margin: 0;
+  padding:0 6px 6px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111;
+  position: relative;
+  z-index: 3;
+}
+
+.child-category-card__sku {
+  margin: 0;
+  padding: 4px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #555;
+  position: relative;
+  z-index: 3;
+}
+
+/* Hover text colour */
+.child-category-card:hover .child-category-card__title,
+.child-category-card:hover .child-category-card__price,
+.child-category-card:hover .child-category-card__sku
+ {
+  color: #fff;
+}

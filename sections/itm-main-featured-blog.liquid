@@ -1,0 +1,203 @@
+<section class="simple-blog color-{{ section.settings.color_scheme }} gradient">
+{%- style -%}
+  /* 11 — Featured Blog: full width, 150px padding */
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: 100% !important;
+    padding-left: 150px !important;
+    padding-right: 150px !important;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+  @media (min-width: 750px) and (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+    }
+  }
+  .section-{{ section.id }}-pad {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: calc({{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px + 20px);
+  }
+  @media (min-width: 750px){
+    .section-{{ section.id }}-pad {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: calc({{ section.settings.padding_bottom }}px + 20px);
+    }
+  }
+
+  .simple-blog .grid{
+    display:grid; grid-template-columns: repeat(var(--cols, 3), minmax(0,1fr)); gap:24px;
+  }
+
+  /* Tablet */
+  @media (max-width: 989px){
+    .simple-blog .grid{ --cols: 2; }
+  }
+
+  /* Force 2 columns on mobile even if --cols is set inline */
+  @media (max-width: 599px){
+    .simple-blog .grid{
+      grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    }
+    /* Only show first two cards */
+    .simple-blog .grid > article:nth-child(n+3){
+      display:none !important;
+    }
+  }
+
+  .simple-blog .view-all{ margin-top:24px; text-align:center; }
+
+  /* 🔹 CHANGED: .card → .blog-card */
+  .simple-blog .blog-card{
+    display:flex; flex-direction:column; gap:.35rem; height:100%;
+  }
+
+  /* 🔹 CHANGED: .card__media → .blog-card__media */
+  .simple-blog .blog-card__media{
+    aspect-ratio:16/9; overflow:hidden; border-radius:var(--media-radius,0);
+  }
+  .simple-blog .blog-card__media img{
+    width:100%; height:100%; display:block; object-fit:cover; object-position:center;
+  }
+
+  /* TAGS + rest can stay as-is */
+  .simple-blog.color-{{ section.settings.color_scheme }} .tags{
+    display:flex; flex-wrap:wrap; justify-content: center; gap:.4rem; margin-top:.4rem;text-align: center; padding: 5px 0;
+  }
+
+  .simple-blog.color-{{ section.settings.color_scheme }} .tag-chip{
+    display:flex; align-items:center; justify-content:center;
+    padding:1rem; font-size:1.5rem; line-height:1; white-space:nowrap; font-style: italic;
+    border-radius:var(--buttons-radius,8px);
+    background: var(--color-button, var(--color-foreground));
+    color: var(--color-button-text, var(--color-background));
+    border: 1px solid var(--color-button, var(--color-foreground));
+    background-color: rgba(var(--color-button, 0,0,0), 1);
+    color: rgba(var(--color-button-text, 255,255,255), 1);
+    border-color: rgba(var(--color-button, 0,0,0), 1);
+    text-decoration:none; cursor:pointer;
+    transition: transform .12s ease, opacity .12s ease, box-shadow .12s ease;
+  }
+
+  .simple-blog.color-{{ section.settings.color_scheme }} .tag-chip:hover{
+    background-color: rgba(var(--color-button, 0,0,0), .9);
+    border-color: rgba(var(--color-button, 0,0,0), .9);
+    transform: translateY(-1px);
+  }
+
+  .simple-blog.color-{{ section.settings.color_scheme }} .tag-chip:focus-visible{
+    outline: 2px solid rgba(var(--color-button, 0,0,0), 1);
+    outline-offset: 2px;
+  }
+
+  /* TITLE — centered, uppercase, no underline */
+  .simple-blog .blog-card > a,
+  .simple-blog .blog-card > a:visited,
+  .simple-blog .blog-card > a:hover{
+    color: inherit; text-decoration: none; border-bottom:0;
+  }
+
+  .simple-blog .blog-card h3{
+    text-transform: uppercase; text-align: center;
+    margin:.08rem 0 0; line-height:1.2; font-size:1.5rem;
+  }
+
+  .simple-blog .blog-card > a:hover h3{ opacity:.9; }
+
+  .simple-blog .meta{ opacity:.8; font-size:.875rem; text-align:center; }
+
+  .simple-blog .view-all{ margin-top:24px; }
+{%- endstyle -%}
+
+
+  <div class="page-width section-{{ section.id }}-pad">
+    {%- if section.settings.heading != blank -%}
+      <!-- Hardcoded H2 element -->
+      <h2 class="h2">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.blog and section.settings.post_limit > 0 -%}
+      <div class="grid" style="--cols: {{ section.settings.columns_desktop | default: 3 }}">
+
+        {%- for article in section.settings.blog.articles limit: section.settings.post_limit -%}
+          <!-- 🔹 CHANGED: class="card" → class="blog-card" -->
+          <article class="blog-card">
+            {%- if section.settings.show_image and article.image -%}
+              <!-- 🔹 CHANGED: class="card__media" → class="blog-card__media" -->
+              <a href="{{ article.url }}" class="blog-card__media">
+                {{ article.image
+                  | image_url: width: 1600
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 1200px) 600px, 100vw',
+                    alt: article.title
+                }}
+              </a>
+            {%- endif -%}
+
+            {%- if section.settings.show_tags and article.tags.size > 0 -%}
+              <div class="tags">
+                {%- for tag in article.tags -%}
+                  <a class="tag-chip" href="{{ section.settings.blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            <a href="{{ article.url }}"><h3 class="h3">{{ article.title }}</h3></a>
+
+            {%- if section.settings.show_date or section.settings.show_author -%}
+              <div class="meta">
+                {%- if section.settings.show_date -%}
+                  <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                    {{ article.published_at | time_tag: format: 'date' }}
+                  </time>
+                {%- endif -%}
+                {%- if section.settings.show_author and article.author -%}
+                  {%- if section.settings.show_date -%}&nbsp;•&nbsp;{%- endif -%}
+                  {{ article.author }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+
+  {% schema %}
+  {
+    "name": "Blog Posts Grid (Home)",
+    "tag": "section",
+    "disabled_on": { "groups": ["header","footer"] },
+    "settings": [
+      { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Latest articles" },
+
+      { "type": "blog", "id": "blog", "label": "Blog" },
+
+      { "type": "range", "id": "post_limit", "label": "Post count", "min": 1, "max": 6, "step": 1, "default": 3 },
+
+      { "type": "header", "content": "Layout" },
+      { "type": "range", "id": "columns_desktop", "label": "Columns (desktop)", "min": 1, "max": 4, "step": 1, "default": 3 },
+      { "type": "checkbox", "id": "show_view_all", "label": "Show “View all” button", "default": true },
+
+      { "type": "header", "content": "Content" },
+      { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
+      { "type": "checkbox", "id": "show_tags", "label": "Show tags", "default": true },
+      { "type": "checkbox", "id": "show_date", "label": "Show date", "default": true },
+      { "type": "checkbox", "id": "show_author", "label": "Show author", "default": false },
+
+      { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+
+      { "type": "header", "content": "Section padding" },
+      { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 36 },
+      { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 36 }
+    ],
+    "presets": [{ "name": "Blog Posts Grid (Home)" }]
+  }
+  {% endschema %}
+</section>

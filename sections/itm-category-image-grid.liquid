@@ -1,0 +1,485 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.padding_bg }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__heading {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    text-align: center;
+    margin: 0 0 {{ section.settings.heading_gap }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: {{ section.settings.divider_width }}px;
+    background-color: {{ section.settings.divider_color }};
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: {{ section.settings.radius }}px;
+    height: {{ section.settings.height }}px;
+    text-decoration: none;
+    background: #111;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item img,
+  #shopify-section-{{ section.id }} .itm-catigrid__item svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item:hover img {
+    transform: scale(1.05);
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.18);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: 1;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item:hover::after {
+    opacity: 1;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }}) 0%, rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 200.0 }}) 45%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: {{ section.settings.text_padding }}px;
+    z-index: 2;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__title {
+    color: {{ section.settings.title_color }};
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_weight }};
+    text-transform: {{ section.settings.title_transform }};
+    margin: 0 0 6px;
+    line-height: 1.2;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__subtitle {
+    color: {{ section.settings.subtitle_color }};
+    font-size: {{ section.settings.subtitle_size }}px;
+    font-weight: {{ section.settings.subtitle_weight }};
+    margin: 0;
+    line-height: 1.4;
+  }
+  {%- if section.settings.cta_style == 'underline' -%}
+    #shopify-section-{{ section.id }} .itm-catigrid__subtitle {
+      display: inline;
+      border-bottom: 1.5px solid {{ section.settings.subtitle_color }};
+      padding-bottom: 2px;
+    }
+  {%- elsif section.settings.cta_style == 'button' -%}
+    #shopify-section-{{ section.id }} .itm-catigrid__subtitle {
+      display: inline-block;
+      border: 1.5px solid {{ section.settings.subtitle_color }};
+      border-radius: 50px;
+      padding: 7px 20px;
+      margin-top: 4px;
+    }
+  {%- else -%}
+    #shopify-section-{{ section.id }} .itm-catigrid__subtitle {
+      opacity: 0.85;
+    }
+  {%- endif -%}
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-catigrid__grid {
+      gap: {{ section.settings.divider_width_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-catigrid__item {
+      height: {{ section.settings.height_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-catigrid__overlay {
+      padding: {{ section.settings.text_padding_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-catigrid__title {
+      font-size: {{ section.settings.title_size_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .itm-catigrid__subtitle {
+      font-size: {{ section.settings.subtitle_size_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if section.settings.heading != blank -%}
+  <div class="page-width" style="background:{{ section.settings.padding_bg }};">
+    <h2 class="itm-catigrid__heading">{{ section.settings.heading }}</h2>
+  </div>
+{%- endif -%}
+
+<div class="itm-catigrid__grid">
+  {%- for block in section.blocks -%}
+    <a
+      class="itm-catigrid__item"
+      href="{{ block.settings.link | default: '#' }}"
+      {{ block.shopify_attributes }}
+    >
+      {%- if block.settings.image != blank -%}
+        {{
+          block.settings.image
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            alt: block.settings.title,
+            widths: '600, 900, 1200'
+        }}
+      {%- else -%}
+        {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+
+      {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
+        <div class="itm-catigrid__overlay">
+          {%- if block.settings.title != blank -%}
+            <h3 class="itm-catigrid__title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.subtitle != blank -%}
+            <p class="itm-catigrid__subtitle">{{ block.settings.subtitle }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </a>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Category Image Grid",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to hide the heading and show images only."
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Gap below heading",
+      "min": 8,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top – desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom – desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top – mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom – mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "padding_bg",
+      "label": "Padding background colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Grid"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "label": "Divider width – desktop",
+      "info": "Set to 0 for no divider. 1–2 px gives a clean line between images.",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "divider_width_mobile",
+      "label": "Divider width – mobile",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Image height – desktop",
+      "min": 160,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 380
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Image height – mobile",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay darkness (0 = off)",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 55
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "range",
+      "id": "text_padding",
+      "label": "Text padding – desktop",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "text_padding_mobile",
+      "label": "Text padding – mobile",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Font size – desktop",
+      "min": 12,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Font size – mobile",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Font weight",
+      "default": "700",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra-bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_transform",
+      "label": "Text case",
+      "default": "uppercase",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "none", "label": "As typed" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle / CTA"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "Style",
+      "default": "text",
+      "options": [
+        { "value": "text", "label": "Plain text" },
+        { "value": "underline", "label": "Underline" },
+        { "value": "button", "label": "Button (pill)" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Font size – desktop",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "label": "Font size – mobile",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight",
+      "label": "Font weight",
+      "default": "400",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle / CTA colour",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category Name"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / CTA text",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Image Grid",
+      "blocks": [
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" }
+      ]
+    }
+  ]
+}
+{% endschema %}

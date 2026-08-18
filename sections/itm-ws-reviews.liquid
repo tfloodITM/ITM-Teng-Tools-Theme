@@ -1,0 +1,733 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    background: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev__heading {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    margin: 0 0 10px;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .itm-rev__header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev__stars-big {
+    color: {{ section.settings.star_color }};
+    font-size: 30px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev__count-text {
+    font-size: 15px;
+    color: #555;
+  }
+
+  /* ── Carousel wrap ── */
+  #shopify-section-{{ section.id }} .itm-rev__carousel-wrap {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .itm-rev__track {
+    display: flex;
+    gap: 20px;
+    padding: 8px 60px;
+    flex: 1;
+    min-width: 0;
+    will-change: transform;
+    flex-shrink: 0;
+  }
+
+  /* ── Nav arrows ── */
+  #shopify-section-{{ section.id }} .itm-rev__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #333;
+    transition: box-shadow 0.2s;
+    flex-shrink: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-rev__nav:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+  #shopify-section-{{ section.id }} .itm-rev__nav--prev { left: 8px; }
+  #shopify-section-{{ section.id }} .itm-rev__nav--next { right: 8px; }
+
+  /* ── Card ── */
+  #shopify-section-{{ section.id }} .itm-rev-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    flex: 0 0 calc(33.333% - 60px);
+    min-width: calc(33.333% - 60px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-sizing: border-box;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    user-select: none;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card:hover {
+    border-color: {{ section.settings.hover_border_color }};
+    box-shadow: 0 0 0 1px {{ section.settings.hover_border_color }};
+  }
+
+  /* ── Card top row ── */
+  #shopify-section-{{ section.id }} .itm-rev-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__stars {
+    color: {{ section.settings.star_color }};
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__date {
+    color: #999;
+    font-size: 13px;
+  }
+
+  /* ── Title ── */
+  #shopify-section-{{ section.id }} .itm-rev-card__title {
+    font-weight: 700;
+    font-size: 15px;
+    margin: 0;
+    color: #111;
+  }
+
+  /* ── Body ── */
+  #shopify-section-{{ section.id }} .itm-rev-card__body-wrap {
+    flex: 1;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__body {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin: 0 0 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__body.is-expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__readmore {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 2px;
+  }
+
+  /* ── Review photos ── */
+  #shopify-section-{{ section.id }} .itm-rev-card__photos {
+    display: flex;
+    gap: 6px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__photo-thumb {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__photo-thumb--more img {
+    filter: brightness(0.5);
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__photo-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+  }
+
+  /* ── Footer ── */
+  #shopify-section-{{ section.id }} .itm-rev-card__footer {
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__reviewer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__info {
+    flex: 1;
+    min-width: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__name {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: #111;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__verified {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: {{ section.settings.star_color }};
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 1px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__product-thumb {
+    flex-shrink: 0;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+    margin-left: auto;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* ── Meta row (Featured + helpful) ── */
+  #shopify-section-{{ section.id }} .itm-rev-card__meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__featured-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__helpful {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #666;
+    flex-wrap: wrap;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__vote {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+    font-size: 12px;
+    color: #555;
+    white-space: nowrap;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__vote:hover:not(.is-disabled) {
+    background: #efefef;
+    border-color: #bbb;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__vote.is-voted-up {
+    background: #e8f4e8;
+    border-color: #4caf50;
+    color: #2e7d32;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__vote.is-voted-down {
+    background: #fdecea;
+    border-color: #e57373;
+    color: #c62828;
+  }
+  #shopify-section-{{ section.id }} .itm-rev-card__vote.is-disabled {
+    cursor: default;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-rev__track { padding: 8px 44px; }
+    #shopify-section-{{ section.id }} .itm-rev-card {
+      flex: 0 0 calc(100% - 88px);
+      min-width: calc(100% - 88px);
+    }
+  }
+  @media (min-width: 750px) and (max-width: 1023px) {
+    #shopify-section-{{ section.id }} .itm-rev__track { padding: 8px 60px; }
+    #shopify-section-{{ section.id }} .itm-rev-card {
+      flex: 0 0 calc(50% - 50px);
+      min-width: calc(50% - 50px);
+    }
+  }
+{%- endstyle -%}
+
+<div class="page-width">
+  <div class="itm-rev__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="itm-rev__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="itm-rev__stars-big">★★★★★</div>
+    <div class="itm-rev__count-text">{{ section.settings.review_count_text }}</div>
+  </div>
+</div>
+
+<div class="itm-rev__carousel-wrap">
+  <button class="itm-rev__nav itm-rev__nav--prev" data-rev-prev="{{ section.id }}" aria-label="Previous reviews">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+
+  <div class="itm-rev__track" id="itm-rev-track-{{ section.id }}">
+    {%- for block in section.blocks -%}
+      {%- assign rev_product = all_products[block.settings.product_handle] -%}
+      <article class="itm-rev-card" data-review-key="{{ block.id }}" {{ block.shopify_attributes }}>
+
+        <div class="itm-rev-card__top">
+          <div class="itm-rev-card__stars">★★★★★</div>
+          <span class="itm-rev-card__date">{{ block.settings.time }}</span>
+        </div>
+
+        <h3 class="itm-rev-card__title">{{ block.settings.title }}</h3>
+
+        <div class="itm-rev-card__body-wrap">
+          <p class="itm-rev-card__body" data-rev-body>{{ block.settings.text }}</p>
+          <button class="itm-rev-card__readmore" type="button" data-rev-readmore>READ MORE</button>
+        </div>
+
+        {%- if block.settings.photo_1 != blank or block.settings.photo_2 != blank -%}
+          <div class="itm-rev-card__photos">
+            {%- if block.settings.photo_1 != blank -%}
+              <div class="itm-rev-card__photo-thumb">
+                <img src="{{ block.settings.photo_1 | image_url: width: 140 }}" alt="Review photo" loading="lazy" width="70" height="70">
+              </div>
+            {%- endif -%}
+            {%- if block.settings.photo_2 != blank -%}
+              <div class="itm-rev-card__photo-thumb{% if block.settings.photo_extra > 0 %} itm-rev-card__photo-thumb--more{% endif %}">
+                <img src="{{ block.settings.photo_2 | image_url: width: 140 }}" alt="Review photo" loading="lazy" width="70" height="70">
+                {%- if block.settings.photo_extra > 0 -%}
+                  <div class="itm-rev-card__photo-overlay">+{{ block.settings.photo_extra }} MORE</div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <div class="itm-rev-card__footer">
+          <div class="itm-rev-card__reviewer-row">
+            <div class="itm-rev-card__avatar" style="background: {{ block.settings.avatar_color }}">{{ block.settings.initials }}</div>
+            <div class="itm-rev-card__info">
+              <span class="itm-rev-card__name">{{ block.settings.name }}</span>
+              <span class="itm-rev-card__verified">
+                <svg width="11" height="11" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="{{ section.settings.star_color }}"/><polyline points="5,10 8.5,13.5 15,7" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Verified Buyer
+              </span>
+            </div>
+            {%- if rev_product != blank and rev_product.featured_image != blank -%}
+              <a href="{{ rev_product.url }}" class="itm-rev-card__product-thumb" aria-label="{{ rev_product.title | escape }}">
+                <img src="{{ rev_product.featured_image | image_url: width: 100 }}" alt="{{ rev_product.title | escape }}" loading="lazy" width="50" height="50">
+              </a>
+            {%- endif -%}
+          </div>
+
+          <div class="itm-rev-card__meta-row">
+            <span class="itm-rev-card__featured-label">
+              <svg width="11" height="11" viewBox="0 0 24 24" aria-hidden="true" fill="#aaa"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+              Featured
+            </span>
+            <span class="itm-rev-card__helpful">
+              Was this helpful?
+              <button type="button" class="itm-rev-card__vote" data-vote="up" aria-label="Mark as helpful">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                <span class="itm-rev-vote-count">{%- if block.settings.helpful_up > 0 -%}{{ block.settings.helpful_up }}{%- endif -%}</span>
+              </button>
+              <button type="button" class="itm-rev-card__vote" data-vote="down" aria-label="Mark as not helpful">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+                <span class="itm-rev-vote-count">{%- if block.settings.helpful_down > 0 -%}{{ block.settings.helpful_down }}{%- endif -%}</span>
+              </button>
+            </span>
+          </div>
+        </div>
+
+      </article>
+    {%- endfor -%}
+  </div>
+
+  <button class="itm-rev__nav itm-rev__nav--next" data-rev-next="{{ section.id }}" aria-label="Next reviews">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  var track   = document.getElementById('itm-rev-track-{{ section.id }}');
+  var prevBtn = document.querySelector('[data-rev-prev="{{ section.id }}"]');
+  var nextBtn = document.querySelector('[data-rev-next="{{ section.id }}"]');
+  if (!track) return;
+
+  /* ── Clone originals for seamless infinite loop ── */
+  var origCards = Array.from(track.querySelectorAll('.itm-rev-card'));
+  var origCount = origCards.length;
+  origCards.forEach(function (card) {
+    var clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.querySelectorAll('button').forEach(function (btn) {
+      btn.setAttribute('tabindex', '-1');
+      btn.style.pointerEvents = 'none';
+    });
+    track.appendChild(clone);
+  });
+
+  function getStep() {
+    var c = track.querySelector('.itm-rev-card');
+    if (!c) return 360;
+    return c.offsetWidth + (parseFloat(getComputedStyle(track).gap) || 20);
+  }
+  function getOrigWidth() { return getStep() * origCount; }
+
+  /* ── Autoplay — GPU-composited transform (no scrollLeft, no layout reflows) ── */
+  var speed      = {{ section.settings.autoplay_speed | default: 50 }};
+  var goLeft     = '{{ section.settings.autoplay_direction | default: "left" }}' !== 'right';
+  var isPaused   = false;
+  var lastTs     = 0;
+  var pauseTimer = null;
+  var pos        = goLeft ? 0 : getOrigWidth();
+  var animating  = false;
+
+  function applyPos() {
+    track.style.transform = 'translateX(-' + pos + 'px)';
+  }
+  applyPos();
+
+  function tick(ts) {
+    if (!isPaused && !animating && lastTs && speed > 0) {
+      var origW = getOrigWidth();
+      var dt = Math.min(ts - lastTs, 64);
+      pos += goLeft ? (speed * dt) / 1000 : -(speed * dt) / 1000;
+      if (pos >= origW) pos -= origW;
+      if (pos < 0)      pos += origW;
+      applyPos();
+    }
+    lastTs = ts;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  /* Pause on hover */
+  track.addEventListener('mouseenter', function () { isPaused = true; });
+  track.addEventListener('mouseleave', function () {
+    if (pauseTimer) clearTimeout(pauseTimer);
+    isPaused = false;
+  });
+
+  /* Manual arrows — JS eased animation, no scroll API */
+  function easeInOut(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+  function manualScroll(dir) {
+    isPaused = true;
+    if (pauseTimer) clearTimeout(pauseTimer);
+    pauseTimer = setTimeout(function () { isPaused = false; }, 4000);
+    if (animating) return;
+    animating = true;
+    var origW    = getOrigWidth();
+    var start    = pos;
+    var target   = pos + dir * getStep();
+    var duration = 380;
+    var startTs  = null;
+    function step(ts) {
+      if (!startTs) startTs = ts;
+      var t = Math.min((ts - startTs) / duration, 1);
+      pos = start + (target - start) * easeInOut(t);
+      var p = pos;
+      if (p >= origW) p -= origW;
+      if (p < 0)      p += origW;
+      track.style.transform = 'translateX(-' + p + 'px)';
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        pos = target;
+        if (pos >= origW) pos -= origW;
+        if (pos < 0)      pos += origW;
+        applyPos();
+        animating = false;
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  if (prevBtn) prevBtn.addEventListener('click', function () { manualScroll(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { manualScroll(1); });
+
+  /* ── READ MORE ── */
+  track.querySelectorAll('.itm-rev-card:not([aria-hidden]) .itm-rev-card__body-wrap').forEach(function (wrap) {
+    var body = wrap.querySelector('[data-rev-body]');
+    var btn  = wrap.querySelector('[data-rev-readmore]');
+    if (!body || !btn) return;
+    if (body.scrollHeight > body.clientHeight + 2) {
+      btn.style.display = 'block';
+      btn.addEventListener('click', function () {
+        body.classList.add('is-expanded');
+        btn.style.display = 'none';
+      });
+    }
+  });
+
+  /* ── Helpful votes — localStorage per-browser ── */
+  var STORE_KEY = 'itm-rev-votes-v1';
+  var stored = {};
+  try { stored = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch (e) {}
+
+  track.querySelectorAll('.itm-rev-card:not([aria-hidden])[data-review-key]').forEach(function (card) {
+    var key   = card.dataset.reviewKey;
+    var upBtn = card.querySelector('[data-vote="up"]');
+    var dnBtn = card.querySelector('[data-vote="down"]');
+    if (!upBtn || !dnBtn) return;
+    var upCount = upBtn.querySelector('.itm-rev-vote-count');
+    var dnCount = dnBtn.querySelector('.itm-rev-vote-count');
+
+    if (stored[key]) {
+      var wasUp    = stored[key] === 'up';
+      var votedBtn = wasUp ? upBtn : dnBtn;
+      votedBtn.classList.add(wasUp ? 'is-voted-up' : 'is-voted-down');
+      upBtn.classList.add('is-disabled');
+      dnBtn.classList.add('is-disabled');
+      if (upCount && stored[key + '_up'] != null) upCount.textContent = stored[key + '_up'];
+      if (dnCount && stored[key + '_dn'] != null) dnCount.textContent = stored[key + '_dn'];
+    }
+
+    function castVote(dir) {
+      if (stored[key]) return;
+      var isUp     = dir === 'up';
+      var countEl  = isUp ? upCount : dnCount;
+      var current  = parseInt(countEl ? countEl.textContent : 0) || 0;
+      var newCount = current + 1;
+      if (countEl) countEl.textContent = newCount;
+      (isUp ? upBtn : dnBtn).classList.add(isUp ? 'is-voted-up' : 'is-voted-down');
+      upBtn.classList.add('is-disabled');
+      dnBtn.classList.add('is-disabled');
+      stored[key]         = dir;
+      stored[key + '_up'] = parseInt(upCount ? upCount.textContent : 0) || 0;
+      stored[key + '_dn'] = parseInt(dnCount ? dnCount.textContent : 0) || 0;
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(stored)); } catch (e) {}
+    }
+
+    upBtn.addEventListener('click', function () { castVote('up'); });
+    dnBtn.addEventListener('click', function () { castVote('down'); });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Customer Reviews Carousel",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 20,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "text",
+      "id": "review_count_text",
+      "label": "Total review count (e.g. 12 Reviews)",
+      "info": "Update this to match your real Judge.me total. Find it in your Judge.me dashboard.",
+      "default": "4,199 Reviews"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star \/ verified buyer colour",
+      "default": "#c8922a"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Autoplay animation"
+    },
+    {
+      "type": "number",
+      "id": "autoplay_speed",
+      "label": "Scroll speed (px\/s)",
+      "default": 50,
+      "info": "30 = slow, 50 = medium, 80 = fast. Set 0 to disable."
+    },
+    {
+      "type": "select",
+      "id": "autoplay_direction",
+      "label": "Scroll direction",
+      "options": [
+        { "value": "left",  "label": "Left (default)" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "hover_border_color",
+      "label": "Hover card border colour",
+      "default": "#f5a623"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer name",
+          "default": "Customer"
+        },
+        {
+          "type": "text",
+          "id": "initials",
+          "label": "Avatar initials (2 letters)",
+          "default": "CU"
+        },
+        {
+          "type": "color",
+          "id": "avatar_color",
+          "label": "Avatar background colour",
+          "default": "#5b8dd9"
+        },
+        {
+          "type": "text",
+          "id": "time",
+          "label": "Time ago",
+          "default": "1 year ago"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review title",
+          "default": "Great product!"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text",
+          "default": "Really happy with this purchase."
+        },
+        {
+          "type": "text",
+          "id": "product_handle",
+          "label": "Product handle (for product thumbnail)",
+          "info": "Enter the Shopify product handle e.g. wsbchpaj-pro-elt-1"
+        },
+        {
+          "type": "image_picker",
+          "id": "photo_1",
+          "label": "Review photo 1 (optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "photo_2",
+          "label": "Review photo 2 (optional)"
+        },
+        {
+          "type": "range",
+          "id": "photo_extra",
+          "label": "Extra photo count shown as \"+N MORE\"",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "helpful_up",
+          "label": "Helpful 👍 count",
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "helpful_down",
+          "label": "Not helpful 👎 count",
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews Carousel",
+      "blocks": [
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}

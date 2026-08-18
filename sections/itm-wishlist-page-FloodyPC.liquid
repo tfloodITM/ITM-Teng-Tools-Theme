@@ -1,0 +1,49 @@
+<div class="itm-wl-page page-width">
+  <div class="itm-wl-page__header">
+    <h1 class="itm-wl-page__title">{{ section.settings.title }}</h1>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="itm-wl-page__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+    {%- if section.settings.shop_link != blank -%}
+      <a class="itm-wl-view-all" href="{{ section.settings.shop_link }}">{{ section.settings.shop_link_text }}</a>
+    {%- endif -%}
+  </div>
+  <div id="itm-wl-grid"></div>
+</div>
+
+{% schema %}
+{
+  "name": "Wishlist Page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "My Wishlist"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtext",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "shop_link",
+      "label": "Browse products link"
+    },
+    {
+      "type": "text",
+      "id": "shop_link_text",
+      "label": "Browse link label",
+      "default": "Browse all products"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wishlist Page"
+    }
+  ]
+}
+{% endschema %}

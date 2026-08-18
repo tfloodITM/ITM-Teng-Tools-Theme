@@ -1,0 +1,466 @@
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+<nav class="ai-nav-bar-{{ ai_gen_id }} color-{{ block.settings.color_scheme }} gradient" {{ block.shopify_attributes }}>
+  <div class="page-width">
+    <!-- Mobile burger -->
+    <button
+      class="ai-nav__burger-{{ ai_gen_id }}"
+      aria-expanded="false"
+      aria-controls="ai-nav-list-{{ ai_gen_id }}"
+      aria-label="Open menu"
+    ></button>
+
+    <ul id="ai-nav-list-{{ ai_gen_id }}" class="ai-nav__list-{{ ai_gen_id }}">
+      {% assign nav = block.settings.menu %}
+
+      {% if nav != blank and nav.links.size > 0 %}
+        {% for link in nav.links %}
+          <li class="ai-nav__item-{{ ai_gen_id }} {% if link.links != blank %}has-children{% endif %}">
+            <a href="{{ link.url }}" class="ai-nav__link-{{ ai_gen_id }}" {% if link.active %}aria-current="page"{% endif %}>
+              {{ link.title }}
+            </a>
+
+            {% if link.links != blank %}
+              <button class="ai-nav__toggle-{{ ai_gen_id }}" aria-expanded="false" aria-haspopup="true" aria-label="Toggle submenu"></button>
+
+              <ul class="ai-subnav__list-{{ ai_gen_id }} color-{{ block.settings.dropdown_color_scheme }} gradient" role="menu">
+                {% for child in link.links %}
+                  <li class="ai-subnav__item-{{ ai_gen_id }} {% if child.links != blank %}has-children{% endif %}">
+                    <a href="{{ child.url }}" class="ai-subnav__link-{{ ai_gen_id }}" role="menuitem">
+                      {{ child.title }}
+                    </a>
+
+                    {% if child.links != blank %}
+                      <button class="ai-nav__toggle-{{ ai_gen_id }}" aria-expanded="false" aria-haspopup="true" aria-label="Toggle submenu"></button>
+                      <ul class="ai-subnav__list-{{ ai_gen_id }} ai-subnav__list--level2-{{ ai_gen_id }} color-{{ block.settings.dropdown_color_scheme }} gradient" role="menu">
+                        {% for grand in child.links %}
+                          <li class="ai-subnav__item-{{ ai_gen_id }}">
+                            <a href="{{ grand.url }}" class="ai-subnav__link-{{ ai_gen_id }}" role="menuitem">
+                              {{ grand.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+
+        {%- if block.settings.localized_icon != blank -%}
+          <li class="ai-nav__item-{{ ai_gen_id }} ai-nav__item--au-{{ ai_gen_id }}">
+            <a href="#" class="ai-nav__link-{{ ai_gen_id }} ai-nav__au-{{ ai_gen_id }}" aria-label="Australia locale">
+              <span>AU</span>
+              <img src="{{ block.settings.localized_icon | image_url }}" alt="Australia flag" class="ai-nav__au-flag-{{ ai_gen_id }}" />
+            </a>
+          </li>
+        {%- endif -%}
+      {% else %}
+        <li class="ai-nav__item-{{ ai_gen_id }}">
+          <span style="opacity:.6;font-style:italic">
+            Select a menu to display navigation links
+          </span>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+{% style %}
+/* RESET */
+.ai-nav-bar-{{ ai_gen_id }} ul{list-style:none;margin:0;padding:0;}
+.ai-nav-bar-{{ ai_gen_id }} a{text-decoration:none;}
+
+/* BAR */
+.ai-nav-bar-{{ ai_gen_id }}{
+  position:sticky;
+  top:var(--head-h,0px);
+  z-index:5;
+  isolation:isolate;
+  width:100%;
+  margin:0;
+  padding:{{ block.settings.padding_vertical }}px 0;
+  background:rgb(var(--color-background));
+  color:rgb(var(--color-foreground));
+  text-transform: uppercase;
+  border-bottom:1px solid rgba(var(--color-foreground),.1);
+  --_btn-bg:var(--color-button-background,var(--color-button,var(--color-accent,var(--color-foreground))));
+  --_btn-text:var(--color-button-text,var(--color-button-label,var(--color-background)));
+}
+
+/* fixed state */
+.ai-nav-bar-{{ ai_gen_id }}.is-fixed{
+  position:fixed;
+  top:0;left:0;right:0;width:100%;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+
+/* layout */
+.ai-nav__list-{{ ai_gen_id }}{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:{{ block.settings.spacing }}px;
+}
+.ai-nav__item-{{ ai_gen_id }}{position:relative;}
+
+/* AU indicator on the right */
+/* AU indicator on the right */
+.ai-nav__item--au-{{ ai_gen_id }}{
+  margin-left:auto;
+}
+.ai-nav__au-{{ ai_gen_id }}{
+  display:inline-flex !important;
+  align-items:center;
+  gap:8px;
+  padding:0 !important;
+}
+.ai-nav__au-flag-{{ ai_gen_id }}{
+  {% if block.settings.flag_height_style == 'full' %}
+  height:calc({{ block.settings.font_size }}px * 1.3 + 20px);
+  {% else %}
+  height:1.3em;
+  {% endif %}
+  width:auto;
+  display:block;
+}
+
+/* links — typography from BLOCK settings */
+.ai-nav-bar-{{ ai_gen_id }} .ai-nav__link-{{ ai_gen_id }},
+.ai-nav-bar-{{ ai_gen_id }} .ai-subnav__link-{{ ai_gen_id }}{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  font-family:var(--font-body-family);
+  font-size:{{ block.settings.font_size }}px !important;
+  font-weight:{{ block.settings.font_weight }} !important;
+  line-height:1.3;
+  padding:10px 12px;
+  border-radius:0;
+  background:transparent;
+  transition:background .2s,color .2s;
+  color:rgb(var(--color-foreground));
+  width: 100%;
+}
+/* 7 — Hover: white text + underline slide-in (desktop only) */
+@media (min-width: 750px) {
+  .ai-nav__link-{{ ai_gen_id }} {
+    position: relative;
+    text-decoration: none;
+    transition: color 0.2s, background 0.2s;
+  }
+  .ai-nav__link-{{ ai_gen_id }}::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: width 0.25s ease;
+  }
+  .ai-nav__link-{{ ai_gen_id }}:hover,
+  .ai-nav__link-{{ ai_gen_id }}:focus,
+  .ai-nav__link-{{ ai_gen_id }}[aria-current="page"] {
+    background: transparent;
+    color: #fff !important;
+  }
+  .ai-nav__link-{{ ai_gen_id }}:hover::after,
+  .ai-nav__link-{{ ai_gen_id }}[aria-current="page"]::after {
+    width: 100%;
+  }
+}
+
+@media (max-width: 749px) {
+  .ai-nav__link-{{ ai_gen_id }}:hover,
+  .ai-nav__link-{{ ai_gen_id }}:focus,
+  .ai-nav__link-{{ ai_gen_id }}[aria-current="page"] {
+    background: rgb(var(--_btn-bg));
+    color: rgb(var(--_btn-text));
+  }
+}
+
+/* 2 — Nav bar: full width, 150px padding */
+.ai-nav-bar-{{ ai_gen_id }} .page-width {
+  max-width: 100% !important;
+  padding-left: 150px !important;
+  padding-right: 150px !important;
+}
+
+@media (max-width: 749px) {
+  .ai-nav-bar-{{ ai_gen_id }} .page-width {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+
+@media (min-width: 750px) and (max-width: 1024px) {
+  .ai-nav-bar-{{ ai_gen_id }} .page-width {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+}
+
+/* caret (desktop hidden, mobile shown) */
+.ai-nav__toggle-{{ ai_gen_id }}{display:none;}
+
+/* dropdowns (desktop) */
+.ai-subnav__list-{{ ai_gen_id }}{
+  position:absolute;
+  top:100%;
+  left:0;
+  min-width:220px;
+  margin:0;
+  padding:8px 0;
+  display:none;
+  background:rgb(var(--color-background));
+  color:rgb(var(--color-foreground));
+  border:1px solid rgba(var(--color-foreground),.12);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+  z-index:9990;
+}
+.ai-subnav__list--level2-{{ ai_gen_id }}{top:0;left:100%;margin-left:1px;}
+.ai-nav__item-{{ ai_gen_id }}:hover > .ai-subnav__list-{{ ai_gen_id }},
+.ai-nav__item-{{ ai_gen_id }}:focus-within > .ai-subnav__list-{{ ai_gen_id }},
+.ai-nav__item-{{ ai_gen_id }}[data-open="true"] > .ai-subnav__list-{{ ai_gen_id }}{display:block;}
+
+/* dropdown colour scheme (BLOCK-scoped) */
+.ai-subnav__list-{{ ai_gen_id }}.color-{{ block.settings.dropdown_color_scheme }}{
+  --_btn-bg:var(--color-button-background,var(--color-button,var(--color-accent,var(--color-foreground))));
+  --_btn-text:var(--color-button-text,var(--color-button-label,var(--color-background)));
+}
+.ai-subnav__link-{{ ai_gen_id }}{
+  display:block;
+  padding:10px 16px;
+}
+.ai-subnav__list-{{ ai_gen_id }} .ai-subnav__link-{{ ai_gen_id }}:hover,
+.ai-subnav__list-{{ ai_gen_id }} .ai-subnav__link-{{ ai_gen_id }}:focus{
+  background:rgb(var(--_btn-bg));
+  color:rgb(var(--_btn-text));
+}
+
+/* MOBILE */
+@media (max-width:749px){
+  .ai-nav__burger-{{ ai_gen_id }}{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:40px;height:40px;padding:0;border:0;background:none;cursor:pointer;
+    mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="black"><rect x="3" y="6" width="18" height="2"/><rect x="3" y="11" width="18" height="2"/><rect x="3" y="16" width="18" height="2"/></g></svg>') no-repeat center/22px 22px;
+    -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="black"><rect x="3" y="6" width="18" height="2"/><rect x="3" y="11" width="18" height="2"/><rect x="3" y="16" width="18" height="2"/></g></svg>') no-repeat center/22px 22px;
+    background-color:rgb(var(--color-foreground));
+  }
+
+  .ai-nav__list-{{ ai_gen_id }}{
+    display:none;
+    flex-direction:column;
+    gap:0;
+    width:100%;
+    margin-top:8px;
+    padding-top:8px;
+    border-top:1px solid rgba(var(--color-foreground),.12);
+  }
+  .ai-nav-bar-{{ ai_gen_id }}[data-menu-open="true"] .ai-nav__list-{{ ai_gen_id }}{display:flex;}
+
+  .ai-nav__item-{{ ai_gen_id }}{width:100%;}
+  .ai-nav__link-{{ ai_gen_id }}{
+    width:100%;
+    padding:14px 0;
+    border-bottom:1px solid rgba(var(--color-foreground),.08);
+  }
+
+  /* Keep AU indicator visible on mobile */
+  .ai-nav__item--au-{{ ai_gen_id }}{
+    display:block;
+    margin-left:0;
+  }
+
+  .ai-nav__toggle-{{ ai_gen_id }}{
+    display:inline-block;margin-left:auto;background:none;border:0;width:22px;height:22px;cursor:pointer;
+    mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.8 7.5 10 11.7l4.2-4.2 1.3 1.3L10 14.3 4.5 8.8l1.3-1.3z"/></svg>') no-repeat center/contain;
+    -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.8 7.5 10 11.7l4.2-4.2 1.3 1.3L10 14.3 4.5 8.8l1.3-1.3z"/></svg>') no-repeat center/contain;
+    background-color:rgb(var(--color-foreground));
+    transition:transform .2s;
+  }
+  .ai-nav__item-{{ ai_gen_id }}[data-open="true"] > .ai-nav__toggle-{{ ai_gen_id }}{transform:rotate(180deg);}
+
+  .ai-subnav__list-{{ ai_gen_id }}{
+    position:static;display:none;border:0;box-shadow:none;background:transparent;
+    padding:0 0 8px 0;margin:0;
+  }
+  .ai-subnav__link-{{ ai_gen_id }}{padding:10px 0 10px 16px;}
+  .ai-subnav__item-{{ ai_gen_id }} .ai-nav__toggle-{{ ai_gen_id }}{margin-left:8px;}
+
+  .ai-nav__item-{{ ai_gen_id }}[data-open="true"] > .ai-subnav__list-{{ ai_gen_id }},
+  .ai-subnav__item-{{ ai_gen_id }}[data-open="true"] > .ai-subnav__list-{{ ai_gen_id }}{display:block;}
+
+  .ai-subnav__list-{{ ai_gen_id }} .ai-subnav__link-{{ ai_gen_id }}{padding-left:28px;}
+}
+
+/* Desktop: hide burger */
+@media (min-width:750px){
+  .ai-nav__burger-{{ ai_gen_id }}{display:none;}
+}
+
+/* safety */
+.ai-nav-bar-{{ ai_gen_id }}:where(*){contain:layout style;}
+{% endstyle %}
+
+<script>
+(() => {
+  const root = document.querySelector('.ai-nav-bar-{{ ai_gen_id }}');
+  if (!root) return;
+
+  const findHeader = () =>
+    document.querySelector('header[role="banner"]') ||
+    document.querySelector('sticky-header') ||
+    document.querySelector('.shopify-section-header') ||
+    document.querySelector('#shopify-section-header') ||
+    document.querySelector('.header-wrapper') ||
+    document.querySelector('.header');
+
+  let header = findHeader();
+
+  const getHeadH = () => (header ? Math.round(header.getBoundingClientRect().height) : 0);
+  const docTop = el => (el ? el.getBoundingClientRect().top + window.scrollY : 0);
+  const setHeadVar = () => root.style.setProperty('--head-h', getHeadH() + 'px');
+
+  const spacer = document.createElement('div');
+  spacer.style.height = '0px';
+  root.after(spacer);
+
+  const applyFixed = () => {
+    header = header || findHeader();
+    const triggerY = header ? docTop(header) + getHeadH() : 0;
+    const shouldFix = window.scrollY > triggerY;
+
+    if (shouldFix) {
+      if (!root.classList.contains('is-fixed')) {
+        root.classList.add('is-fixed');
+        spacer.style.height = root.offsetHeight + 'px';
+      }
+    } else if (root.classList.contains('is-fixed')) {
+      root.classList.remove('is-fixed');
+      spacer.style.height = '0px';
+    }
+  };
+
+  const init = () => {
+    header = header || findHeader();
+    setHeadVar();
+    requestAnimationFrame(() => { setHeadVar(); applyFixed(); });
+    setTimeout(() => { setHeadVar(); applyFixed(); }, 120);
+    window.addEventListener('load', () => { setHeadVar(); applyFixed(); }, { once:true });
+  };
+  init();
+
+  window.addEventListener('scroll', applyFixed, { passive:true });
+  window.addEventListener('resize', () => { setHeadVar(); applyFixed(); });
+
+  if ('ResizeObserver' in window) {
+    header && new ResizeObserver(() => { setHeadVar(); applyFixed(); }).observe(header);
+    new ResizeObserver(() => {
+      if (root.classList.contains('is-fixed')) spacer.style.height = root.offsetHeight + 'px';
+    }).observe(root);
+  }
+
+  // dropdown toggles
+  root.querySelectorAll('.ai-nav__toggle-{{ ai_gen_id }}').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const li = e.currentTarget.closest('li');
+      const open = li.getAttribute('data-open') === 'true';
+      li.parentElement.querySelectorAll(':scope > li[data-open="true"]').forEach(sib => {
+        if (sib !== li) sib.setAttribute('data-open','false');
+      });
+      li.setAttribute('data-open', open ? 'false' : 'true');
+      e.currentTarget.setAttribute('aria-expanded', (!open).toString());
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (!root.contains(e.target)) {
+      root.querySelectorAll('[data-open="true"]').forEach(li => li.setAttribute('data-open','false'));
+      root.querySelectorAll('.ai-nav__toggle-{{ ai_gen_id }}[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded','false'));
+    }
+  });
+
+  root.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      root.querySelectorAll('[data-open="true"]').forEach(li => li.setAttribute('data-open','false'));
+      root.querySelectorAll('.ai-nav__toggle-{{ ai_gen_id }}[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded','false'));
+    }
+  });
+
+  // burger toggle
+  const burger = root.querySelector('.ai-nav__burger-{{ ai_gen_id }}');
+  burger && burger.addEventListener('click', () => {
+    const isOpen = root.getAttribute('data-menu-open') === 'true';
+    if (isOpen) {
+      root.removeAttribute('data-menu-open');
+      burger.setAttribute('aria-expanded','false');
+    } else {
+      root.setAttribute('data-menu-open','true');
+      burger.setAttribute('aria-expanded','true');
+    }
+  });
+
+  const mq = window.matchMedia('(min-width: 750px)');
+  mq.addEventListener?.('change', ev => {
+    if (ev.matches) {
+      root.removeAttribute('data-menu-open');
+      burger && burger.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Text navigation bar",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Bar color scheme", "default": "background-1" },
+    { "type": "color_scheme", "id": "dropdown_color_scheme", "label": "Dropdown color scheme", "default": "background-1" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_vertical", "min": 0, "max": 50, "step": 1, "unit": "px", "label": "Vertical padding", "default": 16 },
+    { "type": "range", "id": "spacing", "min": 8, "max": 60, "step": 2, "unit": "px", "label": "Link spacing", "default": 24 },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+
+    { "type": "header", "content": "Localized indicator" },
+    {
+      "type": "image_picker",
+      "id": "localized_icon",
+      "label": "Flag icon",
+      "info": "Upload a flag (SVG or PNG) to display with the locale code"
+    },
+    {
+      "type": "select",
+      "id": "flag_height_style",
+      "label": "Flag height",
+      "options": [
+        { "value": "full", "label": "Full navbar height" },
+        { "value": "restricted", "label": "Match text height" }
+      ],
+      "default": "full"
+    }
+  ],
+  "presets": [
+    { "name": "Text navigation bar" }
+  ]
+}
+{% endschema %}

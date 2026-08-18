@@ -1,0 +1,331 @@
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+<section class="testimonial-hero color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {% if section.settings.section_heading != blank %}
+      <h2 class="testimonial-hero__section-heading">
+        {{ section.settings.section_heading }}
+      </h2>
+    {% endif %}
+  </div>
+
+  {%- assign testimonial_blog = blogs[section.settings.blog] -%}
+
+  {% if testimonial_blog and testimonial_blog.articles_count > 0 %}
+    {%- assign limit = section.settings.post_limit | default: 5 -%}
+
+    {%- assign pages = testimonial_blog.articles_count -%}
+    {%- if pages > limit -%}
+      {%- assign pages = limit -%}
+    {%- endif -%}
+    {%- if pages < 1 -%}
+      {%- assign pages = 1 -%}
+    {%- endif -%}
+
+    <slideshow-component
+      class="testimonial-hero__slider slider-mobile-gutter"
+      role="region"
+      aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
+      aria-label="{{ section.settings.section_heading | escape }}"
+    >
+      <div class="page-width">
+        <div class="testimonial-hero__inner" style="--slideshow-max: 1200px">
+          <div
+            class="slideshow testimonial-hero__track banner grid grid--1-col slider slider--everywhere"
+            id="Slider-{{ section.id }}"
+            data-transition="fade"
+            aria-live="polite"
+            aria-atomic="true"
+            data-autoplay="false"
+            data-speed="5"
+          >
+            {% for article in testimonial_blog.articles limit: limit %}
+              {%- comment -%}
+                Metafields:
+                - custom.product (list of products)
+                - custom.testimonial_rating (integer)
+                - custom.testimonial_excerpt (rich text)
+              {%- endcomment -%}
+              {%- assign product_list = article.metafields.custom.product.value -%}
+              {%- assign related_product = product_list | first -%}
+              {%- assign rating = article.metafields.custom.testimonial_rating.value | default: 5 -%}
+
+              <div
+                id="Slide-{{ section.id }}-{{ forloop.index }}"
+                class="slideshow__slide grid__item slider__slide testimonial-hero__slide"
+                role="group"
+                aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ pages }}"
+                tabindex="-1"
+              >
+                <article class="testimonial-card">
+                  <div class="testimonial-card__inner">
+                    <!-- TEXT COLUMN -->
+                    <div class="testimonial-card__text">
+                      {% if section.settings.card_heading != blank %}
+                        <h2 class="testimonial-card__kicker">
+                          {{ section.settings.card_heading }}
+                        </h2>
+                      {% endif %}
+
+                      {% if article.title != blank %}
+                        <h3 class="testimonial-card__title">
+                          {{ article.title | upcase }}
+                        </h3>
+                      {% endif %}
+
+                      {% if related_product %}
+                        {% assign first_variant = related_product.variants.first %}
+                        <p class="testimonial-card__product">
+                          Who use our
+                          <a href="{{ related_product.url }}">
+                            {{ first_variant.sku | default: related_product.title }}
+                          </a>
+                        </p>
+                      {% endif %}
+
+                      {% if rating %}
+                        <p class="testimonial-card__stars">
+                          {% for i in (1..rating) %}
+                            ★
+                          {% endfor %}
+                        </p>
+                      {% endif %}
+
+                      {% if article.metafields.custom.testimonial_excerpt %}
+                        <div class="testimonial-card__excerpt rte">
+                          {{ article.metafields.custom.testimonial_excerpt | metafield_tag }}
+                        </div>
+                      {% else %}
+                        {% assign fallback_excerpt = article.excerpt | default: article.content | strip_html | truncatewords: 40 %}
+                        {% if fallback_excerpt != blank %}
+                          <p class="testimonial-card__excerpt">
+                            {{ fallback_excerpt }}
+                          </p>
+                        {% endif %}
+                      {% endif %}
+
+                      <a
+                        class="testimonial-card__button button button--primary"
+                        href="{{ article.url }}"
+                      >
+                        READ MORE
+                      </a>
+                    </div>
+
+                    <!-- IMAGE COLUMN -->
+                    <div class="testimonial-card__image">
+                      {% assign testimonial_image = article.metafields.custom.testimonial_image.value | default: article.image %}
+                      {% if testimonial_image %}
+                        {{ testimonial_image
+                          | image_url: width: 900
+                          | image_tag:
+                            loading: 'lazy',
+                            class: 'testimonial-card__img'
+                        }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+
+          {% if pages > 1 %}
+            {% render 'slider-controls',
+              slider_id: 'Slider-' | append: section.id,
+              pages: pages,
+              wrapper_class: 'slider-buttons slider-buttons--bar testimonial-hero__controls',
+              show_arrows: true
+            %}
+          {% endif %}
+        </div>
+      </div>
+    </slideshow-component>
+  {% else %}
+    <div class="page-width">
+      <p>No testimonials found. Select a blog with articles.</p>
+    </div>
+  {% endif %}
+</section>
+
+{%- style -%}
+  .testimonial-hero {
+    padding-top: {{ section.settings.padding_top | default: 40 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px;
+  }
+
+  .testimonial-hero__section-heading {
+    margin: 0 0 24px;
+    text-align: left;
+  }
+
+  .testimonial-hero__slider {
+    position: relative;
+  }
+
+  .testimonial-hero__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .testimonial-hero__slide {
+    width: 100%;
+  }
+
+  /* ===== CARD LAYOUT ===== */
+  .testimonial-card {
+    margin: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .testimonial-card__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 750px) {
+    .testimonial-card__inner {
+      flex-direction: row;
+    }
+  }
+
+  .testimonial-card__text,
+  .testimonial-card__image {
+    padding: 24px 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .testimonial-card__text {
+      flex: 1 1 50%;
+      padding-right: 32px;
+    }
+
+    .testimonial-card__image {
+      flex: 1 1 50%;
+      padding-left: 32px;
+    }
+  }
+
+  .testimonial-card__kicker {
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    text-align: left;
+    color: rgb(var(--color-button));
+  }
+
+  .testimonial-card__title {
+    margin: 0 0 12px;
+    text-align: left;
+  }
+
+  .testimonial-card__product {
+    margin: 0 0 12px;
+  }
+
+  .testimonial-card__product a {
+    color: rgb(var(--color-button));
+    text-decoration: none;
+  }
+
+  .testimonial-card__product a:hover {
+    text-decoration: none;
+  }
+
+  .testimonial-card__stars {
+    margin: 0 0 12px;
+    font-size: 1em;
+    color: rgb(var(--color-button));
+  }
+
+  .testimonial-card__excerpt {
+    margin: 0 0 20px;
+  }
+
+  .testimonial-card__button {
+    text-transform: uppercase;
+  }
+
+    .testimonial-card__image {
+    display: flex;
+    align-items: stretch; /* the default flex behaviour; ensures both columns match height */
+    }
+
+    .testimonial-card__img {
+    width: 100%;
+    height: auto; /* let the image scale proportionally */
+    max-height: 100%; /* never overflow the card height */
+    object-fit: cover; /* crop if it gets too tall */
+    border-radius: 0;
+    display: block;
+    }
+
+  .testimonial-hero__controls {
+    margin-top: 16px;
+    justify-content: flex-end;
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Testimonial hero",
+  "tag": "section",
+  "class": "section testimonial-hero-section",
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Testimonial blog"
+    },
+    {
+      "type": "number",
+      "id": "post_limit",
+      "label": "Number of testimonials to show",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section heading",
+      "default": "What our customers say"
+    },
+    {
+      "type": "text",
+      "id": "card_heading",
+      "label": "Heading above title",
+      "default": "WHAT OUR CUSTOMERS SAY"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial hero",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}

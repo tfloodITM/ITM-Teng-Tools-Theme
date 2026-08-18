@@ -1,0 +1,1077 @@
+{%- comment -%}
+  ITM About Us — Full-page about section for Work Sharp Australia
+{%- endcomment -%}
+
+{%- liquid
+  assign hero_img  = section.settings.hero_image
+  assign story_img = section.settings.story_image
+  assign au_img    = section.settings.au_image
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .itm-about__hero { padding-top: {{ section.settings.padding_top }}px; }
+  #shopify-section-{{ section.id }} .itm-about__cta  { padding-bottom: {{ section.settings.padding_bottom }}px; }
+
+  {%- if hero_img -%}
+    #shopify-section-{{ section.id }} .itm-about__hero {
+      background-image: url({{ hero_img | image_url: width: 1800 }});
+    }
+  {%- endif -%}
+
+  #shopify-section-{{ section.id }} .itm-about__hero::after {
+    opacity: {{ section.settings.hero_overlay | divided_by: 100.0 }};
+  }
+
+  /* Stats bar colours */
+  {%- if section.settings.stats_bg != blank -%}
+    #shopify-section-{{ section.id }} .itm-about__stats { background: {{ section.settings.stats_bg }}; }
+  {%- endif -%}
+  #shopify-section-{{ section.id }} .itm-about__stat-num    { color: {{ section.settings.stats_num_color | default: '#000000' }}; }
+  #shopify-section-{{ section.id }} .itm-about__stat-label  { color: {{ section.settings.stats_label_color | default: '#555555' }}; }
+
+  /* Hero alignment + padding */
+  #shopify-section-{{ section.id }} .itm-about__hero-inner {
+    text-align: {{ section.settings.hero_align | default: 'left' }};
+    {%- if section.settings.hero_align == 'center' -%}
+      max-width: var(--page-width) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    {%- else -%}
+      max-width: none !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      padding-left: {{ section.settings.hero_padding_left | default: 40 }}px;
+    {%- endif -%}
+  }
+  {%- if section.settings.hero_align == 'center' -%}
+    #shopify-section-{{ section.id }} .itm-about__hero .itm-about__accent-bar { margin-left: auto; margin-right: auto; }
+  {%- endif -%}
+
+  /* Hero text sizing */
+  #shopify-section-{{ section.id }} .itm-about__hero .itm-about__eyebrow {
+    font-size: {{ section.settings.hero_eyebrow_size | default: 11 }}px;
+    {% unless section.settings.hero_eyebrow_bold %}font-weight: 400;{% endunless %}
+  }
+  #shopify-section-{{ section.id }} .itm-about__hero-h {
+    font-size: {{ section.settings.hero_heading_size | default: 72 }}px;
+    {% unless section.settings.hero_heading_bold %}font-weight: 400;{% endunless %}
+  }
+  #shopify-section-{{ section.id }} .itm-about__hero-sub {
+    font-size: {{ section.settings.hero_sub_size | default: 18 }}px;
+    {% if section.settings.hero_sub_bold %}font-weight: 700;{% endif %}
+  }
+
+  /* Story heading alignment */
+  #shopify-section-{{ section.id }} .itm-about__story-h { text-align: {{ section.settings.story_heading_align | default: 'left' }}; }
+  {%- if section.settings.story_heading_align == 'center' -%}
+    #shopify-section-{{ section.id }} .itm-about__story-body .itm-about__accent-bar { margin-left: auto; margin-right: auto; }
+  {%- endif -%}
+
+  /* Values heading alignment */
+  #shopify-section-{{ section.id }} .itm-about__section-head { text-align: {{ section.settings.values_align | default: 'left' }}; }
+  {%- if section.settings.values_align == 'center' -%}
+    #shopify-section-{{ section.id }} .itm-about__values .itm-about__accent-bar { margin-left: auto; margin-right: auto; }
+  {%- endif -%}
+
+  /* AU heading alignment */
+  #shopify-section-{{ section.id }} .itm-about__au-h { text-align: {{ section.settings.au_heading_align | default: 'left' }}; }
+  {%- if section.settings.au_heading_align == 'center' -%}
+    #shopify-section-{{ section.id }} .itm-about__au-body .itm-about__accent-bar { margin-left: auto; margin-right: auto; }
+  {%- endif -%}
+
+  /* CTA alignment */
+  #shopify-section-{{ section.id }} .itm-about__cta .page-width { text-align: {{ section.settings.cta_align | default: 'center' }}; }
+  {%- if section.settings.cta_align == 'left' -%}
+    #shopify-section-{{ section.id }} .itm-about__cta-sub { margin-left: 0; margin-right: 0; }
+  {%- else -%}
+    #shopify-section-{{ section.id }} .itm-about__cta-sub { margin-left: auto; margin-right: auto; }
+  {%- endif -%}
+
+  /* Stat block mobile sizes */
+  @media (max-width: 749px) {
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'stat' -%}
+        #shopify-section-{{ section.id }} [data-bid="{{ block.id }}"] .itm-about__stat-num { font-size: {{ block.settings.number_size_mobile | default: 28 }}px !important; }
+        #shopify-section-{{ section.id }} [data-bid="{{ block.id }}"] .itm-about__stat-label { font-size: {{ block.settings.label_size_mobile | default: 10 }}px !important; }
+      {%- endif -%}
+    {%- endfor -%}
+  }
+{%- endstyle -%}
+
+<div class="itm-about color-{{ section.settings.color_scheme }} gradient">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="itm-about__hero color-{{ section.settings.hero_color_scheme }} gradient">
+    <div class="itm-about__hero-inner page-width">
+      <p class="itm-about__eyebrow">{{ section.settings.hero_eyebrow | default: 'Work Sharp' }}</p>
+      <h1 class="itm-about__hero-h"{% unless section.settings.hero_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.hero_heading | default: 'About Work Sharp' }}</h1>
+      <div class="itm-about__accent-bar"></div>
+      <p class="itm-about__hero-sub">{{ section.settings.hero_sub | default: 'Fast. Easy. Consistent.' }}</p>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ═══ -->
+  {%- assign stat_blocks = section.blocks | where: 'type', 'stat' -%}
+  {%- if stat_blocks.size > 0 -%}
+    <section class="itm-about__stats color-{{ section.settings.stats_color_scheme }} gradient">
+      <div class="page-width">
+        <div class="itm-about__stats-grid">
+          {%- for block in stat_blocks -%}
+            <div class="itm-about__stat" data-bid="{{ block.id }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.stat_icon != blank -%}
+                <div class="itm-about__stat-icon" style="width:{{ block.settings.icon_size | default: 32 }}px;height:{{ block.settings.icon_size | default: 32 }}px;">
+                  {{ block.settings.stat_icon | image_url: width: 128 | image_tag: loading: 'lazy', style: 'width:100%;height:100%;object-fit:contain;display:block;' }}
+                </div>
+              {%- endif -%}
+              <span class="itm-about__stat-num" style="font-size:{{ block.settings.number_size | default: 36 }}px;{% unless section.settings.stats_italic %}font-style:normal;{% endunless %}{% if block.settings.number_color != blank %}color:{{ block.settings.number_color }};{% endif %}">{{ block.settings.number }}</span>
+              <span class="itm-about__stat-label" style="font-size:{{ block.settings.label_size | default: 11 }}px;{% if block.settings.label_color != blank %}color:{{ block.settings.label_color }};{% endif %}">{{ block.settings.label }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  <!-- ═══ BRAND STORY ═══ -->
+  <section class="itm-about__story">
+    <div class="itm-about__story-img-wrap">
+      {%- if story_img -%}
+        {{ story_img | image_url: width: 900 | image_tag: loading: 'lazy', class: 'itm-about__story-img' }}
+      {%- else -%}
+        <div class="itm-about__img-ph itm-about__img-ph--story"></div>
+      {%- endif -%}
+    </div>
+    <div class="itm-about__story-body color-{{ section.settings.story_color_scheme }} gradient">
+      <p class="itm-about__eyebrow">{{ section.settings.story_eyebrow | default: 'Our Story' }}</p>
+      <h2 class="itm-about__story-h"{% unless section.settings.story_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.story_heading | default: 'Designed & Engineered in Ashland, Oregon' }}</h2>
+      <div class="rte itm-about__story-text">
+        {{- section.settings.story_text | default: '<p>Work Sharp designs, engineers, and calibrates every sharpening machine in Ashland, OR. From the workbench to the field, every product is built around one simple principle: sharpening must be practical, trustworthy, and simple to replicate.</p><p>We source components from high-calibre manufacturers domestically and globally, enforcing stringent quality control and fair labour practices at every step — and back every product with a 3-year warranty and genuine customer support.</p>' -}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ VALUES ═══ -->
+  {%- assign value_blocks = section.blocks | where: 'type', 'value' -%}
+  {%- if value_blocks.size > 0 -%}
+    <section class="itm-about__values color-{{ section.settings.values_color_scheme }} gradient">
+      <div class="page-width">
+        {%- if section.settings.values_heading != blank -%}
+          <div class="itm-about__section-head">
+            <h2 class="itm-about__section-h"{% unless section.settings.values_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.values_heading }}</h2>
+            <div class="itm-about__accent-bar"></div>
+          </div>
+        {%- endif -%}
+        <div class="itm-about__values-grid">
+          {%- for block in value_blocks -%}
+            <div class="itm-about__value-card" {{ block.shopify_attributes }}>
+              <div class="itm-about__value-icon" style="width:{{ block.settings.icon_size | default: 40 }}px;height:{{ block.settings.icon_size | default: 40 }}px;{% if block.settings.icon_color != blank %}color:{{ block.settings.icon_color }};{% endif %}">
+                {%- case block.settings.icon -%}
+                  {%- when 'heart' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  {%- when 'own' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  {%- when 'integrity' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  {%- when 'simplify' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  {%- when 'improve' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                  {%- when 'star' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {%- when 'wrench' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                  {%- else -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                {%- endcase -%}
+              </div>
+              <h3 class="itm-about__value-h" style="font-size:{{ block.settings.heading_size | default: 15 }}px;">{{ block.settings.heading }}</h3>
+              <p class="itm-about__value-body" style="font-size:{{ block.settings.body_size | default: 14 }}px;">{{ block.settings.body }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  <!-- ═══ AUSTRALIA ═══ -->
+  <section class="itm-about__au">
+    <div class="itm-about__au-img-wrap">
+      {%- if au_img -%}
+        {{ au_img | image_url: width: 900 | image_tag: loading: 'lazy', class: 'itm-about__au-img' }}
+      {%- else -%}
+        <div class="itm-about__img-ph itm-about__img-ph--au"></div>
+      {%- endif -%}
+    </div>
+    <div class="itm-about__au-body color-{{ section.settings.au_color_scheme }} gradient">
+      <p class="itm-about__eyebrow">{{ section.settings.au_eyebrow | default: 'Work Sharp Australia' }}</p>
+      <h2 class="itm-about__au-h"{% unless section.settings.au_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.au_heading | default: 'Bringing Global Innovation to Australia' }}</h2>
+      <div class="rte itm-about__au-text">
+        {{- section.settings.au_text | default: "<p>We bring Work Sharp's globally trusted sharpening systems to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian tools and blades endure demanding conditions on worksites, in workshops, professional kitchens, and outdoors. Work Sharp helps reduce equipment downtime, extend blade life, and maintain superior performance with minimal effort — from knives and scissors to axes and chisels.</p>" -}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="itm-about__cta color-{{ section.settings.cta_color_scheme }} gradient">
+    <div class="page-width">
+      <h2 class="itm-about__cta-h"{% unless section.settings.cta_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.cta_heading | default: 'Ready To Keep Every Edge Sharp?' }}</h2>
+      <p class="itm-about__cta-sub">{{ section.settings.cta_sub | default: 'Explore the full Work Sharp range — from pocket sharpeners to professional benchtop systems.' }}</p>
+      {%- if section.settings.cta_btn_text != blank -%}
+        <a href="{{ section.settings.cta_btn_link | default: '/collections/all' }}" class="itm-about__btn itm-about__btn--lg">
+          {{ section.settings.cta_btn_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </section>
+
+</div>
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   ITM About Us
+   ═══════════════════════════════════════════════════════════ */
+
+.itm-about { --ao: #f5a623; --ad: #1e1e1e; }
+
+/* ── Shared ── */
+.itm-about__eyebrow {
+  display: block;
+  font-family: var(--font-heading-family);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ao) !important;
+  margin: 0 0 1.2rem;
+}
+.itm-about__accent-bar {
+  width: 48px;
+  height: 3px;
+  background: var(--ao);
+  margin: 1.8rem 0;
+}
+.itm-about__section-head { margin-bottom: 4rem; }
+.itm-about__section-h {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: rgb(var(--color-foreground));
+  margin: 0;
+  line-height: 1.15;
+}
+.itm-about__btn {
+  display: inline-block;
+  margin-top: 2.8rem;
+  padding: 1.4rem 3.2rem;
+  background: var(--ao);
+  color: #000;
+  font-family: var(--font-heading-family);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: filter 0.15s ease;
+  cursor: pointer;
+}
+.itm-about__btn:hover { filter: brightness(0.87); }
+.itm-about__btn--lg { padding: 1.6rem 4rem; font-size: 1.5rem; }
+
+/* ── Hero ── */
+.itm-about__hero {
+  position: relative;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  background-color: var(--ad);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.itm-about__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.2) 100%);
+  z-index: 1;
+}
+.itm-about__hero-inner {
+  position: relative;
+  z-index: 2;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+.itm-about__hero-h {
+  font-family: var(--font-heading-family);
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-style: italic;
+  line-height: 1.0;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.itm-about__hero-sub {
+  font-family: var(--font-heading-family);
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  font-weight: 400;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+.itm-about__hero .itm-about__eyebrow,
+.itm-about__hero .itm-about__accent-bar { color: var(--ao) !important; }
+
+/* ── Story ── */
+.itm-about__story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 540px;
+}
+.itm-about__story-img-wrap { position: relative; overflow: hidden; }
+.itm-about__story-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.itm-about__story-body {
+  padding: 5.6rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left !important;
+}
+.itm-about__story-h {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-style: italic;
+  color: rgb(var(--color-foreground));
+  margin: 0 0 2rem;
+  line-height: 1.15;
+  text-align: left;
+}
+.itm-about__story-text { color: rgba(var(--color-foreground), 0.8); font-size: 1.6rem; line-height: 1.8; }
+.itm-about__story-text p { margin: 0 0 1.4rem; }
+.itm-about__story-text p:last-child { margin-bottom: 0; }
+
+/* ── Values ── */
+.itm-about__values { padding: 7.2rem 0; }
+.itm-about__values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem;
+}
+.itm-about__value-card {
+  background: rgba(var(--color-foreground), 0.06);
+  padding: 3.2rem 2.8rem;
+  border-top: 3px solid var(--ao);
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+.itm-about__value-icon { color: var(--ao); flex-shrink: 0; }
+.itm-about__value-icon svg { width: 100%; height: 100%; }
+.itm-about__value-h {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgb(var(--color-foreground));
+  margin: 0;
+}
+.itm-about__value-body {
+  color: rgba(var(--color-foreground), 0.65);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Stats bar ── */
+.itm-about__stats { padding: 5.2rem 0; }
+.itm-about__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  text-align: center;
+}
+.itm-about__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.6rem 2rem;
+}
+.itm-about__stat + .itm-about__stat { border-left: 1px solid rgba(0,0,0,0.18); }
+.itm-about__stat-icon { margin: 0 auto 0.6rem; flex-shrink: 0; }
+.itm-about__stat-icon svg { width: 100%; height: 100%; display: block; }
+.itm-about__stat-num {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.itm-about__stat-label {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ── Australia ── */
+.itm-about__au {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 540px;
+}
+.itm-about__au-img-wrap { position: relative; overflow: hidden; order: 2; }
+.itm-about__au-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.itm-about__au-body {
+  padding: 5.6rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left !important;
+  order: 1;
+}
+.itm-about__au-h {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-style: italic;
+  color: rgb(var(--color-foreground));
+  margin: 0 0 2rem;
+  line-height: 1.15;
+  text-align: left;
+}
+.itm-about__au-text { color: rgba(var(--color-foreground), 0.75); font-size: 1.6rem; line-height: 1.8; }
+.itm-about__au-text p { margin: 0 0 1.4rem; }
+.itm-about__au-text p:last-child { margin-bottom: 0; }
+
+/* ── CTA ── */
+.itm-about__cta { padding: 7.2rem 0; }
+.itm-about__cta-h {
+  font-family: var(--font-heading-family);
+  font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+  margin: 0 0 1.6rem;
+  letter-spacing: 0.02em;
+}
+.itm-about__cta-sub {
+  font-size: 1.7rem;
+  color: rgba(var(--color-foreground), 0.65);
+  max-width: 580px;
+  line-height: 1.65;
+  margin: 0 auto;
+}
+
+/* ── Image placeholders ── */
+.itm-about__img-ph { width: 100%; height: 100%; min-height: 420px; }
+.itm-about__img-ph--story { background: linear-gradient(135deg, #111 0%, #3a3a3a 100%); }
+.itm-about__img-ph--au   { background: linear-gradient(135deg, #2a2a2a 0%, #555 100%); }
+
+/* ════════════════════════ TABLET ════════════════════════ */
+@media (max-width: 989px) {
+  .itm-about__story-body,
+  .itm-about__au-body { padding: 4rem 3rem; }
+}
+
+/* ════════════════════════ MOBILE ════════════════════════ */
+@media (max-width: 749px) {
+  .itm-about__hero { min-height: 340px; }
+  .itm-about__hero-inner { padding-top: 5rem; padding-bottom: 5rem; }
+
+  .itm-about__story { grid-template-columns: 1fr; min-height: unset; }
+  .itm-about__story-img-wrap { min-height: 260px; }
+  .itm-about__story-body { padding: 3.6rem 2rem; }
+
+  .itm-about__values { padding: 5rem 0; }
+  .itm-about__values-grid { grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+  .itm-about__value-card { padding: 2.4rem 1.6rem; }
+
+  .itm-about__stats { padding: 4rem 0; }
+  .itm-about__stats-grid { grid-template-columns: 1fr 1fr; }
+  .itm-about__stat-num { word-break: break-word; }
+  .itm-about__stat + .itm-about__stat { border-left: none; border-top: 1px solid rgba(0,0,0,0.15); }
+  .itm-about__stat:nth-child(even) { border-left: 1px solid rgba(0,0,0,0.15) !important; }
+  .itm-about__stat:nth-child(2) { border-top: none !important; }
+
+  .itm-about__au { grid-template-columns: 1fr; min-height: unset; }
+  .itm-about__au-img-wrap { min-height: 260px; order: 1; }
+  .itm-about__au-body { padding: 3.6rem 2rem; order: 2; }
+
+  .itm-about__cta { padding: 5.6rem 0; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "About Us",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Eyebrow text",
+      "default": "Work Sharp"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "About Work Sharp"
+    },
+    {
+      "type": "text",
+      "id": "hero_sub",
+      "label": "Subheading",
+      "default": "Fast. Easy. Consistent."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Background image",
+      "info": "Recommended: 1800×900px."
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay",
+      "label": "Overlay darkness (%)",
+      "min": 0,
+      "max": 95,
+      "step": 5,
+      "default": 65
+    },
+    {
+      "type": "color_scheme",
+      "id": "hero_color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_italic",
+      "label": "Italic heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "hero_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Centered" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "hero_padding_left",
+      "label": "Left padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Hero eyebrow"
+    },
+    {
+      "type": "range",
+      "id": "hero_eyebrow_size",
+      "label": "Eyebrow size",
+      "min": 9,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_eyebrow_bold",
+      "label": "Bold",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Hero heading"
+    },
+    {
+      "type": "range",
+      "id": "hero_heading_size",
+      "label": "Heading size",
+      "min": 32,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_heading_bold",
+      "label": "Bold",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Hero subheading"
+    },
+    {
+      "type": "range",
+      "id": "hero_sub_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_sub_bold",
+      "label": "Bold",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Brand story"
+    },
+    {
+      "type": "text",
+      "id": "story_eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Heading",
+      "default": "Designed & Engineered in Ashland, Oregon"
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Body text",
+      "default": "<p>Work Sharp designs, engineers, and calibrates every sharpening machine in Ashland, OR. From the workbench to the field, every product is built around one simple principle: sharpening must be practical, trustworthy, and simple to replicate.</p><p>We source components from high-calibre manufacturers domestically and globally, enforcing stringent quality control and fair labour practices at every step — and back every product with a 3-year warranty and genuine customer support.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Image",
+      "info": "Recommended: 900×700px."
+    },
+    {
+      "type": "color_scheme",
+      "id": "story_color_scheme",
+      "label": "Panel color scheme",
+      "info": "Apply a dark scheme for a dark panel.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "story_italic",
+      "label": "Italic heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "story_heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Centered" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Values section"
+    },
+    {
+      "type": "text",
+      "id": "values_heading",
+      "label": "Section heading",
+      "default": "What We Stand For"
+    },
+    {
+      "type": "color_scheme",
+      "id": "values_color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "values_italic",
+      "label": "Italic heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "values_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Centered" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Stats bar"
+    },
+    {
+      "type": "color_scheme",
+      "id": "stats_color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "stats_bg",
+      "label": "Background override (optional)",
+      "info": "Set a custom colour — overrides the scheme above"
+    },
+    {
+      "type": "color",
+      "id": "stats_num_color",
+      "label": "Number colour",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "stats_label_color",
+      "label": "Label colour",
+      "default": "#555555"
+    },
+    {
+      "type": "checkbox",
+      "id": "stats_italic",
+      "label": "Italic numbers",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Work Sharp Australia"
+    },
+    {
+      "type": "text",
+      "id": "au_eyebrow",
+      "label": "Eyebrow",
+      "default": "Work Sharp Australia"
+    },
+    {
+      "type": "text",
+      "id": "au_heading",
+      "label": "Heading",
+      "default": "Bringing Global Innovation to Australia"
+    },
+    {
+      "type": "richtext",
+      "id": "au_text",
+      "label": "Body text",
+      "default": "<p>We bring Work Sharp's globally trusted sharpening systems to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian tools and blades endure demanding conditions on worksites, in workshops, professional kitchens, and outdoors. Work Sharp helps reduce equipment downtime, extend blade life, and maintain superior performance with minimal effort — from knives and scissors to axes and chisels.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "au_image",
+      "label": "Image",
+      "info": "Recommended: 900×700px."
+    },
+    {
+      "type": "color_scheme",
+      "id": "au_color_scheme",
+      "label": "Panel color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "au_italic",
+      "label": "Italic heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "au_heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left",   "label": "Left" },
+        { "value": "center", "label": "Centered" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Heading",
+      "default": "Ready To Keep Every Edge Sharp?"
+    },
+    {
+      "type": "text",
+      "id": "cta_sub",
+      "label": "Subtext",
+      "default": "Explore the full Work Sharp range — from pocket sharpeners to professional benchtop systems."
+    },
+    {
+      "type": "text",
+      "id": "cta_btn_text",
+      "label": "Button text",
+      "default": "Shop All Sharpeners"
+    },
+    {
+      "type": "url",
+      "id": "cta_btn_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "cta_color_scheme",
+      "label": "Color scheme",
+      "info": "Apply a dark scheme for a dark CTA section.",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "cta_italic",
+      "label": "Italic heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "cta_align",
+      "label": "Alignment",
+      "options": [
+        { "value": "center", "label": "Centered" },
+        { "value": "left",   "label": "Left" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Outer color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value card",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "heart",     "label": "Heart" },
+            { "value": "own",       "label": "Person" },
+            { "value": "integrity", "label": "Shield" },
+            { "value": "simplify",  "label": "Checkmark" },
+            { "value": "improve",   "label": "Refresh / Cycle" },
+            { "value": "star",      "label": "Star" },
+            { "value": "wrench",    "label": "Wrench" }
+          ],
+          "default": "star"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Value Name"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Description",
+          "default": "A short description of this core value."
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size",
+          "min": 24,
+          "max": 72,
+          "step": 4,
+          "unit": "px",
+          "default": 40
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon colour",
+          "default": "#f5a623"
+        },
+        {
+          "type": "range",
+          "id": "heading_size",
+          "label": "Heading size",
+          "min": 11,
+          "max": 22,
+          "step": 1,
+          "unit": "px",
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "body_size",
+          "label": "Body text size",
+          "min": 10,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 14
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number / Value",
+          "default": "3-Year"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Warranty"
+        },
+        {
+          "type": "image_picker",
+          "id": "stat_icon",
+          "label": "Icon image",
+          "info": "Upload a custom icon (PNG or SVG recommended)"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size",
+          "min": 16,
+          "max": 64,
+          "step": 4,
+          "unit": "px",
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "number_size",
+          "label": "Number size (desktop)",
+          "min": 16,
+          "max": 64,
+          "step": 2,
+          "unit": "px",
+          "default": 36
+        },
+        {
+          "type": "range",
+          "id": "label_size",
+          "label": "Label size (desktop)",
+          "min": 8,
+          "max": 18,
+          "step": 1,
+          "unit": "px",
+          "default": 11
+        },
+        {
+          "type": "header",
+          "content": "Mobile sizes"
+        },
+        {
+          "type": "range",
+          "id": "number_size_mobile",
+          "label": "Number size (mobile)",
+          "min": 14,
+          "max": 48,
+          "step": 2,
+          "unit": "px",
+          "default": 28
+        },
+        {
+          "type": "range",
+          "id": "label_size_mobile",
+          "label": "Label size (mobile)",
+          "min": 8,
+          "max": 18,
+          "step": 1,
+          "unit": "px",
+          "default": 10
+        },
+        {
+          "type": "color",
+          "id": "number_color",
+          "label": "Number colour",
+          "info": "Leave blank to use the section default"
+        },
+        {
+          "type": "color",
+          "id": "label_color",
+          "label": "Label colour",
+          "info": "Leave blank to use the section default"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us",
+      "blocks": [
+        { "type": "value", "settings": { "icon": "heart",     "heading": "Love & Respect",        "body": "We treat everyone — teammates, customers, and partners — with high esteem and genuine concern for their wellbeing." } },
+        { "type": "value", "settings": { "icon": "own",       "heading": "Own Your Experience",    "body": "We take responsibility and stay proactive. If something needs doing, we step up and make it happen." } },
+        { "type": "value", "settings": { "icon": "integrity", "heading": "Honesty & Integrity",    "body": "We speak truth, act with authenticity, and keep our agreements — in every product and every interaction." } },
+        { "type": "value", "settings": { "icon": "simplify",  "heading": "Simplify",               "body": "We streamline products, processes, and messaging. Sharpening should be clear, practical, and confidently repeatable." } },
+        { "type": "value", "settings": { "icon": "improve",   "heading": "Continuous Improvement", "body": "We reach for our highest potential — always refining our designs, our processes, and ourselves." } },
+        { "type": "value", "settings": { "icon": "star",      "heading": "Enjoy What We Do",       "body": "We maintain balance and bring genuine energy to our work. A culture worth being part of makes everything better." } },
+        { "type": "stat", "settings": { "number": "3-Year",      "label": "Warranty" } },
+        { "type": "stat", "settings": { "number": "Ashland, OR", "label": "Designed & Engineered" } },
+        { "type": "stat", "settings": { "number": "Worldwide",   "label": "Trusted Globally" } },
+        { "type": "stat", "settings": { "number": "Fast & Easy", "label": "Every Time" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

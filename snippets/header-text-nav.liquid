@@ -1,0 +1,16 @@
+{%- liquid
+  assign menu = linklists[block.settings.menu]
+-%}
+{%- if menu and menu.links.size > 0 -%}
+<nav class="text-nav text-nav--{{ block.settings.position }} text-nav--align-{{ block.settings.align }}{% if block.settings.uppercase %} text-nav--uppercase{% endif %}" {{ block.shopify_attributes }}>
+  <div class="page-width">
+    <ul class="text-nav__list">
+      {%- for link in menu.links -%}
+        <li class="text-nav__item">
+          <a class="text-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</nav>
+{%- endif -%}

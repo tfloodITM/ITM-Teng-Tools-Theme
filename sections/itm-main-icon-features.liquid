@@ -1,0 +1,416 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.padding_bg }};
+  }
+  #shopify-section-{{ section.id }} .features {
+    {%- if section.settings.section_use_scheme -%}
+      {%- assign _fs = section.settings.section_fill_scheme -%}
+      background: {{ _fs.settings.background_gradient | default: _fs.settings.background }};
+    {%- else -%}
+      background-color: {{ section.settings.section_bg }};
+    {%- endif -%}
+  }
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: 100% !important;
+    padding-left: 150px !important;
+    padding-right: 150px !important;
+  }
+  #shopify-section-{{ section.id }} .feature__iconwrap {
+    color: {{ section.settings.icon_color }};
+  }
+  #shopify-section-{{ section.id }} .feature__bubble {
+    background: {{ section.settings.icon_color | color_modify: 'alpha', 0.15 }};
+  }
+  #shopify-section-{{ section.id }} .feature__title {
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_weight }};
+  }
+  #shopify-section-{{ section.id }} .feature__desc {
+    font-size: {{ section.settings.desc_size }}px;
+    font-weight: {{ section.settings.desc_weight }};
+  }
+  @media (min-width: 750px) and (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+    }
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .page-width {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    #shopify-section-{{ section.id }} .feature__title {
+      font-size: {{ section.settings.title_size_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .feature__desc {
+      font-size: {{ section.settings.desc_size_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="features color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="features__viewport" data-pause="3000">
+      <div class="features__track">
+        {% for block in section.blocks %}
+          <div class="feature" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}
+              {%- assign icon_url = block.settings.icon | image_url: width: 128, format: 'png' -%}
+              <div class="feature__iconwrap" style="--icon-url: url('{{ icon_url }}');">
+                <span class="feature__bubble" aria-hidden="true"></span>
+                <span class="feature__glyph" aria-hidden="true"></span>
+                <img class="feature__glyphimg" src="{{ icon_url }}" alt="" loading="lazy" width="42" height="42">
+              </div>
+            {% endif %}
+            <div class="feature__text">
+              <div class="feature__title">{{ block.settings.title }}</div>
+              {% if block.settings.text != blank %}
+                <div class="feature__desc">{{ block.settings.text }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    :root { --feat-gap: 28px; --feat-cards: 3; }
+
+    .features__viewport {
+      overflow: hidden;
+      position: relative;
+      padding-block: 3rem;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+    }
+
+    .features__track {
+      display: flex;
+      gap: var(--feat-gap);
+      will-change: transform;
+    }
+
+    .feature {
+      flex: 0 0 calc((100% - (var(--feat-gap) * (var(--feat-cards) - 1))) / var(--feat-cards));
+      scroll-snap-align: start;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 2rem;
+      border: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--color-background) 98%, transparent);
+      color: var(--color-foreground);
+    }
+
+    /* ==== ICON AREA ==== */
+    .feature__iconwrap {
+      position: relative;
+      width: 84px;
+      height: 84px;
+      flex: 0 0 84px;
+    }
+
+    .feature__bubble {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+    }
+    .feature__glyph {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 42px;
+      height: 42px;
+      transform: translate(-50%, -50%);
+      background: currentColor;
+      -webkit-mask-image: var(--icon-url);
+              mask-image: var(--icon-url);
+      -webkit-mask-repeat: no-repeat;
+              mask-repeat: no-repeat;
+      -webkit-mask-size: contain;
+              mask-size: contain;
+      -webkit-mask-position: center;
+              mask-position: center;
+      pointer-events: none;
+    }
+    .feature__glyphimg {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 42px; height: 42px;
+      transform: translate(-50%, -50%);
+      object-fit: contain;
+      display: none;
+      pointer-events: none;
+    }
+    @supports not (-webkit-mask-image: url("")) {
+      .feature__glyph { display: none; }
+      .feature__glyphimg { display: block; filter: brightness(0) saturate(100%); }
+    }
+
+    /* ==== TEXT STYLES ==== */
+    .feature__title {
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      letter-spacing: 0.5px;
+    }
+    .feature__desc {
+      text-transform: uppercase;
+      opacity: 0.75;
+      font-size: 1.05rem;
+      margin-top: 0.25rem;
+    }
+
+    /* ==== RESPONSIVE ==== */
+    @media (max-width: 900px) {
+      :root { --feat-cards: 2; }
+    }
+
+    @media (max-width: 749px) {
+      :root { --feat-gap: 8px; --feat-cards: 3; }
+      .feature {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0.75rem 0.35rem;
+        gap: 0.4rem;
+      }
+      .feature__text { text-align: center; }
+      .feature__iconwrap { width: 52px; height: 52px; flex: 0 0 52px; }
+      .feature__glyph, .feature__glyphimg { width: 26px; height: 26px; }
+    }
+  </style>
+
+  <script>
+    (() => {
+      const section = document.currentScript.closest('section');
+      const vp = section.querySelector('.features__viewport');
+      const track = section.querySelector('.features__track');
+      if (!vp || !track) return;
+
+      const pauseMs = parseInt(vp.dataset.pause || '3000', 10);
+      const originals = Array.from(track.children);
+      const total = originals.length;
+
+      // 3 or fewer: show statically, no scrolling
+      if (total <= 3) return;
+
+      if (total < 4) {
+        const need = 4 - total;
+        for (let i = 0; i < need; i++) track.appendChild(originals[i % total].cloneNode(true));
+      }
+      const wrapCount = Math.min(total, 3);
+      for (let i = 0; i < wrapCount; i++) track.appendChild(originals[i].cloneNode(true));
+
+      let index = 0, timer, hover = false;
+      vp.addEventListener('mouseenter', () => hover = true);
+      vp.addEventListener('mouseleave', () => hover = false);
+
+      const cardStep = () => {
+        const first = track.children[0];
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        return first.getBoundingClientRect().width + gap;
+      };
+
+      const snap = (i, instant = false) =>
+        vp.scrollTo({ left: cardStep() * i, behavior: instant ? 'instant' : 'smooth' });
+
+      const queue = () => { clearTimeout(timer); timer = setTimeout(tick, pauseMs); };
+
+      const tick = () => {
+        if (hover) return queue();
+        index += 1;
+        snap(index);
+        if (index >= total) {
+          setTimeout(() => { index -= total; snap(index, true); }, 450);
+        }
+        queue();
+      };
+
+      window.addEventListener('resize', () => snap(index, true));
+      queue();
+    })();
+  </script>
+
+  {% schema %}
+  {
+    "name": "Icon features",
+    "max_blocks": 12,
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section background"
+      },
+      {
+        "type": "checkbox",
+        "id": "section_use_scheme",
+        "label": "Use colour scheme for section fill",
+        "info": "When on, the section background uses the 'Background fill scheme' below instead of the flat colour.",
+        "default": false
+      },
+      {
+        "type": "color_scheme",
+        "id": "section_fill_scheme",
+        "label": "Background fill scheme",
+        "info": "The section background uses this scheme's Background colour. Independent of the card/text scheme.",
+        "default": "scheme-1"
+      },
+      {
+        "type": "color",
+        "id": "section_bg",
+        "label": "Section background colour (when not using scheme)",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme (section fill / card / text base)",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "Spacing"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "padding_bg",
+        "label": "Padding background colour",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Icons"
+      },
+      {
+        "type": "color",
+        "id": "icon_color",
+        "label": "Icon colour",
+        "default": "#1a1a1a"
+      },
+      {
+        "type": "header",
+        "content": "Title"
+      },
+      {
+        "type": "range",
+        "id": "title_size",
+        "label": "Font size – desktop",
+        "min": 10,
+        "max": 36,
+        "step": 1,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "title_size_mobile",
+        "label": "Font size – mobile",
+        "min": 8,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 13
+      },
+      {
+        "type": "select",
+        "id": "title_weight",
+        "label": "Font weight",
+        "default": "800",
+        "options": [
+          { "value": "400", "label": "Normal" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Subtitle"
+      },
+      {
+        "type": "range",
+        "id": "desc_size",
+        "label": "Font size – desktop",
+        "min": 10,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "default": 17
+      },
+      {
+        "type": "range",
+        "id": "desc_size_mobile",
+        "label": "Font size – mobile",
+        "min": 8,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 11
+      },
+      {
+        "type": "select",
+        "id": "desc_weight",
+        "label": "Font weight",
+        "default": "400",
+        "options": [
+          { "value": "400", "label": "Normal" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "item",
+        "name": "Feature",
+        "settings": [
+          { "type": "image_picker", "id": "icon", "label": "Icon (SVG/PNG)" },
+          { "type": "text", "id": "title", "label": "Title", "default": "2-Year Warranty" },
+          { "type": "inline_richtext", "id": "text", "label": "Short text", "default": "Peace of mind, guaranteed" }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Icon features",
+        "blocks": [
+          { "type": "item" },
+          { "type": "item" },
+          { "type": "item" },
+          { "type": "item" },
+          { "type": "item" }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+</section>

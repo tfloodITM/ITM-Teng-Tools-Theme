@@ -1,0 +1,63 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "banner_image": "shopify://shop_images/Solid_white.png",
+        "image_fit": "cover",
+        "image_width": 50,
+        "image_height": 100,
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 0,
+        "padding_bottom": 32
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 36,
+        "per_page_default": "24",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "enable_filtering": true,
+        "filter_type": "vertical",
+        "enable_sorting": true,
+        "pg_show_enquiry_cta": false,
+        "pg_related_product": "WSSAKO81122",
+        "pg_related_card_label": "Compatible with",
+        "pg_related_label_size": 16,
+        "pg_related_card_bg": "#f2f2f2",
+        "pg_related_card_text_color": "#f2f2f2",
+        "pg_related_card_star_color": "#f5a200",
+        "pg_related_card_border_color": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "product-grid"
+  ]
+}

@@ -1,0 +1,99 @@
+{%- comment -%} ITM Theme - Updated Dec 9 2025 17:00 AEST - Force Shopify sync {%- endcomment -%}
+{% assign current = collection %}
+
+{% if current == blank %}
+  {% if product and product.collections and product.collections.size > 0 %}
+    {% assign current = product.collections | first %}
+  {% endif %}
+{% endif %}
+
+
+{% if current %}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol class="breadcrumbs__list">
+
+    {%- assign chain = '' -%}
+    {%- assign cursor = current -%}
+
+    {%- for i in (1..10) -%}
+      {% assign parent_ref = cursor.metafields.custom.parent_category %}
+      {% if parent_ref == blank %}{% break %}{% endif %}
+      {% assign parent_val = parent_ref.value | default: parent_ref %}
+      {% if parent_val == blank %}{% break %}{% endif %}
+
+      {% assign chain = chain | append: parent_val.handle | append: ',' %}
+      {% assign cursor = parent_val %}
+    {%- endfor -%}
+
+    {% assign ancestors = chain | split: ',' %}
+    {% assign first = true %}
+
+    {%- for handle in ancestors reversed -%}
+      {% if handle != blank %}
+        {% assign ancestor = collections[handle] %}
+        {% if ancestor %}
+          <li class="breadcrumbs__item">
+            {% unless first %}
+              <span class="breadcrumbs__separator">&gt;</span>
+            {% endunless %}
+
+            <a href="{{ ancestor.url }}" class="breadcrumbs__link">
+              {{ ancestor.title }}
+            </a>
+            {% assign first = false %}
+          </li>
+        {% endif %}
+      {% endif %}
+    {%- endfor -%}
+
+    <!-- Current collection -->
+    <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+      {% unless first %}
+        <span class="breadcrumbs__separator">&gt;</span>
+      {% endunless %}
+      <a class="breadcrumbs__link" href="{{ current.url }}">{{ current.title }}</a>
+    </li>
+
+  </ol>
+</nav>
+{% endif %}
+
+
+<style>
+.breadcrumbs {
+  padding: 12px 0 12px;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground));
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.breadcrumbs__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.breadcrumbs__item:last-child::after {
+  content: '';
+}
+
+/* Breadcrumb links: no underline by default */
+.breadcrumbs__link {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid transparent; /* reserve space so layout doesn't shift */
+  transition: border-color 0.15s ease;
+}
+
+/* Hover underline, same colour as the text */
+.breadcrumbs__link:hover {
+  border-bottom-color: rgba(var(--color-button));
+}
+
+
+</style>

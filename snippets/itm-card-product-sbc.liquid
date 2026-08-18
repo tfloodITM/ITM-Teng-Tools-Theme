@@ -1,0 +1,149 @@
+{%- comment -%} ITM resync marker: sbc-card v3 — force GitHub→Shopify re-sync {%- endcomment -%}
+{%- comment -%}
+  ITM SBC product card (shared)
+  -----------------------------
+  The "Shop by Category"-style product card body, shared by itm-collection-grid
+  and related-products so both render an identical card. Render this INSIDE a
+  <li class="sbc__card"> wrapper.
+
+  Params:
+    product          (Product)  required
+    show_atc         (boolean)  show the Add to Cart / Save-to-list row   (default true)
+    atc_show_arrow   (boolean)  show the arrow icon on the ATC button      (default false)
+    show_reviews     (boolean)  show the star rating row                   (default true)
+    show_price       (boolean)  show the price                            (default true)
+    badge_top             (string)  top-left callout badge text, e.g. "TOP PICK FOR DAD"
+    badge_bottom          (string)  bottom caption strip text
+    badge_icon            (image)   optional icon shown next to the top badge text
+    badge_icon_size       (number)  top badge icon size in px (default 16)
+    badge_font_size       (number)  top badge text size in px (default 11)
+    badge_padding         (number)  top badge padding in px (default 5)
+    badge_bg              (string)  top badge background colour (default #f5a623)
+    badge_color           (string)  top badge text colour (default #000000)
+    badge_bottom_font_size (number) bottom badge text size in px (default 9)
+    badge_bottom_bg        (string) bottom badge background colour/rgba (default rgba(0,0,0,0.72))
+    badge_bottom_color     (string) bottom badge text colour (default #ffffff)
+{%- endcomment -%}
+
+{%- liquid
+  assign sbc_show_atc = show_atc
+  if show_atc == nil
+    assign sbc_show_atc = true
+  endif
+  assign sbc_show_reviews = show_reviews
+  if show_reviews == nil
+    assign sbc_show_reviews = true
+  endif
+  assign sbc_show_price = show_price
+  if show_price == nil
+    assign sbc_show_price = true
+  endif
+-%}
+
+<div class="sbc__img-wrap">
+  {%- if badge_top != blank -%}
+    <span class="sbc__badge sbc__badge--top" style="background:{{ badge_bg | default: '#f5a623' }};color:{{ badge_color | default: '#000000' }};font-size:{{ badge_font_size | default: 11 }}px;padding:{{ badge_padding | default: 5 }}px {{ badge_padding | default: 5 | times: 2 }}px;">
+      {%- if badge_icon != blank -%}
+        <img class="sbc__badge-icon" src="{{ badge_icon | image_url: width: 100 }}" alt="" width="{{ badge_icon_size | default: 16 }}" height="{{ badge_icon_size | default: 16 }}" style="width:{{ badge_icon_size | default: 16 }}px;height:{{ badge_icon_size | default: 16 }}px;">
+      {%- endif -%}
+      <span>{{ badge_top }}</span>
+    </span>
+  {%- endif -%}
+  {%- if badge_bottom != blank -%}
+    <span class="sbc__badge sbc__badge--bottom" style="font-size:{{ badge_bottom_font_size | default: 9 }}px;background:{{ badge_bottom_bg | default: 'rgba(0,0,0,0.72)' }};color:{{ badge_bottom_color | default: '#ffffff' }};">{{ badge_bottom }}</span>
+  {%- endif -%}
+  <a class="sbc__card-img-link" href="{{ product.url }}">
+    <div class="sbc__card-img">
+      {%- for image in product.images limit: 5 -%}
+        <div class="sbc__slide{% if forloop.first %} is-active{% endif %}">
+          {{ image | image_url: width: 600 | image_tag:
+             alt: product.title,
+             loading: 'lazy',
+             widths: '300, 400, 600' }}
+        </div>
+      {%- else -%}
+        <div class="sbc__slide is-active">
+          {{ 'product-1' | placeholder_svg_tag: 'sbc__ph-svg' }}
+        </div>
+      {%- endfor -%}
+    </div>
+  </a>
+
+  {%- if product.images.size > 1 -%}
+    <div class="sbc__arrow sbc__prev" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </div>
+    <div class="sbc__arrow sbc__next" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+    <button class="sbc__zone sbc__zone--prev" aria-label="Previous image" tabindex="-1"></button>
+    <button class="sbc__zone sbc__zone--next" aria-label="Next image" tabindex="-1"></button>
+  {%- endif -%}
+</div>
+
+{%- if sbc_show_atc -%}
+  <div class="sbc__actions">
+    {%- if product.variants.size == 1 and product.available -%}
+      <button class="sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">Add to Cart{%- if atc_show_arrow -%}<svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>{%- endif -%}</button>
+    {%- elsif product.available -%}
+      <a href="{{ product.url }}" class="sbc__atc sbc__atc--options">Choose Options{%- if atc_show_arrow -%}<svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>{%- endif -%}</a>
+    {%- else -%}
+      <button class="sbc__atc" disabled>Sold Out</button>
+    {%- endif -%}
+    <span class="sbc__atc-divider" aria-hidden="true"></span>
+    <button class="sbc__list-btn" type="button"
+      data-wl-handle="{{ product.handle }}"
+      data-wl-sku="{{ product.selected_or_first_available_variant.sku | escape }}"
+      data-wl-title="{{ product.title | escape }}"
+      data-wl-price="{{ product.price_min | money | escape }}"
+      data-wl-vid="{{ product.selected_or_first_available_variant.id }}"
+      aria-label="Save to list"
+      title="Save to list">
+      <span class="sbc__icon-wrap">
+        <svg class="itm-wl-icon--list" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 4.5h6a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1z"/>
+          <path d="M8 5.5H6a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5a2 2 0 0 0-2-2h-2"/>
+          <path d="M9 11.5h6"/>
+          <path d="M9 15.5h6"/>
+        </svg>
+        <svg class="itm-wl-icon--saved" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <span class="sbc__list-plus" aria-hidden="true"></span>
+      </span>
+    </button>
+  </div>
+{%- endif -%}
+
+<a class="sbc__card-band" href="{{ product.url }}">
+  <div class="sbc__card-body">
+
+    {%- if sbc_show_reviews -%}
+      {%- assign r_rating = product.metafields.reviews.rating.value.rating -%}
+      {%- assign r_scale  = product.metafields.reviews.rating.value.scale_max | default: 5 -%}
+      {%- assign r_count  = product.metafields.reviews.rating_count.value -%}
+      {%- if r_rating != blank and r_count != blank and r_count > 0 -%}
+        {%- assign rating_pct = r_rating | divided_by: r_scale | times: 100 | round -%}
+        <div class="sbc__rating">
+          <span class="sbc__stars" aria-label="{{ r_count }} reviews">
+            <span class="sbc__stars-bg" aria-hidden="true">★★★★★</span>
+            <span class="sbc__stars-fill" aria-hidden="true" style="width:{{ rating_pct }}%">★★★★★</span>
+          </span>
+          <span class="sbc__review-count">({{ r_count }} reviews)</span>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    <p class="sbc__card-title">{{ product.title }}</p>
+
+    {%- if sbc_show_price -%}
+      <p class="sbc__card-price">
+        {%- if product.compare_at_price > product.price -%}
+          <s class="sbc__was">{{ product.compare_at_price | money }}</s>
+        {%- endif -%}
+        <span class="sbc__now">{{ product.price_min | money }}</span>
+      </p>
+    {%- endif -%}
+
+  </div>
+</a>

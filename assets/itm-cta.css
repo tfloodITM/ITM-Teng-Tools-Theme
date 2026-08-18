@@ -1,0 +1,79 @@
+/* Product-group hero buttons: outline default, filled on hover */
+.pg__hero-ctas .button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  padding: 12px 18px;
+
+  border-radius: var(--buttons-radius);
+  border: 2px solid rgb(var(--color-button));
+  background: transparent;
+
+  /* base text + icon colour */
+  color: rgb(var(--color-foreground));
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .22s ease, color .22s ease, border-color .22s ease;
+}
+
+.pg__hero-ctas .button:hover {
+  background: rgb(var(--color-button));
+  /* hover text + icon colour */
+  color: rgb(var(--color-button-text));
+}
+
+.pg__hero-ctas .button[disabled],
+.pg__hero-ctas .button[aria-disabled="true"] {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.pg__hero-ctas {
+  background: #f7f7f7;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pg__btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+.pg__btn--icon {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* spacing between icon and text */
+}
+
+/* Icon wrapper */
+.pg__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG itself picks up the button's color */
+.pg__icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.pg__icon svg path {
+  /* override stroke="#000000" from the SVG file */
+  stroke: currentColor;
+  fill: none; /* your SVGs are stroke-only already */
+}
