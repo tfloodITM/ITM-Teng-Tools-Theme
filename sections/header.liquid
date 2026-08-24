@@ -45,10 +45,11 @@
   .header > .header__heading{ grid-area:logo; justify-self:center; margin:0; }
   .header > .header__icons{ grid-area:icons; justify-self:end; min-width:auto; max-width:100%; }
 
-  /* search wrapper occupies the search row */
-  .header > predictive-search.ws-search,
-  .header > search-form.ws-search,
-  .header > form.ws-search{
+  /* search wrapper occupies the search row (descendant selector, not child —
+     on mobile the search sits one level deeper, inside .header__search-row) */
+  .header predictive-search.ws-search,
+  .header search-form.ws-search,
+  .header form.ws-search{
     grid-area:search;
     position:relative;
     z-index:30;
@@ -79,9 +80,9 @@
     .header > .header__heading{ grid-area:logo; justify-self:start; min-width:140px; }
 
     /* big rounded search, centred on the page */
-    .header > predictive-search.ws-search,
-    .header > search-form.ws-search,
-    .header > form.ws-search{
+    .header predictive-search.ws-search,
+    .header search-form.ws-search,
+    .header form.ws-search{
       grid-area:search;
       width:clamp(300px, 45vw, {{ section.settings.search_max_width | default: 640 }}px);
       margin:0;
@@ -589,9 +590,9 @@
     }
     /* search bar — mobile size (independent of desktop) */
     .ws-search{ --ws-height:{{ section.settings.search_height_mobile | default: 44 }}px; }
-    .header > predictive-search.ws-search,
-    .header > search-form.ws-search,
-    .header > form.ws-search{
+    .header predictive-search.ws-search,
+    .header search-form.ws-search,
+    .header form.ws-search{
       width:min(100%, {{ section.settings.search_max_width_mobile | default: 800 }}px);
       margin:0 auto;
     }
@@ -818,12 +819,56 @@
     {%- endif -%}
 
     {%- if section.settings.trust_bar_bottom_border -%}
-    .header > .trust-bar{ border-bottom:1px solid {{ section.settings.trust_bar_bottom_border_color | default: '#e2e2e2' }}; }
+    .header > .trust-bar::after{
+      content:'';
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:1px;
+      background:{{ section.settings.trust_bar_bottom_border_color | default: '#e2e2e2' }};
+      pointer-events:none;
+    }
     {%- endif -%}
+
+    {%- comment -%}
+      Dawn's own .header-wrapper--border-bottom (from "Show line separator",
+      base.css) is a leftover from the stock header — a divider under the
+      WHOLE header block. .header-wrapper's natural height is only the
+      logo/icon bar (~52px) once the sticky script has lifted the search
+      row and trust bar out into position:absolute — but until that has
+      actually happened at least once (the very first layout() attempt
+      bails out if the header ever measures zero width/height, and only
+      retries on the visitor's first scroll), .header-wrapper is still in
+      its natural, un-lifted state, which is tall enough to include the
+      trust bar. That drags Dawn's OWN border-bottom down to within 1px of
+      the trust bar's own bottom border — two separate borders stacked on
+      the same line, which reads as a thicker, muddier line than either one
+      alone, and disappears back into a single clean line the instant the
+      page actually lifts (on first scroll). Confirmed directly: measured
+      the trust bar's border at y=133.05 and Dawn's header-wrapper border at
+      y=134.05 in that un-lifted state — one pixel apart, same visual
+      location. The trust bar already has its own purpose-built border
+      setting above; Dawn's version is redundant here regardless of lift
+      state, so it's turned off outright rather than only papered over for
+      the un-lifted case.
+    {%- endcomment -%}
+    .header-wrapper--border-bottom{ border-bottom:none; }
 
     @media (max-width:989px){
       /* carousel: show {{ t_per }} items at a time, slide to the next set (JS-driven) */
-      .header > .trust-bar{ overflow:hidden; }
+      .header > .trust-bar{
+        overflow:hidden;
+        /* overflow:hidden clips at the border box, but the items' flex-basis
+           percentages resolve against the content box — the row's own
+           left/right padding (above, for the desktop full-bleed edge) made
+           the visible area wider than N items by exactly that padding, so a
+           sliver of the next item always showed. Zero it here; the items'
+           OWN padding (below) still spaces their content fine, since that's
+           inside their flex-basis, not outside it. */
+        padding-left:0 !important;
+        padding-right:0 !important;
+      }
       .trust-bar__track{ transition:transform .45s ease; will-change:transform; }
       .trust-bar__item{ flex:0 0 {{ 100 | divided_by: t_per }}%; min-width:0; padding-left:8px; padding-right:8px; gap:8px; }
       .trust-bar__text{ white-space:normal; }
@@ -836,16 +881,26 @@
     }
   {%- endif -%}
 
-  {%- comment -%} 1px full-width dividers between the header levels (top / nav / trust) — desktop only {%- endcomment -%}
+  {%- comment -%} 1px full-width divider between the top bar and the nav row — desktop only.
+    Used to also add the same border-top to .trust-bar, but that's exactly
+    the "thicker bar" / extra pale line reported at desktop widths: measured
+    directly, trust-bar was carrying BOTH this divider's border-top
+    (rgb(127,127,127) here) AND its own dedicated border-bottom setting
+    (rgb(156,156,156)) at the same time, active any time the header is
+    visible at >=990px — two grey lines on one short bar, which reads as a
+    thicker, muddier edge exactly like a border that's "turning white" would
+    (a pale line right next to a darker one washes out next to it). The nav
+    row has no border setting of its own, so the divider still earns its
+    keep there; the trust bar already has its own purpose-built border
+    above, so the divider is redundant on it specifically and only ever hurt
+    it. {%- endcomment -%}
   {%- if section.settings.header_divider_color != blank -%}
     {%- assign hdv = section.settings.header_divider_color -%}
     @media (min-width:990px){
-      /* nav and trust bars are already full-bleed, so a top border spans the full width */
+      /* nav is full-bleed, so a top border spans the full width */
       .header > .header__inline-menu{ border-top:1px solid {{ hdv }}; }
-      .header > .trust-bar{ border-top:1px solid {{ hdv }}; }
-      /* hide the line when a row is collapsed on scroll */
-      .header.header--hide-secondary > .header__inline-menu,
-      .header.header--hide-secondary > .trust-bar{ border-top-color:transparent !important; }
+      /* hide the line when the row is collapsed on scroll */
+      .header.header--hide-secondary > .header__inline-menu{ border-top-color:transparent !important; }
     }
   {%- endif -%}
 
@@ -935,87 +990,278 @@
     .menu-drawer summary svg{ color:{{ section.settings.drawer_text_color }} !important; }
   {%- endif -%}
 
-  {%- comment -%} ===== Directional sticky header ===== {%- endcomment -%}
+  {%- comment -%} ===== Sticky header, collapse without layout shift =====
+    The collapsing rows are taken OUT OF FLOW (position:absolute, hung below
+    the bar) and animated with transform only. Because they contribute no
+    height, collapsing them cannot move anything below, so there is no shift
+    to fight the scroll. This mirrors how bunnings.com.au does it: their
+    HeaderTransition uses "absolute top-full" plus
+    "transition-transform duration-200".
+
+    The offsets and travel distances are written inline by the script further
+    down, which measures them. CSS only owns the transition.
+  {%- endcomment -%}
   {%- if section.settings.enable_scroll_sticky -%}
     .section-header{ position:sticky; top:0; z-index:30; }
 
-    /* secondary rows get a max-height so they can animate closed */
-    .header__inline-menu{ max-height:240px; }
-    .header > predictive-search.ws-search,
-    .header > search-form.ws-search,
-    .header > form.ws-search{ max-height:160px; }
-    .header__inline-menu,
-    .header > .trust-bar,
-    .header > predictive-search.ws-search,
-    .header > search-form.ws-search,
-    .header > form.ws-search{
-      transition: max-height .28s ease, opacity .2s ease, padding .2s ease, margin .2s ease;
-    }
+    {%- comment -%}
+      Browsers auto-adjust scroll position on their own — "scroll anchoring"
+      — whenever content above the viewport changes size, specifically so a
+      late-loading image or a webfont swap doesn't yank the page out from
+      under someone reading it. layout() re-running after fonts.ready (real
+      fonts loading in, genuinely changing row heights) is exactly that kind
+      of shift: it changes #MainContent's own padding-top, a real reflow.
+      If the browser's own compensating nudge fires a real scroll event,
+      the plain scroll listener below sees it exactly like a real scroll —
+      y > lastY, past the hide threshold — and slides the header's secondary
+      rows away, despite nobody having touched the screen. That matches
+      "border shows correctly, then vanishes a second later" on load without
+      needing anything to be visually wrong with the border itself, which is
+      exactly what every direct measurement tonight has shown — it never
+      changes. Turning off anchoring for the areas this script itself
+      resizes means our own reflows can't trigger the browser's own
+      unrelated scroll-compensation feature into firing a scroll event we'd
+      then misread as a real one.
+    {%- endcomment -%}
+    #MainContent, .section-header{ overflow-anchor:none; }
 
-    /* the trust/USP bar hides with the secondary row on BOTH desktop and mobile */
-    .header.header--hide-secondary > .trust-bar{
-      max-height:0 !important;
-      opacity:0;
-      overflow:hidden;
+    {%- comment -%}
+      iOS's own rubber-band overscroll bounce (pulling down at the very top
+      of the page, or a fast upward fling overshooting) reveals whatever
+      sits BEHIND the sticky header — normally invisible, since nothing is
+      usually there to see. .header-wrapper only covers the top bar's own
+      53px or so; above that, and behind it during a bounce, there is
+      nothing but <html>'s own background, which defaults to white/
+      transparent. The header itself uses its own colour scheme, almost
+      always something darker — so an overscroll bounce flashes a stark
+      white strip above a dark header. This is real iOS scroll physics, not
+      a CSS/JS bug: no desktop browser, and no WebKit build running outside
+      iOS, ever reproduces it, which is exactly why it never showed up in
+      any of tonight's testing. Fix is two-fold: stop the bounce from
+      happening at all where the browser supports it (overscroll-behavior),
+      and for anywhere it still can, cover the reveal zone with the same
+      colour as the header — a fixed strip parked just above the viewport,
+      not a change to body's own background (that would fix the top but
+      cause the exact same mismatch in reverse if someone bounces at the
+      BOTTOM of the page, past the footer).
+    {%- endcomment -%}
+    html{ overscroll-behavior-y:none; }
+    {%- assign hdr_scheme = section.settings.color_scheme -%}
+    .section-header::before{
+      content:'';
+      position:fixed;
+      top:-100vh;
+      left:0;
+      right:0;
+      height:100vh;
+      background:{{ hdr_scheme.settings.background_gradient | default: hdr_scheme.settings.background | default: '#1a1a1a' }};
+      z-index:-1;
       pointer-events:none;
-      padding-top:0 !important;
-      padding-bottom:0 !important;
     }
 
-    /* DESKTOP: hide the menu row on scroll down, keep logo/search/icons pinned */
-    @media (min-width:990px){
-      .header.header--hide-secondary{ row-gap:0 !important; }
-      .header.header--hide-secondary > .header__inline-menu,
-      .header.header--hide-secondary > .itm-locale-nav{
-        max-height:0 !important;
-        opacity:0;
-        overflow:hidden;
-        pointer-events:none;
-        padding-top:0 !important;
-        padding-bottom:0 !important;
-      }
-    }
+    {%- comment -%}
+      translateZ(0) here forces .header-wrapper (and everything painted
+      inside it — the whole header, trust bar included) onto its own
+      GPU-composited layer from the very first frame, not only after
+      something has actually animated. A composited layer rasterizes
+      independently, and thin 1px lines can render more reliably there than
+      on a plain, not-yet-composited paint — which lines up with borders
+      only ever being reported as correct once the page has been scrolled
+      or otherwise interacted with. This exact idea was tried once already
+      on .section-header itself and had to be reverted — but that broke
+      things for an unrelated reason: .section-header also has
+      position:sticky, and transform + position:sticky on the SAME element
+      is a known bad combination that corrupts the browser's own sticky
+      offset math (that's what caused the gap to come back, not the layer
+      trick itself). .header-wrapper is a plain, non-sticky child — applying
+      it here gets the same effect without touching sticky positioning at
+      all. Confirmed no position:fixed descendants exist anywhere inside
+      .section-header (checked directly against the live page), so this
+      can't repeat the earlier containing-block regression either.
+    {%- endcomment -%}
+    .header-wrapper{ position:relative; z-index:2; transform:translateZ(0); }
 
-    /* MOBILE: scaleY animation for the visual, delayed layout collapse.
-       The element visually squishes up (GPU transform — no layout impact) over 0.22s.
-       max-height / padding / margin snap to 0 only AFTER the visual is already gone
-       (0.22s delay), so the layout shift is invisible to the user.
-       row-gap on the grid also waits for the visual to complete before collapsing. */
+    /* .header is the stacking context everything below is ordered inside. */
+    .header{ position:relative; z-index:1; }
+
+    /* Lifting a row leaves its grid track at 0px, but the row-gap around that
+       track remains and shows up as dead space under the logo. Once rows are
+       lifted the gaps are meaningless, because the lifted rows are positioned
+       explicitly rather than by the grid. */
+    .header.itm-hdr-lifted{ row-gap:0 !important; }
+
+    /* On mobile, don't wait for that class to show up. The base grid's own
+       row-gap (10px) plus the search row's own padding-bottom (its "space
+       before the trust bar", see below) both apply for however long it
+       takes JS to run its first pass — 10px + 8px = 18px of gap above AND
+       below the search bar that then collapses to 0 the instant the script
+       lifts everything. That collapse is a real, visible jump on every
+       single load, not a rare edge case — it happens between first paint
+       and DOMContentLoaded on every visit. Since scroll-sticky being on at
+       all means these rows WILL get lifted, there's no reason to ever show
+       the wider spacing in the first place; make the tight spacing the
+       permanent baseline instead of something JS has to fix after the
+       fact. Scoped to mobile only — desktop's own row-gap (the
+       "Space below top row" setting) is unrelated and untouched. */
     @media (max-width:989px){
-      /* Base: add transform + row-gap to the transition so re-show is also smooth */
-      .header{ transition: row-gap .22s ease; }
-      .header > predictive-search.ws-search,
-      .header > search-form.ws-search,
-      .header > form.ws-search,
-      .header > .trust-bar{
-        transform-origin: top center;
-        transition: transform .22s ease, opacity .2s ease,
-                    max-height .28s ease, padding .2s ease, margin .2s ease;
-      }
+      .header{ row-gap:0; }
+    }
 
-      /* Hidden: everything animates together — exact reverse of the show */
-      .header.header--hide-secondary{
-        row-gap: 0 !important;
-        transition: row-gap .28s ease;
+    /* The backdrop: an opaque copy of the bar background covering exactly the
+       bar's own height. Rows slide up BEHIND it; the bar's own contents sit
+       above it. This is what's supposed to make the rows disappear behind
+       the bar rather than across the front of it — but the rows themselves
+       are ranked z-index:1/2 (see below, for their own dropdown-stacking
+       reasons), which outranks or ties this at z-index:1, so they were
+       actually painting IN FRONT of the backdrop while sliding. Any
+       dropdown/mega-panel a row opens extends well below this strip (it's
+       only ever as tall as the bar itself, --itm-bar-h), so raising this
+       above every row's z-index masks the slide correctly without ever
+       affecting a panel that isn't overlapping this strip in the first
+       place. */
+    .header::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:var(--itm-bar-h, 0px);
+      z-index:5;
+      pointer-events:none;
+      {%- if section.settings.header_background_gradient != blank -%}
+        background:{{ section.settings.header_background_gradient }};
+      {%- elsif section.settings.header_background_color != blank -%}
+        background:{{ section.settings.header_background_color }};
+      {%- else -%}
+        background:rgb(var(--color-background));
+      {%- endif -%}
+    }
+
+    /* Everything that belongs to the bar itself sits above the backdrop —
+       raised past the backdrop's own z-index:5 (was z-index:2, back when
+       the backdrop was z-index:1; the backdrop had to move above the
+       collapsing rows below, so this has to stay above the backdrop). */
+    .header > .header__heading,
+    .header > .header__icons,
+    .header > .itm-locale-nav{ position:relative; z-index:6; }
+
+    /* The left cluster is deliberately NOT position:relative. The mobile
+       drawer is absolutely positioned and expects .header as its containing
+       block; making the 78px-wide cluster a containing block instead sizes
+       the whole drawer to 78px. .header is a grid, so the cluster still
+       takes a z-index as a grid item and stays above the backdrop. */
+    .header > .header__left-cluster{ z-index:6; }
+
+    @media (min-width:990px){
+      .header predictive-search.ws-search,
+      .header search-form.ws-search,
+      .header form.ws-search{ z-index:6; }
+    }
+
+    /* The nav and trust bar use a full-bleed trick: width calc(100% + 2*pad)
+       with a negative left margin. Lifting zeroes the margin but leaves the
+       extra width, so the bar sits too wide anchored to the left, pushing its
+       contents right and clipping the text. Lifted rows size from left/right
+       instead (both 0 — .header's own padding box already spans the full
+       viewport, page-width has no outer margin). */
+    .header .trust-bar.itm-hdr-collapsible,
+    .header .header__inline-menu.itm-hdr-collapsible{
+      width:auto !important;
+      margin-left:0 !important;
+      margin-right:0 !important;
+    }
+
+    /* Desktop: the wrapper must not exist as far as layout is concerned, or
+       it becomes the grid item in an auto-sized track and squeezes the pill.
+       display:contents removes it from the layout tree, leaving the pill as
+       the grid item exactly as before. */
+    @media (min-width:990px){
+      .header > .header__search-row{ display:contents; }
+    }
+
+    /* Mobile: the wrapper IS the row that lifts and hides. */
+    @media (max-width:989px){
+      .header > .header__search-row{
+        grid-area:search;
+        display:block;
+        width:100%;
+        min-width:0;
+        box-sizing:border-box;
+        /* Space below the search pill, before the trust bar. A margin here
+           would do nothing — the layout script positions the trust bar from
+           this row's own offsetHeight, which includes padding but not
+           margins, so the gap has to live inside the box as padding-bottom. */
+        padding-bottom:{{ section.settings.search_row_gap | default: 8 }}px;
       }
-      .header.header--hide-secondary > predictive-search.ws-search,
-      .header.header--hide-secondary > search-form.ws-search,
-      .header.header--hide-secondary > form.ws-search{
-        transform: scaleY(0);
-        opacity: 0;
-        pointer-events: none;
-        max-height: 0 !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin: 0 !important;
-        transition: transform .22s ease, opacity .28s ease,
-                    max-height .28s ease, padding .28s ease, margin .28s ease;
+      .header > .header__search-row.itm-hdr-collapsible{
+        width:auto !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box;
+        padding-left:{{ section.settings.header_padding_side_mobile | default: 10 }}px;
+        padding-right:{{ section.settings.header_padding_side_mobile | default: 10 }}px;
+        {%- if section.settings.header_background_gradient != blank -%}
+          background:{{ section.settings.header_background_gradient }};
+        {%- elsif section.settings.header_background_color != blank -%}
+          background:{{ section.settings.header_background_color }};
+        {%- endif -%}
       }
-      .header.header--hide-secondary > .trust-bar{
-        transform: scaleY(0);
-        transition: transform .22s ease, opacity .28s ease,
-                    max-height .28s ease, padding .28s ease;
-      }
+    }
+
+    .header .itm-hdr-collapsible,
+    .header nav.itm-hdr-collapsible,
+    .header .itm-hdr-collapsible.itm-mega{
+      /* These need !important: the per-row rules (e.g.
+         `.header predictive-search.ws-search`) are more specific and were
+         keeping the search position:relative, leaving it in flow. grid-area
+         matters too, because an absolutely positioned GRID ITEM is contained
+         by its grid area rather than the grid container. */
+      position:absolute !important;
+      grid-area:auto !important;
+      margin:0 !important;
+      left:0;
+      right:0;
+      transition:transform 220ms cubic-bezier(.4,0,.2,1),
+                 opacity 220ms cubic-bezier(.4,0,.2,1);
+      will-change:transform, opacity;
+    }
+
+    /* z-index:auto here would NOT actually avoid trapping a dropdown/mega
+       panel — every lifted row also gets `transform` above for the slide
+       animation, and transform (any value besides none, including the
+       resting translateY(0)) creates its own stacking context regardless of
+       z-index. So each row's own dropdown was already confined inside it
+       either way; z-index:auto only meant the ROWS themselves then fell back
+       to DOM order to decide which one paints on top of the others — and
+       the trust bar, being last in the markup, was winning by default and
+       covering the search panel / mega-menu of whichever row sits before it.
+       Given the confinement is unavoidable, rank the rows explicitly instead:
+       the trust bar has no dropdown of its own, so it stays lowest; whichever
+       row actually hosts one (nav's mega-menu, or the mobile search panel)
+       needs to outrank it. */
+    .header .trust-bar.itm-hdr-collapsible{ z-index:1; }
+    .header nav.itm-hdr-collapsible,
+    .header .itm-hdr-collapsible.itm-mega,
+    .header > .header__search-row.itm-hdr-collapsible{ z-index:2; }
+
+    /* The mobile drawer opens over the top of the header (Dawn adds
+       .menu-open to .section-header while it's open — confirmed directly in
+       global.js's HeaderDrawer.openMenuDrawer; the drawer's own positioning
+       script already relies on that same class existing). Rather than lean
+       on z-index numbers to keep the search/trust rows from showing through
+       or catching taps behind an open drawer, just hide them outright
+       whenever it's open — simpler than reasoning about stacking contexts,
+       and there's nothing lost since they're not usable under a full-screen
+       drawer anyway. Targets .itm-hdr-collapsible — the class this file
+       actually marks lifted rows with (not [data-itm-lifted], which is a
+       different attribute used by the unrelated promo-grid section). */
+    .section-header.menu-open .header .itm-hdr-collapsible{
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .header .itm-hdr-collapsible{ transition:none; }
     }
   {%- endif -%}
   .ws-focus-panel { --ws-fp-term-size: {{ section.settings.search_panel_term_size | default: 14 }}px; }
@@ -1032,8 +1278,13 @@
   function setDrawerVars(){
     var sh = document.querySelector('.section-header');
     var lc = document.querySelector('.header__left-cluster');
+    var drawer = document.getElementById('menu-drawer');
     if(!sh || !lc) return;
-    var shr = sh.getBoundingClientRect();
+    /* `top` is resolved against the drawer's containing block, which is
+       whichever ancestor is positioned — .header normally. Measuring against
+       .section-header instead was off by the wrapper's own offset. */
+    var base = (drawer && drawer.offsetParent) || sh;
+    var shr = base.getBoundingClientRect();
     var lcr = lc.getBoundingClientRect();
     var top = Math.round(lcr.bottom - shr.top);
     var height = Math.round(window.innerHeight - lcr.bottom);
@@ -1059,53 +1310,286 @@
 
 {%- if section.settings.enable_scroll_sticky -%}
   <script>
-    /* Attach ONCE and re-query the header each time, so it survives the theme
-       editor swapping the section DOM (which otherwise leaves a stale listener). */
     (function () {
       if (window.__itmStickyHeaderInit) return;
       window.__itmStickyHeaderInit = true;
 
-      function getY() {
-        return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      function getHeader() {
+        return document.querySelector('.section-header .header') || document.querySelector('.header');
       }
-      var last = getY();
-      var ticking = false;
-      var locked = false;        /* short lock after a toggle so the layout shift can't feed back */
-      var THRESHOLD = 80;        /* don't hide until scrolled past the top bar */
-      var DELTA = 10;            /* min scroll distance to flip direction */
 
-      function update() {
-        ticking = false;
-        if (locked) return;
-        var header = document.querySelector('.section-header .header') || document.querySelector('.header');
-        if (!header) return;
+      /* Which rows collapse differs by breakpoint: on desktop the search sits
+         in the top row, on mobile it is a row of its own. */
+      function collapsibleRows(header) {
+        var desktop = window.matchMedia('(min-width:990px)').matches;
+        /* Mobile deliberately keeps the search row in normal flow. It is the
+           white rounded pill itself, so lifting it stretched it edge to edge
+           and left it sitting on the page with nothing behind it. In flow it
+           keeps its own width, stays centred, and the bar's background sits
+           behind it. Only the trust bar collapses on mobile. */
+        var sel = desktop
+          ? ':scope > .header__inline-menu, :scope > .itm-locale-nav, :scope > .trust-bar'
+          : ':scope > .header__search-row, :scope > .trust-bar';
+        return Array.prototype.slice.call(header.querySelectorAll(sel));
+      }
 
-        var y = getY();
-        var isHidden = header.classList.contains('header--hide-secondary');
-        var wantHide = isHidden;                 /* default: keep current state */
-        if (y <= THRESHOLD) wantHide = false;    /* always show near the top */
-        else if (y > last + DELTA) wantHide = true;   /* scrolling down */
-        else if (y < last - DELTA) wantHide = false;  /* scrolling up */
-        last = y;
+      var rows = [];
+      var totalHeight = 0;
 
-        /* only touch the DOM when the state genuinely changes — and lock briefly,
-           so the resulting reflow/scrollbar change doesn't retrigger us (the oscillation). */
-        if (wantHide !== isHidden) {
-          header.classList.toggle('header--hide-secondary', wantHide);
-          locked = true;
-          setTimeout(function () { locked = false; last = getY(); }, 320);
+      /* Measure while everything is still in normal flow, then lift the rows
+         out of it and pin them at the offsets just measured. */
+      var measured = false;
+
+      /* Reset everything back into normal flow. */
+      function unlift(header) {
+        collapsibleRows(header).forEach(function (el) {
+          el.classList.remove('itm-hdr-collapsible');
+          el.style.top = '';
+          el.style.transform = '';
+          el.style.opacity = '';
+          el.style.pointerEvents = '';
+          el.removeAttribute('data-itm-travel');
+        });
+        var main = document.getElementById('MainContent');
+        if (main) main.style.paddingTop = '';
+        header.style.removeProperty('--itm-bar-h');
+        header.classList.remove('itm-hdr-lifted');
+        measured = false;
+      }
+
+      function layout(header) {
+        /* Never measure without usable geometry: a hidden tab, a collapsed
+           pane or a pre-layout paint would otherwise pin nonsense offsets
+           permanently, which shows up as a gap under the bar. */
+        if (!header.offsetWidth || !header.offsetHeight) { measured = false; return; }
+
+        unlift(header);
+        void header.offsetHeight;
+
+        rows = collapsibleRows(header).filter(function (el) { return el.offsetHeight > 0; });
+        if (!rows.length) { measured = false; return; }
+
+        /* Lift first, THEN measure. The lifted state adds padding of its own
+           (the search row) and collapsing the empty grid gaps changes the bar
+           height, so anything measured beforehand is stale. */
+        rows.forEach(function (el) { el.classList.add('itm-hdr-collapsible'); el.style.top = '0px'; });
+        header.classList.add('itm-hdr-lifted');
+        void header.offsetHeight;
+        var barHeight = header.offsetHeight;
+
+        var y = barHeight;
+        totalHeight = 0;
+        rows.forEach(function (el) {
+          var h = el.offsetHeight;
+          el.style.top = Math.round(y) + 'px';
+          y += h;
+          totalHeight += h;
+        });
+
+        /* Every row travels the SAME distance — the whole stack's own height
+           — not its individual distance back to the bar. They used to each
+           get their own (Math.ceil(y + h), that row's distance from the
+           bar), which looks right for any ONE row in isolation but breaks
+           down the moment there's more than one: both rows animate over the
+           same 220ms with the same easing, so a row translating further
+           covers more ground at every instant than one translating less —
+           the two drift apart mid-slide even though they started (and end)
+           flush against each other. Moving the whole stack by its own
+           combined height instead is rigid-body motion: every row covers
+           the same distance at the same rate, so the gap between them
+           can never open, on the way down OR the way back up. */
+        var travel = Math.ceil(totalHeight);
+        rows.forEach(function (el) { el.setAttribute('data-itm-travel', travel); });
+
+        /* The backdrop must cover exactly the bar. */
+        header.style.setProperty('--itm-bar-h', Math.ceil(barHeight) + 'px');
+
+        /* Reserve the space the lifted rows occupy. Using the rows' summed
+           height assumes the content starts exactly at the bar's bottom edge,
+           and it does not — the header wrapper's own bottom border sits
+           between them, so that overshot by 1px and left a hairline of page
+           background under the trust bar's divider. Measure the real distance
+           from the top of the content to the bottom of the last row instead.
+           The rows are positioned but not yet translated at this point, so
+           these are their expanded positions.
+
+           getBoundingClientRect() is viewport-relative, and that is exactly
+           the trap: lastRow lives inside the fixed/sticky header, so its
+           rect barely moves when the page scrolls, but #MainContent is
+           ordinary in-flow content — its rect top slides up by the full
+           scroll distance. Subtracting one from the other without
+           accounting for that bakes the CURRENT SCROLL POSITION into
+           padding-top. Measure this while the page has already scrolled a
+           few thousand px (entirely possible: layout() re-runs later on
+           document.fonts.ready, resize, ResizeObserver and
+           shopify:section:load, and any of those can land after a visitor
+           has scrolled fast right after load) and you get a multi-thousand-
+           px padding out of nowhere — a giant white gap shoved between the
+           header and the content it just displaced. Subtracting the scroll
+           offset back out makes the measurement scroll-position-independent,
+           so it comes out the same whether it runs at the top of the page or
+           three screens down.
+
+           This value is otherwise set once and never touched again for
+           hide/show — not on hide, not on show. Collapsing the rows only
+           ever animates their own transform/opacity; it never touches
+           anything that would reflow the page. That is the entire point of
+           taking them out of flow in the first place. */
+        var main = document.getElementById('MainContent');
+        if (main) {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          var lastRow = rows[rows.length - 1];
+          var need = lastRow.getBoundingClientRect().bottom - main.getBoundingClientRect().top - scrollY;
+          /* getBoundingClientRect() returns fractional (sub-pixel) values —
+             real device text/flex layout rarely lands on a whole number.
+             Math.round() used to sit here, which rounds down about half the
+             time: reserve 0.4px less than the true distance, and the very
+             next section's own opaque background starts 0.4 CSS px into
+             the trust bar's own box — enough, at a real phone's device
+             pixel ratio, to paint over the trust bar's own 1px bottom
+             border and make it vanish. Switching to Math.ceil() traded that
+             for the opposite error: it always reserves slightly MORE than
+             needed, and that leftover sliver showed up as a visible thin
+             white line of its own, between the border and the real page
+             content below it — not the "imperceptible" trade-off it looked
+             like on paper. Both were wrong for the same reason: rounding
+             AT ALL introduces an artificial error that doesn't need to
+             exist. CSS handles fractional padding values natively — there
+             is no reason to round to a whole pixel here at all. Using the
+             exact measured distance reserves precisely enough space,
+             nothing more and nothing less, so neither error is possible. */
+          main.style.paddingTop = Math.max(0, need) + 'px';
         }
+        measured = true;
       }
 
-      window.addEventListener('scroll', function () {
-        if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
-      }, { passive: true });
+      function apply(header, hide) {
+        rows.forEach(function (el) {
+          if (!el.classList.contains('itm-hdr-collapsible')) return;
+          var travel = el.getAttribute('data-itm-travel') || 0;
+          /* translateZ(0) here is a no-op positionally — it never moves
+             anything — but it's a well-known way to force the browser to
+             put this row on its own GPU-composited layer from the very
+             first time a transform is ever assigned, not only after it has
+             genuinely animated through a real range of values at least
+             once. That distinction matches exactly what's being reported:
+             the trust bar's border rendering correctly after a scroll down
+             and back up, but not on a fresh load that's never scrolled —
+             every computed style I can check (border width/colour, rect,
+             opacity, --itm-bar-h, padding) comes back byte-for-byte
+             identical between those two states, which points at
+             something below the CSS layer: real device sub-pixel
+             rasterization of a 1px border can differ between a plain,
+             never-touched element and one that's already been promoted to
+             its own compositing layer, and that's invisible to
+             getComputedStyle and doesn't reproduce in any headless browser
+             engine — which is exactly why nothing here caught it before.
+             will-change:transform (below) is a hint toward the same thing;
+             this is the more forceful, longer-established version of it,
+             baked into the actual value instead of asked for separately,
+             so it's there from apply()'s very first call at page load. */
+          el.style.transform = (hide ? 'translateY(-' + travel + 'px)' : 'translateY(0)') + ' translateZ(0)';
+          el.style.opacity = hide ? '0' : '1';
+          el.style.pointerEvents = hide ? 'none' : '';
+        });
+        header.classList.toggle('header--hide-secondary', hide);
+      }
 
-      /* re-sync after the theme editor re-renders the header section */
-      document.addEventListener('shopify:section:load', function () { last = getY(); update(); });
-      update();
+      /* Bunnings' own handler is this simple: compare with the last position,
+         hide going down past a threshold, show going up. No rAF, no lock. It
+         works because nothing reflows, so it cannot feed back into itself. */
+      var lastY = 0;
+      var hidden = false;
+      function onScroll() {
+        var header = getHeader();
+        if (!header) return;
+        if (!measured) { layout(header); if (!measured) return; }
+        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (y > lastY && y > totalHeight && !hidden) { hidden = true; apply(header, true); }
+        else if (y < lastY && hidden) { hidden = false; apply(header, false); }
+        lastY = y < 0 ? 0 : y;
+      }
+
+      /* init() re-runs constantly after the first load — resize, fonts
+         finishing, images changing the header's height, the theme editor
+         re-rendering the section. It used to force hidden = false and
+         apply(header, false) every single time, on the assumption it was
+         only ever restoring the header after a real layout change. But
+         nothing here checks WHY it's re-running — if the visitor has
+         already scrolled down and the header is correctly hidden, any one
+         of those re-triggers firing (entirely likely: fonts and images
+         finishing load is exactly the kind of thing a visitor might already
+         be scrolling past) snapped it back to visible until the next scroll
+         event corrected it — the header hiding, then flashing back for a
+         moment, that's been reported before. Re-layout should refresh the
+         geometry without relitigating whether the header is currently
+         supposed to be shown; whatever `hidden` already correctly was stays
+         what it is. */
+      function init() {
+        var header = getHeader();
+        if (!header) return;
+        layout(header);
+        apply(header, hidden);
+        lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        onScroll();
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      /* One shared debounce for every re-layout trigger, not one each. Page
+         load can fire several of these within milliseconds of each other —
+         fonts.ready, window.load, a ResizeObserver tick as an image swaps
+         in — and each was scheduling its OWN independent init() call. Every
+         extra one is a full unlift-then-relift cycle applied to an already-
+         settled layout, which is exactly what showed up as a stray flash of
+         padding or a flash of the trust bar's border on load: real, visible
+         snaps to a slightly different measurement, back to back, for no
+         reason other than several unrelated signals happening to fire close
+         together. Routing them all through the same timer means a cluster
+         of near-simultaneous triggers collapses into the one re-layout that
+         actually matters — the last one — instead of several. */
+      var rt;
+      function scheduleInit(delay) { clearTimeout(rt); rt = setTimeout(init, delay); }
+
+      /* 'resize' fires for things that are not a real layout change at all
+         on a phone: pinch-zooming (a pure visual scale, the CSS layout
+         viewport doesn't actually change width) and — the big one — the
+         address bar collapsing and re-appearing as you scroll, which is a
+         REAL resize (window.innerHeight genuinely changes) that happens on
+         basically every scroll gesture on mobile. Neither one changes
+         anything about the header's own layout, which only ever depends on
+         viewport WIDTH (the desktop/mobile breakpoint). Reacting to either
+         anyway ran the full unlift-then-relift cycle — which resets each
+         row's position before recomputing it — right in the middle of a
+         scroll or a zoom, which is exactly what showed up as the search bar
+         jumping and the trust bar's border flickering in and out while
+         pinch-zooming, and as a flash while scrolling. Only actually
+         relayout if the width moved — the same guard the ResizeObserver
+         below already uses for the same reason. */
+      var lastResizeW = window.innerWidth;
+      window.addEventListener('resize', function () {
+        if (Math.abs(window.innerWidth - lastResizeW) < 1) return;
+        lastResizeW = window.innerWidth;
+        scheduleInit(150);
+      });
+
+      /* Fonts loading or the window becoming visible changes the header's real
+         size; re-measure rather than keeping offsets taken from a bad frame. */
+      if (window.ResizeObserver) {
+        var lastW = 0;
+        var ro = new ResizeObserver(function (entries) {
+          var w = entries[0] && entries[0].contentRect ? entries[0].contentRect.width : 0;
+          if (w && Math.abs(w - lastW) > 1) { lastW = w; scheduleInit(100); }
+        });
+        var h0 = getHeader();
+        if (h0) ro.observe(h0);
+      }
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { scheduleInit(0); });
+      document.addEventListener('shopify:section:load', function () { scheduleInit(0); });
+      window.addEventListener('load', function () { scheduleInit(0); });
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
     })();
-
   </script>
 {%- endif -%}
 
@@ -1238,6 +1722,7 @@
       <span>AU</span>
     </div>
 
+    <div class="header__search-row">
       {%- if settings.predictive_search_enabled -%}
         <predictive-search
           class="ws-search"
@@ -1425,6 +1910,7 @@
       {%- else -%}
         </search-form>
       {%- endif -%}
+    </div>
 
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
       <div class="desktop-localization-wrapper">
@@ -2041,7 +2527,7 @@
       "type": "color_background",
       "id": "header_background_gradient",
       "label": "Header background gradient",
-      "info": "Optional. Overrides the solid background above with a gradient (e.g. dark grey fading to red)."
+      "info": "Optional. Overrides the solid background above with a gradient (e.g. light grey fading to red)."
     },
     {
       "type": "color",
@@ -2293,7 +2779,7 @@
       "type": "color",
       "id": "icon_secondary_color",
       "label": "Icon secondary colour",
-      "default": "#FF6600"
+      "default": "#e30613"
     },
     {
       "type": "range",
@@ -2415,6 +2901,17 @@
       "label": "Space below top row (above menu)",
       "info": "Gap under the logo/search row and above the navigation bar. Desktop only.",
       "default": 16
+    },
+    {
+      "type": "range",
+      "id": "search_row_gap",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Space below search bar (above trust bar)",
+      "info": "Gap under the mobile search bar and above the trust/USP bar. Mobile only.",
+      "default": 8
     },
     {
       "type": "header",
