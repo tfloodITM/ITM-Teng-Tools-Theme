@@ -327,7 +327,6 @@
       "disabled": true,
       "name": "Full-Width Video (legacy, disabled)",
       "settings": {
-        "video": null,
         "video_url": "",
         "video_title": "",
         "show_on_desktop": true,
@@ -414,7 +413,6 @@
         "cta2_skew": -21,
         "cta2_glow": true,
         "cta_position": "middle-left",
-        "video": null,
         "video_url": "",
         "slideshow_autoplay": true,
         "slideshow_speed": 5,
@@ -492,7 +490,6 @@
         "cta2_skew": -21,
         "cta2_glow": true,
         "cta_position": "middle-left",
-        "video": null,
         "video_url": "",
         "slideshow_autoplay": true,
         "slideshow_speed": 5,
@@ -644,7 +641,6 @@
       "disabled": true,
       "name": "Mobile Video Hero",
       "settings": {
-        "video": null,
         "video_url": "",
         "height": 420,
         "bg": "#000000",
@@ -1303,18 +1299,17 @@
     },
     "promo_grid": {
       "type": "itm-promo-grid",
-      "name": "Promo Grid",
       "blocks": {
         "tile_storage": {
           "type": "tile",
           "settings": {
-            "span_desktop": 5,
             "layout": "split",
             "image": "shopify://shop_images/teng-get-organised-campaign.webp",
             "heading": "GET ORGANISED™",
             "text": "<p>Modular TC Tray storage that clicks together into one seamless system.</p>",
             "link": "/collections/tool-storage",
             "btn_label": "SHOP TOOL STORAGE",
+            "span_desktop": 5,
             "bg": "#1a1a1a",
             "text_color": "#ffffff",
             "btn_bg": "#e30613",
@@ -1324,24 +1319,24 @@
         "video_organised": {
           "type": "video",
           "settings": {
-            "span_desktop": 7,
             "poster": "shopify://shop_images/teng-category-torque-tools.webp",
             "overlay_heading": "MADE FOR PROFESSIONALS",
             "overlay_text": "Swedish-designed. Independently tested. Backed for life.",
             "overlay_position": "bottom",
-            "overlay_color": "#ffffff"
+            "overlay_color": "#ffffff",
+            "span_desktop": 7
           }
         },
         "tile_sockets": {
           "type": "tile",
           "settings": {
-            "span_desktop": 4,
-            "span_mobile": 6,
             "layout": "stacked",
             "image": "shopify://shop_images/teng-category-sockets.webp",
             "heading": "Sockets & Accessories",
             "link": "/collections/sockets-and-accessories",
             "btn_label": "SHOP NOW",
+            "span_desktop": 4,
+            "span_mobile": 6,
             "bg": "#1a1a1a",
             "text_color": "#ffffff",
             "btn_bg": "#e30613",
@@ -1351,13 +1346,13 @@
         "tile_torque": {
           "type": "tile",
           "settings": {
-            "span_desktop": 4,
-            "span_mobile": 6,
             "layout": "stacked",
             "image": "shopify://shop_images/teng-category-torque-tools.webp",
             "heading": "Torque Tools",
             "link": "/collections/torque-tools",
             "btn_label": "SHOP NOW",
+            "span_desktop": 4,
+            "span_mobile": 6,
             "bg": "#1a1a1a",
             "text_color": "#ffffff",
             "btn_bg": "#e30613",
@@ -1367,13 +1362,13 @@
         "tile_kits": {
           "type": "tile",
           "settings": {
-            "span_desktop": 4,
-            "span_mobile": 12,
             "layout": "split",
             "image": "shopify://shop_images/teng-category-tool-sets.webp",
             "heading": "Build Your Ultimate Tool Kit",
             "link": "/collections/tool-kits",
             "btn_label": "SHOP TOOL KITS",
+            "span_desktop": 4,
+            "span_mobile": 12,
             "bg": "#e30613",
             "text_color": "#ffffff",
             "btn_bg": "#ffffff",
@@ -1383,11 +1378,11 @@
         "banner_usp": {
           "type": "banner",
           "settings": {
-            "span_desktop": 12,
             "heading": "LIFETIME WARRANTY ON EVERY TENG TOOL",
             "text": "Free delivery over $99 · Made for professionals · Get Organised™",
             "link": "/collections/all",
             "btn_label": "SHOP ALL TOOLS",
+            "span_desktop": 12,
             "bg": "#1a1a1a",
             "text_color": "#ffffff",
             "btn_bg": "#e30613",
@@ -1397,7 +1392,6 @@
         "featured_a_product": {
           "type": "featured_product",
           "settings": {
-            "span_desktop": 8,
             "eyebrow": "FEATURED",
             "badge_text": "NEW",
             "icon_1_preset": "shield",
@@ -1406,6 +1400,7 @@
             "icon_2_label": "30-Day Money-Back",
             "icon_3_preset": "truck",
             "icon_3_label": "Free Delivery",
+            "span_desktop": 8,
             "bg": "#1a1a1a",
             "text_color": "#ffffff",
             "btn_bg": "#e30613",
@@ -1415,12 +1410,12 @@
         "reviews_panel": {
           "type": "reviews",
           "settings": {
-            "span_desktop": 4,
             "heading": "What Professionals Say",
             "fallback_quote": "When you've got ten seconds to change everything, your tools can't fail.",
             "fallback_author": "Jake Matthews, Race Technician",
             "manual_review_2_text": "Teng Tools gives us controlled, traceable tool management across the whole site.",
             "manual_review_2_author": "Graham Finch, Maintenance Manager",
+            "span_desktop": 4,
             "bg": "#1a1a1a",
             "text_color": "#ffffff"
           }
@@ -1436,6 +1431,7 @@
         "featured_a_product",
         "reviews_panel"
       ],
+      "name": "Promo Grid",
       "settings": {}
     }
   },
