@@ -133,6 +133,7 @@
           "type": "video",
           "settings": {
             "video_url": "",
+            "poster": "shopify://shop_images/limited-edition-banner-1x1-3.webp",
             "overlay_heading": "MADE FOR PROFESSIONALS",
             "overlay_text": "Swedish-designed. Independently tested. Backed for life.",
             "overlay_position": "bottom",
@@ -310,6 +311,7 @@
         },
         "featured_a_product": {
           "type": "featured_product",
+          "disabled": true,
           "settings": {
             "product": "",
             "eyebrow": "FEATURED",
@@ -372,6 +374,7 @@
         },
         "reviews_panel": {
           "type": "reviews",
+          "disabled": true,
           "settings": {
             "product": "",
             "heading": "What Professionals Say",
