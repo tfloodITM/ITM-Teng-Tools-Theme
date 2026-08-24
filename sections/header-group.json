@@ -538,7 +538,7 @@
         "header_background_color": "#FFFFFF",
         "header_background_gradient": "linear-gradient(115deg, rgba(204, 0, 0, 0.54), rgba(202, 43, 11, 0.54) 0.36%, rgba(255, 255, 255, 1) 55%, rgba(123, 122, 122, 1) 100%)",
         "header_text_color": "#1a1a1a",
-        "header_divider_color": "#e30613",
+        "header_divider_color": "",
         "menu_bar_background_color": "#F4F4F4",
         "menu_bar_text_color": "#1a1a1a",
         "nav_font_size": 14,
