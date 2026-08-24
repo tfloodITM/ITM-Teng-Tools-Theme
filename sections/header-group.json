@@ -536,7 +536,7 @@
         "search_max_width_mobile": 1200,
         "search_height_mobile": 34,
         "header_background_color": "#FFFFFF",
-        "header_background_gradient": "linear-gradient(115deg, rgba(204, 0, 0, 1), rgba(202, 43, 11, 0.54) 0.36%, rgba(10, 5, 5, 1) 55%, rgba(255, 255, 255, 1) 100%)",
+        "header_background_gradient": "linear-gradient(337deg, rgba(204, 0, 0, 1), rgba(230, 230, 230, 1), rgba(230, 230, 230, 1) 33%, rgba(10, 5, 5, 1) 55%, rgba(230, 230, 230, 1) 74.82%, rgba(255, 0, 0, 1) 100%)",
         "header_text_color": "#1a1a1a",
         "header_divider_color": "",
         "menu_bar_background_color": "#F4F4F4",
