@@ -11,6 +11,7 @@
   "sections": {
     "teng_hero": {
       "type": "itm-ws-hero-split",
+      "disabled": true,
       "name": "Teng Tools Hero",
       "settings": {
         "desktop_layout": "image",
@@ -30,9 +31,8 @@
         "mob_btn_min_height": 0,
         "mob_btn_group_margin_top": 4,
         "mob_btn_group_margin_bottom": 0,
-        "left_image": "shopify://shop_images/teng-get-organised-campaign.webp",
+        "left_image": "shopify://shop_images/limited-edition-banner-1x1-3.webp",
         "left_image_url": "",
-        "mobile_image": "shopify://shop_images/teng-get-organised-campaign.webp",
         "mobile_image_url": "",
         "heading": "GET ORGANISED™",
         "subtext": "Professional hand tools and modular tool storage, engineered in Sweden and backed by a lifetime warranty — direct from Teng Tools Australia.",
@@ -86,418 +86,443 @@
         "show_dots": true
       }
     },
-    "fathers_day_categories": {
-      "type": "itm-main-shop-by-category",
+    "promo_grid": {
+      "type": "itm-promo-grid",
       "blocks": {
-        "product_badge_dUQTbD": {
-          "type": "product_badge",
+        "tile_storage": {
+          "type": "tile",
           "settings": {
-            "product": "wskts-ko2",
-            "top_badge": "DAD WILL LOVE IT",
-            "top_badge_icon": "shopify://shop_images/2.png",
-            "top_badge_icon_size": 21,
-            "top_badge_font_size": 8,
-            "top_badge_padding": 2,
+            "layout": "split",
+            "heading": "GET ORGANISED™",
+            "text": "<p>Modular TC Tray storage that clicks together into one seamless system.</p>",
+            "price": "",
+            "link": "/collections/tool-storage",
+            "btn_label": "SHOP TOOL STORAGE",
+            "link_label": "",
+            "btn_arrow": true,
+            "open_quiz": false,
+            "quiz_trigger_id": "fathers-day",
+            "span_desktop": 5,
+            "span_mobile": 12,
+            "min_height": 300,
+            "min_height_mobile": 150,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#e30613",
+            "btn_text": "#ffffff",
+            "btn_skew": 0
+          }
+        },
+        "video_organised": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "poster": "shopify://shop_images/limited-edition-banner-1x1-3.webp",
+            "overlay_heading": "MADE FOR PROFESSIONALS",
+            "overlay_text": "Swedish-designed. Independently tested. Backed for life.",
+            "overlay_position": "bottom",
+            "overlay_heading_size": 28,
+            "overlay_text_size": 15,
+            "overlay_heading_size_mobile": 0,
+            "overlay_text_size_mobile": 0,
+            "overlay_color": "#ffffff",
+            "scrim": 35,
+            "span_desktop": 7,
+            "span_mobile": 12,
+            "min_height": 300,
+            "min_height_mobile": 200,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#000000"
+          }
+        },
+        "tile_sockets": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "heading": "Sockets & Accessories",
+            "text": "",
+            "price": "",
+            "link": "/collections/sockets-and-accessories",
+            "btn_label": "SHOP NOW",
+            "link_label": "",
+            "btn_arrow": true,
+            "open_quiz": false,
+            "quiz_trigger_id": "fathers-day",
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 300,
+            "min_height_mobile": 150,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#e30613",
+            "btn_text": "#ffffff",
+            "btn_skew": 0
+          }
+        },
+        "tile_torque": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "heading": "Torque Tools",
+            "text": "",
+            "price": "",
+            "link": "/collections/torque-tools",
+            "btn_label": "SHOP NOW",
+            "link_label": "",
+            "btn_arrow": true,
+            "open_quiz": false,
+            "quiz_trigger_id": "fathers-day",
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 300,
+            "min_height_mobile": 150,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#e30613",
+            "btn_text": "#ffffff",
+            "btn_skew": 0
+          }
+        },
+        "tile_kits": {
+          "type": "tile",
+          "settings": {
+            "layout": "split",
+            "heading": "Build Your Ultimate Tool Kit",
+            "text": "",
+            "price": "",
+            "link": "/collections/tool-kits",
+            "btn_label": "SHOP TOOL KITS",
+            "link_label": "",
+            "btn_arrow": true,
+            "open_quiz": false,
+            "quiz_trigger_id": "fathers-day",
+            "span_desktop": 4,
+            "span_mobile": 12,
+            "min_height": 300,
+            "min_height_mobile": 150,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#e30613",
+            "text_color": "#ffffff",
+            "btn_bg": "#ffffff",
+            "btn_text": "#1a1a1a",
+            "btn_skew": 0
+          }
+        },
+        "banner_usp": {
+          "type": "banner",
+          "settings": {
+            "heading": "LIFETIME WARRANTY ON EVERY TENG TOOL",
+            "text": "Free delivery over $99 · Made for professionals · Get Organised™",
+            "link": "/collections/all",
+            "btn_label": "SHOP ALL TOOLS",
+            "btn_arrow": false,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 90,
+            "min_height_mobile": 90,
+            "heading_size": 0,
+            "text_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#e30613",
+            "btn_text": "#ffffff",
+            "btn_skew": 0
+          }
+        },
+        "featured_a_product": {
+          "type": "featured_product",
+          "disabled": true,
+          "settings": {
+            "product": "",
+            "eyebrow": "FEATURED",
+            "title": "",
+            "price_text": "",
+            "link": "",
+            "btn_label": "Shop now",
+            "btn_arrow": true,
+            "show_badge": true,
+            "badge_text": "NEW",
             "badge_bg": "#e30613",
-            "badge_color": "#000000",
-            "bottom_badge": "DESIGNED TO SHARPEN EVERYTHING",
-            "bottom_badge_font_size": 9,
-            "bottom_badge_bg": "#1a1a1a",
-            "bottom_badge_bg_opacity": 70,
-            "bottom_badge_color": "#ffffff"
+            "badge_text_color": "#1a1a1a",
+            "image_width": 34,
+            "image_x": 2,
+            "image_y": 50,
+            "image_rotate": 0,
+            "mobile_layout": "stacked",
+            "image_width_mobile": 100,
+            "icon_size": 28,
+            "icon_gap": 16,
+            "icon_color": "#ffffff",
+            "icon_1_preset": "shield",
+            "icon_1_label": "Lifetime Warranty",
+            "icon_2_preset": "refund",
+            "icon_2_label": "30-Day Money-Back",
+            "icon_3_preset": "truck",
+            "icon_3_label": "Free Delivery",
+            "icon_4_preset": "",
+            "icon_4_label": "",
+            "icon_5_preset": "",
+            "icon_5_label": "",
+            "icon_6_preset": "",
+            "icon_6_label": "",
+            "span_desktop": 8,
+            "span_mobile": 12,
+            "min_height": 170,
+            "min_height_mobile": 170,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#e30613",
+            "btn_text": "#ffffff",
+            "btn_skew": 0
           }
         },
-        "product_badge_xQKCzk": {
-          "type": "product_badge",
+        "reviews_panel": {
+          "type": "reviews",
+          "disabled": true,
           "settings": {
-            "product": "wskts-ko2-elt",
-            "top_badge": "BEST OF THE BEST",
-            "top_badge_icon": "shopify://shop_images/2.png",
-            "top_badge_icon_size": 21,
-            "top_badge_font_size": 8,
-            "top_badge_padding": 2,
-            "badge_bg": "#e30613",
-            "badge_color": "#000000",
-            "bottom_badge": "DESIGNED TO SHARPEN EVERYTHING",
-            "bottom_badge_font_size": 9,
-            "bottom_badge_bg": "#1a1a1a",
-            "bottom_badge_bg_opacity": 70,
-            "bottom_badge_color": "#ffffff"
-          }
-        },
-        "product_badge_96UJeX": {
-          "type": "product_badge",
-          "settings": {
-            "product": "wsbchwht-i",
-            "top_badge": "A TOP PICK",
-            "top_badge_icon": "shopify://shop_images/sharpens-kitchen.svg",
-            "top_badge_icon_size": 21,
-            "top_badge_font_size": 8,
-            "top_badge_padding": 2,
-            "badge_bg": "#e30613",
-            "badge_color": "#000000",
-            "bottom_badge": "DESIGNED FOR SHARPENING KITCHEN KNIVES",
-            "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#1a1a1a",
-            "bottom_badge_bg_opacity": 75,
-            "bottom_badge_color": "#ffffff"
-          }
-        },
-        "product_badge_E7h6xw": {
-          "type": "product_badge",
-          "settings": {
-            "product": "wskts2-i-1",
-            "top_badge": "A TOP PICK",
-            "top_badge_icon": "shopify://shop_images/sharpens-kitchen.svg",
-            "top_badge_icon_size": 21,
-            "top_badge_font_size": 8,
-            "top_badge_padding": 2,
-            "badge_bg": "#e30613",
-            "badge_color": "#000000",
-            "bottom_badge": "DESIGNED FOR SHARPENING EVERYTHING",
-            "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#1a1a1a",
-            "bottom_badge_bg_opacity": 75,
-            "bottom_badge_color": "#ffffff"
-          }
-        },
-        "product_badge_QwF37f": {
-          "type": "product_badge",
-          "settings": {
-            "product": "wsbchpaj-i",
-            "top_badge": "A TOP PICK",
-            "top_badge_icon": "shopify://shop_images/sharpens-kitchen.svg",
-            "top_badge_icon_size": 21,
-            "top_badge_font_size": 8,
-            "top_badge_padding": 2,
-            "badge_bg": "#e30613",
-            "badge_color": "#000000",
-            "bottom_badge": "DESIGNED FOR SHARPENING KITCHEN KNIVES",
-            "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#1a1a1a",
-            "bottom_badge_bg_opacity": 75,
-            "bottom_badge_color": "#ffffff"
-          }
-        },
-        "tab_diy": {
-          "type": "tab",
-          "settings": {
-            "collection": "the-diyer-dad",
-            "label": "The DIY'er Dad",
-            "subcollections": []
-          }
-        },
-        "tab_angler": {
-          "type": "tab",
-          "settings": {
-            "collection": "the-angler-dad",
-            "label": "The Angler Dad",
-            "subcollections": []
-          }
-        },
-        "tab_homechef": {
-          "type": "tab",
-          "settings": {
-            "collection": "the-home-chef-dad",
-            "label": "The Home Chef Dad",
-            "subcollections": []
-          }
-        },
-        "tab_hunter": {
-          "type": "tab",
-          "settings": {
-            "collection": "the-hunter-dad",
-            "label": "The Hunter Dad",
-            "subcollections": []
-          }
-        },
-        "badge_gfs": {
-          "type": "product_badge",
-          "settings": {
-            "product": "wsgfs221",
-            "top_badge": "BEST FOR FISHING",
-            "top_badge_icon": "shopify://shop_images/sharpens-hunt.svg",
-            "top_badge_icon_size": 21,
-            "top_badge_font_size": 8,
-            "top_badge_padding": 2,
-            "badge_bg": "#e30613",
-            "badge_color": "#000000",
-            "bottom_badge": "DESIGNED FOR SHARPENING HOOKS & FILLET KNIVES",
-            "bottom_badge_font_size": 10,
-            "bottom_badge_bg": "#1a1a1a",
-            "bottom_badge_bg_opacity": 75,
-            "bottom_badge_color": "#ffffff"
+            "product": "",
+            "heading": "What Professionals Say",
+            "footer_text": "",
+            "btn_label": "",
+            "link": "",
+            "btn_arrow": true,
+            "rotate_seconds": 6,
+            "show_nav": true,
+            "star_size": 17,
+            "star_color": "#e30613",
+            "star_empty_color": "#ffffff",
+            "fallback_quote": "When you've got ten seconds to change everything, your tools can't fail.",
+            "fallback_author": "Jake Matthews, Race Technician",
+            "manual_review_2_text": "Teng Tools gives us controlled, traceable tool management across the whole site.",
+            "manual_review_2_author": "Graham Finch, Maintenance Manager",
+            "manual_review_3_text": "",
+            "manual_review_3_author": "",
+            "manual_review_4_text": "",
+            "manual_review_4_author": "",
+            "verified_label": "Verified Buyer",
+            "fallback_count": "",
+            "fallback_score": 5,
+            "judgeme_public_token": "",
+            "span_desktop": 4,
+            "span_mobile": 12,
+            "min_height": 170,
+            "min_height_mobile": 170,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#ffffff",
+            "btn_text": "#1a1a1a",
+            "btn_skew": 0
           }
         }
       },
       "block_order": [
-        "product_badge_dUQTbD",
-        "product_badge_xQKCzk",
-        "product_badge_96UJeX",
-        "product_badge_E7h6xw",
-        "product_badge_QwF37f",
-        "tab_diy",
-        "tab_angler",
-        "tab_homechef",
-        "tab_hunter",
-        "badge_gfs"
+        "tile_storage",
+        "video_organised",
+        "tile_sockets",
+        "tile_torque",
+        "tile_kits",
+        "banner_usp",
+        "featured_a_product",
+        "reviews_panel"
       ],
-      "disabled": true,
-      "name": "Father's Day - Shop by Category (WS legacy, disabled — not Teng relevant)",
+      "name": "Promo Grid",
       "settings": {
-        "heading": "Find the right sharpener for Dad",
-        "anchor_id": "fathers-day-collection",
-        "products_per_row": 4,
-        "products_per_row_mobile": 2,
-        "mobile_border_width": 1,
-        "products_limit": 8,
-        "pill_height": 38,
-        "pill_font_size": 14,
-        "pill_font_weight": "400",
-        "pill_padding_h": 12,
-        "pill_radius": 100,
-        "pill_border_width": 2,
-        "pill_gap": 8,
-        "pill_inactive_color": "#000000",
-        "pill_active_bg": "#000000",
-        "pill_active_color": "#ffffff",
-        "show_view_all": true,
-        "view_all_style": "underline",
-        "view_all_height": 44,
-        "view_all_radius": 4,
-        "view_all_padding": 28,
-        "view_all_font_size": 10,
-        "view_all_font_weight": "700",
-        "view_all_bg": "#1a1a1a",
-        "view_all_color": "#ffffff",
-        "view_all_link_color": "#1a1a1a",
-        "view_all_link_size": 10,
-        "view_all_link_weight": "700",
-        "card_img_bg": "#ffffff",
-        "arrow_color": "#000000",
-        "card_band_bg": "#2e2e2e",
-        "card_band_text": "#ffffff",
-        "show_reviews": true,
-        "star_size": 20,
-        "star_size_mobile": 11,
-        "star_color": "#e30613",
-        "star_empty_color": "#e30613",
-        "review_count_size": 14,
-        "review_count_size_mobile": 9,
-        "review_count_color": "#e3e3e3",
-        "title_size": 16,
-        "title_size_mobile": 11,
-        "title_weight": "700",
-        "text_align": "left",
-        "show_price": true,
-        "price_size": 16,
-        "price_size_mobile": 10,
-        "price_weight": "400",
-        "price_color": "#ffffff",
-        "show_atc": true,
-        "atc_show_arrow": true,
-        "atc_height": 40,
-        "atc_height_mobile": 34,
-        "atc_font_size": 12,
-        "atc_font_size_mobile": 10,
-        "atc_font_weight": "700",
-        "atc_bg": "#e30613",
-        "atc_color": "#000000",
-        "actions_divider_color": "#ffffff",
-        "list_btn_bg": "#e30613",
-        "list_icon_size": 22,
-        "list_icon_size_mobile": 18,
-        "list_plus_size": 12,
-        "list_plus_bg": "#000000",
-        "list_plus_color": "#ffc107",
-        "list_plus_bottom": 4,
-        "list_plus_right": 3,
-        "list_plus_size_mobile": 10,
-        "list_plus_bottom_mobile": 4,
-        "list_plus_right_mobile": 2,
-        "color_scheme": "",
-        "bottom_bg": "#ffffff",
-        "grid_bg": "#f2f2f2",
-        "padding_top": 40,
-        "padding_bottom": 60
+        "section_bg": "#f4f4f4",
+        "max_width": 1430,
+        "gap": 16,
+        "radius": 16,
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "heading_size": 24,
+        "text_size": 15,
+        "price_size": 30,
+        "tile_padding": 24,
+        "body_align": "center",
+        "overlay_opacity": 55,
+        "heading_size_mobile": 0,
+        "text_size_mobile": 0,
+        "price_size_mobile": 0,
+        "mobile_scale": 80,
+        "quote_lines": 4,
+        "btn_size": 15,
+        "btn_size_mobile": 0,
+        "btn_radius": 0,
+        "btn_pad_y": 11,
+        "btn_pad_x": 18,
+        "play_size": 68,
+        "play_bg": "#e30613",
+        "play_border_width": 0,
+        "play_border_color": "#ffffff",
+        "play_glow": "#ffffff",
+        "play_glow_size": 30,
+        "play_icon": "#ffffff",
+        "play_icon_size": 38,
+        "play_icon_nudge": 8,
+        "play_hover_scale": 112,
+        "play_pulse": true,
+        "play_pulse_color": "#ffffff",
+        "play_pulse_spread": 26,
+        "play_pulse_speed": 2800
       }
     },
-    "home_video_section": {
-      "type": "itm-video-section",
-      "disabled": true,
-      "name": "Full-Width Video (legacy, disabled)",
+    "features": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "item_69Xxkw": {
+          "type": "item",
+          "settings": {
+            "title": "Lifetime Warranty",
+            "text": "Every Teng Tools hand tool is backed by a lifetime warranty — built to be the last tool you ever need to buy."
+          }
+        },
+        "item_RapjVn": {
+          "type": "item",
+          "settings": {
+            "title": "Made For Professionals",
+            "text": "Swedish-designed, independently tested and trusted by tradespeople across Australia."
+          }
+        },
+        "item_n6AdgC": {
+          "type": "item",
+          "settings": {
+            "title": "Built To Last",
+            "text": "The TC Tray modular storage system keeps every tool organised, protected and ready for the job."
+          }
+        }
+      },
+      "block_order": [
+        "item_69Xxkw",
+        "item_RapjVn",
+        "item_n6AdgC"
+      ],
+      "name": "ITM Features (Icons)",
       "settings": {
-        "video": null,
-        "video_url": "",
-        "video_title": "",
-        "show_on_desktop": true,
-        "show_on_mobile": true,
-        "autoplay": true,
-        "loop": true,
-        "muted": true,
-        "controls": false,
-        "desktop_height": 600,
-        "mobile_height": 420,
-        "bg": "#000000",
+        "section_use_scheme": false,
+        "section_fill_scheme": "",
+        "section_bg": "#ffffff",
+        "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
         "padding_top": 0,
         "padding_bottom": 0,
-        "padding_bg": "#ffffff"
-      }
-    },
-    "ws_hero_split": {
-      "type": "itm-ws-hero-split",
-      "disabled": true,
-      "name": "Hero Split",
-      "settings": {
-        "desktop_layout": "split",
-        "mobile_layout": "single",
-        "mobile_panel": "image",
-        "desktop_height": 700,
-        "mobile_height": 510,
-        "mob_overlay_padding_top": 128,
-        "mob_overlay_padding_bottom": 24,
-        "mob_heading_font_size": 22,
-        "mob_subtext_font_size": 14,
-        "mob_btn_font_size": 13,
-        "mob_btn_padding_top": 12,
-        "mob_btn_padding_bottom": 12,
-        "mob_btn_padding_left": 24,
-        "mob_btn_padding_right": 24,
-        "mob_btn_min_height": 0,
-        "mob_btn_group_margin_top": 4,
-        "mob_btn_group_margin_bottom": 0,
-        "left_image": "shopify://shop_images/004-PRECISION-ADJUST_1.webp",
-        "left_image_url": "https://cdn.shopify.com/s/files/1/0778/6928/5630/files/KE-use-kitchen-1.webp?v=1780980800",
-        "mobile_image_url": "",
-        "heading": "Bring back the edge",
-        "subtext": "From kitchen knives to pocket blades and workshop tools — the right sharpener for every edge you own.",
-        "subtext_max_width": 620,
-        "tags": "",
-        "tag1_label": "",
-        "tag1_link": "",
-        "tag2_label": "",
-        "tag2_link": "",
-        "tag3_label": "",
-        "tag3_link": "",
-        "tag4_label": "",
-        "tag4_link": "",
-        "tag5_label": "",
-        "tag5_link": "",
-        "btn_font_size": 12,
-        "btn_font_weight": "700",
-        "btn_text_transform": "uppercase",
-        "btn_letter_spacing": 4,
-        "btn_padding_top": 12,
-        "btn_padding_bottom": 12,
-        "btn_padding_left": 22,
-        "btn_padding_right": 18,
-        "btn_min_height": 46,
-        "btn_group_margin_top": 4,
-        "btn_group_margin_bottom": 0,
-        "btn_border_radius": 0,
-        "cta_label": "SHOP SHARPENERS",
-        "cta_link": "/collections/all",
-        "cta_style": "filled",
-        "cta_arrow": true,
-        "cta_text_color": "#000000",
-        "cta_border_color": "#e30613",
-        "cta_fill_color": "#e30613",
-        "cta_skew": -21,
-        "cta2_label": "find best sharpener for me",
-        "cta2_link": "",
-        "cta2_quiz_id": "",
-        "cta2_style": "filled",
-        "cta2_arrow": true,
-        "cta2_text_color": "#ffffff",
-        "cta2_border_color": "#ffffff",
-        "cta2_fill_color": "",
-        "cta2_skew": -21,
-        "cta2_glow": true,
-        "cta_position": "middle-left",
-        "video": null,
-        "video_url": "",
-        "slideshow_autoplay": true,
-        "slideshow_speed": 5,
-        "show_arrows": true,
-        "show_dots": true
-      }
-    },
-    "itm_ws_hero_split_cwaKHU": {
-      "type": "itm-ws-hero-split",
-      "disabled": true,
-      "name": "Hero Split",
-      "settings": {
-        "desktop_layout": "split",
-        "mobile_layout": "single",
-        "mobile_panel": "image",
-        "desktop_height": 700,
-        "mobile_height": 510,
-        "mob_overlay_padding_top": 128,
-        "mob_overlay_padding_bottom": 24,
-        "mob_heading_font_size": 22,
-        "mob_subtext_font_size": 14,
-        "mob_btn_font_size": 13,
-        "mob_btn_padding_top": 12,
-        "mob_btn_padding_bottom": 12,
-        "mob_btn_padding_left": 24,
-        "mob_btn_padding_right": 24,
-        "mob_btn_min_height": 0,
-        "mob_btn_group_margin_top": 4,
-        "mob_btn_group_margin_bottom": 0,
-        "left_image": "shopify://shop_images/004-PRECISION-ADJUST_1.webp",
-        "left_image_url": "https://cdn.shopify.com/s/files/1/0778/6928/5630/files/KE-use-kitchen-1.webp?v=1780980800",
-        "mobile_image_url": "",
-        "heading": "GET DAD SOMETHING HE WILL ACTUALLY USE THIS FATHERS DAY",
-        "subtext": "From kitchen knives to pocket blades and workshop tools — the right sharpener for every edge you own.",
-        "subtext_max_width": 620,
-        "tags": "",
-        "tag1_label": "",
-        "tag1_link": "",
-        "tag2_label": "",
-        "tag2_link": "",
-        "tag3_label": "",
-        "tag3_link": "",
-        "tag4_label": "",
-        "tag4_link": "",
-        "tag5_label": "",
-        "tag5_link": "",
-        "btn_font_size": 12,
-        "btn_font_weight": "700",
-        "btn_text_transform": "uppercase",
-        "btn_letter_spacing": 4,
-        "btn_padding_top": 12,
-        "btn_padding_bottom": 12,
-        "btn_padding_left": 22,
-        "btn_padding_right": 18,
-        "btn_min_height": 46,
-        "btn_group_margin_top": 4,
-        "btn_group_margin_bottom": 0,
-        "btn_border_radius": 0,
-        "cta_label": "SHOP FATHERS DAY SPECIALS",
-        "cta_link": "/collections/all",
-        "cta_style": "filled",
-        "cta_arrow": true,
-        "cta_text_color": "#000000",
-        "cta_border_color": "#e30613",
-        "cta_fill_color": "#e30613",
-        "cta_skew": -21,
-        "cta2_label": "",
-        "cta2_link": "",
-        "cta2_quiz_id": "",
-        "cta2_style": "filled",
-        "cta2_arrow": true,
-        "cta2_text_color": "#ffffff",
-        "cta2_border_color": "#e30613",
-        "cta2_fill_color": "#e30613",
-        "cta2_skew": -21,
-        "cta2_glow": true,
-        "cta_position": "middle-left",
-        "video": null,
-        "video_url": "",
-        "slideshow_autoplay": true,
-        "slideshow_speed": 5,
-        "show_arrows": true,
-        "show_dots": true
+        "padding_bg": "#f2f2f2",
+        "icon_color": "#000000",
+        "title_size": 18,
+        "title_size_mobile": 12,
+        "title_weight": "800",
+        "desc_size": 14,
+        "desc_size_mobile": 10,
+        "desc_weight": "400"
       }
     },
     "itm_main_shop_by_category_yy7X6n": {
@@ -639,278 +664,12 @@
         "padding_bottom": 60
       }
     },
-    "itm_mobile_video_hero_edGwdH": {
-      "type": "itm-mobile-video-hero",
-      "disabled": true,
-      "name": "Mobile Video Hero",
-      "settings": {
-        "video": null,
-        "video_url": "",
-        "height": 420,
-        "bg": "#000000",
-        "padding_top": 0,
-        "padding_bottom": 40,
-        "padding_bg": "#f2f2f2"
-      }
-    },
-    "slideshow_rJwghf": {
-      "type": "itm-main-slideshow",
-      "blocks": {
-        "slide_eHLmPW": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/ws-hero-1.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center"
-          }
-        },
-        "slide_raVbTM": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/ws-hero-2.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center"
-          }
-        },
-        "slide_9CGrPc": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/ws-hero-3.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center"
-          }
-        },
-        "slide_tjQYqa": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/ws-hero-4.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center"
-          }
-        },
-        "slide_G4Nc4M": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/ws-hero-5.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center"
-          }
-        }
-      },
-      "block_order": [
-        "slide_eHLmPW",
-        "slide_raVbTM",
-        "slide_9CGrPc",
-        "slide_tjQYqa",
-        "slide_G4Nc4M"
-      ],
-      "disabled": true,
-      "name": "t:sections.slideshow.presets.name",
-      "settings": {
-        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
-        "layout": "full_bleed",
-        "slide_height": "medium",
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "image_behavior": "ambient",
-        "show_text_below": false,
-        "accessibility_info": "Slideshow about our brand"
-      }
-    },
-    "cats": {
-      "type": "itm-main-category-grid",
-      "blocks": {
-        "category_tmgxMy": {
-          "type": "category",
-          "settings": {
-            "collection": "portable-pocket-knife-sharpeners",
-            "image": "shopify://shop_images/d54aece8f0e2dbe61655eeaa24607666.jpg",
-            "hover_image": "shopify://shop_images/510f8f60c81ffde8a549a7c9b763d2c2.jpg",
-            "title": ""
-          }
-        },
-        "category_pMmtb7": {
-          "type": "category",
-          "settings": {
-            "collection": "benchtop-knife-sharpeners",
-            "hover_image": "shopify://shop_images/ec378b9abbd18ba91557b6b0cab83a06.jpg",
-            "title": ""
-          }
-        },
-        "category_f7xwmW": {
-          "type": "category",
-          "settings": {
-            "collection": "electric-knife-sharpeners",
-            "image": "shopify://shop_images/9004b8b7f0a9384e9869831f3bf38637.jpg",
-            "hover_image": "shopify://shop_images/eyJidWNrZXQiOiJ3ZWItbmluamEtaW1hZ2VzIiwia2V5Ijoid29ya3NoYXJwdG9vbHMyXC9jb250ZW50LWZpbGVcL1dTS1RTLUtPMi1JXzkuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImhlaWdodCI6NjAwLCJmaXQiOiJ.webp",
-            "title": ""
-          }
-        },
-        "category_T4gjyA": {
-          "type": "category",
-          "settings": {
-            "collection": "accessories-consumables",
-            "image": "shopify://shop_images/4a73572cd79466d155b9200ab73644fc.jpg",
-            "hover_image": "shopify://shop_images/9d3e4e06dc65bdee622bbb6efbc98fc5.jpg",
-            "title": ""
-          }
-        }
-      },
-      "block_order": [
-        "category_tmgxMy",
-        "category_pMmtb7",
-        "category_f7xwmW",
-        "category_T4gjyA"
-      ],
-      "disabled": true,
-      "custom_css": [
-        "h2 {text-align: center;}"
-      ],
-      "name": "ITM Homepage Categories",
-      "settings": {
-        "heading": "SHOP TENG TOOLS",
-        "columns": 4,
-        "color_scheme": "scheme-1",
-        "padding_top": 12,
-        "padding_bottom": 20
-      }
-    },
-    "features": {
-      "type": "itm-main-icon-features",
-      "blocks": {
-        "item_69Xxkw": {
-          "type": "item",
-          "settings": {
-            "icon": "shopify://shop_images/ws-3yr-icon.webp",
-            "title": "Lifetime Warranty",
-            "text": "Every Teng Tools hand tool is backed by a lifetime warranty — built to be the last tool you ever need to buy."
-          }
-        },
-        "item_RapjVn": {
-          "type": "item",
-          "settings": {
-            "icon": "shopify://shop_images/ws-usa-icon.webp",
-            "title": "Made For Professionals",
-            "text": "Swedish-designed, independently tested and trusted by tradespeople across Australia."
-          }
-        },
-        "item_n6AdgC": {
-          "type": "item",
-          "settings": {
-            "icon": "shopify://shop_images/ws-wc-icon.webp",
-            "title": "Built To Last",
-            "text": "The TC Tray modular storage system keeps every tool organised, protected and ready for the job."
-          }
-        }
-      },
-      "block_order": [
-        "item_69Xxkw",
-        "item_RapjVn",
-        "item_n6AdgC"
-      ],
-      "name": "ITM Features (Icons)",
-      "settings": {
-        "section_use_scheme": false,
-        "section_fill_scheme": "",
-        "section_bg": "#ffffff",
-        "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "padding_bg": "#f2f2f2",
-        "icon_color": "#000000",
-        "title_size": 18,
-        "title_size_mobile": 12,
-        "title_weight": "800",
-        "desc_size": 14,
-        "desc_size_mobile": 10,
-        "desc_weight": "400"
-      }
-    },
-    "testimonial_hero_FHJ9rn": {
-      "type": "itm-main-testimonial-hero",
-      "disabled": true,
-      "name": "Testimonial hero",
-      "settings": {
-        "blog": "testimonial",
-        "post_limit": 5,
-        "section_heading": "",
-        "card_heading": "WHAT OUR CUSTOMERS SAY",
-        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
-        "padding_top": 12,
-        "padding_bottom": 12
-      }
-    },
-    "vidHero": {
-      "type": "itm-main-video-hero",
-      "name": "ITM Video Hero (YT) — Teng Tools \"Get Organised\"",
-      "settings": {
-        "heading": "GET ORGANISED™",
-        "body": "<p>Teng Tools' TC Tray system clicks every tray together into one seamless, modular storage solution — so every tool has its place.</p>",
-        "youtube_id": "l1A7gnJ7EIw",
-        "height": 80,
-        "autoplay": false,
-        "controls": false,
-        "color_scheme": "scheme-4"
-      }
-    },
-    "ws_featured_products": {
-      "type": "itm-ws-featured-products",
-      "disabled": true,
-      "name": "Featured Products (needs real handles)",
-      "settings": {
-        "heading": "FEATURED PRODUCTS",
-        "product_handles": "",
-        "review_counts": "",
-        "view_all_link": "/collections/all"
-      }
-    },
     "itm_category_image_grid_V3iHkc": {
       "type": "itm-category-image-grid",
       "blocks": {
         "category_RTUrFW": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/teng-category-tool-storage.webp",
             "title": "Tool Storage",
             "subtitle": "Shop now",
             "link": "/collections/tool-storage"
@@ -919,7 +678,6 @@
         "category_XahK4k": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/teng-category-sockets.webp",
             "title": "Sockets & Accessories",
             "subtitle": "Shop now",
             "link": "/collections/sockets-accessories"
@@ -928,7 +686,6 @@
         "category_GkqUYX": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/teng-category-torque-tools.webp",
             "title": "Torque Tools",
             "subtitle": "Shop now",
             "link": "/collections/torque-tools"
@@ -937,7 +694,6 @@
         "category_VqaFM4": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/teng-category-tool-sets.webp",
             "title": "Tool Sets & Kits",
             "subtitle": "Shop now",
             "link": "/collections/tool-kits"
@@ -980,64 +736,12 @@
         "subtitle_color": "#ffffff"
       }
     },
-    "ws_reviews": {
-      "type": "itm-ws-reviews",
-      "blocks": {
-        "review_jake": {
-          "type": "review",
-          "settings": {
-            "name": "Jake Matthews",
-            "initials": "JM",
-            "avatar_color": "#4a7cb5",
-            "time": "",
-            "title": "Race Technician, T-Sport Bernau",
-            "text": "When you've got ten seconds to change everything, your tools can't fail.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 0,
-            "helpful_down": 0
-          }
-        },
-        "review_graham": {
-          "type": "review",
-          "settings": {
-            "name": "Graham Finch",
-            "initials": "GF",
-            "avatar_color": "#7a8ea0",
-            "time": "",
-            "title": "Senior Maintenance Excellence Manager",
-            "text": "Teng Tools gives us controlled, traceable tool management across the whole site — every tool has a place, and every tray tells you if something's missing.",
-            "product_handle": "",
-            "photo_extra": 0,
-            "helpful_up": 0,
-            "helpful_down": 0
-          }
-        }
-      },
-      "block_order": [
-        "review_jake",
-        "review_graham"
-      ],
-      "name": "Customer Reviews (only 2 real — see notes)",
-      "settings": {
-        "heading": "What Professionals Say",
-        "review_count_text": "",
-        "star_color": "#c8922a",
-        "bg_color": "#f5f5f5",
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "autoplay_speed": 50,
-        "autoplay_direction": "left",
-        "hover_border_color": "#e30613"
-      }
-    },
     "itm_category_icons_MJTKDw": {
       "type": "itm-category-icons",
       "blocks": {
         "icon_hC3bPa": {
           "type": "icon",
           "settings": {
-            "icon": "",
             "label": "Tool Storage",
             "link": "/collections/tool-storage"
           }
@@ -1045,7 +749,6 @@
         "icon_CFbq9x": {
           "type": "icon",
           "settings": {
-            "icon": "",
             "label": "Tool Kits",
             "link": "/collections/tool-kits"
           }
@@ -1131,6 +834,70 @@
         "padding_h_mobile": 0
       }
     },
+    "vidHero": {
+      "type": "itm-main-video-hero",
+      "name": "ITM Video Hero (YT) — Teng Tools \"Get Organised\"",
+      "settings": {
+        "heading": "GET ORGANISED™",
+        "body": "<p>Teng Tools' TC Tray system clicks every tray together into one seamless, modular storage solution — so every tool has its place.</p>",
+        "youtube_id": "l1A7gnJ7EIw",
+        "height": 80,
+        "autoplay": false,
+        "controls": false,
+        "color_scheme": "scheme-4"
+      }
+    },
+    "ws_reviews": {
+      "type": "itm-ws-reviews",
+      "blocks": {
+        "review_jake": {
+          "type": "review",
+          "settings": {
+            "name": "Jake Matthews",
+            "initials": "JM",
+            "avatar_color": "#4a7cb5",
+            "time": "",
+            "title": "Race Technician, T-Sport Bernau",
+            "text": "When you've got ten seconds to change everything, your tools can't fail.",
+            "product_handle": "",
+            "photo_extra": 0,
+            "helpful_up": 0,
+            "helpful_down": 0
+          }
+        },
+        "review_graham": {
+          "type": "review",
+          "settings": {
+            "name": "Graham Finch",
+            "initials": "GF",
+            "avatar_color": "#7a8ea0",
+            "time": "",
+            "title": "Senior Maintenance Excellence Manager",
+            "text": "Teng Tools gives us controlled, traceable tool management across the whole site — every tool has a place, and every tray tells you if something's missing.",
+            "product_handle": "",
+            "photo_extra": 0,
+            "helpful_up": 0,
+            "helpful_down": 0
+          }
+        }
+      },
+      "block_order": [
+        "review_jake",
+        "review_graham"
+      ],
+      "name": "Customer Reviews (only 2 real — see notes)",
+      "settings": {
+        "heading": "What Professionals Say",
+        "review_count_text": "",
+        "star_color": "#c8922a",
+        "bg_color": "#f5f5f5",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "autoplay_speed": 50,
+        "autoplay_direction": "left",
+        "hover_border_color": "#e30613"
+      }
+    },
     "featured_blog_yf4hXf": {
       "type": "itm-home-blog",
       "name": "Home Blog Grid",
@@ -1212,6 +979,597 @@
         "padding_bottom": 24
       }
     },
+    "fathers_day_categories": {
+      "type": "itm-main-shop-by-category",
+      "blocks": {
+        "product_badge_dUQTbD": {
+          "type": "product_badge",
+          "settings": {
+            "product": "wskts-ko2",
+            "top_badge": "DAD WILL LOVE IT",
+            "top_badge_icon_size": 21,
+            "top_badge_font_size": 8,
+            "top_badge_padding": 2,
+            "badge_bg": "#e30613",
+            "badge_color": "#000000",
+            "bottom_badge": "DESIGNED TO SHARPEN EVERYTHING",
+            "bottom_badge_font_size": 9,
+            "bottom_badge_bg": "#1a1a1a",
+            "bottom_badge_bg_opacity": 70,
+            "bottom_badge_color": "#ffffff"
+          }
+        },
+        "product_badge_xQKCzk": {
+          "type": "product_badge",
+          "settings": {
+            "product": "wskts-ko2-elt",
+            "top_badge": "BEST OF THE BEST",
+            "top_badge_icon_size": 21,
+            "top_badge_font_size": 8,
+            "top_badge_padding": 2,
+            "badge_bg": "#e30613",
+            "badge_color": "#000000",
+            "bottom_badge": "DESIGNED TO SHARPEN EVERYTHING",
+            "bottom_badge_font_size": 9,
+            "bottom_badge_bg": "#1a1a1a",
+            "bottom_badge_bg_opacity": 70,
+            "bottom_badge_color": "#ffffff"
+          }
+        },
+        "product_badge_96UJeX": {
+          "type": "product_badge",
+          "settings": {
+            "product": "wsbchwht-i",
+            "top_badge": "A TOP PICK",
+            "top_badge_icon_size": 21,
+            "top_badge_font_size": 8,
+            "top_badge_padding": 2,
+            "badge_bg": "#e30613",
+            "badge_color": "#000000",
+            "bottom_badge": "DESIGNED FOR SHARPENING KITCHEN KNIVES",
+            "bottom_badge_font_size": 10,
+            "bottom_badge_bg": "#1a1a1a",
+            "bottom_badge_bg_opacity": 75,
+            "bottom_badge_color": "#ffffff"
+          }
+        },
+        "product_badge_E7h6xw": {
+          "type": "product_badge",
+          "settings": {
+            "product": "wskts2-i-1",
+            "top_badge": "A TOP PICK",
+            "top_badge_icon_size": 21,
+            "top_badge_font_size": 8,
+            "top_badge_padding": 2,
+            "badge_bg": "#e30613",
+            "badge_color": "#000000",
+            "bottom_badge": "DESIGNED FOR SHARPENING EVERYTHING",
+            "bottom_badge_font_size": 10,
+            "bottom_badge_bg": "#1a1a1a",
+            "bottom_badge_bg_opacity": 75,
+            "bottom_badge_color": "#ffffff"
+          }
+        },
+        "product_badge_QwF37f": {
+          "type": "product_badge",
+          "settings": {
+            "product": "wsbchpaj-i",
+            "top_badge": "A TOP PICK",
+            "top_badge_icon_size": 21,
+            "top_badge_font_size": 8,
+            "top_badge_padding": 2,
+            "badge_bg": "#e30613",
+            "badge_color": "#000000",
+            "bottom_badge": "DESIGNED FOR SHARPENING KITCHEN KNIVES",
+            "bottom_badge_font_size": 10,
+            "bottom_badge_bg": "#1a1a1a",
+            "bottom_badge_bg_opacity": 75,
+            "bottom_badge_color": "#ffffff"
+          }
+        },
+        "tab_diy": {
+          "type": "tab",
+          "settings": {
+            "collection": "the-diyer-dad",
+            "label": "The DIY'er Dad",
+            "subcollections": []
+          }
+        },
+        "tab_angler": {
+          "type": "tab",
+          "settings": {
+            "collection": "the-angler-dad",
+            "label": "The Angler Dad",
+            "subcollections": []
+          }
+        },
+        "tab_homechef": {
+          "type": "tab",
+          "settings": {
+            "collection": "the-home-chef-dad",
+            "label": "The Home Chef Dad",
+            "subcollections": []
+          }
+        },
+        "tab_hunter": {
+          "type": "tab",
+          "settings": {
+            "collection": "the-hunter-dad",
+            "label": "The Hunter Dad",
+            "subcollections": []
+          }
+        },
+        "badge_gfs": {
+          "type": "product_badge",
+          "settings": {
+            "product": "wsgfs221",
+            "top_badge": "BEST FOR FISHING",
+            "top_badge_icon_size": 21,
+            "top_badge_font_size": 8,
+            "top_badge_padding": 2,
+            "badge_bg": "#e30613",
+            "badge_color": "#000000",
+            "bottom_badge": "DESIGNED FOR SHARPENING HOOKS & FILLET KNIVES",
+            "bottom_badge_font_size": 10,
+            "bottom_badge_bg": "#1a1a1a",
+            "bottom_badge_bg_opacity": 75,
+            "bottom_badge_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "product_badge_dUQTbD",
+        "product_badge_xQKCzk",
+        "product_badge_96UJeX",
+        "product_badge_E7h6xw",
+        "product_badge_QwF37f",
+        "tab_diy",
+        "tab_angler",
+        "tab_homechef",
+        "tab_hunter",
+        "badge_gfs"
+      ],
+      "disabled": true,
+      "name": "Father's Day - Shop by Category (WS legacy, disabled — not Teng relevant)",
+      "settings": {
+        "heading": "Find the right sharpener for Dad",
+        "anchor_id": "fathers-day-collection",
+        "products_per_row": 4,
+        "products_per_row_mobile": 2,
+        "mobile_border_width": 1,
+        "products_limit": 8,
+        "pill_height": 38,
+        "pill_font_size": 14,
+        "pill_font_weight": "400",
+        "pill_padding_h": 12,
+        "pill_radius": 100,
+        "pill_border_width": 2,
+        "pill_gap": 8,
+        "pill_inactive_color": "#000000",
+        "pill_active_bg": "#000000",
+        "pill_active_color": "#ffffff",
+        "show_view_all": true,
+        "view_all_style": "underline",
+        "view_all_height": 44,
+        "view_all_radius": 4,
+        "view_all_padding": 28,
+        "view_all_font_size": 10,
+        "view_all_font_weight": "700",
+        "view_all_bg": "#1a1a1a",
+        "view_all_color": "#ffffff",
+        "view_all_link_color": "#1a1a1a",
+        "view_all_link_size": 10,
+        "view_all_link_weight": "700",
+        "card_img_bg": "#ffffff",
+        "arrow_color": "#000000",
+        "card_band_bg": "#2e2e2e",
+        "card_band_text": "#ffffff",
+        "show_reviews": true,
+        "star_size": 20,
+        "star_size_mobile": 11,
+        "star_color": "#e30613",
+        "star_empty_color": "#e30613",
+        "review_count_size": 14,
+        "review_count_size_mobile": 9,
+        "review_count_color": "#e3e3e3",
+        "title_size": 16,
+        "title_size_mobile": 11,
+        "title_weight": "700",
+        "text_align": "left",
+        "show_price": true,
+        "price_size": 16,
+        "price_size_mobile": 10,
+        "price_weight": "400",
+        "price_color": "#ffffff",
+        "show_atc": true,
+        "atc_show_arrow": true,
+        "atc_height": 40,
+        "atc_height_mobile": 34,
+        "atc_font_size": 12,
+        "atc_font_size_mobile": 10,
+        "atc_font_weight": "700",
+        "atc_bg": "#e30613",
+        "atc_color": "#000000",
+        "actions_divider_color": "#ffffff",
+        "list_btn_bg": "#e30613",
+        "list_icon_size": 22,
+        "list_icon_size_mobile": 18,
+        "list_plus_size": 12,
+        "list_plus_bg": "#000000",
+        "list_plus_color": "#ffc107",
+        "list_plus_bottom": 4,
+        "list_plus_right": 3,
+        "list_plus_size_mobile": 10,
+        "list_plus_bottom_mobile": 4,
+        "list_plus_right_mobile": 2,
+        "color_scheme": "",
+        "bottom_bg": "#ffffff",
+        "grid_bg": "#f2f2f2",
+        "padding_top": 40,
+        "padding_bottom": 60
+      }
+    },
+    "home_video_section": {
+      "type": "itm-video-section",
+      "disabled": true,
+      "name": "Full-Width Video (legacy, disabled)",
+      "settings": {
+        "video_url": "",
+        "video_title": "",
+        "show_on_desktop": true,
+        "show_on_mobile": true,
+        "autoplay": true,
+        "loop": true,
+        "muted": true,
+        "controls": false,
+        "desktop_height": 600,
+        "mobile_height": 420,
+        "bg": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_bg": "#ffffff"
+      }
+    },
+    "ws_hero_split": {
+      "type": "itm-ws-hero-split",
+      "disabled": true,
+      "name": "Hero Split",
+      "settings": {
+        "desktop_layout": "split",
+        "mobile_layout": "single",
+        "mobile_panel": "image",
+        "desktop_height": 700,
+        "mobile_height": 510,
+        "mob_overlay_padding_top": 128,
+        "mob_overlay_padding_bottom": 24,
+        "mob_heading_font_size": 22,
+        "mob_subtext_font_size": 14,
+        "mob_btn_font_size": 13,
+        "mob_btn_padding_top": 12,
+        "mob_btn_padding_bottom": 12,
+        "mob_btn_padding_left": 24,
+        "mob_btn_padding_right": 24,
+        "mob_btn_min_height": 0,
+        "mob_btn_group_margin_top": 4,
+        "mob_btn_group_margin_bottom": 0,
+        "left_image_url": "https://cdn.shopify.com/s/files/1/0778/6928/5630/files/KE-use-kitchen-1.webp?v=1780980800",
+        "mobile_image_url": "",
+        "heading": "Bring back the edge",
+        "subtext": "From kitchen knives to pocket blades and workshop tools — the right sharpener for every edge you own.",
+        "subtext_max_width": 620,
+        "tags": "",
+        "tag1_label": "",
+        "tag1_link": "",
+        "tag2_label": "",
+        "tag2_link": "",
+        "tag3_label": "",
+        "tag3_link": "",
+        "tag4_label": "",
+        "tag4_link": "",
+        "tag5_label": "",
+        "tag5_link": "",
+        "btn_font_size": 12,
+        "btn_font_weight": "700",
+        "btn_text_transform": "uppercase",
+        "btn_letter_spacing": 4,
+        "btn_padding_top": 12,
+        "btn_padding_bottom": 12,
+        "btn_padding_left": 22,
+        "btn_padding_right": 18,
+        "btn_min_height": 46,
+        "btn_group_margin_top": 4,
+        "btn_group_margin_bottom": 0,
+        "btn_border_radius": 0,
+        "cta_label": "SHOP SHARPENERS",
+        "cta_link": "/collections/all",
+        "cta_style": "filled",
+        "cta_arrow": true,
+        "cta_text_color": "#000000",
+        "cta_border_color": "#e30613",
+        "cta_fill_color": "#e30613",
+        "cta_skew": -21,
+        "cta2_label": "find best sharpener for me",
+        "cta2_link": "",
+        "cta2_quiz_id": "",
+        "cta2_style": "filled",
+        "cta2_arrow": true,
+        "cta2_text_color": "#ffffff",
+        "cta2_border_color": "#ffffff",
+        "cta2_fill_color": "",
+        "cta2_skew": -21,
+        "cta2_glow": true,
+        "cta_position": "middle-left",
+        "video_url": "",
+        "slideshow_autoplay": true,
+        "slideshow_speed": 5,
+        "show_arrows": true,
+        "show_dots": true
+      }
+    },
+    "itm_ws_hero_split_cwaKHU": {
+      "type": "itm-ws-hero-split",
+      "disabled": true,
+      "name": "Hero Split",
+      "settings": {
+        "desktop_layout": "split",
+        "mobile_layout": "single",
+        "mobile_panel": "image",
+        "desktop_height": 700,
+        "mobile_height": 510,
+        "mob_overlay_padding_top": 128,
+        "mob_overlay_padding_bottom": 24,
+        "mob_heading_font_size": 22,
+        "mob_subtext_font_size": 14,
+        "mob_btn_font_size": 13,
+        "mob_btn_padding_top": 12,
+        "mob_btn_padding_bottom": 12,
+        "mob_btn_padding_left": 24,
+        "mob_btn_padding_right": 24,
+        "mob_btn_min_height": 0,
+        "mob_btn_group_margin_top": 4,
+        "mob_btn_group_margin_bottom": 0,
+        "left_image_url": "https://cdn.shopify.com/s/files/1/0778/6928/5630/files/KE-use-kitchen-1.webp?v=1780980800",
+        "mobile_image_url": "",
+        "heading": "GET DAD SOMETHING HE WILL ACTUALLY USE THIS FATHERS DAY",
+        "subtext": "From kitchen knives to pocket blades and workshop tools — the right sharpener for every edge you own.",
+        "subtext_max_width": 620,
+        "tags": "",
+        "tag1_label": "",
+        "tag1_link": "",
+        "tag2_label": "",
+        "tag2_link": "",
+        "tag3_label": "",
+        "tag3_link": "",
+        "tag4_label": "",
+        "tag4_link": "",
+        "tag5_label": "",
+        "tag5_link": "",
+        "btn_font_size": 12,
+        "btn_font_weight": "700",
+        "btn_text_transform": "uppercase",
+        "btn_letter_spacing": 4,
+        "btn_padding_top": 12,
+        "btn_padding_bottom": 12,
+        "btn_padding_left": 22,
+        "btn_padding_right": 18,
+        "btn_min_height": 46,
+        "btn_group_margin_top": 4,
+        "btn_group_margin_bottom": 0,
+        "btn_border_radius": 0,
+        "cta_label": "SHOP FATHERS DAY SPECIALS",
+        "cta_link": "/collections/all",
+        "cta_style": "filled",
+        "cta_arrow": true,
+        "cta_text_color": "#000000",
+        "cta_border_color": "#e30613",
+        "cta_fill_color": "#e30613",
+        "cta_skew": -21,
+        "cta2_label": "",
+        "cta2_link": "",
+        "cta2_quiz_id": "",
+        "cta2_style": "filled",
+        "cta2_arrow": true,
+        "cta2_text_color": "#ffffff",
+        "cta2_border_color": "#e30613",
+        "cta2_fill_color": "#e30613",
+        "cta2_skew": -21,
+        "cta2_glow": true,
+        "cta_position": "middle-left",
+        "video_url": "",
+        "slideshow_autoplay": true,
+        "slideshow_speed": 5,
+        "show_arrows": true,
+        "show_dots": true
+      }
+    },
+    "itm_mobile_video_hero_edGwdH": {
+      "type": "itm-mobile-video-hero",
+      "disabled": true,
+      "name": "Mobile Video Hero",
+      "settings": {
+        "video_url": "",
+        "height": 420,
+        "bg": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "padding_bg": "#f2f2f2"
+      }
+    },
+    "slideshow_rJwghf": {
+      "type": "itm-main-slideshow",
+      "blocks": {
+        "slide_eHLmPW": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_raVbTM": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_9CGrPc": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_tjQYqa": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_G4Nc4M": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_eHLmPW",
+        "slide_raVbTM",
+        "slide_9CGrPc",
+        "slide_tjQYqa",
+        "slide_G4Nc4M"
+      ],
+      "disabled": true,
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "ambient",
+        "show_text_below": false,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "cats": {
+      "type": "itm-main-category-grid",
+      "blocks": {
+        "category_tmgxMy": {
+          "type": "category",
+          "settings": {
+            "collection": "portable-pocket-knife-sharpeners",
+            "title": ""
+          }
+        },
+        "category_pMmtb7": {
+          "type": "category",
+          "settings": {
+            "collection": "benchtop-knife-sharpeners",
+            "title": ""
+          }
+        },
+        "category_f7xwmW": {
+          "type": "category",
+          "settings": {
+            "collection": "electric-knife-sharpeners",
+            "title": ""
+          }
+        },
+        "category_T4gjyA": {
+          "type": "category",
+          "settings": {
+            "collection": "accessories-consumables",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_tmgxMy",
+        "category_pMmtb7",
+        "category_f7xwmW",
+        "category_T4gjyA"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "h2 {text-align: center;}"
+      ],
+      "name": "ITM Homepage Categories",
+      "settings": {
+        "heading": "SHOP TENG TOOLS",
+        "columns": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 12,
+        "padding_bottom": 20
+      }
+    },
+    "testimonial_hero_FHJ9rn": {
+      "type": "itm-main-testimonial-hero",
+      "disabled": true,
+      "name": "Testimonial hero",
+      "settings": {
+        "blog": "testimonial",
+        "post_limit": 5,
+        "section_heading": "",
+        "card_heading": "WHAT OUR CUSTOMERS SAY",
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "ws_featured_products": {
+      "type": "itm-ws-featured-products",
+      "disabled": true,
+      "name": "Featured Products (needs real handles)",
+      "settings": {
+        "heading": "FEATURED PRODUCTS",
+        "product_handles": "",
+        "review_counts": "",
+        "view_all_link": "/collections/all"
+      }
+    },
     "fp": {
       "type": "itm-main-featured-product-hero",
       "disabled": true,
@@ -1224,7 +1582,6 @@
         "color_scheme": "scheme-4",
         "kicker": "NEW RELEASE",
         "name_override": "",
-        "custom_image": "",
         "hero_height": 20,
         "feather_center": -80,
         "feather_radius": 80,
@@ -1300,143 +1657,6 @@
         "cta_label": "MORE DETAILS",
         "cta_link": ""
       }
-    },
-    "promo_grid": {
-      "type": "itm-promo-grid",
-      "name": "Promo Grid",
-      "blocks": {
-        "tile_storage": {
-          "type": "tile",
-          "settings": {
-            "span_desktop": 5,
-            "layout": "split",
-            "image": "shopify://shop_images/teng-get-organised-campaign.webp",
-            "heading": "GET ORGANISED™",
-            "text": "<p>Modular TC Tray storage that clicks together into one seamless system.</p>",
-            "link": "/collections/tool-storage",
-            "btn_label": "SHOP TOOL STORAGE",
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff",
-            "btn_bg": "#e30613",
-            "btn_text": "#ffffff"
-          }
-        },
-        "video_organised": {
-          "type": "video",
-          "settings": {
-            "span_desktop": 7,
-            "poster": "shopify://shop_images/teng-category-torque-tools.webp",
-            "overlay_heading": "MADE FOR PROFESSIONALS",
-            "overlay_text": "Swedish-designed. Independently tested. Backed for life.",
-            "overlay_position": "bottom",
-            "overlay_color": "#ffffff"
-          }
-        },
-        "tile_sockets": {
-          "type": "tile",
-          "settings": {
-            "span_desktop": 4,
-            "span_mobile": 6,
-            "layout": "stacked",
-            "image": "shopify://shop_images/teng-category-sockets.webp",
-            "heading": "Sockets & Accessories",
-            "link": "/collections/sockets-and-accessories",
-            "btn_label": "SHOP NOW",
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff",
-            "btn_bg": "#e30613",
-            "btn_text": "#ffffff"
-          }
-        },
-        "tile_torque": {
-          "type": "tile",
-          "settings": {
-            "span_desktop": 4,
-            "span_mobile": 6,
-            "layout": "stacked",
-            "image": "shopify://shop_images/teng-category-torque-tools.webp",
-            "heading": "Torque Tools",
-            "link": "/collections/torque-tools",
-            "btn_label": "SHOP NOW",
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff",
-            "btn_bg": "#e30613",
-            "btn_text": "#ffffff"
-          }
-        },
-        "tile_kits": {
-          "type": "tile",
-          "settings": {
-            "span_desktop": 4,
-            "span_mobile": 12,
-            "layout": "split",
-            "image": "shopify://shop_images/teng-category-tool-sets.webp",
-            "heading": "Build Your Ultimate Tool Kit",
-            "link": "/collections/tool-kits",
-            "btn_label": "SHOP TOOL KITS",
-            "bg": "#e30613",
-            "text_color": "#ffffff",
-            "btn_bg": "#ffffff",
-            "btn_text": "#1a1a1a"
-          }
-        },
-        "banner_usp": {
-          "type": "banner",
-          "settings": {
-            "span_desktop": 12,
-            "heading": "LIFETIME WARRANTY ON EVERY TENG TOOL",
-            "text": "Free delivery over $99 · Made for professionals · Get Organised™",
-            "link": "/collections/all",
-            "btn_label": "SHOP ALL TOOLS",
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff",
-            "btn_bg": "#e30613",
-            "btn_text": "#ffffff"
-          }
-        },
-        "featured_a_product": {
-          "type": "featured_product",
-          "settings": {
-            "span_desktop": 8,
-            "eyebrow": "FEATURED",
-            "badge_text": "NEW",
-            "icon_1_preset": "shield",
-            "icon_1_label": "Lifetime Warranty",
-            "icon_2_preset": "refund",
-            "icon_2_label": "30-Day Money-Back",
-            "icon_3_preset": "truck",
-            "icon_3_label": "Free Delivery",
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff",
-            "btn_bg": "#e30613",
-            "btn_text": "#ffffff"
-          }
-        },
-        "reviews_panel": {
-          "type": "reviews",
-          "settings": {
-            "span_desktop": 4,
-            "heading": "What Professionals Say",
-            "fallback_quote": "When you've got ten seconds to change everything, your tools can't fail.",
-            "fallback_author": "Jake Matthews, Race Technician",
-            "manual_review_2_text": "Teng Tools gives us controlled, traceable tool management across the whole site.",
-            "manual_review_2_author": "Graham Finch, Maintenance Manager",
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff"
-          }
-        }
-      },
-      "block_order": [
-        "tile_storage",
-        "video_organised",
-        "tile_sockets",
-        "tile_torque",
-        "tile_kits",
-        "banner_usp",
-        "featured_a_product",
-        "reviews_panel"
-      ],
-      "settings": {}
     }
   },
   "order": [

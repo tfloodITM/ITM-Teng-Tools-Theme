@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/tengtools-logo-blk.png",
-    "logo_width": 180,
+    "logo": "shopify://shop_images/TengTools-logo-blk.avif",
+    "logo_width": 80,
     "favicon": "shopify://shop_images/tengu-mask.webp",
     "type_header_font": "montserrat_n7",
     "heading_scale": 100,
@@ -140,39 +140,6 @@
       }
     },
     "content_for_index": [],
-    "blocks": {
-      "855628211100114053": {
-        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
-        "disabled": false,
-        "settings": {}
-      },
-      "1967102994182284862": {
-        "type": "shopify://apps/paypal-pay-later-messaging/blocks/messaging/7f4cb7b9-066b-479a-a35c-56c0fddabee5",
-        "disabled": false,
-        "settings": {
-          "advanced_settings": false,
-          "product_locator": "",
-          "cart_locator": "",
-          "cart_drawer_locator": ""
-        }
-      },
-      "6159598353363395418": {
-        "type": "shopify://apps/google-youtube/blocks/store_widget/14ec7bd0-ac77-49a9-9417-90752398bdff",
-        "disabled": true,
-        "settings": {
-          "widget_position": "LEFT_BOTTOM",
-          "side_margin": 36,
-          "bottom_margin": 36,
-          "mobile_side_margin": 16,
-          "mobile_bottom_margin": 46
-        }
-      },
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {}
-      }
-    },
     "color_schemes": {
       "scheme-1": {
         "settings": {

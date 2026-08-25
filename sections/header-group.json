@@ -41,6 +41,42 @@
     "header": {
       "type": "header",
       "blocks": {
+        "trust_item_BT9Qf6": {
+          "type": "trust_item",
+          "settings": {
+            "icon_preset": "shield",
+            "icon_url": "",
+            "text": "Lifetime Warranty",
+            "link": ""
+          }
+        },
+        "trust_item_EJfqP8": {
+          "type": "trust_item",
+          "settings": {
+            "icon_preset": "star",
+            "icon_url": "",
+            "text": "Made For Professionals",
+            "link": ""
+          }
+        },
+        "trust_item_zJD8td": {
+          "type": "trust_item",
+          "settings": {
+            "icon_preset": "refund",
+            "icon_url": "",
+            "text": "30 Day Money-Back Guarantee",
+            "link": ""
+          }
+        },
+        "trust_item_nRyC3H": {
+          "type": "trust_item",
+          "settings": {
+            "icon_preset": "truck",
+            "icon_url": "",
+            "text": "Free Delivery over $99",
+            "link": ""
+          }
+        },
         "mm1001": {
           "type": "mega_item",
           "settings": {
@@ -52,7 +88,6 @@
         "mm1002": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Roll Cabinets",
             "button_label": "SHOP NOW",
@@ -62,7 +97,6 @@
         "mm1003": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Tool Chests",
             "button_label": "SHOP NOW",
@@ -72,7 +106,6 @@
         "mm1004": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Wall Cabinets",
             "button_label": "SHOP NOW",
@@ -82,7 +115,6 @@
         "mm1005": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Mobile Tool Storage",
             "button_label": "SHOP NOW",
@@ -92,9 +124,8 @@
         "mega_promo_storage": {
           "type": "mega_promo",
           "settings": {
-            "image": "shopify://shop_images/teng-get-organised-campaign.webp",
             "image_url": "",
-            "heading": "GET ORGANISED\u2122",
+            "heading": "GET ORGANISED™",
             "button_label": "SHOP TOOL STORAGE",
             "button_link": "/collections/tool-storage"
           }
@@ -110,7 +141,6 @@
         "mm1007": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Roller Cabinet Tool Kits",
             "button_label": "SHOP NOW",
@@ -120,7 +150,6 @@
         "mm1008": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Chest Tool Kits",
             "button_label": "SHOP NOW",
@@ -130,7 +159,6 @@
         "mm1009": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Portable Tool Kits",
             "button_label": "SHOP NOW",
@@ -140,7 +168,6 @@
         "mm1010": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Stack Tool Kits",
             "button_label": "SHOP NOW",
@@ -150,7 +177,6 @@
         "mega_promo_kits": {
           "type": "mega_promo",
           "settings": {
-            "image": "shopify://shop_images/teng-category-tool-sets.webp",
             "image_url": "",
             "heading": "BUILD YOUR ULTIMATE TOOL KIT",
             "button_label": "SHOP TOOL KITS",
@@ -168,7 +194,6 @@
         "mm1012": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Chrome Socket Sets",
             "button_label": "SHOP NOW",
@@ -178,7 +203,6 @@
         "mm1013": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Impact Sockets",
             "button_label": "SHOP NOW",
@@ -188,7 +212,6 @@
         "mm1014": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Ratchets & Handles",
             "button_label": "SHOP NOW",
@@ -198,7 +221,6 @@
         "mm1015": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "1000v Sockets",
             "button_label": "SHOP NOW",
@@ -216,7 +238,6 @@
         "mm1017": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Combination Spanners",
             "button_label": "SHOP NOW",
@@ -226,7 +247,6 @@
         "mm1018": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Ratchet Combination Spanners",
             "button_label": "SHOP NOW",
@@ -236,7 +256,6 @@
         "mm1019": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Spanner Sets",
             "button_label": "SHOP NOW",
@@ -246,7 +265,6 @@
         "mm1020": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Adjustable Wrenches",
             "button_label": "SHOP NOW",
@@ -264,7 +282,6 @@
         "mm1022": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Torque Wrenches",
             "button_label": "SHOP NOW",
@@ -274,7 +291,6 @@
         "mm1023": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Torque Screwdrivers",
             "button_label": "SHOP NOW",
@@ -284,7 +300,6 @@
         "mm1024": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Torque Multipliers",
             "button_label": "SHOP NOW",
@@ -294,7 +309,6 @@
         "mm1025": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Torque Tool Accessories",
             "button_label": "SHOP NOW",
@@ -312,7 +326,6 @@
         "mm1027": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Automotive Body & Panel",
             "button_label": "SHOP NOW",
@@ -322,7 +335,6 @@
         "mm1028": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Automotive Brake Tools",
             "button_label": "SHOP NOW",
@@ -332,7 +344,6 @@
         "mm1029": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Pullers",
             "button_label": "SHOP NOW",
@@ -342,7 +353,6 @@
         "mm1030": {
           "type": "mega_card",
           "settings": {
-            "image": null,
             "image_url": "",
             "label": "Tyre Tools",
             "button_label": "SHOP NOW",
@@ -437,46 +447,6 @@
             "layout": "link"
           }
         },
-        "trust_item_BT9Qf6": {
-          "type": "trust_item",
-          "settings": {
-            "icon_preset": "shield",
-            "icon": "shopify://shop_images/shield-svgrepo-com.svg",
-            "icon_url": "",
-            "text": "Lifetime Warranty",
-            "link": ""
-          }
-        },
-        "trust_item_EJfqP8": {
-          "type": "trust_item",
-          "settings": {
-            "icon_preset": "star",
-            "icon": "shopify://shop_images/star-sharp-svgrepo-com.svg",
-            "icon_url": "",
-            "text": "Made For Professionals",
-            "link": ""
-          }
-        },
-        "trust_item_zJD8td": {
-          "type": "trust_item",
-          "settings": {
-            "icon_preset": "refund",
-            "icon": "shopify://shop_images/redo-svgrepo-com.svg",
-            "icon_url": "",
-            "text": "30 Day Money-Back Guarantee",
-            "link": ""
-          }
-        },
-        "trust_item_nRyC3H": {
-          "type": "trust_item",
-          "settings": {
-            "icon_preset": "truck",
-            "icon": "shopify://shop_images/truck-speed-svgrepo-com.svg",
-            "icon_url": "",
-            "text": "Free Delivery over $99",
-            "link": ""
-          }
-        },
         "mega_item_GRYaj8": {
           "type": "mega_item",
           "settings": {
@@ -489,7 +459,7 @@
           "type": "mega_column",
           "settings": {
             "heading": "Support & Resources",
-            "menu": "support-resources-drop"
+            "menu": ""
           }
         }
       },
@@ -547,7 +517,7 @@
       "settings": {
         "logo_position": "top-left",
         "mobile_logo_position": "center",
-        "menu": "cro-menu",
+        "menu": "",
         "menu_type_desktop": "dropdown",
         "enable_mega_menu": true,
         "mega_accent_color": "#e30613",
@@ -565,22 +535,22 @@
         "search_height": 44,
         "search_max_width_mobile": 1200,
         "search_height_mobile": 34,
-        "header_background_color": "#f2f2f2",
-        "header_background_gradient": "linear-gradient(115deg, #f0f0f0 0%, #ffffff 55%, #fbeaea 100%)",
+        "header_background_color": "#EB1D25",
+        "header_background_gradient": "",
         "header_text_color": "#1a1a1a",
-        "header_divider_color": "#e30613",
-        "menu_bar_background_color": "#e9e9e9",
-        "menu_bar_text_color": "#1a1a1a",
+        "header_divider_color": "",
+        "menu_bar_background_color": "#A5171C",
+        "menu_bar_text_color": "#FFFFFF",
         "nav_font_size": 14,
         "nav_padding_y": 12,
         "utility_color": "#1a1a1a",
-        "trust_bar_use_scheme": false,
+        "trust_bar_use_scheme": true,
         "trust_bar_scheme": "scheme-1",
         "trust_bar_background_color": "#f4f4f4",
         "trust_bar_text_color": "#000000",
         "trust_bar_divider_color": "#b7b7b7",
         "trust_bar_bottom_border": true,
-        "trust_bar_bottom_border_color": "#f2f2f2",
+        "trust_bar_bottom_border_color": "#A9A9A9",
         "trust_bar_padding_y": 6,
         "trust_item_font_size": 11,
         "trust_icon_size": 18,
@@ -607,9 +577,10 @@
         "margin_bottom": 0,
         "header_padding_side": 30,
         "padding_top": 12,
-        "padding_bottom": 0,
+        "padding_bottom": 12,
         "padding_bottom_mobile": 0,
         "header_top_row_gap": 0,
+        "search_row_gap": 8,
         "search_panel_term_size": 14,
         "popular_searches": "torque wrench,socket set,tool storage,spanner set,screwdriver set,tool kit",
         "popular_now_collection": "tool-storage"
@@ -622,14 +593,13 @@
           "type": "header-nav",
           "disabled": true,
           "settings": {
-            "menu": "cro-menu",
+            "menu": "",
             "color_scheme": "scheme-5",
             "dropdown_color_scheme": "scheme-5",
             "padding_vertical": 0,
             "spacing": 8,
             "font_size": 14,
             "font_weight": "600",
-            "localized_icon": "shopify://shop_images/tengu-mask.webp",
             "flag_height_style": "full"
           },
           "blocks": {}
