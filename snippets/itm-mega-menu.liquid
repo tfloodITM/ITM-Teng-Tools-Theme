@@ -196,10 +196,14 @@
         {%- when 'mega_item' -%}
           {%- if panel_open -%}</div></div></li>{%- assign panel_open = false -%}{%- endif -%}
           {%- assign lay = block.settings.layout -%}
-          {%- if lay == 'link' -%}
-            <li class="itm-mega__item" {{ block.shopify_attributes }}>
-              <a class="itm-mega__top" href="{{ block.settings.link | default: '#' }}">{{ block.settings.title }}</a>
-            </li>
+          {%- comment -%}
+            "cards" and "link" layout items now live in the Bunnings-style
+            "Products" drawer (itm-products-menu.liquid) instead of this
+            horizontal bar. Only "dropdown" items (e.g. Support & Resources)
+            still render here as a plain top-level nav link.
+          {%- endcomment -%}
+          {%- if lay == 'cards' or lay == 'link' -%}
+            {%- comment -%} skipped — rendered by itm-products-menu {%- endcomment -%}
           {%- else -%}
             <li class="itm-mega__item itm-mega__item--{{ lay }}" {{ block.shopify_attributes }}>
               <a class="itm-mega__top" href="{{ block.settings.link | default: '#' }}" aria-haspopup="true">

@@ -60,7 +60,8 @@
   /* inline (desktop) menu is hidden on mobile — the drawer/burger handles it */
   .header > .header__inline-menu,
   .header > nav.header__inline-menu,
-  .header > .header__menu{ display:none; }
+  .header > .header__menu,
+  .header > .itm-nav-row{ display:none; }
 
   /* ===== Desktop: logo | big search | icons, with menu inline below ===== */
   @media (min-width:990px){
@@ -101,6 +102,19 @@
       width:100%;
     }
     .header__inline-menu > .list-menu--inline{ justify-content:flex-start; }
+
+    /* wrapper for the Bunnings-style "Products" drawer trigger sitting
+       beside the (now much shorter) remaining top-level nav links */
+    .header > .itm-nav-row{
+      grid-area:nav;
+      display:flex;
+      align-items:center;
+      gap:20px;
+      width:100%;
+    }
+    /* the leftover "Support & Resources"-style links shouldn't try to fill
+       the whole row now that the category bar has moved into the drawer */
+    .itm-nav-row .itm-mega{ width:auto; flex:0 0 auto; }
 
     /* the mobile-only left cluster (burger + account) is hidden on desktop */
     .header > .header__left-cluster{ display:none; }
@@ -1705,17 +1719,20 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- liquid
-      if section.settings.enable_mega_menu
-        render 'itm-mega-menu', section: section
-      elsif section.settings.menu != blank
+    {%- if section.settings.enable_mega_menu -%}
+      <div class="itm-nav-row">
+        {%- render 'itm-products-menu', section: section -%}
+        {%- render 'itm-mega-menu', section: section -%}
+      </div>
+    {%- elsif section.settings.menu != blank -%}
+      {%- liquid
         if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
         elsif section.settings.menu_type_desktop != 'drawer'
           render 'header-mega-menu'
         endif
-      endif
-    -%}
+      -%}
+    {%- endif -%}
 
     <div class="itm-locale-nav" aria-hidden="true">
       <img src="https://flagcdn.com/w40/au.png" alt="" width="20" height="13" class="itm-locale-flag" loading="lazy">
