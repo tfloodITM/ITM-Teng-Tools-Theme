@@ -235,31 +235,27 @@
   .itm-mega__products-trigger svg{ width:18px; height:18px; }
 
   .itm-products-scrim{
-    position:fixed; inset:0; background:rgba(17,17,17,.5);
-    opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:390;
+    position:fixed;
+    top:var(--itm-pd-header-h, 0px); left:0; right:0; bottom:0;
+    background:rgba(17,17,17,.5);
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+    z-index:2147483000;
   }
   .itm-products-scrim.is-open{ opacity:1; pointer-events:auto; }
 
   .itm-products-panel{
-    position:fixed; top:0; left:0; bottom:0;
+    position:fixed;
+    top:var(--itm-pd-header-h, 0px); left:0; bottom:0;
     width:min(360px, 88vw);
     background:#f4f4f4; color:#1a1a1a;
     box-shadow:24px 0 40px rgba(0,0,0,.2);
     transform:translateX(-100%);
     transition:transform .28s ease;
-    z-index:400;
+    z-index:2147483001;
     display:flex; flex-direction:column;
     overscroll-behavior:contain; /* hovering the panel scrolls the panel, not the page */
   }
   .itm-products-panel.is-open{ transform:translateX(0); }
-
-  .itm-products-panel__head{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:18px 20px; background:#1a1a1a; color:#fff; flex:none;
-  }
-  .itm-products-panel__head strong{ font-size:16px; letter-spacing:.02em; }
-  .itm-products-panel__close{ background:none; border:0; cursor:pointer; padding:6px; line-height:0; color:#fff; }
-  .itm-products-panel__close svg{ width:18px; height:18px; }
 
   .itm-products-panel__list{ list-style:none; margin:0; padding:6px 0; overflow-y:auto; flex:1 1 auto; }
 
@@ -312,12 +308,11 @@
 
     <div class="itm-products-scrim" id="itm-products-scrim"></div>
     <div class="itm-products-panel" id="itm-products-panel" role="dialog" aria-modal="true" aria-label="Shop by category">
-      <div class="itm-products-panel__head">
-        <strong>Shop by Category</strong>
-        <button type="button" class="itm-products-panel__close" id="itm-products-close" aria-label="Close">
-          {{- 'icon-close.svg' | inline_asset_content -}}
-        </button>
-      </div>
+      {%- comment -%}
+        No title bar / close button in here — closing happens the same
+        way opening does, via the Products trigger itself (which is why
+        it morphs to an X), same as Bunnings.
+      {%- endcomment -%}
       <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
             {%- if block.type == 'mega_item' and block.settings.layout != 'dropdown' -%}
@@ -372,47 +367,82 @@
 
     <script>
       (function () {
-        var trigger = document.getElementById('itm-products-trigger');
-        var panel = document.getElementById('itm-products-panel');
-        var scrim = document.getElementById('itm-products-scrim');
-        var closeBtn = document.getElementById('itm-products-close');
-        if (!trigger || !panel || !scrim) return;
+        function init() {
+          var trigger = document.getElementById('itm-products-trigger');
+          var panel = document.getElementById('itm-products-panel');
+          var scrim = document.getElementById('itm-products-scrim');
+          if (!trigger || !panel || !scrim) return;
+          if (trigger.dataset.itmPdReady) return; /* don't wire up twice */
+          trigger.dataset.itmPdReady = '1';
 
-        /* Relocate the panel + scrim to <body> — see the big comment above
-           .itm-products-panel in this file's <style> block for why: they
-           need to escape .header-wrapper's permanent transform, or
-           position:fixed anchors to that box instead of the viewport. */
-        document.body.appendChild(scrim);
-        document.body.appendChild(panel);
+          /* Relocate the panel + scrim to <body> — see the big comment
+             above .itm-products-panel in this file's <style> block for
+             why: they need to escape .header-wrapper's permanent
+             transform, or position:fixed anchors to that box instead of
+             the real viewport. */
+          document.body.appendChild(scrim);
+          document.body.appendChild(panel);
 
-        function openMenu() {
-          panel.classList.add('is-open');
-          scrim.classList.add('is-open');
-          trigger.classList.add('is-open');
-          trigger.setAttribute('aria-expanded', 'true');
-          document.body.style.overflow = 'hidden';
-        }
-        function closeMenu() {
-          panel.classList.remove('is-open');
-          scrim.classList.remove('is-open');
-          trigger.classList.remove('is-open');
-          trigger.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        }
-
-        trigger.addEventListener('click', function (e) {
-          e.preventDefault();
-          if (panel.classList.contains('is-open')) {
-            closeMenu();
-          } else {
-            openMenu();
+          function headerHeight() {
+            var el = document.querySelector('.header-wrapper') || document.querySelector('.section-header');
+            return el ? Math.round(el.getBoundingClientRect().bottom) : 0;
           }
-        });
-        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
-        scrim.addEventListener('click', closeMenu);
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape') closeMenu();
-        });
+
+          function positionBelowHeader() {
+            var h = headerHeight() + 'px';
+            document.documentElement.style.setProperty('--itm-pd-header-h', h);
+          }
+
+          var isOpen = false;
+
+          function openMenu() {
+            positionBelowHeader();
+            isOpen = true;
+            panel.classList.add('is-open');
+            scrim.classList.add('is-open');
+            trigger.classList.add('is-open');
+            /* explicit inline fallback alongside the CSS classes, in case
+               anything else on the page carries a competing rule */
+            scrim.style.opacity = '1';
+            scrim.style.pointerEvents = 'auto';
+            panel.style.transform = 'translateX(0)';
+            trigger.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+          }
+          function closeMenu() {
+            isOpen = false;
+            panel.classList.remove('is-open');
+            scrim.classList.remove('is-open');
+            trigger.classList.remove('is-open');
+            scrim.style.opacity = '';
+            scrim.style.pointerEvents = '';
+            panel.style.transform = '';
+            trigger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+          }
+
+          trigger.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (isOpen) {
+              closeMenu();
+            } else {
+              openMenu();
+            }
+          });
+          scrim.addEventListener('click', closeMenu);
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isOpen) closeMenu();
+          });
+          window.addEventListener('resize', function () {
+            if (isOpen) positionBelowHeader();
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
       })();
     </script>
     </li>
