@@ -60,8 +60,7 @@
   /* inline (desktop) menu is hidden on mobile — the drawer/burger handles it */
   .header > .header__inline-menu,
   .header > nav.header__inline-menu,
-  .header > .header__menu,
-  .header > .itm-nav-row{ display:none; }
+  .header > .header__menu{ display:none; }
 
   /* ===== Desktop: logo | big search | icons, with menu inline below ===== */
   @media (min-width:990px){
@@ -102,19 +101,6 @@
       width:100%;
     }
     .header__inline-menu > .list-menu--inline{ justify-content:flex-start; }
-
-    /* wrapper for the Bunnings-style "Products" drawer trigger sitting
-       beside the (now much shorter) remaining top-level nav links */
-    .header > .itm-nav-row{
-      grid-area:nav;
-      display:flex;
-      align-items:center;
-      gap:20px;
-      width:100%;
-    }
-    /* the leftover "Support & Resources"-style links shouldn't try to fill
-       the whole row now that the category bar has moved into the drawer */
-    .itm-nav-row .itm-mega{ width:auto; flex:0 0 auto; }
 
     /* the mobile-only left cluster (burger + account) is hidden on desktop */
     .header > .header__left-cluster{ display:none; }
@@ -688,15 +674,11 @@
     gap: 18px;
   }
 
-  {%- comment -%} Optional solid/gradient header colour (e.g. Bunnings-style bar) {%- endcomment -%}
-  {%- if section.settings.header_background_gradient != blank or section.settings.header_background_color != blank -%}
+  {%- comment -%} Optional solid header colour (e.g. Bunnings teal) {%- endcomment -%}
+  {%- if section.settings.header_background_color != blank -%}
     {%- assign hdr_text = section.settings.header_text_color | default: '#ffffff' -%}
     .header-wrapper{
-      {%- if section.settings.header_background_gradient != blank -%}
-        background:{{ section.settings.header_background_gradient }} !important;
-      {%- else -%}
-        background:{{ section.settings.header_background_color }} !important;
-      {%- endif -%}
+      background:{{ section.settings.header_background_color }} !important;
     }
     .header .header__heading-link,
     .header .header__heading .h2,
@@ -1142,9 +1124,7 @@
       height:var(--itm-bar-h, 0px);
       z-index:5;
       pointer-events:none;
-      {%- if section.settings.header_background_gradient != blank -%}
-        background:{{ section.settings.header_background_gradient }};
-      {%- elsif section.settings.header_background_color != blank -%}
+      {%- if section.settings.header_background_color != blank -%}
         background:{{ section.settings.header_background_color }};
       {%- else -%}
         background:rgb(var(--color-background));
@@ -1214,9 +1194,7 @@
         box-sizing:border-box;
         padding-left:{{ section.settings.header_padding_side_mobile | default: 10 }}px;
         padding-right:{{ section.settings.header_padding_side_mobile | default: 10 }}px;
-        {%- if section.settings.header_background_gradient != blank -%}
-          background:{{ section.settings.header_background_gradient }};
-        {%- elsif section.settings.header_background_color != blank -%}
+        {%- if section.settings.header_background_color != blank -%}
           background:{{ section.settings.header_background_color }};
         {%- endif -%}
       }
@@ -1719,20 +1697,17 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- if section.settings.enable_mega_menu -%}
-      <div class="itm-nav-row">
-        {%- render 'itm-products-menu', section: section -%}
-        {%- render 'itm-mega-menu', section: section -%}
-      </div>
-    {%- elsif section.settings.menu != blank -%}
-      {%- liquid
+    {%- liquid
+      if section.settings.enable_mega_menu
+        render 'itm-mega-menu', section: section
+      elsif section.settings.menu != blank
         if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
         elsif section.settings.menu_type_desktop != 'drawer'
           render 'header-mega-menu'
         endif
-      -%}
-    {%- endif -%}
+      endif
+    -%}
 
     <div class="itm-locale-nav" aria-hidden="true">
       <img src="https://flagcdn.com/w40/au.png" alt="" width="20" height="13" class="itm-locale-flag" loading="lazy">
@@ -2539,12 +2514,6 @@
       "id": "header_background_color",
       "label": "Header background",
       "info": "Leave blank to use the colour scheme. Set a solid colour (e.g. teal) for a Bunnings-style bar."
-    },
-    {
-      "type": "color_background",
-      "id": "header_background_gradient",
-      "label": "Header background gradient",
-      "info": "Optional. Overrides the solid background above with a gradient (e.g. light grey fading to red)."
     },
     {
       "type": "color",
