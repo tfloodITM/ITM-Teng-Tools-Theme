@@ -227,7 +227,24 @@
      header"). Moving it out to <body> — which has no such transform —
      is what lets position:fixed anchor to the real viewport instead.
      ================================================================== */
-  .itm-mega__products-trigger{ display:inline-flex; align-items:center; gap:8px; }
+  {%- assign trigger_text_color = section.settings.menu_bar_text_color | default: section.settings.header_text_color | default: '#ffffff' -%}
+  {%- comment -%}
+    Reset: it's a real <button> now (needed for click + aria-expanded),
+    which means the theme's own `.header__inline-menu a { color:#fff
+    !important }` rule (see the comment a little above this one) never
+    reaches it — that rule only matches <a> tags. Browsers also give
+    <button> its own default grey chrome (background/border/padding)
+    that .itm-mega__top alone doesn't strip. Both fixed here explicitly.
+  {%- endcomment -%}
+  .itm-mega__products-trigger{
+    display:inline-flex; align-items:center; gap:8px;
+    -webkit-appearance:none; appearance:none;
+    background:none !important; border:0; margin:0;
+    font:inherit; cursor:pointer;
+    color:{{ trigger_text_color }} !important;
+  }
+  .itm-mega__products-trigger .icon-hamburger,
+  .itm-mega__products-trigger .icon-close{ color:{{ trigger_text_color }}; }
   .itm-mega__products-trigger .icon-hamburger{ display:block; }
   .itm-mega__products-trigger .icon-close{ display:none; }
   .itm-mega__products-trigger.is-open .icon-hamburger{ display:none; }
@@ -383,14 +400,39 @@
           document.body.appendChild(scrim);
           document.body.appendChild(panel);
 
+          /* Belt-and-suspenders: force the load-bearing positioning
+             properties inline, in the highest-specificity way short of
+             !important, so nothing else on the page can accidentally
+             out-rank them via a broader selector. Only the properties
+             that actually animate (opacity/transform) are left to the
+             CSS classes below. */
+          scrim.style.position = 'fixed';
+          scrim.style.left = '0';
+          scrim.style.right = '0';
+          scrim.style.bottom = '0';
+          scrim.style.background = 'rgba(17,17,17,.5)';
+          scrim.style.zIndex = '2147483000';
+          panel.style.position = 'fixed';
+          panel.style.left = '0';
+          panel.style.bottom = '0';
+          panel.style.zIndex = '2147483001';
+
           function headerHeight() {
-            var el = document.querySelector('.header-wrapper') || document.querySelector('.section-header');
+            /* Same element + same measurement Dawn's own header-drawer.js
+               already uses for --header-bottom-position (see HeaderDrawer
+               in global.js) — .header-wrapper measures narrower than the
+               full rendered header in this theme, which is what put the
+               panel too high. .section-header is the one already proven
+               correct here. */
+            var el = document.querySelector('.section-header') || document.querySelector('.header-wrapper');
             return el ? Math.round(el.getBoundingClientRect().bottom) : 0;
           }
 
           function positionBelowHeader() {
             var h = headerHeight() + 'px';
             document.documentElement.style.setProperty('--itm-pd-header-h', h);
+            scrim.style.top = h;
+            panel.style.top = h;
           }
 
           var isOpen = false;
