@@ -251,28 +251,29 @@
   .itm-mega__products-trigger.is-open .icon-close{ display:block; }
   .itm-mega__products-trigger svg{ width:18px; height:18px; }
 
-  .itm-products-scrim{
-    position:fixed;
-    top:var(--itm-pd-header-h, 0px); left:0; right:0; bottom:0;
-    background:rgba(17,17,17,.5);
-    opacity:0; pointer-events:none; transition:opacity .25s ease;
-    z-index:2147483000;
-  }
-  .itm-products-scrim.is-open{ opacity:1; pointer-events:auto; }
-
-  .itm-products-panel{
+  {%- comment -%}
+    Native <dialog> + showModal() instead of a hand-rolled fixed div: the
+    browser renders it in the "top layer", which sits above EVERY other
+    stacking context on the page unconditionally — no z-index war, no
+    transform-containing-block trap, and the dimmed ::backdrop plus
+    click-blocking come for free instead of being hand-wired (and
+    apparently still not reliably winning against something else on the
+    page). This is what an actual "popup" is, natively.
+  {%- endcomment -%}
+  #itm-products-panel{
+    margin:0; padding:0; border:0; max-width:none; max-height:none;
     position:fixed;
     top:var(--itm-pd-header-h, 0px); left:0; bottom:0;
-    width:min(360px, 88vw);
+    width:min(360px, 88vw); height:auto;
     background:#f4f4f4; color:#1a1a1a;
     box-shadow:24px 0 40px rgba(0,0,0,.2);
     transform:translateX(-100%);
     transition:transform .28s ease;
-    z-index:2147483001;
-    display:flex; flex-direction:column;
+    flex-direction:column;
     overscroll-behavior:contain; /* hovering the panel scrolls the panel, not the page */
   }
-  .itm-products-panel.is-open{ transform:translateX(0); }
+  #itm-products-panel[open]{ display:flex; }
+  #itm-products-panel::backdrop{ background:rgba(17,17,17,.5); }
 
   .itm-products-panel__list{ list-style:none; margin:0; padding:6px 0; overflow-y:auto; flex:1 1 auto; }
 
@@ -323,12 +324,13 @@
       </button>
     </li>
 
-    <div class="itm-products-scrim" id="itm-products-scrim"></div>
-    <div class="itm-products-panel" id="itm-products-panel" role="dialog" aria-modal="true" aria-label="Shop by category">
+    <dialog id="itm-products-panel" aria-label="Shop by category">
       {%- comment -%}
         No title bar / close button in here — closing happens the same
         way opening does, via the Products trigger itself (which is why
-        it morphs to an X), same as Bunnings.
+        it morphs to an X), same as Bunnings. Clicking the dimmed area
+        (the dialog's native ::backdrop) also closes it — see the click
+        listener on the dialog itself in the script below.
       {%- endcomment -%}
       <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
@@ -380,50 +382,42 @@
             {%- endif -%}
           {%- endfor -%}
       </ul>
-    </div>
+    </dialog>
 
     <script>
       (function () {
         function init() {
           var trigger = document.getElementById('itm-products-trigger');
           var panel = document.getElementById('itm-products-panel');
-          var scrim = document.getElementById('itm-products-scrim');
-          if (!trigger || !panel || !scrim) return;
+          if (!trigger || !panel) return;
           if (trigger.dataset.itmPdReady) return; /* don't wire up twice */
           trigger.dataset.itmPdReady = '1';
 
-          /* Relocate the panel + scrim to <body> — see the big comment
-             above .itm-products-panel in this file's <style> block for
-             why: they need to escape .header-wrapper's permanent
-             transform, or position:fixed anchors to that box instead of
-             the real viewport. */
-          document.body.appendChild(scrim);
-          document.body.appendChild(panel);
+          if (typeof panel.showModal !== 'function') {
+            /* Ancient-browser fallback: without <dialog> support there's no
+               modal/backdrop to speak of, so just let the trigger link
+               through to the all-products page instead of doing nothing. */
+            trigger.removeAttribute('aria-controls');
+            return;
+          }
 
-          /* Belt-and-suspenders: force the load-bearing positioning
-             properties inline, in the highest-specificity way short of
-             !important, so nothing else on the page can accidentally
-             out-rank them via a broader selector. Only the properties
-             that actually animate (opacity/transform) are left to the
-             CSS classes below. */
-          scrim.style.position = 'fixed';
-          scrim.style.left = '0';
-          scrim.style.right = '0';
-          scrim.style.bottom = '0';
-          scrim.style.background = 'rgba(17,17,17,.5)';
-          scrim.style.zIndex = '2147483000';
-          panel.style.position = 'fixed';
-          panel.style.left = '0';
-          panel.style.bottom = '0';
-          panel.style.zIndex = '2147483001';
+          /* Relocate the panel to <body> — see the big comment above
+             #itm-products-panel in this file's <style> block for why:
+             native <dialog> already renders in the browser's top layer
+             (above everything, regardless of any ancestor's z-index or
+             transform) once shown via showModal(), but it still needs to
+             not be a descendant of .header-wrapper for its OWN layout —
+             .header-wrapper's transform would otherwise make it the
+             containing block for the dialog's `position:fixed`. */
+          document.body.appendChild(panel);
 
           function headerHeight() {
             /* Same element + same measurement Dawn's own header-drawer.js
                already uses for --header-bottom-position (see HeaderDrawer
                in global.js) — .header-wrapper measures narrower than the
                full rendered header in this theme, which is what put the
-               panel too high. .section-header is the one already proven
-               correct here. */
+               panel too high before. .section-header is the one already
+               proven correct here. */
             var el = document.querySelector('.section-header') || document.querySelector('.header-wrapper');
             return el ? Math.round(el.getBoundingClientRect().bottom) : 0;
           }
@@ -431,52 +425,69 @@
           function positionBelowHeader() {
             var h = headerHeight() + 'px';
             document.documentElement.style.setProperty('--itm-pd-header-h', h);
-            scrim.style.top = h;
             panel.style.top = h;
           }
 
-          var isOpen = false;
+          function setTriggerOpen(open) {
+            trigger.classList.toggle('is-open', open);
+            trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+          }
 
           function openMenu() {
             positionBelowHeader();
-            isOpen = true;
-            panel.classList.add('is-open');
-            scrim.classList.add('is-open');
-            trigger.classList.add('is-open');
-            /* explicit inline fallback alongside the CSS classes, in case
-               anything else on the page carries a competing rule */
-            scrim.style.opacity = '1';
-            scrim.style.pointerEvents = 'auto';
-            panel.style.transform = 'translateX(0)';
-            trigger.setAttribute('aria-expanded', 'true');
-            document.body.style.overflow = 'hidden';
+            panel.showModal(); /* native top-layer render + backdrop + focus trap */
+            setTriggerOpen(true);
+            /* slide-in: start off-screen, then animate to 0 next frame */
+            panel.style.transform = 'translateX(-100%)';
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                panel.style.transform = 'translateX(0)';
+              });
+            });
           }
+
           function closeMenu() {
-            isOpen = false;
-            panel.classList.remove('is-open');
-            scrim.classList.remove('is-open');
-            trigger.classList.remove('is-open');
-            scrim.style.opacity = '';
-            scrim.style.pointerEvents = '';
-            panel.style.transform = '';
-            trigger.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
+            /* animate the slide-out first, then actually close() once the
+               transition ends — closing immediately would just vanish it
+               (a <dialog> becomes display:none the instant it's closed). */
+            setTriggerOpen(false);
+            panel.style.transform = 'translateX(-100%)';
+            var done = false;
+            function finish() {
+              if (done) return;
+              done = true;
+              panel.close();
+            }
+            panel.addEventListener('transitionend', finish, { once: true });
+            setTimeout(finish, 350); /* fallback if transitionend never fires */
           }
 
           trigger.addEventListener('click', function (e) {
             e.preventDefault();
-            if (isOpen) {
+            if (panel.open) {
               closeMenu();
             } else {
               openMenu();
             }
           });
-          scrim.addEventListener('click', closeMenu);
-          document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && isOpen) closeMenu();
+
+          /* Click on the dialog's own backdrop (not any of its content)
+             closes it — the standard vanilla-JS pattern for this: a click
+             that lands on the backdrop reports its target as the <dialog>
+             element itself, since nothing inside it was actually hit. */
+          panel.addEventListener('click', function (e) {
+            if (e.target === panel) closeMenu();
           });
+
+          /* Escape-to-close is native <dialog> behaviour already; just
+             keep the trigger's icon/aria state in sync with it, and with
+             any other way the dialog ends up closed. */
+          panel.addEventListener('close', function () {
+            setTriggerOpen(false);
+          });
+
           window.addEventListener('resize', function () {
-            if (isOpen) positionBelowHeader();
+            if (panel.open) positionBelowHeader();
           });
         }
 
@@ -487,7 +498,6 @@
         }
       })();
     </script>
-    </li>
 
     {%- assign panel_open = false -%}
     {%- for block in section.blocks -%}
