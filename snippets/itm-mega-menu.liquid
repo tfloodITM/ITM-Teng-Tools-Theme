@@ -215,20 +215,63 @@
   .itm-mega__panel a.itm-mega__link{ color:#111 !important; }
   .itm-mega__panel a.itm-mega__link:hover{ color:var(--mega-accent) !important; }
 
-  /* "Products" panel: a grey, Bunnings-style list of every category as an
-     icon + label row, instead of the usual card grid. Same absolute-
-     positioned panel mechanism as every other item above — not fixed. */
-  .itm-mega__panel--products{ left:0; width:320px; background:#f4f4f4; padding:0; }
-  .itm-mega__panel--products .itm-mega__inner{ padding:8px 0; max-width:none; display:block; }
+  /* ==================================================================
+     "Products": trigger stays inline in the bar. The panel + scrim are
+     built here but get moved to a direct child of <body> by the script
+     below, the instant the page loads — .header-wrapper permanently
+     GPU-composites itself (transform:translateZ(0), see the comment
+     above .header-wrapper in header.liquid — load-bearing for a border-
+     rendering fix), which makes it the containing block for anything
+     position:fixed underneath it. A fixed panel left inside it renders
+     pinned to THAT box instead of the viewport (looks "trapped in the
+     header"). Moving it out to <body> — which has no such transform —
+     is what lets position:fixed anchor to the real viewport instead.
+     ================================================================== */
+  .itm-mega__products-trigger{ display:inline-flex; align-items:center; gap:8px; }
+  .itm-mega__products-trigger .icon-hamburger{ display:block; }
+  .itm-mega__products-trigger .icon-close{ display:none; }
+  .itm-mega__products-trigger.is-open .icon-hamburger{ display:none; }
+  .itm-mega__products-trigger.is-open .icon-close{ display:block; }
+  .itm-mega__products-trigger svg{ width:18px; height:18px; }
+
+  .itm-products-scrim{
+    position:fixed; inset:0; background:rgba(17,17,17,.5);
+    opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:390;
+  }
+  .itm-products-scrim.is-open{ opacity:1; pointer-events:auto; }
+
+  .itm-products-panel{
+    position:fixed; top:0; left:0; bottom:0;
+    width:min(360px, 88vw);
+    background:#f4f4f4; color:#1a1a1a;
+    box-shadow:24px 0 40px rgba(0,0,0,.2);
+    transform:translateX(-100%);
+    transition:transform .28s ease;
+    z-index:400;
+    display:flex; flex-direction:column;
+    overscroll-behavior:contain; /* hovering the panel scrolls the panel, not the page */
+  }
+  .itm-products-panel.is-open{ transform:translateX(0); }
+
+  .itm-products-panel__head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 20px; background:#1a1a1a; color:#fff; flex:none;
+  }
+  .itm-products-panel__head strong{ font-size:16px; letter-spacing:.02em; }
+  .itm-products-panel__close{ background:none; border:0; cursor:pointer; padding:6px; line-height:0; color:#fff; }
+  .itm-products-panel__close svg{ width:18px; height:18px; }
+
+  .itm-products-panel__list{ list-style:none; margin:0; padding:6px 0; overflow-y:auto; flex:1 1 auto; }
+
   .itm-mega__products-row{
     display:flex; align-items:center; gap:14px;
-    padding:11px 18px;
+    padding:12px 18px;
     text-decoration:none; color:#1a1a1a !important;
     border-bottom:1px solid rgba(0,0,0,.06);
   }
   .itm-mega__products-row:hover{ background:#ececec; color:var(--mega-accent) !important; }
   .itm-mega__products-icon{
-    flex:0 0 auto; width:36px; height:36px; border-radius:10px;
+    flex:0 0 auto; width:38px; height:38px; border-radius:11px;
     display:flex; align-items:center; justify-content:center;
     position:relative; overflow:hidden;
     background:linear-gradient(145deg, rgba(227,6,19,.16), rgba(227,6,19,.05));
@@ -247,16 +290,35 @@
   <ul class="itm-mega__bar" role="list">
     {%- comment -%}
       "Products" — a single item, first in the SAME bar as everything
-      else, whose hover panel lists every real category (the `mega_item`
-      blocks with layout "cards"/"link") as an icon + label row.
+      else. Click (not hover) opens a full-height panel flush with the
+      left edge of the viewport, with a page-dimming scrim — see the big
+      comment above .itm-products-panel for why the panel gets relocated
+      to <body> by the script at the bottom of this file.
     {%- endcomment -%}
     <li class="itm-mega__item itm-mega__item--products">
-      <a class="itm-mega__top" href="{{ routes.all_products_collection_url }}" aria-haspopup="true">
+      <button
+        type="button"
+        id="itm-products-trigger"
+        class="itm-mega__top itm-mega__products-trigger"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="itm-products-panel"
+      >
+        {{- 'icon-hamburger.svg' | inline_asset_content -}}
+        {{- 'icon-close.svg' | inline_asset_content -}}
         Products
-        <span class="itm-mega__caret" aria-hidden="true">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
-      </a>
-      <div class="itm-mega__panel itm-mega__panel--products">
-        <div class="itm-mega__inner">
+      </button>
+    </li>
+
+    <div class="itm-products-scrim" id="itm-products-scrim"></div>
+    <div class="itm-products-panel" id="itm-products-panel" role="dialog" aria-modal="true" aria-label="Shop by category">
+      <div class="itm-products-panel__head">
+        <strong>Shop by Category</strong>
+        <button type="button" class="itm-products-panel__close" id="itm-products-close" aria-label="Close">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </button>
+      </div>
+      <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
             {%- if block.type == 'mega_item' and block.settings.layout != 'dropdown' -%}
               {%- assign t = block.settings.title | downcase -%}
@@ -296,15 +358,63 @@
               {%- elsif t contains 'vice' -%}
                 {%- assign icon = icon_vices -%}
               {%- endif -%}
-              <a class="itm-mega__products-row" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
-                <span class="itm-mega__products-icon" aria-hidden="true">{{ icon }}</span>
-                <span class="itm-mega__products-label">{{ block.settings.title }}</span>
-                <span class="itm-mega__products-arrow" aria-hidden="true">{{ pm_chevron }}</span>
-              </a>
+              <li>
+                <a class="itm-mega__products-row" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+                  <span class="itm-mega__products-icon" aria-hidden="true">{{ icon }}</span>
+                  <span class="itm-mega__products-label">{{ block.settings.title }}</span>
+                  <span class="itm-mega__products-arrow" aria-hidden="true">{{ pm_chevron }}</span>
+                </a>
+              </li>
             {%- endif -%}
           {%- endfor -%}
-        </div>
-      </div>
+      </ul>
+    </div>
+
+    <script>
+      (function () {
+        var trigger = document.getElementById('itm-products-trigger');
+        var panel = document.getElementById('itm-products-panel');
+        var scrim = document.getElementById('itm-products-scrim');
+        var closeBtn = document.getElementById('itm-products-close');
+        if (!trigger || !panel || !scrim) return;
+
+        /* Relocate the panel + scrim to <body> — see the big comment above
+           .itm-products-panel in this file's <style> block for why: they
+           need to escape .header-wrapper's permanent transform, or
+           position:fixed anchors to that box instead of the viewport. */
+        document.body.appendChild(scrim);
+        document.body.appendChild(panel);
+
+        function openMenu() {
+          panel.classList.add('is-open');
+          scrim.classList.add('is-open');
+          trigger.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeMenu() {
+          panel.classList.remove('is-open');
+          scrim.classList.remove('is-open');
+          trigger.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+
+        trigger.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (panel.classList.contains('is-open')) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        scrim.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeMenu();
+        });
+      })();
+    </script>
     </li>
 
     {%- assign panel_open = false -%}
