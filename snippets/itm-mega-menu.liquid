@@ -276,7 +276,13 @@
     background:rgba(17,17,17,.5);
     opacity:0; transition:opacity .25s ease;
   }
-  #itm-products-scrim:popover-open{ opacity:1; }
+  {%- comment -%}
+    Both the pseudo-class AND a plain JS-toggled class — belt and
+    suspenders, the same way the header-height offset above ended up
+    needing several fallback selectors before one actually stuck.
+  {%- endcomment -%}
+  #itm-products-scrim:popover-open,
+  #itm-products-scrim.is-open{ opacity:1; }
 
   #itm-products-panel{
     max-width:none; max-height:none; overflow:visible;
@@ -468,8 +474,17 @@
             positionBelowHeader();
             scrim.showPopover();
             panel.showPopover(); /* shown after scrim, so it paints above it */
+            scrim.classList.add('is-open'); /* JS fallback alongside :popover-open */
             isOpen = true;
             setTriggerOpen(true);
+            /* Lock the page (not the header — the header isn't part of
+               body's own scroll, so this doesn't touch it) using the
+               exact same class Dawn's own header-drawer.js already
+               applies for its mobile menu (see HeaderDrawer in
+               global.js) — reusing it instead of a one-off inline style
+               keeps this consistent with how scroll-locking already
+               works everywhere else in this theme. */
+            document.body.classList.add('overflow-hidden-desktop');
             /* slide-in: start off-screen, then animate to 0 next frame */
             panel.style.transform = 'translateX(-100%)';
             requestAnimationFrame(function () {
@@ -485,6 +500,8 @@
                vanish it with no animation. */
             isOpen = false;
             setTriggerOpen(false);
+            scrim.classList.remove('is-open');
+            document.body.classList.remove('overflow-hidden-desktop');
             panel.style.transform = 'translateX(-100%)';
             var done = false;
             function finish() {
