@@ -284,18 +284,13 @@
   }
 
   {%- comment -%}
-    No opacity fade here (there was one; it never visibly took, same as
-    the standalone scrim popover before it). The scrim's SHOWN/HIDDEN
-    state is already fully handled by its popover parent's own native
-    display:none <-> block toggle — layering a second, independent
-    opacity mechanism on top of that was redundant, and apparently the
-    part that was quietly failing. Solid background, no transition,
-    nothing else controlling whether it's visible.
+    The scrim's actual position/size/colour all now live as an inline
+    style="" on the element itself (see the markup below) — highest
+    possible specificity, and independent fixed sizing rather than
+    inset:0 against its parent's box. No opacity fade: the scrim's
+    shown/hidden state is already fully handled by its popover parent's
+    own native display:none <-> block toggle.
   {%- endcomment -%}
-  #itm-products-scrim{
-    position:absolute; inset:0;
-    background:rgba(17,17,17,.5);
-  }
 
   .itm-products-panel__inner{
     position:absolute; top:0; left:0; bottom:0; z-index:2; /* above the scrim's z-index:1 */
@@ -371,7 +366,14 @@
         stopping the scrim from visibly painting, an inline background
         can't lose a cascade fight to it.
       {%- endcomment -%}
-      <div id="itm-products-scrim" style="position:absolute; inset:0; background-color:rgba(17,17,17,.55); z-index:1;"></div>
+      {%- comment -%}
+        Independent viewport-relative sizing (vw/vh, not inset:0 against
+        the parent's own box) plus forced-color-adjust:none, in case
+        either a containing-block edge case or a forced-colors/high-
+        contrast mode is what's been quietly stripping this. JS syncs
+        `top` the same way it already does for the panel itself.
+      {%- endcomment -%}
+      <div id="itm-products-scrim" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(17,17,17,.55); forced-color-adjust:none; z-index:1;"></div>
       <div class="itm-products-panel__inner">
       <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
@@ -479,6 +481,7 @@
             var h = headerHeight() + 'px';
             document.documentElement.style.setProperty('--itm-pd-header-h', h);
             panel.style.top = h;
+            scrim.style.top = h; /* scrim is independently position:fixed now, syncs itself */
           }
 
           function setTriggerOpen(open) {
