@@ -412,14 +412,23 @@
           document.body.appendChild(panel);
 
           function headerHeight() {
-            /* Same element + same measurement Dawn's own header-drawer.js
-               already uses for --header-bottom-position (see HeaderDrawer
-               in global.js) — .header-wrapper measures narrower than the
-               full rendered header in this theme, which is what put the
-               panel too high before. .section-header is the one already
-               proven correct here. */
-            var el = document.querySelector('.section-header') || document.querySelector('.header-wrapper');
-            return el ? Math.round(el.getBoundingClientRect().bottom) : 0;
+            /* .section-header (what Dawn's own header-drawer.js measures
+               for --header-bottom-position) still wasn't accounting for
+               the trust bar row on this page — the panel needs to sit
+               below THAT, the actual last row of the header, so measure
+               it directly. Take the largest bottom edge among every
+               plausible header-boundary element, so whichever one is
+               genuinely tallest right now wins regardless of which
+               selector theory is correct. */
+            var candidates = [
+              '.trust-bar', '.section-header', '.header-wrapper', '.header'
+            ];
+            var bottom = 0;
+            candidates.forEach(function (sel) {
+              var el = document.querySelector(sel);
+              if (el) bottom = Math.max(bottom, Math.round(el.getBoundingClientRect().bottom));
+            });
+            return bottom;
           }
 
           function positionBelowHeader() {
