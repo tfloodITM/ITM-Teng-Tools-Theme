@@ -373,7 +373,17 @@
         contrast mode is what's been quietly stripping this. JS syncs
         `top` the same way it already does for the panel itself.
       {%- endcomment -%}
-      <div id="itm-products-scrim" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(17,17,17,.55); forced-color-adjust:none; z-index:1;"></div>
+      {%- comment -%}
+        Root cause, finally confirmed by actually driving this in a real
+        browser: base.css has a global reset — `div:empty { display:
+        none; }` — and this scrim is a deliberately empty div (it's pure
+        background colour, no content by design). Every other property
+        (background, opacity, z-index, position) was correct the entire
+        time; that one unrelated rule was just nullifying all of it via
+        `display`, which nothing here had set to override it. Fixed by
+        setting display explicitly.
+      {%- endcomment -%}
+      <div id="itm-products-scrim" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(17,17,17,.55); forced-color-adjust:none; z-index:1;"></div>
       <div class="itm-products-panel__inner">
       <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
