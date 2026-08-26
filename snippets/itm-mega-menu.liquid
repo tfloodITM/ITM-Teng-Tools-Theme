@@ -283,18 +283,19 @@
     background:none;
   }
 
+  {%- comment -%}
+    No opacity fade here (there was one; it never visibly took, same as
+    the standalone scrim popover before it). The scrim's SHOWN/HIDDEN
+    state is already fully handled by its popover parent's own native
+    display:none <-> block toggle — layering a second, independent
+    opacity mechanism on top of that was redundant, and apparently the
+    part that was quietly failing. Solid background, no transition,
+    nothing else controlling whether it's visible.
+  {%- endcomment -%}
   #itm-products-scrim{
     position:absolute; inset:0;
     background:rgba(17,17,17,.5);
-    opacity:0; transition:opacity .25s ease;
   }
-  {%- comment -%}
-    Both the pseudo-class AND a plain JS-toggled class — belt and
-    suspenders, the same way the header-height offset above ended up
-    needing several fallback selectors before one actually stuck.
-  {%- endcomment -%}
-  #itm-products-panel:popover-open #itm-products-scrim,
-  #itm-products-panel.is-open #itm-products-scrim{ opacity:1; }
 
   .itm-products-panel__inner{
     position:absolute; top:0; left:0; bottom:0;
@@ -483,7 +484,6 @@
           function openMenu() {
             positionBelowHeader();
             panel.showPopover(); /* one popover; scrim + inner just ride along as its children */
-            panel.classList.add('is-open'); /* JS fallback alongside :popover-open, for the scrim */
             isOpen = true;
             setTriggerOpen(true);
             /* Lock the page (not the header — the header isn't part of
@@ -509,7 +509,6 @@
                vanish it with no animation. */
             isOpen = false;
             setTriggerOpen(false);
-            panel.classList.remove('is-open');
             document.body.classList.remove('overflow-hidden-desktop');
             inner.style.transform = 'translateX(-100%)';
             var done = false;
@@ -531,10 +530,14 @@
             }
           });
 
-          /* Clicking the scrim — the dimmed area over the page content,
-             everything in the popover except the visible column itself —
-             closes it. */
-          scrim.addEventListener('click', closeMenu);
+          /* Clicking outside the visible 360px column — anywhere in the
+             popover that isn't the inner panel or one of its descendants
+             — closes it. Listening on the popover root itself (not just
+             the scrim) so this still works even if some other element
+             ever ends up covering part of the scrim. */
+          panel.addEventListener('click', function (e) {
+            if (!inner.contains(e.target)) closeMenu();
+          });
 
           document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && isOpen) closeMenu();
