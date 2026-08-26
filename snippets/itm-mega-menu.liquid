@@ -256,16 +256,30 @@
   .itm-mega__products-trigger svg{ width:18px; height:18px; }
 
   {%- comment -%}
-    Native <dialog> + showModal() instead of a hand-rolled fixed div: the
-    browser renders it in the "top layer", which sits above EVERY other
-    stacking context on the page unconditionally — no z-index war, no
-    transform-containing-block trap, and the dimmed ::backdrop plus
-    click-blocking come for free instead of being hand-wired (and
-    apparently still not reliably winning against something else on the
-    page). This is what an actual "popup" is, natively.
+    popover="manual" (not <dialog>/showModal()): both render in the
+    browser's "top layer", above every stacking context unconditionally —
+    that's what escapes .header-wrapper's transform-containing-block trap
+    and (unlike the earlier hand-rolled fixed div) reliably wins the
+    z-index war. But showModal() ALSO makes literally everything outside
+    the dialog inert — including the header, and the Products trigger
+    itself, which is why the close click stopped working. Popovers don't
+    auto-block anything, so the header stays genuinely usable; the scrim
+    below is what does the (deliberately header-EXCLUDING) blocking, by
+    just being a real opaque element sitting on top of the page content.
   {%- endcomment -%}
+  [popover]#itm-products-scrim,
+  [popover]#itm-products-panel{ margin:0; padding:0; border:0; }
+  #itm-products-scrim{
+    position:fixed;
+    top:var(--itm-pd-header-h, 0px); left:0; right:0; bottom:0;
+    width:auto; height:auto;
+    background:rgba(17,17,17,.5);
+    opacity:0; transition:opacity .25s ease;
+  }
+  #itm-products-scrim:popover-open{ opacity:1; }
+
   #itm-products-panel{
-    margin:0; padding:0; border:0; max-width:none; max-height:none;
+    max-width:none; max-height:none; overflow:visible;
     position:fixed;
     top:var(--itm-pd-header-h, 0px); left:0; bottom:0;
     width:min(360px, 88vw); height:auto;
@@ -273,19 +287,8 @@
     box-shadow:24px 0 40px rgba(0,0,0,.2);
     transform:translateX(-100%);
     transition:transform .28s ease;
-    flex-direction:column;
+    display:flex; flex-direction:column;
     overscroll-behavior:contain; /* hovering the panel scrolls the panel, not the page */
-  }
-  #itm-products-panel[open]{ display:flex; }
-  {%- comment -%}
-    The backdrop shouldn't dim the header itself — only the page content
-    below it, same as Bunnings. ::backdrop is a real, styleable box (not
-    just a background swatch), so it can be pulled down to start below
-    the header using the same measured offset the panel itself uses.
-  {%- endcomment -%}
-  #itm-products-panel::backdrop{
-    background:rgba(17,17,17,.5);
-    top:var(--itm-pd-header-h, 0px);
   }
 
   .itm-products-panel__list{ list-style:none; margin:0; padding:6px 0; overflow-y:auto; flex:1 1 auto; }
@@ -337,7 +340,8 @@
       </button>
     </li>
 
-    <dialog id="itm-products-panel" aria-label="Shop by category">
+    <div id="itm-products-scrim" popover="manual"></div>
+    <div id="itm-products-panel" popover="manual" role="dialog" aria-label="Shop by category">
       {%- comment -%}
         No title bar / close button in here — closing happens the same
         way opening does, via the Products trigger itself (which is why
@@ -395,43 +399,45 @@
             {%- endif -%}
           {%- endfor -%}
       </ul>
-    </dialog>
+    </div>
 
     <script>
       (function () {
         function init() {
           var trigger = document.getElementById('itm-products-trigger');
           var panel = document.getElementById('itm-products-panel');
-          if (!trigger || !panel) return;
+          var scrim = document.getElementById('itm-products-scrim');
+          if (!trigger || !panel || !scrim) return;
           if (trigger.dataset.itmPdReady) return; /* don't wire up twice */
           trigger.dataset.itmPdReady = '1';
 
-          if (typeof panel.showModal !== 'function') {
-            /* Ancient-browser fallback: without <dialog> support there's no
-               modal/backdrop to speak of, so just let the trigger link
-               through to the all-products page instead of doing nothing. */
+          if (typeof panel.showPopover !== 'function') {
+            /* Ancient-browser fallback: without Popover API support there's
+               nothing to open, so just let the trigger link through to the
+               all-products page instead of doing nothing. */
             trigger.removeAttribute('aria-controls');
             return;
           }
 
-          /* Relocate the panel to <body> — see the big comment above
-             #itm-products-panel in this file's <style> block for why:
-             native <dialog> already renders in the browser's top layer
-             (above everything, regardless of any ancestor's z-index or
-             transform) once shown via showModal(), but it still needs to
-             not be a descendant of .header-wrapper for its OWN layout —
-             .header-wrapper's transform would otherwise make it the
-             containing block for the dialog's `position:fixed`. */
+          /* Relocate to <body> — see the big comment above the popover
+             CSS rules in this file's <style> block for why: popover
+             already renders in the browser's top layer (above everything,
+             regardless of any ancestor's z-index or transform) once
+             shown, but it still needs to not be a descendant of
+             .header-wrapper for its OWN layout — .header-wrapper's
+             transform would otherwise make it the containing block for
+             `position:fixed` underneath it. */
+          document.body.appendChild(scrim);
           document.body.appendChild(panel);
 
           function headerHeight() {
             /* .section-header (what Dawn's own header-drawer.js measures
                for --header-bottom-position) still wasn't accounting for
-               the trust bar row on this page — the panel needs to sit
-               below THAT, the actual last row of the header, so measure
-               it directly. Take the largest bottom edge among every
-               plausible header-boundary element, so whichever one is
-               genuinely tallest right now wins regardless of which
+               the trust bar row on this page — the panel/scrim need to
+               sit below THAT, the actual last row of the header, so
+               measure it directly. Take the largest bottom edge among
+               every plausible header-boundary element, so whichever one
+               is genuinely tallest right now wins regardless of which
                selector theory is correct. */
             var candidates = [
               '.trust-bar', '.section-header', '.header-wrapper', '.header'
@@ -448,6 +454,7 @@
             var h = headerHeight() + 'px';
             document.documentElement.style.setProperty('--itm-pd-header-h', h);
             panel.style.top = h;
+            scrim.style.top = h;
           }
 
           function setTriggerOpen(open) {
@@ -455,9 +462,13 @@
             trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
           }
 
+          var isOpen = false;
+
           function openMenu() {
             positionBelowHeader();
-            panel.showModal(); /* native top-layer render + backdrop + focus trap */
+            scrim.showPopover();
+            panel.showPopover(); /* shown after scrim, so it paints above it */
+            isOpen = true;
             setTriggerOpen(true);
             /* slide-in: start off-screen, then animate to 0 next frame */
             panel.style.transform = 'translateX(-100%)';
@@ -469,16 +480,18 @@
           }
 
           function closeMenu() {
-            /* animate the slide-out first, then actually close() once the
-               transition ends — closing immediately would just vanish it
-               (a <dialog> becomes display:none the instant it's closed). */
+            /* animate the slide-out first, then actually hidePopover()
+               once the transition ends — hiding immediately would just
+               vanish it with no animation. */
+            isOpen = false;
             setTriggerOpen(false);
             panel.style.transform = 'translateX(-100%)';
             var done = false;
             function finish() {
               if (done) return;
               done = true;
-              panel.close();
+              panel.hidePopover();
+              scrim.hidePopover();
             }
             panel.addEventListener('transitionend', finish, { once: true });
             setTimeout(finish, 350); /* fallback if transitionend never fires */
@@ -486,30 +499,25 @@
 
           trigger.addEventListener('click', function (e) {
             e.preventDefault();
-            if (panel.open) {
+            if (isOpen) {
               closeMenu();
             } else {
               openMenu();
             }
           });
 
-          /* Click on the dialog's own backdrop (not any of its content)
-             closes it — the standard vanilla-JS pattern for this: a click
-             that lands on the backdrop reports its target as the <dialog>
-             element itself, since nothing inside it was actually hit. */
-          panel.addEventListener('click', function (e) {
-            if (e.target === panel) closeMenu();
-          });
+          /* Clicking the scrim — the dimmed area over the page content —
+             closes it. Unlike a <dialog>'s ::backdrop, this is a real
+             element of its own, so a plain click listener on it is all
+             that's needed. */
+          scrim.addEventListener('click', closeMenu);
 
-          /* Escape-to-close is native <dialog> behaviour already; just
-             keep the trigger's icon/aria state in sync with it, and with
-             any other way the dialog ends up closed. */
-          panel.addEventListener('close', function () {
-            setTriggerOpen(false);
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isOpen) closeMenu();
           });
 
           window.addEventListener('resize', function () {
-            if (panel.open) positionBelowHeader();
+            if (isOpen) positionBelowHeader();
           });
         }
 
