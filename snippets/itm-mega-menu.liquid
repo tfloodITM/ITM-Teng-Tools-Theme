@@ -256,23 +256,35 @@
   .itm-mega__products-trigger svg{ width:18px; height:18px; }
 
   {%- comment -%}
-    popover="manual" (not <dialog>/showModal()): both render in the
-    browser's "top layer", above every stacking context unconditionally —
-    that's what escapes .header-wrapper's transform-containing-block trap
-    and (unlike the earlier hand-rolled fixed div) reliably wins the
-    z-index war. But showModal() ALSO makes literally everything outside
-    the dialog inert — including the header, and the Products trigger
-    itself, which is why the close click stopped working. Popovers don't
-    auto-block anything, so the header stays genuinely usable; the scrim
-    below is what does the (deliberately header-EXCLUDING) blocking, by
-    just being a real opaque element sitting on top of the page content.
+    popover="manual" (not <dialog>/showModal()): renders in the browser's
+    "top layer", above every stacking context unconditionally — that's
+    what escapes .header-wrapper's transform-containing-block trap.
+    showModal() ALSO makes literally everything outside the dialog inert
+    — including the header, and the Products trigger itself, which is
+    why close-by-click stopped working there. A popover doesn't
+    auto-block anything, so the header stays genuinely usable.
+
+    ONE popover only — #itm-products-panel — not two coordinated ones.
+    It spans the full remaining page area below the header; the scrim
+    (dark, click-to-close) and the visible 360px column are both just
+    ordinary children positioned inside it. Two independently-shown
+    popovers turned out not to be reliable (the scrim one just never
+    visibly took), and there's no real need for it to be its own
+    popover — position:fixed doesn't require a child to stay inside its
+    parent's own box, and both children ride along in the same top-layer
+    promotion as their one popover parent regardless.
   {%- endcomment -%}
-  [popover]#itm-products-scrim,
   [popover]#itm-products-panel{ margin:0; padding:0; border:0; }
-  #itm-products-scrim{
+  #itm-products-panel{
+    max-width:none; max-height:none; overflow:visible;
     position:fixed;
     top:var(--itm-pd-header-h, 0px); left:0; right:0; bottom:0;
     width:auto; height:auto;
+    background:none;
+  }
+
+  #itm-products-scrim{
+    position:absolute; inset:0;
     background:rgba(17,17,17,.5);
     opacity:0; transition:opacity .25s ease;
   }
@@ -281,13 +293,11 @@
     suspenders, the same way the header-height offset above ended up
     needing several fallback selectors before one actually stuck.
   {%- endcomment -%}
-  #itm-products-scrim:popover-open,
-  #itm-products-scrim.is-open{ opacity:1; }
+  #itm-products-panel:popover-open #itm-products-scrim,
+  #itm-products-panel.is-open #itm-products-scrim{ opacity:1; }
 
-  #itm-products-panel{
-    max-width:none; max-height:none; overflow:visible;
-    position:fixed;
-    top:var(--itm-pd-header-h, 0px); left:0; bottom:0;
+  .itm-products-panel__inner{
+    position:absolute; top:0; left:0; bottom:0;
     width:min(360px, 88vw); height:auto;
     background:#f4f4f4; color:#1a1a1a;
     box-shadow:24px 0 40px rgba(0,0,0,.2);
@@ -346,15 +356,15 @@
       </button>
     </li>
 
-    <div id="itm-products-scrim" popover="manual"></div>
     <div id="itm-products-panel" popover="manual" role="dialog" aria-label="Shop by category">
       {%- comment -%}
         No title bar / close button in here — closing happens the same
         way opening does, via the Products trigger itself (which is why
-        it morphs to an X), same as Bunnings. Clicking the dimmed area
-        (the dialog's native ::backdrop) also closes it — see the click
-        listener on the dialog itself in the script below.
+        it morphs to an X), same as Bunnings. Clicking the dimmed scrim
+        also closes it — see the click listener in the script below.
       {%- endcomment -%}
+      <div id="itm-products-scrim"></div>
+      <div class="itm-products-panel__inner">
       <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
             {%- if block.type == 'mega_item' and block.settings.layout != 'dropdown' -%}
@@ -405,6 +415,7 @@
             {%- endif -%}
           {%- endfor -%}
       </ul>
+      </div>
     </div>
 
     <script>
@@ -413,7 +424,8 @@
           var trigger = document.getElementById('itm-products-trigger');
           var panel = document.getElementById('itm-products-panel');
           var scrim = document.getElementById('itm-products-scrim');
-          if (!trigger || !panel || !scrim) return;
+          var inner = panel && panel.querySelector('.itm-products-panel__inner');
+          if (!trigger || !panel || !scrim || !inner) return;
           if (trigger.dataset.itmPdReady) return; /* don't wire up twice */
           trigger.dataset.itmPdReady = '1';
 
@@ -433,17 +445,16 @@
              .header-wrapper for its OWN layout — .header-wrapper's
              transform would otherwise make it the containing block for
              `position:fixed` underneath it. */
-          document.body.appendChild(scrim);
           document.body.appendChild(panel);
 
           function headerHeight() {
             /* .section-header (what Dawn's own header-drawer.js measures
                for --header-bottom-position) still wasn't accounting for
-               the trust bar row on this page — the panel/scrim need to
-               sit below THAT, the actual last row of the header, so
-               measure it directly. Take the largest bottom edge among
-               every plausible header-boundary element, so whichever one
-               is genuinely tallest right now wins regardless of which
+               the trust bar row on this page — the panel needs to sit
+               below THAT, the actual last row of the header, so measure
+               it directly. Take the largest bottom edge among every
+               plausible header-boundary element, so whichever one is
+               genuinely tallest right now wins regardless of which
                selector theory is correct. */
             var candidates = [
               '.trust-bar', '.section-header', '.header-wrapper', '.header'
@@ -460,7 +471,6 @@
             var h = headerHeight() + 'px';
             document.documentElement.style.setProperty('--itm-pd-header-h', h);
             panel.style.top = h;
-            scrim.style.top = h;
           }
 
           function setTriggerOpen(open) {
@@ -472,9 +482,8 @@
 
           function openMenu() {
             positionBelowHeader();
-            scrim.showPopover();
-            panel.showPopover(); /* shown after scrim, so it paints above it */
-            scrim.classList.add('is-open'); /* JS fallback alongside :popover-open */
+            panel.showPopover(); /* one popover; scrim + inner just ride along as its children */
+            panel.classList.add('is-open'); /* JS fallback alongside :popover-open, for the scrim */
             isOpen = true;
             setTriggerOpen(true);
             /* Lock the page (not the header — the header isn't part of
@@ -486,10 +495,10 @@
                works everywhere else in this theme. */
             document.body.classList.add('overflow-hidden-desktop');
             /* slide-in: start off-screen, then animate to 0 next frame */
-            panel.style.transform = 'translateX(-100%)';
+            inner.style.transform = 'translateX(-100%)';
             requestAnimationFrame(function () {
               requestAnimationFrame(function () {
-                panel.style.transform = 'translateX(0)';
+                inner.style.transform = 'translateX(0)';
               });
             });
           }
@@ -500,17 +509,16 @@
                vanish it with no animation. */
             isOpen = false;
             setTriggerOpen(false);
-            scrim.classList.remove('is-open');
+            panel.classList.remove('is-open');
             document.body.classList.remove('overflow-hidden-desktop');
-            panel.style.transform = 'translateX(-100%)';
+            inner.style.transform = 'translateX(-100%)';
             var done = false;
             function finish() {
               if (done) return;
               done = true;
               panel.hidePopover();
-              scrim.hidePopover();
             }
-            panel.addEventListener('transitionend', finish, { once: true });
+            inner.addEventListener('transitionend', finish, { once: true });
             setTimeout(finish, 350); /* fallback if transitionend never fires */
           }
 
@@ -523,10 +531,9 @@
             }
           });
 
-          /* Clicking the scrim — the dimmed area over the page content —
-             closes it. Unlike a <dialog>'s ::backdrop, this is a real
-             element of its own, so a plain click listener on it is all
-             that's needed. */
+          /* Clicking the scrim — the dimmed area over the page content,
+             everything in the popover except the visible column itself —
+             closes it. */
           scrim.addEventListener('click', closeMenu);
 
           document.addEventListener('keydown', function (e) {
