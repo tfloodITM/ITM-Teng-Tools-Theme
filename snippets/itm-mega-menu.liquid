@@ -298,7 +298,7 @@
   }
 
   .itm-products-panel__inner{
-    position:absolute; top:0; left:0; bottom:0;
+    position:absolute; top:0; left:0; bottom:0; z-index:2; /* above the scrim's z-index:1 */
     width:min(360px, 88vw); height:auto;
     background:#f4f4f4; color:#1a1a1a;
     box-shadow:24px 0 40px rgba(0,0,0,.2);
@@ -364,7 +364,14 @@
         it morphs to an X), same as Bunnings. Clicking the dimmed scrim
         also closes it — see the click listener in the script below.
       {%- endcomment -%}
-      <div id="itm-products-scrim"></div>
+      {%- comment -%}
+        Inline style, deliberately, on top of the stylesheet rule of the
+        same name — highest possible CSS specificity, short of !important
+        on a competing rule (and nothing here has that). Whatever's been
+        stopping the scrim from visibly painting, an inline background
+        can't lose a cascade fight to it.
+      {%- endcomment -%}
+      <div id="itm-products-scrim" style="position:absolute; inset:0; background-color:rgba(17,17,17,.55); z-index:1;"></div>
       <div class="itm-products-panel__inner">
       <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
