@@ -240,7 +240,11 @@
     display:inline-flex; align-items:center; gap:8px;
     -webkit-appearance:none; appearance:none;
     background:none !important; border:0; margin:0;
-    font:inherit; cursor:pointer;
+    font-family:inherit; font-size:inherit; cursor:pointer;
+    font-weight:800; /* `font:inherit` here was quietly wiping out the
+      bold weight .itm-mega__top otherwise gives every other nav item —
+      set explicitly, and a touch bolder than the rest since Products is
+      the primary trigger */
     color:{{ trigger_text_color }} !important;
   }
   .itm-mega__products-trigger .icon-hamburger,
@@ -273,7 +277,16 @@
     overscroll-behavior:contain; /* hovering the panel scrolls the panel, not the page */
   }
   #itm-products-panel[open]{ display:flex; }
-  #itm-products-panel::backdrop{ background:rgba(17,17,17,.5); }
+  {%- comment -%}
+    The backdrop shouldn't dim the header itself — only the page content
+    below it, same as Bunnings. ::backdrop is a real, styleable box (not
+    just a background swatch), so it can be pulled down to start below
+    the header using the same measured offset the panel itself uses.
+  {%- endcomment -%}
+  #itm-products-panel::backdrop{
+    background:rgba(17,17,17,.5);
+    top:var(--itm-pd-header-h, 0px);
+  }
 
   .itm-products-panel__list{ list-style:none; margin:0; padding:6px 0; overflow-y:auto; flex:1 1 auto; }
 
