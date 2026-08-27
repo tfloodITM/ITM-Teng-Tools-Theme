@@ -240,12 +240,17 @@
     display:inline-flex; align-items:center; gap:8px;
     -webkit-appearance:none; appearance:none;
     background:none !important; border:0; margin:0;
-    font-family:inherit; cursor:pointer;
+    font-family:inherit; line-height:inherit; cursor:pointer;
     /* NOT font-size:inherit — .itm-mega__top (shared with every other nav
        item, including Support & Resources) already sets the correct size
        from the nav_font_size setting. Overriding it back to inherit here
        made this button render 2px larger than its sibling, which was
-       exactly what threw the vertical alignment off between the two. */
+       exactly what threw the vertical alignment off between the two.
+       line-height:inherit IS needed though: unlike the <a> Support &
+       Resources uses, a <button> doesn't inherit line-height from its
+       ancestors by default (form elements opt out of that) — it was
+       silently falling back to the browser's own "normal", a few px
+       taller than what everything else here actually resolves to. */
     font-weight:800; /* `font:inherit` here was quietly wiping out the
       bold weight .itm-mega__top otherwise gives every other nav item —
       set explicitly, and a touch bolder than the rest since Products is
