@@ -106,6 +106,26 @@
     .header > .header__left-cluster{ display:none; }
   }
 
+  {%- comment -%}
+    Pulls the nav bar (Products/Support & Resources) out to .header's true
+    left edge, same reasoning and same technique as .header__icons' own
+    margin-right fix further down for Cart on the right: width grows by
+    the header's own side padding while margin-left goes negative by the
+    same amount, so the LEFT edge moves out to the true edge while the
+    RIGHT edge stays exactly where it already was. Products, being first,
+    ends up flush; Support & Resources rides along unchanged relative to
+    it. Products' own hover ::before is positioned relative to the button
+    itself (left:0), so once the button's own box starts at the true edge,
+    the hover cube covers that whole area automatically — no separate
+    change needed there.
+  {%- endcomment -%}
+  @media (min-width:990px){
+    .header > nav.header__inline-menu{
+      width:calc(100% + {{ section.settings.header_padding_side | default: 20 }}px);
+      margin-left:-{{ section.settings.header_padding_side | default: 20 }}px;
+    }
+  }
+
   /* ===== Search as a rounded pill (Bunnings style, icon on the left) ===== */
   .ws-search{
     --ws-height:{{ section.settings.search_height | default: 44 }}px;
@@ -236,6 +256,7 @@
     {%- endcomment -%}
     {%- assign hicon_pad_t = section.settings.padding_top | default: 0 -%}
     {%- assign hicon_pad_b = section.settings.padding_bottom | default: 0 -%}
+    {%- assign hdr_side_pad = section.settings.header_padding_side | default: 20 -%}
     {%- comment -%}
       Full-height "cube" like Bunnings' Lists/Cart hover, not just a pill
       around the icon+label: .header (the grid row holding logo/search/
@@ -249,6 +270,12 @@
     {%- endcomment -%}
     .header > .header__icons{
       align-self:stretch;
+      /* Pulls the whole Sign In/Lists/Cart group out to .header's true
+         right edge — .header.page-width's own side padding otherwise
+         leaves Cart sitting {{ hdr_side_pad }}px short of it. Cart being
+         last is what ends up flush; Sign In/Lists just ride along in
+         their existing order. */
+      margin-right:-{{ hdr_side_pad }}px;
     }
     .header__icons{
       /* !important: the unconditional `.header__icons{ align-items:
@@ -828,7 +855,13 @@
         box-sizing:border-box;
         width: calc(100% + {{ section.settings.header_padding_side | default: 20 | times: 2 }}px);
         margin-left: -{{ section.settings.header_padding_side | default: 20 }}px;
-        padding-left: {{ section.settings.header_padding_side | default: 20 }}px;
+        /* padding-left removed (was header_padding_side, re-adding the exact
+           inset the width/margin-left trick above was meant to remove): that
+           kept the background full-bleed while leaving CONTENT — Products —
+           still sitting inset from the true left edge. Products should be
+           flush against it, hover cube included, so this side stays 0.
+           padding-right is kept: only Products/the left edge needs this,
+           Support & Resources on the right wasn't asked to change. */
         padding-right: {{ section.settings.header_padding_side | default: 20 }}px;
         padding-top:6px;
         padding-bottom:6px;
@@ -1023,6 +1056,21 @@
     }
     .header__icon-label{ color:{{ section.settings.utility_color }} !important; }
   {%- endif -%}
+
+  {%- comment -%}
+    Sign In / Lists / Cart in white — unconditional and after the block
+    above (same !important, later in source wins the tie) so it applies
+    regardless of whatever utility_color is actually saved live for this
+    theme right now (confirmed via a live stylesheet scan it was resolving
+    to #1a1a1a — that value isn't in this repo's settings_data.json, so
+    it's a customization saved directly on the theme in Shopify, not
+    something editing a schema default here would reach).
+  {%- endcomment -%}
+  .header__icon,
+  .header__icon .svg-wrapper svg,
+  .header__icon-label{
+    color:#ffffff !important;
+  }
 
   {%- comment -%} Hamburger (menu) toggle to the left of the logo — keep it compact {%- endcomment -%}
   .header__icon--menu svg{ width:22px !important; height:22px !important; }
