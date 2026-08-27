@@ -237,7 +237,13 @@
       align-self:stretch;
     }
     .header__icons{
-      align-items:stretch;
+      /* !important: the unconditional `.header__icons{ align-items:
+         flex-start }` base rule further down this file (kept for layout
+         elsewhere) has equal specificity and comes later in source order,
+         so it silently wins over this without !important regardless of
+         the media query being active — confirmed live, .header__icon
+         stayed at its 44px content height until this was added. */
+      align-items:stretch !important;
     }
     .header__icon{
       padding:0 12px; /* vertical sizing now comes from the stretch above, not padding */
