@@ -468,17 +468,18 @@
           document.body.appendChild(panel);
 
           function headerHeight() {
-            /* .section-header (what Dawn's own header-drawer.js measures
-               for --header-bottom-position) still wasn't accounting for
-               the trust bar row on this page — the panel needs to sit
-               below THAT, the actual last row of the header, so measure
-               it directly. Take the largest bottom edge among every
-               plausible header-boundary element, so whichever one is
-               genuinely tallest right now wins regardless of which
-               selector theory is correct. */
-            var candidates = [
-              '.trust-bar', '.section-header', '.header-wrapper', '.header'
-            ];
+            /* Sit below the nav/menu row (Products + Support & Resources
+               live in it) but ABOVE the trust bar — i.e. the panel covers
+               the trust bar rather than starting below it. The trigger's
+               own closest .header__inline-menu ancestor IS that row, so
+               there's no selector-guessing needed: whatever row it's
+               actually rendered inside is definitionally the right one. */
+            var navRow = trigger.closest('.header__inline-menu');
+            if (navRow) return Math.round(navRow.getBoundingClientRect().bottom);
+
+            /* Fallback, if the header markup ever changes shape enough
+               that the trigger isn't inside .header__inline-menu anymore. */
+            var candidates = ['.section-header', '.header-wrapper', '.header'];
             var bottom = 0;
             candidates.forEach(function (sel) {
               var el = document.querySelector(sel);
