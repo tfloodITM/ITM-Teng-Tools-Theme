@@ -246,6 +246,14 @@
       align-items:stretch !important;
     }
     .header__icon{
+      /* Dawn's own base.css sets .header__icon{ height:4.4rem } explicitly
+         (confirmed live) — an explicit height always wins over a parent's
+         align-items:stretch, which only fills available space when the
+         item's own size is auto. Same specificity as that Dawn rule, but
+         this loads later (section style block vs. the global stylesheet),
+         same as how the padding override below already wins without
+         needing !important. */
+      height:auto;
       padding:0 12px; /* vertical sizing now comes from the stretch above, not padding */
       justify-content:center; /* re-center icon+label inside the taller box */
       border-radius:0; /* square "cubed" corners, not a rounded pill */
