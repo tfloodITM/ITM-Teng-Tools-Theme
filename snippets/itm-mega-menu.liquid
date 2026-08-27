@@ -49,6 +49,13 @@
     align-items:center;
     /* shrink the gap as the screen narrows so items never wrap (drawer takes over at <=989px) */
     gap:clamp(10px, 1.5vw, 28px);
+    /* Same value as gap above, duplicated as a custom property so the
+       hover ::before on .itm-mega__products-trigger (a descendant) can
+       reference it in a calc() and extend exactly to the divider — gap
+       itself isn't readable from CSS any other way, and it's a fluid
+       clamp(), not a fixed px a comment could just repeat correctly at
+       every viewport width. */
+    --mega-gap:clamp(10px, 1.5vw, 28px);
     list-style:none;
     margin:0;
     padding:0;
@@ -309,7 +316,16 @@
   .itm-mega__products-trigger::before{
     content:'';
     position:absolute;
-    top:-6px; bottom:-6px; left:0; right:0;
+    top:-6px; bottom:-6px; left:0;
+    /* right:0 alone stopped at the button's own padding edge, leaving the
+       real .itm-mega__bar gap (confirmed live: ~21.6px) between the
+       highlight and the divider completely unlit — that's what "not
+       lighting up whole products box" was pointing at. Extending past the
+       button's own edge by the bar's actual gap (the --mega-gap custom
+       property above) reaches exactly the divider's near edge, so the
+       highlight fills the entire block, edge to edge, with nothing left
+       unlit in between. */
+    right:calc(var(--mega-gap) * -1);
     background:transparent;
     transition:background-color .15s ease;
     pointer-events:none;
