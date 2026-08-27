@@ -255,6 +255,20 @@
     display:inline-flex; align-items:center; gap:8px;
     -webkit-appearance:none; appearance:none;
     background:none !important; border:0; margin:0;
+    /* border:0 above kills the invisible border-bottom:3px solid
+       transparent that .itm-mega__top gives every other nav item (it's
+       the red hover-underline's placeholder). Same selector specificity,
+       declared later, so it wins outright here — leaving this button's
+       box 3px SHORTER than its siblings'. Everything still measured
+       identically (font-size, line-height, padding) because that's not
+       where the 3px was: it's this missing border. With every item
+       vertically centered as a group in the shared flex bar, that
+       missing 3px at the bottom shifts THIS item's content down by half
+       the gap relative to the others — the ~1.5px text offset. Restoring
+       an invisible placeholder border of the same width fixes the box
+       height without adding a visible line (Products doesn't hover-
+       underline; it opens on click). */
+    border-bottom:3px solid transparent;
     font-family:inherit; line-height:inherit; cursor:pointer;
     /* NOT font-size:inherit — .itm-mega__top (shared with every other nav
        item, including Support & Resources) already sets the correct size
