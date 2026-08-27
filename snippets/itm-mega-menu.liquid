@@ -292,14 +292,31 @@
        divider <li> right after it (see .itm-mega__divider) rides the
        extra width along automatically since it's a normal flex sibling. */
     padding-left:14px; padding-right:14px;
-    border-radius:8px;
-    transition:background-color .15s ease;
+    position:relative; /* positioning context for the ::before hover-cube below */
   }
-  .itm-mega__products-trigger:hover,
-  .itm-mega__products-trigger:focus-visible{
-    /* background:none !important above needs matching !important to lose
-       to this on hover/focus, despite :hover's higher selector specificity */
-    background:color-mix(in srgb, var(--mega-accent) 10%, transparent) !important;
+  {%- comment -%}
+    The hover highlight is a separate ::before, not a background on the
+    button itself: the button's own box is only the bar's content height
+    (46.6px), but nav.header__inline-menu wraps that bar in 6px of its own
+    top/bottom padding to reach the full row height (58.6px) — that 6px is
+    where "Lifetime Warranty" etc. sit below and the row's own edge sits
+    above. Bunnings' hover cube fills that whole row, edge to edge, not
+    just the text's own box, so this pseudo-element stretches past the
+    button by that same 6px top and bottom via negative inset rather than
+    touching the button's real box model (which the vertical-alignment fix
+    above depends on staying exactly as measured).
+  {%- endcomment -%}
+  .itm-mega__products-trigger::before{
+    content:'';
+    position:absolute;
+    top:-6px; bottom:-6px; left:0; right:0;
+    background:transparent;
+    transition:background-color .15s ease;
+    pointer-events:none;
+  }
+  .itm-mega__products-trigger:hover::before,
+  .itm-mega__products-trigger:focus-visible::before{
+    background:color-mix(in srgb, var(--mega-accent) 10%, transparent);
   }
   .itm-mega__products-trigger .icon-hamburger,
   .itm-mega__products-trigger .icon-close{ color:{{ trigger_text_color }}; }
@@ -319,7 +336,11 @@
     align-self:stretch;
     flex:0 0 auto;
     width:1px;
-    margin:10px 0;
+    /* align-self:stretch only fills the BAR's own height (46.6px, sized to
+       the trigger button's content box) — the same 6px top/bottom the
+       hover-cube above compensates for is missing here too, so pull it
+       back out with a negative margin to reach the full 58.6px row. */
+    margin:-6px 0;
     background:color-mix(in srgb, currentColor 20%, transparent);
   }
 

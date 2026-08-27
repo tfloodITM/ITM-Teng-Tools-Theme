@@ -222,9 +222,27 @@
     would eat directly into that already-tight box instead of growing it.
   {%- endcomment -%}
   @media (min-width:990px){
+    {%- comment -%}
+      Full-height "cube" like Bunnings' Lists/Cart hover, not just a pill
+      around the icon+label: .header (the grid row holding logo/search/
+      icons) is taller than .header__icons' own content, and centers it
+      with align-items:center by default. align-self:stretch here makes
+      .header__icons fill that full row height instead — dynamically,
+      whatever the row's actual height ends up being (logo size, search
+      bar height etc. all affect it), rather than a hardcoded pixel guess
+      that would go stale the moment those settings change. align-items:
+      stretch passes that height down to each .header__icon in turn.
+    {%- endcomment -%}
+    .header > .header__icons{
+      align-self:stretch;
+    }
+    .header__icons{
+      align-items:stretch;
+    }
     .header__icon{
-      padding:8px 12px;
-      border-radius:8px;
+      padding:0 12px; /* vertical sizing now comes from the stretch above, not padding */
+      justify-content:center; /* re-center icon+label inside the taller box */
+      border-radius:0; /* square "cubed" corners, not a rounded pill */
       transition:background-color .15s ease;
     }
     .header__icon:hover,
@@ -235,16 +253,12 @@
        so it still skips only the very first .header__icon even though the
        localization wrapper / conditional Lists link / @app blocks can sit
        between them — it just needs SOME earlier .header__icon sibling. */
-    .header__icon ~ .header__icon{
-      position:relative;
-    }
     .header__icon ~ .header__icon::before{
       content:'';
       position:absolute;
-      left:0; top:50%;
-      transform:translate(-50%, -50%);
+      left:0; top:0; bottom:0;
+      transform:translateX(-50%);
       width:1px;
-      height:24px;
       background:color-mix(in srgb, currentColor 22%, transparent);
     }
   }
