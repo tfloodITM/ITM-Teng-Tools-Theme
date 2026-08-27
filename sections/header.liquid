@@ -1071,6 +1071,13 @@
   .header__icon-label{
     color:#ffffff !important;
   }
+  .header__icon .svg-wrapper svg{
+    /* the utility_color block above sets stroke explicitly too (not just
+       color, which currentColor would have handled on its own) — confirmed
+       live the icon outline stayed dark even after color went white,
+       because stroke never got touched. */
+    stroke:#ffffff !important;
+  }
 
   {%- comment -%} Hamburger (menu) toggle to the left of the logo — keep it compact {%- endcomment -%}
   .header__icon--menu svg{ width:22px !important; height:22px !important; }
