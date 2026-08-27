@@ -223,6 +223,20 @@
   {%- endcomment -%}
   @media (min-width:990px){
     {%- comment -%}
+      .header's own top/bottom padding (the settings below — 12px live at
+      the time this was written, but themeable) is what leaves the "gap
+      underneath" — .header__icons only ever stretches to fill the GRID
+      ROW's own content height, which sits inset from the header's true
+      outer edge by exactly this padding on both sides. The hover cube and
+      divider lines both need to reach past that padding to actually touch
+      the header's real top/bottom edge — "the entire block", not a
+      shorter one floating in the middle of it. Reusing the same setting
+      expressions .header itself uses (not a hardcoded px guess) keeps
+      this correct if that padding is ever changed.
+    {%- endcomment -%}
+    {%- assign hicon_pad_t = section.settings.padding_top | default: 0 -%}
+    {%- assign hicon_pad_b = section.settings.padding_bottom | default: 0 -%}
+    {%- comment -%}
       Full-height "cube" like Bunnings' Lists/Cart hover, not just a pill
       around the icon+label: .header (the grid row holding logo/search/
       icons) is taller than .header__icons' own content, and centers it
@@ -244,34 +258,60 @@
          the media query being active — confirmed live, .header__icon
          stayed at its 44px content height until this was added. */
       align-items:stretch !important;
+      gap:0; /* blocks sit flush against each other now — the divider lines
+                below are the only separation, matching Bunnings' continuous
+                strip rather than floating pills with gaps between them */
     }
     .header__icon{
-      /* Dawn's own base.css sets .header__icon{ height:4.4rem } explicitly
-         (confirmed live) — an explicit height always wins over a parent's
-         align-items:stretch, which only fills available space when the
-         item's own size is auto. Same specificity as that Dawn rule, but
-         this loads later (section style block vs. the global stylesheet),
-         same as how the padding override below already wins without
+      /* Dawn's own base.css sets .header__icon{ height:4.4rem; width:4.4rem }
+         explicitly (confirmed live) — an explicit size always wins over a
+         parent's align-items:stretch (which only fills space when the
+         item's own size is auto), and a fixed width is also why "Sign In"
+         was cramming against "Lists"/"Cart" instead of getting equal-size
+         blocks: all three were forced to the same ~44px box regardless of
+         label length, just clipping the wider one instead of growing it.
+         Both overridden explicitly below — same specificity as Dawn's
+         rule, but this loads later (section style block vs. the global
+         stylesheet), same as how the padding override already won without
          needing !important. */
       height:auto;
-      padding:0 12px; /* vertical sizing now comes from the stretch above, not padding */
+      width:88px; /* one shared width for all three — genuinely equal-size blocks */
+      padding:0 14px;
       justify-content:center; /* re-center icon+label inside the taller box */
       border-radius:0; /* square "cubed" corners, not a rounded pill */
-      transition:background-color .15s ease;
     }
-    .header__icon:hover,
-    .header__icon:focus-visible{
-      background:color-mix(in srgb, currentColor 10%, transparent);
-    }
-    /* Divider between icon blocks: a general-sibling rule (not adjacent),
-       so it still skips only the very first .header__icon even though the
-       localization wrapper / conditional Lists link / @app blocks can sit
-       between them — it just needs SOME earlier .header__icon sibling. */
-    .header__icon ~ .header__icon::before{
+    {%- comment -%}
+      Hover highlight is a ::after, not a background on .header__icon
+      itself: the icon's own (stretched) box only reaches 62px — the grid
+      row's real content height — same as the divider below, it needs to
+      extend past that by the header's own top/bottom padding to actually
+      fill the whole visible block instead of stopping short of the
+      header's true top/bottom edge, which is what "there's a gap
+      underneath" was actually describing.
+    {%- endcomment -%}
+    .header__icon::after{
       content:'';
       position:absolute;
-      left:0; top:0; bottom:0;
-      transform:translateX(-50%);
+      left:0; right:0;
+      top:-{{ hicon_pad_t }}px; bottom:-{{ hicon_pad_b }}px;
+      background:transparent;
+      transition:background-color .15s ease;
+      pointer-events:none;
+    }
+    .header__icon:hover::after,
+    .header__icon:focus-visible::after{
+      background:color-mix(in srgb, currentColor 10%, transparent);
+    }
+    /* Divider on every icon's left edge, including Sign In's (not just
+       between later ones) — a plain ::before, no longer a sibling-scoped
+       rule. Extends past the icon's own stretched box the same way the
+       hover cube above does, so it actually touches the header's real
+       edges instead of floating short of them. */
+    .header__icon::before{
+      content:'';
+      position:absolute;
+      left:0;
+      top:-{{ hicon_pad_t }}px; bottom:-{{ hicon_pad_b }}px;
       width:1px;
       background:color-mix(in srgb, currentColor 22%, transparent);
     }
