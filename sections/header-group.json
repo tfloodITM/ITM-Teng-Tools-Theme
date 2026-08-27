@@ -517,7 +517,7 @@
       "settings": {
         "logo_position": "top-left",
         "mobile_logo_position": "center",
-        "menu": "",
+        "menu": "main-menu",
         "menu_type_desktop": "dropdown",
         "enable_mega_menu": true,
         "mega_accent_color": "#e30613",
