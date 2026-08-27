@@ -131,9 +131,9 @@
         },
         "video_organised": {
           "type": "video",
+          "disabled": true,
           "settings": {
             "video_url": "",
-            "poster": "shopify://shop_images/limited-edition-banner-1x1-3.webp",
             "overlay_heading": "MADE FOR PROFESSIONALS",
             "overlay_text": "Swedish-designed. Independently tested. Backed for life.",
             "overlay_position": "bottom",
@@ -200,6 +200,7 @@
           "type": "tile",
           "settings": {
             "layout": "stacked",
+            "image": "shopify://shop_images/limited-edition-banner-1x1-3.webp",
             "heading": "Torque Tools",
             "text": "",
             "price": "",
