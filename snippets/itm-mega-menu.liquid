@@ -74,6 +74,21 @@
   .itm-mega__item:focus-within > .itm-mega__top{
     border-bottom-color:var(--mega-accent);
   }
+  {%- comment -%}
+    Both "Products" and every top-level link's title used to be a bare
+    text node dropped directly inside its inline-flex container (button
+    or <a>). With no wrapping element, each becomes an ANONYMOUS flex
+    item, and Chromium sizes those using font-metric heuristics that
+    come out very slightly different depending on what icon markup sits
+    next to the text (raw <svg> siblings here vs a <span> caret over on
+    Support & Resources) — a couple of px of box height either way, and
+    with it a ~1.5px vertical drift in the text's actual glyph position
+    that no amount of matching font-size/line-height fixes, because
+    those were never what differed. Wrapping the label text in a real
+    element removes the ambiguity: it's now an ordinary flex item sized
+    only by its own line-height, identically for every .itm-mega__top.
+  {%- endcomment -%}
+  .itm-mega__label{ display:inline-block; }
   .itm-mega__caret{ display:inline-flex; transition:transform .15s ease; }
   .itm-mega__caret svg{ width:11px; height:11px; }
   .itm-mega__item:hover > .itm-mega__top .itm-mega__caret,
@@ -358,7 +373,7 @@
       >
         {{- 'icon-hamburger.svg' | inline_asset_content -}}
         {{- 'icon-close.svg' | inline_asset_content -}}
-        Products
+        <span class="itm-mega__label">Products</span>
       </button>
     </li>
 
@@ -604,7 +619,7 @@
           {%- else -%}
             <li class="itm-mega__item itm-mega__item--{{ lay }}" {{ block.shopify_attributes }}>
               <a class="itm-mega__top" href="{{ block.settings.link | default: '#' }}" aria-haspopup="true">
-                {{ block.settings.title }}
+                <span class="itm-mega__label">{{ block.settings.title }}</span>
                 <span class="itm-mega__caret" aria-hidden="true">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
               </a>
               <div class="itm-mega__panel itm-mega__panel--{{ lay }}">
