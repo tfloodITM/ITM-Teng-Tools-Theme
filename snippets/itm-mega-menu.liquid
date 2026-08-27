@@ -285,6 +285,21 @@
       set explicitly, and a touch bolder than the rest since Products is
       the primary trigger */
     color:{{ trigger_text_color }} !important;
+    /* Padding-left/right only — top/bottom stay whatever .itm-mega__top's
+       shorthand + the border-bottom fix above already resolve to, so this
+       doesn't disturb the pixel-measured vertical alignment. Widening the
+       button is what turns "Products" into its own visual block, and the
+       divider <li> right after it (see .itm-mega__divider) rides the
+       extra width along automatically since it's a normal flex sibling. */
+    padding-left:14px; padding-right:14px;
+    border-radius:8px;
+    transition:background-color .15s ease;
+  }
+  .itm-mega__products-trigger:hover,
+  .itm-mega__products-trigger:focus-visible{
+    /* background:none !important above needs matching !important to lose
+       to this on hover/focus, despite :hover's higher selector specificity */
+    background:color-mix(in srgb, var(--mega-accent) 10%, transparent) !important;
   }
   .itm-mega__products-trigger .icon-hamburger,
   .itm-mega__products-trigger .icon-close{ color:{{ trigger_text_color }}; }
@@ -293,6 +308,20 @@
   .itm-mega__products-trigger.is-open .icon-hamburger{ display:none; }
   .itm-mega__products-trigger.is-open .icon-close{ display:block; }
   .itm-mega__products-trigger svg{ width:18px; height:18px; }
+
+  {%- comment -%}
+    A real flex sibling, not a border/pseudo-element on the Products <li> —
+    .itm-mega__bar's gap is a fluid clamp(), so a divider that's just
+    another flex item gets the same gap spacing on both sides automatically
+    and stays centered no matter what the clamp() currently resolves to.
+  {%- endcomment -%}
+  .itm-mega__divider{
+    align-self:stretch;
+    flex:0 0 auto;
+    width:1px;
+    margin:10px 0;
+    background:color-mix(in srgb, currentColor 20%, transparent);
+  }
 
   {%- comment -%}
     popover="manual" (not <dialog>/showModal()): renders in the browser's
@@ -390,6 +419,7 @@
         <span class="itm-mega__label">Products</span>
       </button>
     </li>
+    <li class="itm-mega__divider" role="presentation" aria-hidden="true"></li>
 
     <div id="itm-products-panel" popover="manual" role="dialog" aria-label="Shop by category">
       {%- comment -%}

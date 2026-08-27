@@ -214,6 +214,40 @@
     position:relative;
     text-align:center;
   }
+  {%- comment -%}
+    Block/divider/hover treatment is desktop-only: mobile forces each
+    .header__icon to a tight fixed-width square via !important (see the
+    max-width:989px block below) so the burger+account / lists+cart pairs
+    balance either side of the centred logo. Adding side padding there
+    would eat directly into that already-tight box instead of growing it.
+  {%- endcomment -%}
+  @media (min-width:990px){
+    .header__icon{
+      padding:8px 12px;
+      border-radius:8px;
+      transition:background-color .15s ease;
+    }
+    .header__icon:hover,
+    .header__icon:focus-visible{
+      background:color-mix(in srgb, currentColor 10%, transparent);
+    }
+    /* Divider between icon blocks: a general-sibling rule (not adjacent),
+       so it still skips only the very first .header__icon even though the
+       localization wrapper / conditional Lists link / @app blocks can sit
+       between them — it just needs SOME earlier .header__icon sibling. */
+    .header__icon ~ .header__icon{
+      position:relative;
+    }
+    .header__icon ~ .header__icon::before{
+      content:'';
+      position:absolute;
+      left:0; top:50%;
+      transform:translate(-50%, -50%);
+      width:1px;
+      height:24px;
+      background:color-mix(in srgb, currentColor 22%, transparent);
+    }
+  }
   /* normalise the icon box so every label sits on the same baseline */
   .header__icon .svg-wrapper,
   .header__icon account-icon{
@@ -224,6 +258,7 @@
   }
   .header__icon-label{
     font-size:12px;
+    font-weight:700;
     line-height:1;
     letter-spacing:.02em;
     white-space:nowrap;
@@ -672,6 +707,17 @@
     display:flex;
     align-items:flex-start;
     gap: 18px;
+  }
+  @media (min-width:990px){
+    .header__icons{
+      /* was 18px — each .header__icon now carries its own 12px side
+         padding (the "block" look) plus a divider line in that space, so
+         the gap only needs to cover the divider's own breathing room, not
+         a full second helping of spacing on top of the padding. Mobile
+         keeps the original tight layout untouched (its own !important
+         gap:4px below still wins there regardless). */
+      gap: 2px;
+    }
   }
 
   {%- comment -%} Optional solid header colour (e.g. Bunnings teal) {%- endcomment -%}
