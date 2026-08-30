@@ -856,6 +856,7 @@
         "icon_QN3Wmi",
         "icon_93gXh4"
       ],
+      "disabled": true,
       "name": "Category Icon Strip",
       "settings": {
         "heading": "Shop By Category",
@@ -958,6 +959,7 @@
     },
     "featured_blog_yf4hXf": {
       "type": "itm-home-blog",
+      "disabled": true,
       "name": "Home Blog Grid",
       "settings": {
         "blog": "education-hub",
