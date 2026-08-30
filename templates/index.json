@@ -198,7 +198,6 @@
         },
         "tile_torque": {
           "type": "tile",
-          "disabled": true,
           "settings": {
             "layout": "stacked",
             "image": "shopify://shop_images/limited-edition-banner-1x1-3.webp",
@@ -240,7 +239,6 @@
         },
         "tile_gxPJHk": {
           "type": "tile",
-          "disabled": true,
           "settings": {
             "layout": "stacked",
             "image": "shopify://shop_images/limited-edition-banner-1x1-3.webp",
@@ -282,7 +280,6 @@
         },
         "tile_kits": {
           "type": "tile",
-          "disabled": true,
           "settings": {
             "layout": "split",
             "heading": "Build Your Ultimate Tool Kit",
@@ -779,6 +776,7 @@
         "category_GkqUYX",
         "category_VqaFM4"
       ],
+      "disabled": true,
       "name": "Category Image Grid",
       "settings": {
         "heading": "Find the right tool for you",
