@@ -264,9 +264,28 @@
               aria-controls="sbc-panel-{{ section.id }}-{{ pill_index }}"
               {{ block.shopify_attributes }}
             >
+              {%- comment -%}
+                Falls back when no "Category image" is explicitly picked:
+                the collection's own image first, then its first product's
+                image, so a circle is never just empty white — it only
+                needs the explicit picker if you want to override what
+                Shopify would otherwise show automatically.
+              {%- endcomment -%}
+              {%- liquid
+                assign pill_img = block.settings.icon
+                if pill_img == blank and col.image != blank
+                  assign pill_img = col.image
+                endif
+                if pill_img == blank
+                  assign pill_first_product = col.products.first
+                  if pill_first_product and pill_first_product.featured_image
+                    assign pill_img = pill_first_product.featured_image
+                  endif
+                endif
+              -%}
               <span class="sbc__pill-circle">
-                {%- if block.settings.icon != blank -%}
-                  {{ block.settings.icon | image_url: width: 300 | image_tag: loading: 'lazy', alt: pill_label, widths: '100,150,200,300' }}
+                {%- if pill_img != blank -%}
+                  {{ pill_img | image_url: width: 300 | image_tag: loading: 'lazy', alt: pill_label, widths: '100,150,200,300' }}
                 {%- endif -%}
               </span>
               <span class="sbc__pill-label">{{ pill_label }}</span>
