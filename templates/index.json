@@ -93,6 +93,7 @@
           "type": "tile",
           "settings": {
             "layout": "split",
+            "image": "shopify://shop_images/TengTools-banner-open-drawers.webp",
             "heading": "GET ORGANISED™",
             "text": "<p>Modular TC Tray storage that clicks together into one seamless system.</p>",
             "price": "",
@@ -559,6 +560,8 @@
         "section_fill_scheme": "",
         "section_bg": "#ffffff",
         "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
+        "section_border_width": 1,
+        "section_border_color": "#951C1A",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_bg": "#f2f2f2",
@@ -568,7 +571,7 @@
         "icon_wrap_size": 100,
         "icon_wrap_size_mobile": 52,
         "show_icon_bubble": false,
-        "icon_bubble_color": "#FFFFFF",
+        "icon_bubble_color": "#ffffff",
         "icon_border_width": 1,
         "icon_border_color": "#e30613",
         "title_size": 18,
@@ -774,6 +777,7 @@
         "category_GkqUYX",
         "category_VqaFM4"
       ],
+      "disabled": true,
       "name": "Category Image Grid",
       "settings": {
         "heading": "Find the right tool for you",
