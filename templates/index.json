@@ -590,7 +590,7 @@
         "tab_na3iXH": {
           "type": "tab",
           "settings": {
-            "collection": "sockets-and-accessories",
+            "collection": "sockets-accessories",
             "label": "Sockets & Accessories",
             "subcollections": []
           }
@@ -598,7 +598,7 @@
         "tab_GiEw63": {
           "type": "tab",
           "settings": {
-            "collection": "spanners-and-wrenches",
+            "collection": "spanners-wrenches",
             "label": "Spanners & Wrenches",
             "subcollections": []
           }
@@ -618,94 +618,6 @@
             "label": "Automotive Tools",
             "subcollections": []
           }
-        },
-        "tab_screwdrivers": {
-          "type": "tab",
-          "settings": {
-            "collection": "screwdrivers",
-            "label": "Screwdrivers",
-            "subcollections": []
-          }
-        },
-        "tab_cutters_pliers": {
-          "type": "tab",
-          "settings": {
-            "collection": "cutters-and-pliers",
-            "label": "Cutters & Pliers",
-            "subcollections": []
-          }
-        },
-        "tab_cutting_tools": {
-          "type": "tab",
-          "settings": {
-            "collection": "cutting-tools",
-            "label": "Cutting Tools",
-            "subcollections": []
-          }
-        },
-        "tab_hex_torx": {
-          "type": "tab",
-          "settings": {
-            "collection": "hex-and-torx-keys",
-            "label": "Hex & Torx Keys",
-            "subcollections": []
-          }
-        },
-        "tab_measuring_marking": {
-          "type": "tab",
-          "settings": {
-            "collection": "measuring-and-marking",
-            "label": "Measuring & Marking",
-            "subcollections": []
-          }
-        },
-        "tab_other_hand_tools": {
-          "type": "tab",
-          "settings": {
-            "collection": "other-hand-tools",
-            "label": "Other Hand Tools",
-            "subcollections": []
-          }
-        },
-        "tab_striking_tools": {
-          "type": "tab",
-          "settings": {
-            "collection": "striking-tools",
-            "label": "Striking Tools",
-            "subcollections": []
-          }
-        },
-        "tab_air_tools": {
-          "type": "tab",
-          "settings": {
-            "collection": "air-tools-and-accessories",
-            "label": "Air Tools And Accessories",
-            "subcollections": []
-          }
-        },
-        "tab_clamps": {
-          "type": "tab",
-          "settings": {
-            "collection": "clamps",
-            "label": "Clamps",
-            "subcollections": []
-          }
-        },
-        "tab_bits_drivers": {
-          "type": "tab",
-          "settings": {
-            "collection": "bits-and-drivers",
-            "label": "Bits & Drivers",
-            "subcollections": []
-          }
-        },
-        "tab_vices": {
-          "type": "tab",
-          "settings": {
-            "collection": "vices",
-            "label": "Vices",
-            "subcollections": []
-          }
         }
       },
       "block_order": [
@@ -714,37 +626,40 @@
         "tab_na3iXH",
         "tab_GiEw63",
         "tab_VLwVkY",
-        "tab_ekirmp",
-        "tab_screwdrivers",
-        "tab_cutters_pliers",
-        "tab_cutting_tools",
-        "tab_hex_torx",
-        "tab_measuring_marking",
-        "tab_other_hand_tools",
-        "tab_striking_tools",
-        "tab_air_tools",
-        "tab_clamps",
-        "tab_bits_drivers",
-        "tab_vices"
+        "tab_ekirmp"
       ],
       "name": "Shop by Category",
       "settings": {
         "heading": "Shop by Category",
         "anchor_id": "",
+        "max_width": 1430,
+        "heading_gap": 16,
+        "heading_gap_mobile": 12,
+        "view_all_gap_top": 14,
+        "view_all_gap_top_mobile": 10,
+        "view_all_gap_bottom": 20,
+        "view_all_gap_bottom_mobile": 16,
         "products_per_row": 4,
         "products_per_row_mobile": 2,
         "mobile_border_width": 1,
         "products_limit": 8,
-        "pill_height": 38,
-        "pill_font_size": 14,
-        "pill_font_weight": "400",
+        "pill_height": 110,
+        "mobile_items_visible": 3.3,
         "pill_padding_h": 12,
-        "pill_radius": 100,
-        "pill_border_width": 2,
+        "circle_bg": "#FFFFFF",
         "pill_gap": 8,
+        "label_gap": 8,
+        "pill_font_size": 14,
+        "label_font_size_mobile": 11,
+        "pill_font_weight": "400",
         "pill_inactive_color": "#000000",
-        "pill_active_bg": "#000000",
         "pill_active_color": "#ffffff",
+        "underline_on_hover": true,
+        "pill_border_width": 2,
+        "pill_active_bg": "#000000",
+        "underline_active": true,
+        "circle_border_width_active": 1,
+        "circle_border_color_active": "#000000",
         "show_view_all": true,
         "view_all_style": "underline",
         "view_all_height": 44,
@@ -1276,20 +1191,34 @@
       "settings": {
         "heading": "Find the right sharpener for Dad",
         "anchor_id": "fathers-day-collection",
+        "max_width": 1430,
+        "heading_gap": 16,
+        "heading_gap_mobile": 12,
+        "view_all_gap_top": 14,
+        "view_all_gap_top_mobile": 10,
+        "view_all_gap_bottom": 20,
+        "view_all_gap_bottom_mobile": 16,
         "products_per_row": 4,
         "products_per_row_mobile": 2,
         "mobile_border_width": 1,
         "products_limit": 8,
         "pill_height": 38,
-        "pill_font_size": 14,
-        "pill_font_weight": "400",
+        "mobile_items_visible": 3.3,
         "pill_padding_h": 12,
-        "pill_radius": 100,
-        "pill_border_width": 2,
+        "circle_bg": "#ffffff",
         "pill_gap": 8,
+        "label_gap": 8,
+        "pill_font_size": 14,
+        "label_font_size_mobile": 11,
+        "pill_font_weight": "400",
         "pill_inactive_color": "#000000",
-        "pill_active_bg": "#000000",
         "pill_active_color": "#ffffff",
+        "underline_on_hover": true,
+        "pill_border_width": 2,
+        "pill_active_bg": "#000000",
+        "underline_active": false,
+        "circle_border_width_active": 0,
+        "circle_border_color_active": "#00532d",
         "show_view_all": true,
         "view_all_style": "underline",
         "view_all_height": 44,
