@@ -547,7 +547,14 @@
   box-sizing: border-box;
   overflow: hidden;
   flex-shrink: 0;
-  transition: border-color 0.15s ease;
+  /* Lifts the circle off the section background — overflow:hidden above
+     only clips this element's own CONTENT (the image), it doesn't clip a
+     shadow the box itself casts, so this isn't affected by that. */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.sbc__pill:hover .sbc__pill-circle {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 .sbc__pill-circle img {
