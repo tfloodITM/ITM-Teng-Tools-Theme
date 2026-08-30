@@ -82,6 +82,23 @@
     border-bottom-color:var(--mega-accent);
   }
   {%- comment -%}
+    Products is exempt from the red hover-underline every other item gets —
+    it already has its own full-cube hover highlight, and the border-bottom
+    here isn't decorative for it in the first place: it's a load-bearing
+    3px-transparent placeholder (see the big comment on
+    .itm-mega__products-trigger above) that keeps its box exactly as tall
+    as its siblings'. Turning it red on hover would work visually, but
+    "transparent" is what that border is actually FOR here, so it stays
+    transparent regardless of hover/focus state. Same specificity as the
+    shared rule above (three class-level selectors each) — !important
+    rather than relying on source order, since this needs to hold no
+    matter where either rule ends up relative to the other.
+  {%- endcomment -%}
+  .itm-mega__item--products:hover > .itm-mega__top,
+  .itm-mega__item--products:focus-within > .itm-mega__top{
+    border-bottom-color:transparent !important;
+  }
+  {%- comment -%}
     Both "Products" and every top-level link's title used to be a bare
     text node dropped directly inside its inline-flex container (button
     or <a>). With no wrapping element, each becomes an ANONYMOUS flex
