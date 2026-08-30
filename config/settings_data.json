@@ -235,7 +235,7 @@
       "scheme-a1e56101-fa94-4da1-ba4e-828e87650459": {
         "settings": {
           "background": "#ffffff",
-          "background_gradient": "linear-gradient(133deg, rgba(167, 167, 167, 1) 11%, rgba(252, 252, 252, 1) 53%, rgba(167, 167, 167, 1) 100%)",
+          "background_gradient": "linear-gradient(133deg, rgba(167, 167, 167, 1), rgba(252, 252, 252, 1) 53%, rgba(167, 167, 167, 1) 100%)",
           "feature_background": "#ffffff",
           "feature_text": "#ffffff",
           "text": "#000000",
@@ -260,7 +260,7 @@
       },
       "scheme-ac332372-6be7-41d4-8ba3-c07b83b6cc86": {
         "settings": {
-          "background": "#F4F4F4",
+          "background": "#f4f4f4",
           "background_gradient": "",
           "feature_background": "#ffffff",
           "feature_text": "#ffffff",
