@@ -93,6 +93,7 @@
           "type": "tile",
           "settings": {
             "layout": "split",
+            "image": "shopify://shop_images/TengTools-banner-open-drawers.webp",
             "heading": "GET ORGANISED™",
             "text": "<p>Modular TC Tray storage that clicks together into one seamless system.</p>",
             "price": "",
