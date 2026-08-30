@@ -526,6 +526,7 @@
         "item_69Xxkw": {
           "type": "item",
           "settings": {
+            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-1349-medal-ribbon-check-hover-pinch.json?v=1788126813",
             "title": "Lifetime Warranty",
             "text": "Every Teng Tools hand tool is backed by a lifetime warranty — built to be the last tool you ever need to buy."
           }
@@ -533,6 +534,7 @@
         "item_RapjVn": {
           "type": "item",
           "settings": {
+            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-3272-champion-belt-star-hover-pinch.json?v=1788126813",
             "title": "Made For Professionals",
             "text": "Swedish-designed, independently tested and trusted by tradespeople across Australia."
           }
@@ -540,6 +542,7 @@
         "item_n6AdgC": {
           "type": "item",
           "settings": {
+            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-409-wrench-hover-oscillate.json?v=1788126812",
             "title": "Built To Last",
             "text": "The TC Tray modular storage system keeps every tool organised, protected and ready for the job."
           }
@@ -652,7 +655,7 @@
         "pill_font_size": 14,
         "label_font_size_mobile": 11,
         "pill_font_weight": "700",
-        "pill_inactive_color": "#951C1A",
+        "pill_inactive_color": "#951c1a",
         "pill_active_color": "#ab0a0a",
         "underline_on_hover": true,
         "pill_border_width": 2,
