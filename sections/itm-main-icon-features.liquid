@@ -55,9 +55,24 @@
   <div class="page-width">
     <div class="features__viewport" data-pause="3000">
       <div class="features__track">
+        {%- assign has_lottie_feature = false -%}
         {% for block in section.blocks %}
+          {%- if block.settings.lottie_url != blank -%}{%- assign has_lottie_feature = true -%}{%- endif -%}
           <div class="feature" {{ block.shopify_attributes }}>
-            {% if block.settings.icon != blank %}
+            {% if block.settings.lottie_url != blank %}
+              <div class="feature__iconwrap">
+                <span class="feature__bubble" aria-hidden="true"></span>
+                <lord-icon
+                  class="feature__lottie"
+                  src="{{ block.settings.lottie_url }}"
+                  trigger="loop"
+                  delay="2000"
+                  colors="primary:{{ section.settings.icon_color }}"
+                  role="img"
+                  aria-label="{{ block.settings.title | escape }}">
+                </lord-icon>
+              </div>
+            {% elsif block.settings.icon != blank %}
               {%- assign icon_url = block.settings.icon | image_url: width: 128, format: 'png' -%}
               <div class="feature__iconwrap" style="--icon-url: url('{{ icon_url }}');">
                 <span class="feature__bubble" aria-hidden="true"></span>
@@ -147,6 +162,13 @@
       display: none;
       pointer-events: none;
     }
+    .feature__lottie {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 48px; height: 48px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
     @supports not (-webkit-mask-image: url("")) {
       .feature__glyph { display: none; }
       .feature__glyphimg { display: block; filter: brightness(0) saturate(100%); }
@@ -183,9 +205,31 @@
       }
       .feature__text { text-align: center; }
       .feature__iconwrap { width: 52px; height: 52px; flex: 0 0 52px; }
-      .feature__glyph, .feature__glyphimg { width: 26px; height: 26px; }
+      .feature__glyph, .feature__glyphimg, .feature__lottie { width: 26px; height: 26px; }
     }
   </style>
+
+  {%- if has_lottie_feature -%}
+    <script>
+      {%- comment -%}
+        Dynamic injection + a DOM marker, not a plain <script src>: this
+        section can appear on the same page as the header's trust bar,
+        which can ALSO load LordIcon's player independently if it uses
+        lottie icons too. Two independent <script src="lordicon.js"> tags
+        would both execute and both call customElements.define('lord-icon',
+        ...) — the second one throws, since a custom element tag name can
+        only be registered once per page. Checking for the marker first
+        makes this safe regardless of which section(s) actually need it.
+      {%- endcomment -%}
+      if (!document.querySelector('script[data-lordicon-player]')) {
+        var lis = document.createElement('script');
+        lis.src = 'https://cdn.lordicon.com/lordicon.js';
+        lis.defer = true;
+        lis.setAttribute('data-lordicon-player', '1');
+        document.head.appendChild(lis);
+      }
+    </script>
+  {%- endif -%}
 
   <script>
     (() => {
@@ -394,6 +438,12 @@
         "name": "Feature",
         "settings": [
           { "type": "image_picker", "id": "icon", "label": "Icon (SVG/PNG)" },
+          {
+            "type": "text",
+            "id": "lottie_url",
+            "label": "Animated icon URL (LordIcon .json)",
+            "info": "Overrides the icon above. Upload your .json file in Shopify Admin → Content → Files (or as a theme asset) and paste the resulting URL here."
+          },
           { "type": "text", "id": "title", "label": "Title", "default": "2-Year Warranty" },
           { "type": "inline_richtext", "id": "text", "label": "Short text", "default": "Peace of mind, guaranteed" }
         ]

@@ -2183,7 +2183,24 @@
         {%- endif -%}
       {%- endfor -%}
       {%- if has_lottie_trust_icon -%}
-        <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
+        <script>
+          {%- comment -%}
+            Dynamic injection + a DOM marker, not a plain <script src>: the
+            homepage's "ITM Features (Icons)" section can also load
+            LordIcon's player independently if it uses lottie icons too,
+            and two separate <script src="lordicon.js"> tags would both try
+            to customElements.define('lord-icon', ...) — the second call
+            throws, since a tag name can only be registered once per page.
+            Checking for the marker first makes this safe either way.
+          {%- endcomment -%}
+          if (!document.querySelector('script[data-lordicon-player]')) {
+            var lis = document.createElement('script');
+            lis.src = 'https://cdn.lordicon.com/lordicon.js';
+            lis.defer = true;
+            lis.setAttribute('data-lordicon-player', '1');
+            document.head.appendChild(lis);
+          }
+        </script>
       {%- endif -%}
       <div class="trust-bar">
        <div class="trust-bar__track">
