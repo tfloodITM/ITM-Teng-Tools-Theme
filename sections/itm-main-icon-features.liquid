@@ -19,9 +19,34 @@
   }
   #shopify-section-{{ section.id }} .feature__iconwrap {
     color: {{ section.settings.icon_color }};
+    width: {{ section.settings.icon_wrap_size }}px;
+    height: {{ section.settings.icon_wrap_size }}px;
+    flex: 0 0 {{ section.settings.icon_wrap_size }}px;
   }
+  {%- comment -%}
+    The bubble is the circle itself (border-radius:999px in the base
+    stylesheet) — "remove the circle" is display:none here rather than
+    deleting the element, so the icon above it keeps the exact same
+    centred position either way. Border lives on this same element since
+    it's already the perfect circle; icon_border_width defaults to 0,
+    which renders as no visible border without needing a separate on/off
+    toggle for it.
+  {%- endcomment -%}
   #shopify-section-{{ section.id }} .feature__bubble {
-    background: {{ section.settings.icon_color | color_modify: 'alpha', 0.15 }};
+    {%- if section.settings.show_icon_bubble -%}
+      background: {{ section.settings.icon_bubble_color }};
+    {%- else -%}
+      background: transparent;
+    {%- endif -%}
+    border-style: solid;
+    border-width: {{ section.settings.icon_border_width }}px;
+    border-color: {{ section.settings.icon_border_color }};
+  }
+  #shopify-section-{{ section.id }} .feature__glyph,
+  #shopify-section-{{ section.id }} .feature__glyphimg,
+  #shopify-section-{{ section.id }} .feature__lottie {
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
   }
   #shopify-section-{{ section.id }} .feature__title {
     font-size: {{ section.settings.title_size }}px;
@@ -47,6 +72,17 @@
     }
     #shopify-section-{{ section.id }} .feature__desc {
       font-size: {{ section.settings.desc_size_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .feature__iconwrap {
+      width: {{ section.settings.icon_wrap_size_mobile }}px;
+      height: {{ section.settings.icon_wrap_size_mobile }}px;
+      flex: 0 0 {{ section.settings.icon_wrap_size_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .feature__glyph,
+    #shopify-section-{{ section.id }} .feature__glyphimg,
+    #shopify-section-{{ section.id }} .feature__lottie {
+      width: {{ section.settings.icon_size_mobile }}px;
+      height: {{ section.settings.icon_size_mobile }}px;
     }
   }
 {%- endstyle -%}
@@ -356,6 +392,79 @@
         "id": "icon_color",
         "label": "Icon colour",
         "default": "#1a1a1a"
+      },
+      {
+        "type": "range",
+        "id": "icon_size",
+        "label": "Icon size — desktop",
+        "info": "Applies to the icon/logo image, the mask icon and any animated (Lottie) icon alike.",
+        "min": 16,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "default": 42
+      },
+      {
+        "type": "range",
+        "id": "icon_size_mobile",
+        "label": "Icon size — mobile",
+        "min": 12,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "default": 26
+      },
+      {
+        "type": "range",
+        "id": "icon_wrap_size",
+        "label": "Icon circle size — desktop",
+        "info": "The circle the icon sits inside. Keep it a bit larger than the icon size above so the icon doesn't overflow it.",
+        "min": 40,
+        "max": 160,
+        "step": 2,
+        "unit": "px",
+        "default": 84
+      },
+      {
+        "type": "range",
+        "id": "icon_wrap_size_mobile",
+        "label": "Icon circle size — mobile",
+        "min": 30,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "default": 52
+      },
+      {
+        "type": "checkbox",
+        "id": "show_icon_bubble",
+        "label": "Show circle behind icon",
+        "info": "Turn off to remove the coloured circle and show just the icon on its own.",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "icon_bubble_color",
+        "label": "Circle background colour",
+        "info": "Matches the old look (icon colour at 15% opacity) by default so nothing shifts visually until you change it.",
+        "default": "rgba(0,0,0,0.15)"
+      },
+      {
+        "type": "range",
+        "id": "icon_border_width",
+        "label": "Circle border thickness",
+        "info": "0 = no border.",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "icon_border_color",
+        "label": "Circle border colour",
+        "default": "#e30613"
       },
       {
         "type": "header",
