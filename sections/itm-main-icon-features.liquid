@@ -11,6 +11,12 @@
     {%- else -%}
       background-color: {{ section.settings.section_bg }};
     {%- endif -%}
+    {%- comment -%}
+      0px width renders as no visible line at all, so this doesn't need
+      its own on/off checkbox — same approach as the icon circle border.
+    {%- endcomment -%}
+    border-top: {{ section.settings.section_border_width }}px solid {{ section.settings.section_border_color }};
+    border-bottom: {{ section.settings.section_border_width }}px solid {{ section.settings.section_border_color }};
   }
   #shopify-section-{{ section.id }} .page-width {
     max-width: 100% !important;
@@ -352,6 +358,27 @@
         "id": "color_scheme",
         "label": "Color scheme (section fill / card / text base)",
         "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "Section border (top & bottom)"
+      },
+      {
+        "type": "range",
+        "id": "section_border_width",
+        "label": "Border thickness",
+        "info": "0 = no border. Applies to both the top and bottom edge of the whole section.",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "section_border_color",
+        "label": "Border colour",
+        "default": "#e2e2e2"
       },
       {
         "type": "header",
