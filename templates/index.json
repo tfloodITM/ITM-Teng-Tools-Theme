@@ -648,7 +648,7 @@
         "mobile_items_visible": 3.3,
         "pill_padding_h": 17,
         "circle_bg": "#FFFFFF",
-        "pill_gap": 4,
+        "pill_gap": 10,
         "label_gap": 7,
         "pill_font_size": 14,
         "label_font_size_mobile": 11,
