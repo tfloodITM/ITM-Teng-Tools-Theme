@@ -4,8 +4,39 @@
     padding-bottom: {{ section.settings.padding_bottom }}px;
     background-color: {{ section.settings.bottom_bg }};
   }
+  {%- comment -%}
+    Scoped the same way the Promo Grid section scopes its own "Maximum
+    width" — only .page-width elements inside THIS section are affected, so
+    the two rows can be dialled to line up without touching every other
+    .page-width on the page.
+  {%- endcomment -%}
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: {{ section.settings.max_width | default: 1430 }}px;
+  }
   #shopify-section-{{ section.id }} .sbc {
     padding-top: {{ section.settings.padding_top }}px;
+  }
+  {%- comment -%} Header spacing — gap below the heading, above/below the
+    View All button — set independently for desktop and mobile. {%- endcomment -%}
+  #shopify-section-{{ section.id }} .sbc__heading {
+    margin-bottom: {{ section.settings.heading_gap }}px;
+  }
+  #shopify-section-{{ section.id }} .sbc__val-wrap {
+    margin-top: {{ section.settings.view_all_gap_top }}px;
+  }
+  #shopify-section-{{ section.id }} .sbc__header {
+    margin-bottom: {{ section.settings.view_all_gap_bottom }}px;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .sbc__heading {
+      margin-bottom: {{ section.settings.heading_gap_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .sbc__val-wrap {
+      margin-top: {{ section.settings.view_all_gap_top_mobile }}px;
+    }
+    #shopify-section-{{ section.id }} .sbc__header {
+      margin-bottom: {{ section.settings.view_all_gap_bottom_mobile }}px;
+    }
   }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} {
@@ -72,31 +103,78 @@
     bottom: -{{ section.settings.list_plus_bottom }}px;
     right: -{{ section.settings.list_plus_right }}px;
   }
-  /* Pills */
+  /* Category circles */
   #shopify-section-{{ section.id }} .sbc__pills { gap: {{ section.settings.pill_gap }}px; }
+  {%- comment -%}
+    .sbc__pill needs a real, fixed width — the label wraps onto as many
+    lines as it needs INSIDE that width instead of forcing itself onto one
+    line and overlapping the neighbouring circle's label. A little wider
+    than the circle itself gives long category names room to wrap without
+    looking cramped.
+  {%- endcomment -%}
   #shopify-section-{{ section.id }} .sbc__pill {
+    width: {{ section.settings.pill_height | plus: 24 }}px;
+  }
+  #shopify-section-{{ section.id }} .sbc__pill-circle {
+    width: {{ section.settings.pill_height }}px;
     height: {{ section.settings.pill_height }}px;
-    padding: 0 {{ section.settings.pill_padding_h }}px;
-    border-radius: {{ section.settings.pill_radius }}px;
+    padding: {{ section.settings.pill_padding_h }}px;
+    background: {{ section.settings.circle_bg }};
     border-width: {{ section.settings.pill_border_width }}px;
-    border-color: {{ section.settings.pill_inactive_color }};
-    color: {{ section.settings.pill_inactive_color }};
+    border-color: transparent;
+  }
+  #shopify-section-{{ section.id }} .sbc__pill-label {
+    margin-top: {{ section.settings.label_gap }}px;
     font-size: {{ section.settings.pill_font_size }}px;
     font-weight: {{ section.settings.pill_font_weight }};
+    color: {{ section.settings.pill_inactive_color }};
   }
-  #shopify-section-{{ section.id }} .sbc__pill.is-active {
-    background: {{ section.settings.pill_active_bg }};
-    border-color: {{ section.settings.pill_active_bg }};
+  {%- if section.settings.underline_on_hover -%}
+    #shopify-section-{{ section.id }} .sbc__pill:hover .sbc__pill-circle {
+      border-color: {{ section.settings.pill_active_bg }};
+    }
+    #shopify-section-{{ section.id }} .sbc__pill:hover .sbc__pill-label {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  {%- else -%}
+    #shopify-section-{{ section.id }} .sbc__pill:hover .sbc__pill-circle {
+      border-color: {{ section.settings.pill_active_bg }};
+    }
+  {%- endif -%}
+  #shopify-section-{{ section.id }} .sbc__pill.is-active .sbc__pill-circle {
+    border-width: {{ section.settings.circle_border_width_active }}px;
+    border-color: {{ section.settings.circle_border_color_active }};
+  }
+  #shopify-section-{{ section.id }} .sbc__pill.is-active .sbc__pill-label {
     color: {{ section.settings.pill_active_color }};
+    {%- if section.settings.underline_active -%}
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    {%- endif -%}
   }
   /* Mobile overrides */
   @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .sbc__pills { gap: {{ section.settings.pill_gap | minus: 2 }}px; }
+    #shopify-section-{{ section.id }} .sbc__pills { gap: {{ section.settings.pill_gap | minus: 4 }}px; }
+    {%- comment -%}
+      Circle size on mobile is no longer a fixed pixel diameter — it's
+      "however wide 1/{{ section.settings.mobile_items_visible }} of the
+      row is", so it always renders exactly that many circles in view (the
+      requested "3 in view, evenly, filling the space") on any phone width,
+      and automatically gets bigger/smaller if that count is ever changed
+      rather than needing a separate size number kept in sync with it.
+    {%- endcomment -%}
     #shopify-section-{{ section.id }} .sbc__pill {
-      height: {{ section.settings.pill_height | minus: 6 }}px;
-      padding: 0 {{ section.settings.pill_padding_h | minus: 4 }}px;
-      font-size: {{ section.settings.pill_font_size | minus: 2 }}px;
-      border-width: 1px;
+      width: calc(100% / {{ section.settings.mobile_items_visible }});
+    }
+    #shopify-section-{{ section.id }} .sbc__pill-circle {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      padding: 12%;
+    }
+    #shopify-section-{{ section.id }} .sbc__pill-label {
+      font-size: {{ section.settings.label_font_size_mobile }}px;
     }
     #shopify-section-{{ section.id }} .sbc__grid {
       grid-template-columns: repeat({{ section.settings.products_per_row_mobile }}, 1fr);
@@ -167,7 +245,10 @@
     {%- endif -%}
 
     <div class="sbc__pills-row">
-      <div class="sbc__pills" role="tablist">
+      <button type="button" class="sbc__pills-arrow sbc__pills-arrow--prev" data-sbc-scroll="prev" aria-label="Scroll categories left" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="sbc__pills" role="tablist" data-sbc-pills>
         {%- assign pill_index = 0 -%}
         {%- for block in section.blocks -%}
           {%- assign col = block.settings.collection -%}
@@ -182,11 +263,21 @@
               aria-selected="{% if pill_index == 0 %}true{% else %}false{% endif %}"
               aria-controls="sbc-panel-{{ section.id }}-{{ pill_index }}"
               {{ block.shopify_attributes }}
-            >{{ pill_label }}</button>
+            >
+              <span class="sbc__pill-circle">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 300 | image_tag: loading: 'lazy', alt: pill_label, widths: '100,150,200,300' }}
+                {%- endif -%}
+              </span>
+              <span class="sbc__pill-label">{{ pill_label }}</span>
+            </button>
             {%- assign pill_index = pill_index | plus: 1 -%}
           {%- endif -%}
         {%- endfor -%}
       </div>
+      <button type="button" class="sbc__pills-arrow sbc__pills-arrow--next" data-sbc-scroll="next" aria-label="Scroll categories right" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
     </div>
 
     {%- if section.settings.show_view_all and first_col_url != '' -%}
@@ -382,73 +473,138 @@
 
 .sbc { overflow-x: clip; }
 
-.sbc__header { margin-bottom: 20px; }
+/* Margins below are set dynamically per section (desktop/mobile) — see the
+   Liquid style block at the top of this file. */
+.sbc__header { margin-bottom: 0; }
 
 .sbc__heading {
-  margin: 0 0 16px;
+  margin: 0;
   font-size: clamp(1.4rem, 2.5vw, 2rem);
   text-align: center;
 }
 
-/* ── Pills row ── */
-.sbc__pills-row { display: flex; align-items: center; }
+/* ── Pills row (category circles) ── */
+.sbc__pills-row { position: relative; display: flex; align-items: center; }
 
 .sbc__pills {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
+  /* Spread evenly across the row's own width (now matched to the Promo
+     Grid section above via "Maximum width") rather than clumping in the
+     middle — gap still guarantees a minimum, space-between only kicks in
+     with the leftover room. Wraps back to centred if there are few enough
+     categories that a bare couple of them would otherwise stretch to the
+     far edges awkwardly. */
+  justify-content: space-between;
+  gap: 20px;
   flex: 1;
   min-width: 0;
+  scroll-behavior: smooth;
+}
+.sbc__pills:has(> .sbc__pill:nth-child(-n+2):last-child) {
+  justify-content: center;
 }
 
+.sbc__pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-heading-family);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.sbc__pill-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border-style: solid;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease;
+}
+
+.sbc__pill-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.sbc__pill-label {
+  display: block;
+  width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  line-height: 1.25;
+  transition: color 0.15s ease;
+}
+
+/* Arrow buttons — desktop cue only appears if content actually overflows
+   (see JS), so they stay hidden entirely outside the mobile scroller. */
+.sbc__pills-arrow {
+  display: none;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 3;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  padding: 0;
+}
+.sbc__pills-arrow[hidden] { display: none !important; }
+.sbc__pills-arrow--prev { left: 4px; }
+.sbc__pills-arrow--next { right: 4px; }
+
 @media (max-width: 749px) {
-  /* Break out of page-width padding so pills scroll edge-to-edge */
+  /* Break out of page-width padding so pills scroll edge-to-edge.
+     Right padding is deliberately 0, not matching the left side — the
+     whole point of the negative-margin bleed is to let the next circle
+     peek off the true screen edge as a "there's more, keep scrolling"
+     hint. Padding both sides equally (the old 1.5rem/1.5rem) put an
+     invisible wall 15px short of the actual edge, so the circle was being
+     clipped by that padding boundary instead — and the "next" arrow's own
+     drop shadow, sitting right at that same boundary, read as a grey line
+     cutting through the circle. Left padding stays, so the row still lines
+     up with the rest of the page's content on that side; only the
+     trailing edge bleeds. */
   .sbc__pills-row {
     margin-left: -1.5rem;
     margin-right: -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 0;
   }
   .sbc__pills {
     flex-wrap: nowrap;
     justify-content: flex-start;
     overflow-x: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
     padding-bottom: 4px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
   .sbc__pills::-webkit-scrollbar { display: none; }
-}
-
-.sbc__pill {
-  display: inline-flex;
-  align-items: center;
-  height: 38px;
-  padding: 0 20px;
-  border-radius: 100px;
-  border: 2px solid rgb(var(--color-button));
-  background: transparent;
-  color: rgb(var(--color-button));
-  font-family: var(--font-heading-family);
-  font-size: 0.875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.sbc__pill:hover { background: rgba(var(--color-button), 0.08); }
-.sbc__pill.is-active {
-  background: rgb(var(--color-button));
-  color: rgb(var(--color-button-text));
+  .sbc__pill { flex-shrink: 0; }
+  .sbc__pills-arrow { display: flex; }
 }
 
 /* ── View All ── */
 .sbc__val-wrap {
-  margin-top: 14px;
+  margin-top: 0;
   text-align: center;
 }
 
@@ -823,6 +979,36 @@
     });
   });
 
+  /* ── Category circles: scroll arrows (mobile) ──
+     The prev arrow only ever shows once the row has actually been scrolled
+     right; the next arrow shows whenever there's more to scroll to. Both
+     just reflect scrollLeft — no separate "which page am I on" state to
+     keep in sync. */
+  document.querySelectorAll('[data-sbc-pills]').forEach(function (pills) {
+    var row  = pills.closest('.sbc__pills-row');
+    if (!row) return;
+    var prev = row.querySelector('[data-sbc-scroll="prev"]');
+    var next = row.querySelector('[data-sbc-scroll="next"]');
+    if (!prev || !next) return;
+
+    function refresh() {
+      var max = pills.scrollWidth - pills.clientWidth;
+      if (max <= 4) { prev.hidden = true; next.hidden = true; return; }
+      prev.hidden = pills.scrollLeft <= 4;
+      next.hidden = pills.scrollLeft >= max - 4;
+    }
+
+    function scrollByAmount(dir) {
+      pills.scrollBy({ left: dir * (pills.clientWidth * 0.7), behavior: 'smooth' });
+    }
+
+    prev.addEventListener('click', function () { scrollByAmount(-1); });
+    next.addEventListener('click', function () { scrollByAmount(1); });
+    pills.addEventListener('scroll', refresh, { passive: true });
+    window.addEventListener('resize', refresh);
+    refresh();
+  });
+
   /* ── Image carousel with slide animation ── */
   function initCarousel(card) {
     var wrap   = card.querySelector('.sbc__img-wrap');
@@ -1014,6 +1200,75 @@
     },
     {
       "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1800,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1430,
+      "info": "Match this to the Promo Grid section's \"Maximum width\" above it so both rows line up edge to edge."
+    },
+    {
+      "type": "header",
+      "content": "Header spacing"
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Gap below heading — desktop (px)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "heading_gap_mobile",
+      "label": "Gap below heading — mobile (px)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "view_all_gap_top",
+      "label": "Gap above View All — desktop (px)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "view_all_gap_top_mobile",
+      "label": "Gap above View All — mobile (px)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "view_all_gap_bottom",
+      "label": "Gap below View All, before products — desktop (px)",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "view_all_gap_bottom_mobile",
+      "label": "Gap below View All, before products — mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
       "id": "products_per_row",
       "label": "Products per row (desktop)",
       "min": 3,
@@ -1050,30 +1305,84 @@
     },
     {
       "type": "header",
-      "content": "Category pills"
+      "content": "Category circles",
+      "info": "Each category's image is set on its own tab block, below."
     },
     {
       "type": "range",
       "id": "pill_height",
-      "label": "Height (px)",
+      "label": "Circle size — desktop (px)",
       "min": 24,
-      "max": 60,
+      "max": 160,
       "step": 2,
-      "default": 38
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "mobile_items_visible",
+      "label": "Circles visible per screen — mobile",
+      "info": "Sets circle size indirectly: it's always however wide 1 ÷ this number of the screen is, so exactly this many sit in view (plus a sliver of the next one to hint you can scroll). Lower it to make the circles bigger.",
+      "min": 2.5,
+      "max": 4.5,
+      "step": 0.1,
+      "default": 3.3
+    },
+    {
+      "type": "range",
+      "id": "pill_padding_h",
+      "label": "Image inset padding (px)",
+      "info": "Space between the circle's edge and the image inside it.",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "circle_bg",
+      "label": "Circle background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "pill_gap",
+      "label": "Gap between categories (px)",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "label_gap",
+      "label": "Gap between circle and label (px)",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 8
     },
     {
       "type": "range",
       "id": "pill_font_size",
-      "label": "Font size (px)",
+      "label": "Label font size — desktop (px)",
       "min": 10,
       "max": 20,
       "step": 1,
-      "default": 14
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "label_font_size_mobile",
+      "label": "Label font size — mobile (px)",
+      "min": 9,
+      "max": 18,
+      "step": 1,
+      "default": 11
     },
     {
       "type": "select",
       "id": "pill_font_weight",
-      "label": "Font weight",
+      "label": "Label font weight",
       "options": [
         { "value": "700", "label": "Bold"   },
         { "value": "400", "label": "Normal" }
@@ -1081,58 +1390,66 @@
       "default": "700"
     },
     {
-      "type": "range",
-      "id": "pill_padding_h",
-      "label": "Side padding (px)",
-      "min": 8,
-      "max": 48,
-      "step": 2,
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "pill_radius",
-      "label": "Corner radius (px)",
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "default": 100
-    },
-    {
-      "type": "range",
-      "id": "pill_border_width",
-      "label": "Border width (px)",
-      "min": 1,
-      "max": 4,
-      "step": 1,
-      "default": 2
-    },
-    {
-      "type": "range",
-      "id": "pill_gap",
-      "label": "Gap between pills (px)",
-      "min": 4,
-      "max": 24,
-      "step": 2,
-      "default": 8
-    },
-    {
       "type": "color",
       "id": "pill_inactive_color",
-      "label": "Inactive pill border \/ text",
-      "default": "#000000"
-    },
-    {
-      "type": "color",
-      "id": "pill_active_bg",
-      "label": "Active pill background",
+      "label": "Label colour — default",
       "default": "#000000"
     },
     {
       "type": "color",
       "id": "pill_active_color",
-      "label": "Active pill text",
-      "default": "#ffffff"
+      "label": "Label colour — selected category",
+      "default": "#00532D"
+    },
+    {
+      "type": "header",
+      "content": "Category circles — hover (desktop)"
+    },
+    {
+      "type": "checkbox",
+      "id": "underline_on_hover",
+      "label": "Underline label on hover",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "pill_border_width",
+      "label": "Circle border width on hover (px)",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "pill_active_bg",
+      "label": "Circle border colour on hover",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Category circles — selected"
+    },
+    {
+      "type": "checkbox",
+      "id": "underline_active",
+      "label": "Underline label for the selected category",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "circle_border_width_active",
+      "label": "Circle border width — selected (px)",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "circle_border_color_active",
+      "label": "Circle border colour — selected",
+      "default": "#00532D"
     },
     {
       "type": "header",
@@ -1656,6 +1973,12 @@
           "type": "text",
           "id": "label",
           "label": "Override tab label (optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Category image",
+          "info": "Shown inside the white circle. Square images work best."
         },
         {
           "type": "collection_list",

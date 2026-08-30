@@ -948,6 +948,7 @@
     }
     .trust-bar__icon img,
     .trust-bar__icon svg{ width:100%; height:100%; object-fit:contain; display:block; }
+    .trust-bar__icon--lottie lord-icon{ width:100%; height:100%; display:block; }
     .trust-bar__text{ white-space:nowrap; }
 
     {%- comment -%} Recolour uploaded icons (mask) + inline preset icons {%- endcomment -%}
@@ -2166,6 +2167,24 @@
 
     {%- comment -%} Trust / USP bar — third header row, hides on scroll with the nav {%- endcomment -%}
     {%- if has_trust -%}
+      {%- comment -%}
+        LordIcon's player, loaded only when at least one trust item actually
+        uses one — most stores won't set lottie_url on any block, and there's
+        no reason to ship this script to them. It's a custom element
+        (<lord-icon>, registered globally once loaded), so it doesn't matter
+        that this tag can render before the script finishes loading further
+        down — the browser upgrades each <lord-icon> the moment it's ready,
+        same as any other custom element.
+      {%- endcomment -%}
+      {%- assign has_lottie_trust_icon = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'trust_item' and block.settings.lottie_url != blank -%}
+          {%- assign has_lottie_trust_icon = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if has_lottie_trust_icon -%}
+        <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
+      {%- endif -%}
       <div class="trust-bar">
        <div class="trust-bar__track">
         {%- for block in section.blocks -%}
@@ -2183,7 +2202,17 @@
                   assign t_icon_src = block.settings.icon_url
                 endif
               -%}
-              {%- if t_icon_src != blank -%}
+              {%- if block.settings.lottie_url != blank -%}
+                <span class="trust-bar__icon trust-bar__icon--lottie">
+                  <lord-icon
+                    src="{{ block.settings.lottie_url }}"
+                    trigger="loop"
+                    delay="2000"
+                    role="img"
+                    aria-label="{{ block.settings.text | escape }}">
+                  </lord-icon>
+                </span>
+              {%- elsif t_icon_src != blank -%}
                 {%- if section.settings.trust_icon_color != blank -%}
                   <span class="trust-bar__icon trust-bar__icon--masked" style="-webkit-mask-image:url({{ t_icon_src }});mask-image:url({{ t_icon_src }});" role="img" aria-label="{{ block.settings.text | escape }}"></span>
                 {%- else -%}
@@ -3207,6 +3236,12 @@
         },
         { "type": "image_picker", "id": "icon", "label": "Custom icon (image / SVG)" },
         { "type": "text", "id": "icon_url", "label": "Custom icon URL (CDN)" },
+        {
+          "type": "text",
+          "id": "lottie_url",
+          "label": "Animated icon URL (LordIcon .json)",
+          "info": "Overrides everything above. Shopify's image picker can't accept .json files — upload yours in Shopify Admin → Content → Files (or as a theme asset) and paste the resulting URL here."
+        },
         { "type": "text", "id": "text", "label": "Text", "default": "Free delivery" },
         { "type": "url", "id": "link", "label": "Link (optional)" }
       ]
