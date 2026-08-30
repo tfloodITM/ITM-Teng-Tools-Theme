@@ -46,6 +46,7 @@
           "settings": {
             "icon_preset": "shield",
             "icon_url": "",
+            "lottie_url": "",
             "text": "Lifetime Warranty",
             "link": ""
           }
@@ -55,6 +56,7 @@
           "settings": {
             "icon_preset": "star",
             "icon_url": "",
+            "lottie_url": "",
             "text": "Made For Professionals",
             "link": ""
           }
@@ -64,6 +66,7 @@
           "settings": {
             "icon_preset": "refund",
             "icon_url": "",
+            "lottie_url": "",
             "text": "30 Day Money-Back Guarantee",
             "link": ""
           }
@@ -73,6 +76,7 @@
           "settings": {
             "icon_preset": "truck",
             "icon_url": "",
+            "lottie_url": "",
             "text": "Free Delivery over $99",
             "link": ""
           }
@@ -535,11 +539,11 @@
         "search_height": 44,
         "search_max_width_mobile": 1200,
         "search_height_mobile": 34,
-        "header_background_color": "#EB1D25",
+        "header_background_color": "#BD2321",
         "header_text_color": "#1a1a1a",
         "header_divider_color": "",
-        "menu_bar_background_color": "#A5171C",
-        "menu_bar_text_color": "#FFFFFF",
+        "menu_bar_background_color": "#951C1A",
+        "menu_bar_text_color": "#ffffff",
         "nav_font_size": 14,
         "nav_padding_y": 12,
         "utility_color": "#1a1a1a",
@@ -549,7 +553,7 @@
         "trust_bar_text_color": "#000000",
         "trust_bar_divider_color": "#b7b7b7",
         "trust_bar_bottom_border": true,
-        "trust_bar_bottom_border_color": "#A9A9A9",
+        "trust_bar_bottom_border_color": "#a9a9a9",
         "trust_bar_padding_y": 6,
         "trust_item_font_size": 11,
         "trust_icon_size": 18,
