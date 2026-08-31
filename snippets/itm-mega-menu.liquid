@@ -9,6 +9,7 @@
 {%- endcomment -%}
 
 {%- assign accent = section.settings.mega_accent_color | default: '#e30613' -%}
+{%- assign products_icon_color = section.settings.products_icon_color | default: '#8b0000' -%}
 
 {%- comment -%}
   Bunnings-style "Products" entry: a single item, in the SAME bar/line as
@@ -446,17 +447,18 @@
     so it doesn't depend on where the element ends up living in the DOM.
   {%- endcomment -%}
   .itm-mega__products-row:hover{ background:#ececec; color:{{ accent }} !important; }
+  {%- comment -%}
+    Icon only now — no rounded-square background bubble, no glossy
+    overlay. The wrapper keeps the same 38px footprint purely so the row
+    layout (gap to the label, row height) doesn't shift, but it's fully
+    transparent; the icon itself grows to fill most of that space instead
+    of sitting small inside a colored box.
+  {%- endcomment -%}
   .itm-mega__products-icon{
-    flex:0 0 auto; width:38px; height:38px; border-radius:11px;
+    flex:0 0 auto; width:38px; height:38px;
     display:flex; align-items:center; justify-content:center;
-    position:relative; overflow:hidden;
-    background:linear-gradient(145deg, rgba(227,6,19,.16), rgba(227,6,19,.05));
   }
-  .itm-mega__products-icon::before{
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(135deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,0) 45%);
-  }
-  .itm-mega__products-icon svg{ width:19px; height:19px; color:{{ accent }}; position:relative; z-index:1; }
+  .itm-mega__products-icon svg{ width:32px; height:32px; color:{{ products_icon_color }}; }
   .itm-mega__products-label{ flex:1 1 auto; min-width:0; font-size:14px; font-weight:600; }
   .itm-mega__products-arrow{ flex:0 0 auto; width:8px; height:8px; opacity:.4; }
   .itm-mega__products-arrow svg{ width:100%; height:100%; display:block; }
