@@ -1008,6 +1008,7 @@
     },
     "vidHero": {
       "type": "itm-main-video-hero",
+      "disabled": true,
       "name": "ITM Video Hero (YT) — Teng Tools \"Get Organised\"",
       "settings": {
         "heading": "GET ORGANISED™",
@@ -1017,6 +1018,26 @@
         "autoplay": false,
         "controls": false,
         "color_scheme": "scheme-4"
+      }
+    },
+    "itm_video_section_d8iBmp": {
+      "type": "itm-video-section",
+      "name": "Full-Width Video",
+      "settings": {
+        "video": "shopify://files/videos/Video Project.mp4",
+        "video_title": "",
+        "show_on_desktop": true,
+        "show_on_mobile": true,
+        "autoplay": true,
+        "loop": true,
+        "muted": true,
+        "controls": false,
+        "desktop_height": 600,
+        "mobile_height": 250,
+        "bg": "#000000",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_bg": "#ffffff"
       }
     },
     "ws_reviews": {
@@ -1854,6 +1875,7 @@
     "itm_category_image_grid_V3iHkc",
     "itm_category_icons_MJTKDw",
     "vidHero",
+    "itm_video_section_d8iBmp",
     "ws_reviews",
     "featured_blog_yf4hXf",
     "fathers_day_categories",
