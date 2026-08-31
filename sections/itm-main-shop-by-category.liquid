@@ -299,6 +299,17 @@
       </button>
     </div>
 
+    {%- comment -%}
+      Native scrollbar is hidden (scrollbar-width:none above) so the row
+      doesn't get an ugly OS scrollbar sitting right under the circles —
+      this is a plain visual substitute, JS-driven off the same scroll
+      position the arrows already track. Same reasoning as [hidden] on
+      the arrows: only shown once there's actually something to scroll.
+    {%- endcomment -%}
+    <div class="sbc__scrollbar" aria-hidden="true" data-sbc-scrollbar hidden>
+      <div class="sbc__scrollbar-fill" data-sbc-scrollbar-fill></div>
+    </div>
+
     {%- if section.settings.show_view_all and first_col_url != '' -%}
       <div class="sbc__val-wrap">
         <a class="sbc__val sbc__val--{{ section.settings.view_all_style }}" href="{{ first_col_url }}" data-sbc-view-all>
@@ -606,6 +617,28 @@
 .sbc__pills-arrow[hidden] { display: none !important; }
 .sbc__pills-arrow--prev { left: 4px; }
 .sbc__pills-arrow--next { right: 4px; }
+
+/* Scroll-progress bar under the row — a plain visual substitute for the
+   native scrollbar (hidden above), shown/hidden by JS the same way the
+   arrows are: only when the row actually has more to scroll than fits. */
+.sbc__scrollbar {
+  position: relative;
+  height: 3px;
+  margin-top: 20px;
+  background: #e2e2e2;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.sbc__scrollbar[hidden] { display: none !important; }
+.sbc__scrollbar-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 30%;
+  background: #1a1a1a;
+  border-radius: 999px;
+}
 
 @media (max-width: 749px) {
   /* Break out of page-width padding so pills scroll edge-to-edge.
@@ -1025,12 +1058,31 @@
     var prev = row.querySelector('[data-sbc-scroll="prev"]');
     var next = row.querySelector('[data-sbc-scroll="next"]');
     if (!prev || !next) return;
+    var bar  = row.parentElement.querySelector('[data-sbc-scrollbar]');
+    var fill = bar && bar.querySelector('[data-sbc-scrollbar-fill]');
 
     function refresh() {
       var max = pills.scrollWidth - pills.clientWidth;
-      if (max <= 4) { prev.hidden = true; next.hidden = true; return; }
+      if (max <= 4) {
+        prev.hidden = true;
+        next.hidden = true;
+        if (bar) bar.hidden = true;
+        return;
+      }
       prev.hidden = pills.scrollLeft <= 4;
       next.hidden = pills.scrollLeft >= max - 4;
+      if (bar && fill) {
+        bar.hidden = false;
+        /* Thumb width mirrors a native scrollbar: the fraction of the
+           row actually visible right now. Thumb position is how far
+           through the remaining scrollable distance that visible window
+           currently sits. */
+        var visibleRatio = pills.clientWidth / pills.scrollWidth;
+        var scrollRatio = pills.scrollLeft / max;
+        var thumbLeft = (1 - visibleRatio) * scrollRatio * 100;
+        fill.style.width = (visibleRatio * 100) + '%';
+        fill.style.left = thumbLeft + '%';
+      }
     }
 
     function scrollByAmount(dir) {
