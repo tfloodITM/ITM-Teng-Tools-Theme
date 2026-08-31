@@ -620,24 +620,42 @@
 
 /* Scroll-progress bar under the row — a plain visual substitute for the
    native scrollbar (hidden above), shown/hidden by JS the same way the
-   arrows are: only when the row actually has more to scroll than fits. */
+   arrows are: only when the row actually has more to scroll than fits.
+   It's also draggable (see the pointer handlers in the script below) —
+   the hit area is taller than the visible track so it's actually easy
+   to grab, not just a thin 3px line to hit precisely. */
 .sbc__scrollbar {
   position: relative;
+  height: 16px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  touch-action: pan-y; /* let vertical page-scroll through; we handle horizontal ourselves */
+}
+.sbc__scrollbar.is-dragging { cursor: grabbing; }
+.sbc__scrollbar[hidden] { display: none !important; }
+.sbc__scrollbar::before {
+  /* the visible track line, drawn separately from the (taller) hit area */
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   height: 3px;
-  margin-top: 20px;
   background: #e2e2e2;
   border-radius: 999px;
-  overflow: hidden;
 }
-.sbc__scrollbar[hidden] { display: none !important; }
 .sbc__scrollbar-fill {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
   left: 0;
   width: 30%;
+  height: 3px;
   background: #1a1a1a;
   border-radius: 999px;
+  pointer-events: none;
 }
 
 @media (max-width: 749px) {
@@ -1085,8 +1103,18 @@
       }
     }
 
+    function oneStep() {
+      /* One category per click, not a 70%-of-viewport "page" jump — the
+         first pill's own rendered width plus the row's gap, so it lines
+         the next circle up cleanly regardless of pill_height settings. */
+      var firstPill = pills.querySelector('.sbc__pill');
+      if (!firstPill) return pills.clientWidth;
+      var gap = parseFloat(getComputedStyle(pills).gap) || 0;
+      return firstPill.getBoundingClientRect().width + gap;
+    }
+
     function scrollByAmount(dir) {
-      pills.scrollBy({ left: dir * (pills.clientWidth * 0.7), behavior: 'smooth' });
+      pills.scrollBy({ left: dir * oneStep(), behavior: 'smooth' });
     }
 
     prev.addEventListener('click', function () { scrollByAmount(-1); });
@@ -1094,6 +1122,52 @@
     pills.addEventListener('scroll', refresh, { passive: true });
     window.addEventListener('resize', refresh);
     refresh();
+
+    {%- comment -%}
+      Drag-to-scroll on the whole bar, not just the thumb — pointer
+      events cover mouse AND touch in one listener set, so this doesn't
+      duplicate/conflict with native touch-scrolling on the row itself.
+      setPointerCapture keeps receiving move/up events even if the
+      cursor leaves the bar mid-drag, matching how a real scrollbar
+      thumb behaves.
+    {%- endcomment -%}
+    if (bar) {
+      var dragging = false;
+      var dragStartX = 0;
+      var dragStartScrollLeft = 0;
+
+      bar.addEventListener('pointerdown', function (e) {
+        var max = pills.scrollWidth - pills.clientWidth;
+        if (max <= 0) return;
+        dragging = true;
+        dragStartX = e.clientX;
+        dragStartScrollLeft = pills.scrollLeft;
+        bar.classList.add('is-dragging');
+        bar.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+
+      bar.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        var max = pills.scrollWidth - pills.clientWidth;
+        var barWidth = bar.clientWidth;
+        if (max <= 0 || barWidth <= 0) return;
+        var deltaX = e.clientX - dragStartX;
+        /* Dragging the full width of the bar should traverse the full
+           scrollable distance — same ratio the thumb's own width/
+           position already uses in refresh() above. */
+        pills.scrollLeft = dragStartScrollLeft + (deltaX / barWidth) * max;
+      });
+
+      function endDrag(e) {
+        if (!dragging) return;
+        dragging = false;
+        bar.classList.remove('is-dragging');
+        try { bar.releasePointerCapture(e.pointerId); } catch (err) {}
+      }
+      bar.addEventListener('pointerup', endDrag);
+      bar.addEventListener('pointercancel', endDrag);
+    }
   });
 
   /* ── Image carousel with slide animation ── */
