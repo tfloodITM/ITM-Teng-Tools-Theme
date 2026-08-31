@@ -433,7 +433,19 @@
     text-decoration:none; color:#1a1a1a !important;
     border-bottom:1px solid rgba(0,0,0,.06);
   }
-  .itm-mega__products-row:hover{ background:#ececec; color:var(--mega-accent) !important; }
+  {%- comment -%}
+    {{ accent }} literal, not var(--mega-accent), for both rules below:
+    --mega-accent is only defined on .itm-mega itself (see the top of this
+    file), but the products panel — including these rows and their icons
+    — gets relocated to document.body at runtime (the popover-escaping-
+    the-header's-transform-trap fix, search "document.body.appendChild
+    (panel)" below). Once it's outside .itm-mega, the var() reference is
+    undefined and silently falls back to inherited black instead of red —
+    confirmed live, the category icons were rendering black instead of
+    Teng red. Liquid substitutes the literal colour value at render time,
+    so it doesn't depend on where the element ends up living in the DOM.
+  {%- endcomment -%}
+  .itm-mega__products-row:hover{ background:#ececec; color:{{ accent }} !important; }
   .itm-mega__products-icon{
     flex:0 0 auto; width:38px; height:38px; border-radius:11px;
     display:flex; align-items:center; justify-content:center;
@@ -444,7 +456,7 @@
     content:''; position:absolute; inset:0;
     background:linear-gradient(135deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,0) 45%);
   }
-  .itm-mega__products-icon svg{ width:19px; height:19px; color:var(--mega-accent); position:relative; z-index:1; }
+  .itm-mega__products-icon svg{ width:19px; height:19px; color:{{ accent }}; position:relative; z-index:1; }
   .itm-mega__products-label{ flex:1 1 auto; min-width:0; font-size:14px; font-weight:600; }
   .itm-mega__products-arrow{ flex:0 0 auto; width:8px; height:8px; opacity:.4; }
   .itm-mega__products-arrow svg{ width:100%; height:100%; display:block; }
