@@ -572,7 +572,7 @@
         "icon_wrap_size_mobile": 52,
         "show_icon_bubble": false,
         "icon_bubble_color": "#ffffff",
-        "icon_border_width": 1,
+        "icon_border_width": 0,
         "icon_border_color": "#e30613",
         "title_size": 18,
         "title_size_mobile": 12,
