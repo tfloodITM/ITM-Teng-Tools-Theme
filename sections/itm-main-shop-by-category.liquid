@@ -507,22 +507,28 @@
 
 .sbc__pills {
   display: flex;
-  flex-wrap: wrap;
-  /* Spread evenly across the row's own width (now matched to the Promo
-     Grid section above via "Maximum width") rather than clumping in the
-     middle — gap still guarantees a minimum, space-between only kicks in
-     with the leftover room. Wraps back to centred if there are few enough
-     categories that a bare couple of them would otherwise stretch to the
-     far edges awkwardly. */
-  justify-content: space-between;
+  /* Was flex-wrap:wrap + justify-content:space-between — fine for a
+     small handful of categories that filled exactly one row, but with
+     the real category count (17, not the original 6) it just silently
+     grew the section taller with extra rows instead of scrolling. A
+     flex-wrap row never overflows its own width, it only wraps, so the
+     arrow-visibility JS below — which measures scrollWidth vs
+     clientWidth — always measured zero overflow and could never show
+     the arrows no matter how many categories there were. Single row +
+     horizontal scroll, arrows doing the paging: the same approach
+     already used below 749px, just no longer limited to mobile. */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
   gap: 20px;
   flex: 1;
   min-width: 0;
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
-.sbc__pills:has(> .sbc__pill:nth-child(-n+2):last-child) {
-  justify-content: center;
-}
+.sbc__pills::-webkit-scrollbar { display: none; }
+.sbc__pill { flex-shrink: 0; }
 
 .sbc__pill {
   display: flex;
@@ -573,22 +579,26 @@
   transition: color 0.15s ease;
 }
 
-/* Arrow buttons — desktop cue only appears if content actually overflows
-   (see JS), so they stay hidden entirely outside the mobile scroller. */
+/* Arrow buttons — shown/hidden by JS based on actual scroll overflow
+   (see the refresh() function below), on every screen size now, not
+   just the mobile scroller. The [hidden] attribute is what actually
+   controls visibility; display:flex here just means "flex when not
+   hidden" instead of the old display:none default that made it
+   impossible for JS to ever show these on desktop at all. */
 .sbc__pills-arrow {
-  display: none;
+  display: flex;
   position: absolute;
   top: 40%;
   transform: translateY(-50%);
   z-index: 3;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: none;
-  background: #ffffff;
-  color: #1a1a1a;
+  background: #1a1a1a;
+  color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   padding: 0;
@@ -615,16 +625,15 @@
     padding-left: 1.5rem;
     padding-right: 0;
   }
+  {%- comment -%}
+    flex-wrap/overflow-x/scrollbar-hiding/flex-shrink all moved to the
+    base .sbc__pills / .sbc__pill rules above — they're no longer
+    mobile-only. padding-bottom is the one genuinely mobile-specific
+    leftover: breathing room for the touch scrollbar area.
+  {%- endcomment -%}
   .sbc__pills {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    overflow-x: auto;
     padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
   }
-  .sbc__pills::-webkit-scrollbar { display: none; }
-  .sbc__pill { flex-shrink: 0; }
   .sbc__pills-arrow { display: flex; }
 }
 
