@@ -1024,7 +1024,8 @@
       "type": "itm-video-section",
       "name": "Full-Width Video",
       "settings": {
-        "video": "shopify://files/videos/Video Project.mp4",
+        "video": "shopify://files/videos/YTDown.com_YouTube_TengTools-Streamline-your-workflow_Media_vPUgZGGLiGM_001_1080p (1).mp4",
+        "video_url": "",
         "video_title": "",
         "show_on_desktop": true,
         "show_on_mobile": true,
