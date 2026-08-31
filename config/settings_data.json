@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/TengTools-logo-blk.avif",
-    "logo_width": 80,
+    "logo": "shopify://shop_images/2.png",
+    "logo_width": 210,
     "favicon": "shopify://shop_images/tengu-mask.webp",
     "type_header_font": "montserrat_n7",
     "heading_scale": 100,
