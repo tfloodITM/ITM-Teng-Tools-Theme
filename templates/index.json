@@ -604,7 +604,7 @@
         "tab_na3iXH": {
           "type": "tab",
           "settings": {
-            "collection": "sockets-and-accessories",
+            "collection": "sockets-accessories",
             "label": "Sockets & Accessories",
             "subcollections": []
           }
@@ -612,7 +612,7 @@
         "tab_GiEw63": {
           "type": "tab",
           "settings": {
-            "collection": "spanners-and-wrenches",
+            "collection": "spanners-wrenches",
             "label": "Spanners & Wrenches",
             "subcollections": []
           }
@@ -633,91 +633,91 @@
             "subcollections": []
           }
         },
-        "tab_screwdrivers": {
+        "tab_C6JUiU": {
           "type": "tab",
           "settings": {
             "collection": "screwdrivers",
-            "label": "Screwdrivers",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_cutters_pliers": {
+        "tab_wgCc3n": {
           "type": "tab",
           "settings": {
-            "collection": "cutters-and-pliers",
-            "label": "Cutters & Pliers",
+            "collection": "cutters-pliers",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_cutting_tools": {
+        "tab_rME6Uk": {
           "type": "tab",
           "settings": {
             "collection": "cutting-tools",
-            "label": "Cutting Tools",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_hex_torx": {
+        "tab_bJUhpR": {
           "type": "tab",
           "settings": {
-            "collection": "hex-and-torx-keys",
-            "label": "Hex & Torx Keys",
+            "collection": "hex-torx-keys",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_measuring_marking": {
+        "tab_HgEjin": {
           "type": "tab",
           "settings": {
-            "collection": "measuring-and-marking",
-            "label": "Measuring & Marking",
+            "collection": "measuring-marking",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_other_hand_tools": {
+        "tab_jCEGdp": {
           "type": "tab",
           "settings": {
             "collection": "other-hand-tools",
-            "label": "Other Hand Tools",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_striking_tools": {
+        "tab_MwLUpR": {
           "type": "tab",
           "settings": {
             "collection": "striking-tools",
-            "label": "Striking Tools",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_air_tools": {
+        "tab_hWeKcR": {
           "type": "tab",
           "settings": {
             "collection": "air-tools-and-accessories",
-            "label": "Air Tools And Accessories",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_clamps": {
+        "tab_7n3XcJ": {
           "type": "tab",
           "settings": {
             "collection": "clamps",
-            "label": "Clamps",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_bits_drivers": {
+        "tab_b3G4Dn": {
           "type": "tab",
           "settings": {
-            "collection": "bits-and-drivers",
-            "label": "Bits & Drivers",
+            "collection": "bits-drivers",
+            "label": "",
             "subcollections": []
           }
         },
-        "tab_vices": {
+        "tab_9DYLk6": {
           "type": "tab",
           "settings": {
             "collection": "vices",
-            "label": "Vices",
+            "label": "",
             "subcollections": []
           }
         }
@@ -729,17 +729,17 @@
         "tab_GiEw63",
         "tab_VLwVkY",
         "tab_ekirmp",
-        "tab_screwdrivers",
-        "tab_cutters_pliers",
-        "tab_cutting_tools",
-        "tab_hex_torx",
-        "tab_measuring_marking",
-        "tab_other_hand_tools",
-        "tab_striking_tools",
-        "tab_air_tools",
-        "tab_clamps",
-        "tab_bits_drivers",
-        "tab_vices"
+        "tab_C6JUiU",
+        "tab_wgCc3n",
+        "tab_rME6Uk",
+        "tab_bJUhpR",
+        "tab_HgEjin",
+        "tab_jCEGdp",
+        "tab_MwLUpR",
+        "tab_hWeKcR",
+        "tab_7n3XcJ",
+        "tab_b3G4Dn",
+        "tab_9DYLk6"
       ],
       "name": "Shop by Category",
       "settings": {
