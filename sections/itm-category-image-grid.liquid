@@ -7,6 +7,9 @@
       border-top: 1px solid {{ section.settings.top_divider_color }};
     {%- endif -%}
   }
+  #shopify-section-{{ section.id }} .page-width {
+    max-width: 2560px;
+  }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} {
       padding-top: {{ section.settings.padding_top_mobile }}px;
@@ -22,13 +25,6 @@
     display: grid;
     grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
     gap: {{ section.settings.divider_width }}px;
-    {%- comment -%}
-      Contained mode drops the divider-colour background entirely — with
-      a real gap (not the old 0-6px hairline) between cards, that colour
-      would show as thick solid bands in the gutters instead of the
-      page's own background showing through, which is what actually
-      reads as "floating cards" rather than a continuous divided grid.
-    {%- endcomment -%}
     background-color: {% if section.settings.contained %}transparent{% else %}{{ section.settings.divider_color }}{% endif %};
   }
   #shopify-section-{{ section.id }} .itm-catigrid__item {
@@ -140,14 +136,26 @@
 
 <div class="itm-catigrid__grid{% if section.settings.contained %} page-width{% endif %}">
   {%- for block in section.blocks -%}
+    {%- liquid
+      assign block_img = block.settings.image
+      if block_img == blank and block.settings.link contains 'collections/'
+        assign col_handle = block.settings.link | split: 'collections/' | last | split: '/' | first | split: '?' | first
+        assign linked_col = collections[col_handle]
+        if linked_col.image != blank
+          assign block_img = linked_col.image
+        elsif linked_col.products.first.featured_image
+          assign block_img = linked_col.products.first.featured_image
+        endif
+      endif
+    -%}
     <a
       class="itm-catigrid__item"
       href="{{ block.settings.link | default: '#' }}"
       {{ block.shopify_attributes }}
     >
-      {%- if block.settings.image != blank -%}
+      {%- if block_img != blank -%}
         {{
-          block.settings.image
+          block_img
           | image_url: width: 1200
           | image_tag:
             loading: 'lazy',
