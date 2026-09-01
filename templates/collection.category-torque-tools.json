@@ -21,11 +21,11 @@
       "type": "main-collection-banner",
       "settings": {
         "show_collection_description": true,
-        "show_collection_image": false,
-        "banner_image": "shopify://shop_images/Solid_white.png",
-        "image_fit": "cover",
-        "image_width": 50,
-        "image_height": 100,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "contain",
+        "image_width": 45,
+        "image_height": 380,
         "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
         "padding_top": 0,
         "padding_bottom": 32
@@ -39,7 +39,8 @@
           "settings": {
             "title": "Torque Wrenches",
             "subtitle": "Shop now",
-            "link": "shopify://collections/torque-wrenches"
+            "link": "shopify://collections/torque-wrenches",
+            "description": "Calibrated torque wrenches for accurate, repeatable fastening every time."
           }
         },
         "category_torque_screwdrivers": {
@@ -47,7 +48,8 @@
           "settings": {
             "title": "Torque Screwdrivers",
             "subtitle": "Shop now",
-            "link": "shopify://collections/torque-screwdrivers"
+            "link": "shopify://collections/torque-screwdrivers",
+            "description": "Precision torque screwdrivers for delicate, spec-critical fastening."
           }
         },
         "category_torque_multipliers": {
@@ -55,7 +57,8 @@
           "settings": {
             "title": "Torque Multipliers",
             "subtitle": "Shop now",
-            "link": "shopify://collections/torque-multipliers"
+            "link": "shopify://collections/torque-multipliers",
+            "description": "Multiply your force for high-torque jobs without the strain."
           }
         },
         "category_torque_tool_accessories": {
@@ -63,7 +66,8 @@
           "settings": {
             "title": "Torque Tool Accessories",
             "subtitle": "Shop now",
-            "link": "shopify://collections/torque-tool-accessories"
+            "link": "shopify://collections/torque-tool-accessories",
+            "description": "Calibration kits and accessories to keep your torque tools accurate."
           }
         }
       },
