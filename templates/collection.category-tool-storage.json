@@ -9,31 +9,26 @@
  */
 {
   "sections": {
-    "category_intro": {
-      "type": "rich-text",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Teng Tools Storage Solutions",
-            "heading_size": "h1"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Professional-grade tool storage from Teng Tools — roll cabinets, tool chests, wall cabinets and mobile storage units engineered to keep every tool organised, protected, and exactly where you need it. Part of Teng's Get Organised™ system, our storage range uses modular TC trays that click together across chests, cabinets and roll cabs, so your whole workshop follows one consistent, foam-cut layout. Browse the full range below, from heavy-duty roll cabinets for the workshop floor to compact wall cabinets and mobile units for jobs on the move.</p>"
-          }
-        }
-      },
-      "block_order": ["heading", "text"],
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 24
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 32,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "banner_image": "shopify://shop_images/Solid_white.png",
+        "image_fit": "cover",
+        "image_width": 50,
+        "image_height": 100,
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 0,
+        "padding_bottom": 32
       }
     },
     "sub_categories": {
@@ -127,5 +122,5 @@
       }
     }
   },
-  "order": ["category_intro", "sub_categories"]
+  "order": ["breadcrumbs", "banner", "sub_categories"]
 }

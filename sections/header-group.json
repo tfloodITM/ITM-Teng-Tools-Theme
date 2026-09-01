@@ -85,7 +85,7 @@
           "type": "mega_item",
           "settings": {
             "title": "Tool Storage",
-            "link": "shopify://pages/tool-storage",
+            "link": "shopify://collections/tool-storage",
             "layout": "cards"
           }
         },
