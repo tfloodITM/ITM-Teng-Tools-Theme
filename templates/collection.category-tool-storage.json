@@ -25,13 +25,13 @@
         "icon_size": 40,
         "icon_color": "#ffffff",
         "show_accent_bar": true,
-        "accent_bar_color": "#e30613",
+        "accent_bar_color": "#8B5F62",
         "show_collection_image": true,
         "banner_image": "shopify://shop_images/TengTools-banner-open-drawers.webp",
         "image_fit": "cover",
         "image_width": 55,
         "image_height": 380,
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
         "padding_top": 32,
         "padding_bottom": 32
       }
