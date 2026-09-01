@@ -19,7 +19,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: {{ section.settings.divider_width }}px;
-    background-color: {{ section.settings.divider_color }};
+    background-color: {% if section.settings.contained %}transparent{% else %}{{ section.settings.divider_color }}{% endif %};
   }
   #shopify-section-{{ section.id }} .itm-catigrid__item {
     position: relative;
@@ -29,6 +29,9 @@
     height: {{ section.settings.height }}px;
     text-decoration: none;
     background: #111;
+    {%- if section.settings.card_shadow -%}
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+    {%- endif -%}
   }
   #shopify-section-{{ section.id }} .itm-catigrid__item img,
   #shopify-section-{{ section.id }} .itm-catigrid__item svg {
@@ -124,7 +127,7 @@
   </div>
 {%- endif -%}
 
-<div class="itm-catigrid__grid">
+<div class="itm-catigrid__grid{% if section.settings.contained %} page-width{% endif %}">
   {%- for block in section.blocks -%}
     <a
       class="itm-catigrid__item"
@@ -239,23 +242,37 @@
       "content": "Grid"
     },
     {
+      "type": "checkbox",
+      "id": "contained",
+      "label": "Contain to page width",
+      "info": "Off (default) spans the full screen width edge-to-edge. On constrains it to the theme's normal content width and drops the divider colour — needed for a real gap (below) to actually read as floating cards rather than a solid-colour band between images.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "card_shadow",
+      "label": "Card drop shadow",
+      "info": "Adds a soft shadow under each card — combine with a real gap below for a floating-card look.",
+      "default": false
+    },
+    {
       "type": "range",
       "id": "divider_width",
-      "label": "Divider width – desktop",
-      "info": "Set to 0 for no divider. 1–2 px gives a clean line between images.",
+      "label": "Gap between cards – desktop",
+      "info": "0–6px reads as a thin divider line (the original use). Higher values, combined with 'Contain to page width' above, read as real spacing between separate floating cards.",
       "min": 0,
-      "max": 6,
-      "step": 1,
+      "max": 40,
+      "step": 2,
       "unit": "px",
       "default": 0
     },
     {
       "type": "range",
       "id": "divider_width_mobile",
-      "label": "Divider width – mobile",
+      "label": "Gap between cards – mobile",
       "min": 0,
-      "max": 6,
-      "step": 1,
+      "max": 40,
+      "step": 2,
       "unit": "px",
       "default": 0
     },
