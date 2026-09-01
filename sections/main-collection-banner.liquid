@@ -46,6 +46,30 @@
       margin-left: auto;   /* right-align the image in the remaining half */
     }
   }
+  {%- comment -%}
+    Small line-icon above the title + a thin accent bar beside the
+    description — both opt-in (default off) so every other collection page
+    already using this section is visually unchanged. Matches the
+    icon/accent-bar/photo layout requested as a reference look.
+  {%- endcomment -%}
+  #shopify-section-{{ section.id }} .itm-banner-icon {
+    width: {{ section.settings.icon_size | default: 34 }}px;
+    height: {{ section.settings.icon_size | default: 34 }}px;
+    margin-bottom: 14px;
+    color: {{ section.settings.icon_color | default: 'currentColor' }};
+  }
+  #shopify-section-{{ section.id }} .itm-banner-icon svg { width: 100%; height: 100%; display: block; }
+  #shopify-section-{{ section.id }} .itm-banner-accent {
+    display: flex;
+    gap: 16px;
+  }
+  #shopify-section-{{ section.id }} .itm-banner-accent::before {
+    content: '';
+    flex: 0 0 4px;
+    width: 4px;
+    background: {{ section.settings.accent_bar_color | default: '#e30613' }};
+    border-radius: 2px;
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -62,13 +86,23 @@
 <div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__text-wrapper">
+      {%- if section.settings.show_category_icon -%}
+        <div class="itm-banner-icon">{% render 'itm-category-icon', title: collection.title %}</div>
+      {%- endif -%}
+
       <h2 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
         {{- collection.title | escape -}}
       </h2>
 
       {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
+        {%- if section.settings.show_accent_bar -%}
+          <div class="itm-banner-accent">
+            <div class="collection-hero__description rte">{{ collection.description }}</div>
+          </div>
+        {%- else -%}
+          <div class="collection-hero__description rte">{{ collection.description }}</div>
+        {%- endif -%}
       {%- endif -%}
     </div>
 
@@ -108,6 +142,45 @@
       "id": "show_collection_description",
       "default": true,
       "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+    },
+    {
+      "type": "header",
+      "content": "Category icon & accent bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_icon",
+      "label": "Show category icon above title",
+      "info": "Small line-icon matched to the collection title (same set used in the Products mega menu). Off by default.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon colour",
+      "info": "Leave as-is to inherit the section's text colour."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_accent_bar",
+      "label": "Show accent bar beside description",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "accent_bar_color",
+      "label": "Accent bar colour",
+      "default": "#e30613"
     },
     {
       "type": "header",

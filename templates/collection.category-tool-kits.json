@@ -14,12 +14,17 @@
         "show_collection_description": true,
         "show_collection_image": true,
         "banner_image": "",
-        "image_fit": "contain",
-        "image_width": 45,
+        "image_fit": "cover",
+        "image_width": 55,
         "image_height": 380,
-        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "color_scheme": "scheme-4",
         "padding_top": 0,
-        "padding_bottom": 32
+        "padding_bottom": 32,
+        "show_category_icon": true,
+        "icon_size": 40,
+        "icon_color": "#ffffff",
+        "show_accent_bar": true,
+        "accent_bar_color": "#e30613"
       }
     },
     "sub_categories": {
