@@ -20,6 +20,8 @@
   assign sid = section.id
   assign gap = section.settings.gap | default: 16
   assign radius = section.settings.radius | default: 16
+  assign heading_weight = section.settings.heading_weight | default: '900'
+  assign heading_uppercase = section.settings.heading_uppercase
 -%}
 
 {%- capture arrow_svg -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>{%- endcapture -%}
@@ -155,8 +157,10 @@
     margin:0;
     font-size:var(--h-size, 24px);
     line-height:1.15;
-    font-weight:700;
+    font-family:var(--font-heading-family);
+    font-weight:{{ heading_weight }};
     letter-spacing:-.01em;
+    {%- if heading_uppercase -%}text-transform:uppercase;{%- endif -%}
   }
   #shopify-section-{{ sid }} .wpg__text{
     margin:0;
@@ -399,9 +403,11 @@
   }
   #shopify-section-{{ sid }} .wpg__cover-heading{
     font-size:var(--ov-h, 28px);
-    font-weight:700;
+    font-family:var(--font-heading-family);
+    font-weight:{{ heading_weight }};
     line-height:1.15;
     letter-spacing:-.01em;
+    {%- if heading_uppercase -%}text-transform:uppercase;{%- endif -%}
   }
   #shopify-section-{{ sid }} .wpg__cover-text{
     font-size:var(--ov-t, 15px);
@@ -795,7 +801,7 @@
     color:var(--star-color, #e30613);
   }
   #shopify-section-{{ sid }} .wpg__rv-count{ font-size:var(--t-size, 15px); opacity:.85; }
-  #shopify-section-{{ sid }} .wpg__rv-heading{ margin:0; font-size:var(--h-size, 24px); font-weight:700; line-height:1.2; }
+  #shopify-section-{{ sid }} .wpg__rv-heading{ margin:0; font-size:var(--h-size, 24px); font-family:var(--font-heading-family); font-weight:{{ heading_weight }}; line-height:1.2; {%- if heading_uppercase %} text-transform:uppercase;{% endif %} }
 
   #shopify-section-{{ sid }} .wpg__rv-quote{
     margin:0;
@@ -2220,6 +2226,30 @@
       "unit": "px",
       "label": "Padding bottom",
       "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Heading style",
+      "info": "Applies to every card heading in this section (tile, video cover, and reviews layouts)."
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "700", "label": "Bold" },
+        { "value": "900", "label": "Extra bold" }
+      ],
+      "default": "900",
+      "info": "900 matches the site's other headings."
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "label": "Uppercase heading",
+      "default": true,
+      "info": "Matches the site's other headings."
     },
     {
       "type": "header",
