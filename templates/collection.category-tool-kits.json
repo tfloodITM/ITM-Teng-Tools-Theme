@@ -1,0 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 32,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "banner_image": "shopify://shop_images/Solid_white.png",
+        "image_fit": "cover",
+        "image_width": 50,
+        "image_height": 100,
+        "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
+        "padding_top": 0,
+        "padding_bottom": 32
+      }
+    },
+    "sub_categories": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_roller_cabinet_tool_kits": {
+          "type": "category",
+          "settings": {
+            "title": "Roller Cabinet Tool Kits",
+            "subtitle": "Shop now",
+            "link": "shopify://collections/roller-cabinet-tool-kits"
+          }
+        },
+        "category_chest_tool_kits": {
+          "type": "category",
+          "settings": {
+            "title": "Chest Tool Kits",
+            "subtitle": "Shop now",
+            "link": "shopify://collections/chest-tool-kits"
+          }
+        },
+        "category_portable_tool_kits": {
+          "type": "category",
+          "settings": {
+            "title": "Portable Tool Kits",
+            "subtitle": "Shop now",
+            "link": "shopify://collections/portable-tool-kits"
+          }
+        },
+        "category_stack_tool_kits": {
+          "type": "category",
+          "settings": {
+            "title": "Stack Tool Kits",
+            "subtitle": "Shop now",
+            "link": "shopify://collections/stack-tool-kits"
+          }
+        }
+      },
+      "block_order": [
+        "category_roller_cabinet_tool_kits",
+        "category_chest_tool_kits",
+        "category_portable_tool_kits",
+        "category_stack_tool_kits"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#ffffff",
+        "top_divider": true,
+        "top_divider_color": "#e2e2e2",
+        "layout_style": "card",
+        "columns_desktop": "4",
+        "columns_mobile": "2",
+        "contained": true,
+        "card_shadow": true,
+        "divider_width": 20,
+        "divider_width_mobile": 12,
+        "divider_color": "#f2f2f2",
+        "radius": 12,
+        "height": 320,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 22,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "600",
+        "subtitle_color": "#e30613"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
+}
