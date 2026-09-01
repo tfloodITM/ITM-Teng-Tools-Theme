@@ -7,23 +7,13 @@
       border-top: 1px solid {{ section.settings.top_divider_color }};
     {%- endif -%}
   }
-<<<<<<< HEAD
   {%- comment -%}
-    main-collection-banner.liquid scopes its OWN max-width override for
-    .page-width to 2560px (confirmed directly in that section's source) —
-    the theme's generic .page-width class alone is much narrower. Without
-    matching that same override here, this section's "Contain to page
-    width" ends up noticeably narrower than the banner/text section
-    directly above it on a collection page, even though both claim to use
-    the same page-width container — that mismatch (cards inset with a
-    visible gap on both sides versus the wider text above) is exactly
-    what was reported live.
+    Deliberately NOT overriding .page-width's max-width here — "Contain to
+    page width" uses the theme's normal page-width (1300px, see
+    assets/base.css) so this grid matches ordinary content sections (e.g.
+    the homepage category/promo grids) rather than the wider layout
+    main-collection-banner.liquid uses for its own text row.
   {%- endcomment -%}
-=======
->>>>>>> ccfd6fe9abca4f840306cf3d951698f0b982d17b
-  #shopify-section-{{ section.id }} .page-width {
-    max-width: 2560px;
-  }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} {
       padding-top: {{ section.settings.padding_top_mobile }}px;
@@ -122,7 +112,6 @@
       opacity: 0.85;
     }
   {%- endif -%}
-<<<<<<< HEAD
   {%- comment -%}
     "Card" layout: image on top, plain white body below with title,
     description and product count — a category-browsing card, not the
@@ -130,8 +119,6 @@
     Scoped entirely under its own modifier class so the original overlay
     style (still used elsewhere, e.g. the homepage) is untouched.
   {%- endcomment -%}
-=======
->>>>>>> ccfd6fe9abca4f840306cf3d951698f0b982d17b
   #shopify-section-{{ section.id }} .itm-catigrid__item--card {
     display: flex;
     flex-direction: column;
@@ -220,7 +207,6 @@
 
 <div class="itm-catigrid__grid{% if section.settings.contained %} page-width{% endif %}">
   {%- for block in section.blocks -%}
-<<<<<<< HEAD
     {%- comment -%}
       Falls back when no image is explicitly picked: if the link points at
       a real collection, use that collection's own image first, then its
@@ -232,8 +218,6 @@
       rather than being a real collection reference — collections[handle]
       then does the actual lookup.
     {%- endcomment -%}
-=======
->>>>>>> ccfd6fe9abca4f840306cf3d951698f0b982d17b
     {%- liquid
       assign block_img = block.settings.image
       assign linked_col = blank

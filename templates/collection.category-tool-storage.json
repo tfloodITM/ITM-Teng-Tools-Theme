@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "breadcrumbs": {
@@ -21,11 +12,11 @@
       "type": "main-collection-banner",
       "settings": {
         "show_collection_description": true,
-        "show_collection_image": false,
-        "banner_image": "shopify://shop_images/Solid_white.png",
-        "image_fit": "cover",
-        "image_width": 50,
-        "image_height": 100,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "contain",
+        "image_width": 45,
+        "image_height": 380,
         "color_scheme": "scheme-1fb44cbc-9e8b-4bde-a0cd-1e97700fbb09",
         "padding_top": 0,
         "padding_bottom": 32
@@ -39,7 +30,8 @@
           "settings": {
             "title": "Roll Cabinets",
             "subtitle": "Shop now",
-            "link": "shopify://collections/roll-cabinets"
+            "link": "shopify://collections/roll-cabinets",
+            "description": "Heavy-duty rolling cabinets with lockable drawers for the workshop floor."
           }
         },
         "category_tool_chests": {
@@ -47,7 +39,8 @@
           "settings": {
             "title": "Tool Chests",
             "subtitle": "Shop now",
-            "link": "shopify://collections/tool-chests"
+            "link": "shopify://collections/tool-chests",
+            "description": "Stackable chests with foam-cut TC trays to keep every tool organised."
           }
         },
         "category_wall_cabinets": {
@@ -55,7 +48,8 @@
           "settings": {
             "title": "Wall Cabinets",
             "subtitle": "Shop now",
-            "link": "shopify://collections/wall-cabinets"
+            "link": "shopify://collections/wall-cabinets",
+            "description": "Space-saving wall-mounted storage with pegboard doors for easy-reach tools."
           }
         },
         "category_mobile_tool_storage": {
@@ -63,7 +57,8 @@
           "settings": {
             "title": "Mobile Tool Storage",
             "subtitle": "Shop now",
-            "link": "shopify://collections/mobile-tool-storage"
+            "link": "shopify://collections/mobile-tool-storage",
+            "description": "Portable carts and totes that bring your tools wherever the job takes you."
           }
         },
         "category_tool_storage_accessories": {
@@ -71,7 +66,8 @@
           "settings": {
             "title": "Tool Storage Accessories",
             "subtitle": "Shop now",
-            "link": "shopify://collections/tool-storage-accessories"
+            "link": "shopify://collections/tool-storage-accessories",
+            "description": "Trays, liners and add-ons to customise and expand your storage system."
           }
         },
         "category_work_benches": {
@@ -79,7 +75,8 @@
           "settings": {
             "title": "Work Benches",
             "subtitle": "Shop now",
-            "link": "shopify://collections/work-benches"
+            "link": "shopify://collections/work-benches",
+            "description": "Sturdy workshop benches built to handle heavy daily use."
           }
         }
       },
@@ -129,5 +126,9 @@
       }
     }
   },
-  "order": ["breadcrumbs", "banner", "sub_categories"]
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
 }
