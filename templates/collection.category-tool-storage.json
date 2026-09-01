@@ -113,7 +113,7 @@
         "top_divider": true,
         "top_divider_color": "#e2e2e2",
         "layout_style": "card",
-        "columns_desktop": "4",
+        "columns_desktop": "6",
         "columns_mobile": "2",
         "contained": true,
         "card_shadow": true,
