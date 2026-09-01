@@ -111,7 +111,7 @@
   #shopify-section-{{ section.id }} .sbc__stars-bg { display: block; line-height: 1; color: {{ section.settings.star_empty_color }}; }
   #shopify-section-{{ section.id }} .sbc__stars-fill { position: absolute; top: 0; left: 0; overflow: hidden; white-space: nowrap; display: block; line-height: 1; color: {{ section.settings.star_color }}; }
   #shopify-section-{{ section.id }} .sbc__review-count { font-weight: 400; opacity: 0.85; white-space: nowrap; line-height: 1; vertical-align: middle; font-size: 14px; color: #e3e3e3; }
-  #shopify-section-{{ section.id }} .sbc__card-title { margin: 0 0 2px; font-family: var(--font-heading-family); text-transform: uppercase; font-style: italic; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: {{ section.settings.title_size | default: 16 }}px; font-weight: {{ section.settings.title_weight }}; color: {{ section.settings.card_band_text }}; }
+  #shopify-section-{{ section.id }} .sbc__card-title { margin: 0 0 2px; font-family: var(--font-heading-family); text-transform: uppercase; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: {{ section.settings.title_size | default: 16 }}px; font-weight: {{ section.settings.title_weight }}; color: {{ section.settings.card_band_text }}; }
   #shopify-section-{{ section.id }} .sbc__card-price { margin: 0; font-size: {{ section.settings.price_size | default: 16 }}px; font-weight: {{ section.settings.price_weight }}; color: {{ section.settings.price_color }}; }
   #shopify-section-{{ section.id }} .sbc__was { opacity: 0.55; margin-right: 4px; text-decoration: line-through; }
 
