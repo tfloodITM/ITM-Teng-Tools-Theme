@@ -52,10 +52,18 @@
     already using this section is visually unchanged. Matches the
     icon/accent-bar/photo layout requested as a reference look.
   {%- endcomment -%}
+  #shopify-section-{{ section.id }} .itm-banner-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  #shopify-section-{{ section.id }} .itm-banner-title-row .collection-hero__title {
+    margin: 0;
+  }
   #shopify-section-{{ section.id }} .itm-banner-icon {
+    flex: 0 0 auto;
     width: {{ section.settings.icon_size | default: 34 }}px;
     height: {{ section.settings.icon_size | default: 34 }}px;
-    margin-bottom: 14px;
     color: {{ section.settings.icon_color | default: 'currentColor' }};
   }
   #shopify-section-{{ section.id }} .itm-banner-icon svg { width: 100%; height: 100%; display: block; }
@@ -86,14 +94,16 @@
 <div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__text-wrapper">
-      {%- if section.settings.show_category_icon -%}
-        <div class="itm-banner-icon">{% render 'itm-category-icon', title: collection.title %}</div>
-      {%- endif -%}
+      <div class="itm-banner-title-row">
+        {%- if section.settings.show_category_icon -%}
+          <div class="itm-banner-icon">{% render 'itm-category-icon', title: collection.title %}</div>
+        {%- endif -%}
 
-      <h2 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h2>
+        <h2 class="collection-hero__title">
+          <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+          {{- collection.title | escape -}}
+        </h2>
+      </div>
 
       {%- if section.settings.show_collection_description -%}
         {%- if section.settings.show_accent_bar -%}
