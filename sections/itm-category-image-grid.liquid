@@ -108,6 +108,66 @@
       opacity: 0.85;
     }
   {%- endif -%}
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    background: #ffffff;
+    border: 1px solid #ececec;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card::after {
+    display: none;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media {
+    position: relative;
+    height: {{ section.settings.height }}px;
+    background: #f4f4f4;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media img,
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__body {
+    padding: {{ section.settings.text_padding }}px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 auto;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__title {
+    color: #1a1a1a;
+    margin: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__desc {
+    color: #666666;
+    font-size: 14px;
+    line-height: 1.45;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__meta {
+    margin-top: auto;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__count {
+    font-size: 12px;
+    color: #888888;
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__subtitle {
+    color: {{ section.settings.subtitle_color }};
+  }
   @media (max-width: 749px) {
     #shopify-section-{{ section.id }} .itm-catigrid__grid {
       grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
@@ -138,45 +198,92 @@
   {%- for block in section.blocks -%}
     {%- liquid
       assign block_img = block.settings.image
-      if block_img == blank and block.settings.link contains 'collections/'
+      assign linked_col = blank
+      if block.settings.link contains 'collections/'
         assign col_handle = block.settings.link | split: 'collections/' | last | split: '/' | first | split: '?' | first
         assign linked_col = collections[col_handle]
+      endif
+      if block_img == blank
         if linked_col.image != blank
           assign block_img = linked_col.image
         elsif linked_col.products.first.featured_image
           assign block_img = linked_col.products.first.featured_image
         endif
       endif
+      assign block_desc = block.settings.description
+      if block_desc == blank and linked_col.description != blank
+        assign block_desc = linked_col.description | strip_html | truncate: 110
+      endif
+      assign product_count = linked_col.products_count
     -%}
-    <a
-      class="itm-catigrid__item"
-      href="{{ block.settings.link | default: '#' }}"
-      {{ block.shopify_attributes }}
-    >
-      {%- if block_img != blank -%}
-        {{
-          block_img
-          | image_url: width: 1200
-          | image_tag:
-            loading: 'lazy',
-            alt: block.settings.title,
-            widths: '600, 900, 1200'
-        }}
-      {%- else -%}
-        {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
-      {%- endif -%}
-
-      {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
-        <div class="itm-catigrid__overlay">
+    {%- if section.settings.layout_style == 'card' -%}
+      <a
+        class="itm-catigrid__item itm-catigrid__item--card"
+        href="{{ block.settings.link | default: '#' }}"
+        {{ block.shopify_attributes }}
+      >
+        <div class="itm-catigrid__media">
+          {%- if block_img != blank -%}
+            {{
+              block_img
+              | image_url: width: 1200
+              | image_tag:
+                loading: 'lazy',
+                alt: block.settings.title,
+                widths: '600, 900, 1200'
+            }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+        <div class="itm-catigrid__body">
           {%- if block.settings.title != blank -%}
             <h3 class="itm-catigrid__title">{{ block.settings.title }}</h3>
           {%- endif -%}
-          {%- if block.settings.subtitle != blank -%}
-            <p class="itm-catigrid__subtitle">{{ block.settings.subtitle }}</p>
+          {%- if block_desc != blank -%}
+            <p class="itm-catigrid__desc">{{ block_desc }}</p>
           {%- endif -%}
+          <div class="itm-catigrid__meta">
+            {%- if product_count -%}
+              <span class="itm-catigrid__count">{{ product_count }} product{% if product_count != 1 %}s{% endif %}</span>
+            {%- endif -%}
+            {%- if block.settings.subtitle != blank -%}
+              <span class="itm-catigrid__subtitle">{{ block.settings.subtitle }}</span>
+            {%- endif -%}
+          </div>
         </div>
-      {%- endif -%}
-    </a>
+      </a>
+    {%- else -%}
+      <a
+        class="itm-catigrid__item"
+        href="{{ block.settings.link | default: '#' }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- if block_img != blank -%}
+          {{
+            block_img
+            | image_url: width: 1200
+            | image_tag:
+              loading: 'lazy',
+              alt: block.settings.title,
+              widths: '600, 900, 1200'
+          }}
+        {%- else -%}
+          {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+
+        {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
+          <div class="itm-catigrid__overlay">
+            {%- if block.settings.title != blank -%}
+              <h3 class="itm-catigrid__title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.subtitle != blank -%}
+              <p class="itm-catigrid__subtitle">{{ block.settings.subtitle }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </a>
+    {%- endif -%}
   {%- endfor -%}
 </div>
 
@@ -272,6 +379,17 @@
     {
       "type": "header",
       "content": "Grid"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Card style",
+      "info": "Image tile keeps the original dark-gradient hero look (text over the image). Clean card puts the image on top and a plain white body below with title, description and product count.",
+      "default": "overlay",
+      "options": [
+        { "value": "overlay", "label": "Image tile (text over image)" },
+        { "value": "card", "label": "Clean card (title/description below)" }
+      ]
     },
     {
       "type": "select",
@@ -533,6 +651,12 @@
           "id": "subtitle",
           "label": "Subtitle / CTA text",
           "default": "Shop now"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description (Clean card style only)",
+          "info": "Leave blank to fall back to the linked collection's own description, if it has one."
         },
         {
           "type": "url",
