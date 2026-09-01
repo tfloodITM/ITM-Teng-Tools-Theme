@@ -187,6 +187,21 @@
     #shopify-section-{{ section.id }} .itm-catigrid__item {
       height: {{ section.settings.height_mobile }}px;
     }
+    {%- comment -%}
+      Card layout only: height_mobile above is sized for the "overlay"
+      tile (image + dark gradient text, whole item is the image). The
+      card style's item is a flex column (image + white body) — its
+      height needs to stay auto so the body doesn't get squashed — and
+      the image itself becomes a true square, not the fixed height_mobile
+      px value, so it scales cleanly at any column width down to phone.
+    {%- endcomment -%}
+    #shopify-section-{{ section.id }} .itm-catigrid__item--card {
+      height: auto;
+    }
+    #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media {
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
     #shopify-section-{{ section.id }} .itm-catigrid__overlay {
       padding: {{ section.settings.text_padding_mobile }}px;
     }
