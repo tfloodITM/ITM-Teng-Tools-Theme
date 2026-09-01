@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "breadcrumbs": {
@@ -35,8 +44,8 @@
           "settings": {
             "title": "Roller Cabinet Tool Kits",
             "subtitle": "Shop now",
-            "link": "shopify://collections/roller-cabinet-tool-kits",
-            "description": "Fully-loaded roller cabinets pre-packed with a complete tool set."
+            "description": "Fully-loaded roller cabinets pre-packed with a complete tool set.",
+            "link": "shopify://collections/roller-cabinet-tool-kits"
           }
         },
         "category_chest_tool_kits": {
@@ -44,8 +53,8 @@
           "settings": {
             "title": "Chest Tool Kits",
             "subtitle": "Shop now",
-            "link": "shopify://collections/chest-tool-kits",
-            "description": "Complete tool chests ready to go, stacked with essential hand tools."
+            "description": "Complete tool chests ready to go, stacked with essential hand tools.",
+            "link": "shopify://collections/chest-tool-kits"
           }
         },
         "category_portable_tool_kits": {
@@ -53,8 +62,8 @@
           "settings": {
             "title": "Portable Tool Kits",
             "subtitle": "Shop now",
-            "link": "shopify://collections/portable-tool-kits",
-            "description": "Grab-and-go kits in a case, built for tradies on the move."
+            "description": "Grab-and-go kits in a case, built for tradies on the move.",
+            "link": "shopify://collections/portable-tool-kits"
           }
         },
         "category_stack_tool_kits": {
@@ -62,8 +71,8 @@
           "settings": {
             "title": "Stack Tool Kits",
             "subtitle": "Shop now",
-            "link": "shopify://collections/stack-tool-kits",
-            "description": "Modular stacking kits that grow with your tool collection."
+            "description": "Modular stacking kits that grow with your tool collection.",
+            "link": "shopify://collections/stack-tool-kits"
           }
         }
       },

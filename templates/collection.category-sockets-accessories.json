@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "breadcrumbs": {
@@ -35,8 +44,8 @@
           "settings": {
             "title": "Chrome Socket Sets",
             "subtitle": "Shop now",
-            "link": "shopify://collections/chrome-socket-sets",
-            "description": "Precision-forged chrome sockets in sets for every drive size."
+            "description": "Precision-forged chrome sockets in sets for every drive size.",
+            "link": "shopify://collections/chrome-socket-sets"
           }
         },
         "category_impact_sockets": {
@@ -44,8 +53,8 @@
           "settings": {
             "title": "Impact Sockets",
             "subtitle": "Shop now",
-            "link": "shopify://collections/impact-sockets",
-            "description": "Heavy-duty impact-rated sockets built to handle high-torque power tools."
+            "description": "Heavy-duty impact-rated sockets built to handle high-torque power tools.",
+            "link": "shopify://collections/impact-sockets"
           }
         },
         "category_ratchets_handles": {
@@ -53,8 +62,8 @@
           "settings": {
             "title": "Ratchets & Handles",
             "subtitle": "Shop now",
-            "link": "shopify://collections/ratchets-handles",
-            "description": "Smooth-action ratchets and handles for fast, reliable socket work."
+            "description": "Smooth-action ratchets and handles for fast, reliable socket work.",
+            "link": "shopify://collections/ratchets-handles"
           }
         },
         "category_1000v_sockets": {
@@ -62,8 +71,8 @@
           "settings": {
             "title": "1000V Sockets",
             "subtitle": "Shop now",
-            "link": "shopify://collections/1000v-sockets",
-            "description": "Insulated sockets rated for safe use on live electrical work."
+            "description": "Insulated sockets rated for safe use on live electrical work.",
+            "link": "shopify://collections/1000v-sockets"
           }
         }
       },

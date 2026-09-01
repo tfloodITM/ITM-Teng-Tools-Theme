@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "breadcrumbs": {
@@ -35,8 +44,8 @@
           "settings": {
             "title": "Automotive Body & Panel",
             "subtitle": "Shop now",
-            "link": "shopify://collections/automotive-body-panel",
-            "description": "Specialist tools for automotive body and panel repair work."
+            "description": "Specialist tools for automotive body and panel repair work.",
+            "link": "shopify://collections/automotive-body-panel"
           }
         },
         "category_automotive_brake_tools": {
@@ -44,8 +53,8 @@
           "settings": {
             "title": "Automotive Brake Tools",
             "subtitle": "Shop now",
-            "link": "shopify://collections/automotive-brake-tools",
-            "description": "Purpose-built tools for fast, safe brake servicing."
+            "description": "Purpose-built tools for fast, safe brake servicing.",
+            "link": "shopify://collections/automotive-brake-tools"
           }
         },
         "category_pullers": {
@@ -53,8 +62,8 @@
           "settings": {
             "title": "Pullers",
             "subtitle": "Shop now",
-            "link": "shopify://collections/pullers",
-            "description": "Bearing, gear and hub pullers for automotive and industrial teardown work."
+            "description": "Bearing, gear and hub pullers for automotive and industrial teardown work.",
+            "link": "shopify://collections/pullers"
           }
         },
         "category_tyre_tools": {
@@ -62,8 +71,8 @@
           "settings": {
             "title": "Tyre Tools",
             "subtitle": "Shop now",
-            "link": "shopify://collections/tyre-tools",
-            "description": "Tools built for tyre fitting, balancing and wheel servicing."
+            "description": "Tools built for tyre fitting, balancing and wheel servicing.",
+            "link": "shopify://collections/tyre-tools"
           }
         }
       },

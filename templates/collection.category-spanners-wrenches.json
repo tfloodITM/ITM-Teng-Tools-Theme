@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "breadcrumbs": {
@@ -35,8 +44,8 @@
           "settings": {
             "title": "Combination Spanners",
             "subtitle": "Shop now",
-            "link": "shopify://collections/combination-spanners",
-            "description": "Drop-forged combination spanners for a precise fit on every fastener."
+            "description": "Drop-forged combination spanners for a precise fit on every fastener.",
+            "link": "shopify://collections/combination-spanners"
           }
         },
         "category_ratchet_combination_spanners": {
@@ -44,8 +53,8 @@
           "settings": {
             "title": "Ratchet Combination Spanners",
             "subtitle": "Shop now",
-            "link": "shopify://collections/ratchet-combination-spanners",
-            "description": "Ratcheting spanners that speed up repetitive fastening work."
+            "description": "Ratcheting spanners that speed up repetitive fastening work.",
+            "link": "shopify://collections/ratchet-combination-spanners"
           }
         },
         "category_spanner_sets": {
@@ -53,8 +62,8 @@
           "settings": {
             "title": "Spanner Sets",
             "subtitle": "Shop now",
-            "link": "shopify://collections/spanner-sets",
-            "description": "Complete spanner sets covering every size you'll need on the job."
+            "description": "Complete spanner sets covering every size you'll need on the job.",
+            "link": "shopify://collections/spanner-sets"
           }
         },
         "category_adjustable_wrenches": {
@@ -62,8 +71,8 @@
           "settings": {
             "title": "Adjustable Wrenches",
             "subtitle": "Shop now",
-            "link": "shopify://collections/adjustable-wrenches",
-            "description": "Versatile adjustable wrenches for fasteners of almost any size."
+            "description": "Versatile adjustable wrenches for fasteners of almost any size.",
+            "link": "shopify://collections/adjustable-wrenches"
           }
         }
       },
