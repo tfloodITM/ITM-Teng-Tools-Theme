@@ -31,6 +31,18 @@
     gap: {{ section.settings.divider_width }}px;
     background-color: {% if section.settings.contained %}transparent{% else %}{{ section.settings.divider_color }}{% endif %};
   }
+  {%- comment -%}
+    Mid-size breakpoint: as the desktop viewport narrows (laptop widths,
+    before the phone breakpoint at 749px kicks in), a high desktop column
+    count (e.g. 6) gets too tight — halve it so cards "break lines" into a
+    second row instead of squeezing every column. Purely responsive; the
+    columns_desktop setting itself is untouched.
+  {%- endcomment -%}
+  @media (max-width: 1200px) and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .itm-catigrid__grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop | divided_by: 2 | at_least: 1 }}, 1fr);
+    }
+  }
   #shopify-section-{{ section.id }} .itm-catigrid__item {
     position: relative;
     display: block;
