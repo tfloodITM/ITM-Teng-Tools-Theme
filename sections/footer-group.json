@@ -33,7 +33,7 @@
           "type": "link_list",
           "settings": {
             "heading": "SUPPORT & RESOURCES",
-            "menu": "support-resources-drop"
+            "menu": ""
           }
         },
         "footer-2": {
@@ -69,7 +69,7 @@
         "brand_col_width": 1,
         "menu_col_width": 2,
         "news_col_width": 1,
-        "footer_logo": "shopify://shop_images/tengtools-logo-blk.png",
+        "footer_logo": "shopify://shop_images/1.png",
         "logo_width": 160,
         "tagline": "<p>Professional hand tools and modular tool storage, direct from Teng Tools Australia.</p>",
         "tagline_size": 14,
