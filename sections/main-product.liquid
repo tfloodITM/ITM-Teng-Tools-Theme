@@ -1334,7 +1334,16 @@
 
         <div class="itm-product-col itm-product-col--media">
           {%- liquid
-            assign pdp_sku = product.selected_or_first_available_variant.sku | default: product.variants.first.sku | strip
+            {%- comment -%}
+              Some products have no SKU set on any variant at all (a gap in
+              the NetSuite sync) — but their product TITLE is literally the
+              SKU code (e.g. "TE-1101"). Collection cards already fall back
+              to card_product.title for exactly this reason (see card-
+              product.liquid); this matches that so the product page stops
+              showing "Image coming soon" for the same products that render
+              fine on collection pages.
+            {%- endcomment -%}
+            assign pdp_sku = product.selected_or_first_available_variant.sku | default: product.variants.first.sku | default: product.title | strip
             assign pdp_count = section.settings.image_count | default: 4
           -%}
           {%- if section.settings.use_manual_images -%}
