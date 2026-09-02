@@ -218,6 +218,24 @@
   /* A single image (others 404'd and were removed) fills the whole width */
   #shopify-section-{{ section.id }} .itm-pdp-mediacell:only-child { grid-column: 1 / -1; }
 
+  @media (min-width: 750px) {
+    {%- comment -%}
+      Desktop only — a single-image product would otherwise stretch to a
+      perfect square (or whatever "Image shape" above is set to) at roughly
+      HALF THE PAGE WIDTH, since :only-child spans the full media column.
+      That makes it visually enormous next to the much shorter info column
+      beside it. A separate, shorter ratio just for this one case (instead
+      of overriding "Image shape" globally, which still needs to look right
+      with 2+ images in a grid) brings the height back down to something
+      that sits comfortably in the 50/50 split. Mobile is untouched — it
+      already switches to its own one-at-a-time swipe layout above, which
+      always uses the regular "Image shape" ratio regardless of image count.
+    {%- endcomment -%}
+    #shopify-section-{{ section.id }} .itm-pdp-mediacell:only-child {
+      aspect-ratio: {{ section.settings.single_image_ratio | default: '16 / 10' }};
+    }
+  }
+
   /* Hover zoom — only on devices that actually hover (desktop) */
   @media (hover: hover) {
     #shopify-section-{{ section.id }} .itm-pdp-mediaimg {
@@ -4991,6 +5009,19 @@
         { "value": "16 / 9", "label": "Wide 16:9" }
       ],
       "default": "1 / 1"
+    },
+    {
+      "type": "select",
+      "id": "single_image_ratio",
+      "label": "Image shape — single-image products (desktop)",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 3", "label": "Landscape 4:3" },
+        { "value": "16 / 9", "label": "Wide 16:9" },
+        { "value": "16 / 10", "label": "Wide 16:10" }
+      ],
+      "default": "16 / 10",
+      "info": "Used only on desktop when a product ends up with just one image — otherwise the square/landscape/portrait shape above stretches to fill the whole media column and towers over the info column beside it. Mobile always uses the shape above, unaffected by this."
     },
     {
       "type": "select",
