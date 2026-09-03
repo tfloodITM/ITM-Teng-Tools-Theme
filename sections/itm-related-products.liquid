@@ -162,9 +162,9 @@
               {%- if section.settings.show_atc -%}
                 <div class="sbc__actions">
                   {%- if recommendation.variants.size == 1 and recommendation.available -%}
-                    <button class="sbc__atc" data-variant-id="{{ recommendation.first_available_variant.id }}">Add to Cart</button>
+                    <button class="sbc__atc" data-variant-id="{{ recommendation.first_available_variant.id }}">Add to Cart{%- if section.settings.atc_show_arrow -%}<svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>{%- endif -%}</button>
                   {%- elsif recommendation.available -%}
-                    <a href="{{ recommendation.url }}" class="sbc__atc sbc__atc--options">Choose Options</a>
+                    <a href="{{ recommendation.url }}" class="sbc__atc sbc__atc--options">Choose Options{%- if section.settings.atc_show_arrow -%}<svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>{%- endif -%}</a>
                   {%- else -%}
                     <button class="sbc__atc" disabled>Sold Out</button>
                   {%- endif -%}
@@ -353,8 +353,9 @@
     { "type": "range", "id": "atc_height", "label": "Row height (px)", "min": 28, "max": 64, "step": 2, "default": 40 },
     { "type": "range", "id": "atc_font_size", "label": "Font size (px)", "min": 9, "max": 16, "step": 1, "default": 12 },
     { "type": "select", "id": "atc_font_weight", "label": "Font weight", "options": [ { "value": "700", "label": "Bold" }, { "value": "400", "label": "Normal" } ], "default": "700" },
+    { "type": "checkbox", "id": "atc_show_arrow", "label": "Show arrow on button", "default": true },
     { "type": "color", "id": "atc_bg", "label": "Background", "default": "#e30613" },
-    { "type": "color", "id": "atc_color", "label": "Text / icon colour", "default": "#000000" },
+    { "type": "color", "id": "atc_color", "label": "Text / icon colour", "default": "#ffffff" },
     { "type": "color", "id": "actions_divider_color", "label": "Divider colour", "default": "#ffffff" },
     { "type": "color", "id": "list_btn_bg", "label": "Save-to-list button background", "default": "#e30613" },
     { "type": "header", "content": "Section padding" },
