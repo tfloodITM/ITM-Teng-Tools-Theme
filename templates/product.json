@@ -12,10 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "judge_me_reviews_preview_badge_tUtRpG": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        },
         "rating_kPnxgM": {
           "type": "rating",
           "disabled": true,
@@ -41,32 +37,6 @@
             "custom_atc_text": "Add to cart",
             "atc_border_color": "#000000",
             "show_in_aside": false
-          }
-        },
-        "afterpay_on_site_messaging_payments_messaging_DkrKVr": {
-          "type": "shopify://apps/afterpay-on-site-messaging/blocks/payments-messaging/f45a5524-d177-4475-bf59-281efd2215a8",
-          "settings": {
-            "text_align": "inherit",
-            "margin_top": 16,
-            "margin_bottom": 16,
-            "color": "#000000",
-            "size": "xs",
-            "intro_text": "or",
-            "show_interest_free": true,
-            "payment_amount_is_bold": false,
-            "show_with": true,
-            "logo_type": "badge",
-            "logo_theme": "black-on-mint",
-            "modal_link_style": "learn-more-text",
-            "modal_theme": "mint",
-            "breakpoint": 749,
-            "text_align_mobile": "inherit",
-            "margin_top_mobile": 16,
-            "margin_bottom_mobile": 16,
-            "show_lower_limit": true,
-            "show_upper_limit": true,
-            "show_if_outside_limits": true,
-            "product": "{{product}}"
           }
         },
         "buy_buttons": {
@@ -131,12 +101,10 @@
         }
       },
       "block_order": [
-        "judge_me_reviews_preview_badge_tUtRpG",
         "rating_kPnxgM",
         "price",
         "title",
         "quantity_selector",
-        "afterpay_on_site_messaging_payments_messaging_DkrKVr",
         "buy_buttons",
         "sku_7Cinxp",
         "sharpens_wQANeh",
@@ -498,20 +466,6 @@
     },
     "178175961502958bc5": {
       "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_VMaJQc": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 1200,
-            "show_shop_reviews": true,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_VMaJQc"
-      ],
       "settings": {
         "heading": "Customer Reviews",
         "include_margins": true
