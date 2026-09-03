@@ -134,12 +134,6 @@
               {{ product.price_min | money }}
             </span>
             <div class="itm-pg-picker__actions">
-              {%- if has_specs -%}
-                <button type="button" class="itm-pg-picker__info-toggle" aria-expanded="false" data-pg-info-toggle>
-                  <span>{{ 'products.product.specs' | t | default: 'Specs' }}</span>
-                  <svg class="itm-pg-picker__info-caret" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-              {%- endif -%}
               {%- if product.variants.size == 1 and product.available -%}
                 <button class="itm-pg-picker__atc sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">
                   {{- 'products.product.add_to_cart' | t | default: 'Add' -}}
@@ -156,7 +150,7 @@
             </div>
           </div>
           {%- if has_specs -%}
-            <div class="itm-pg-picker__specs" data-pg-specs hidden>
+            <div class="itm-pg-picker__specs">
               <ul>
                 {%- for line in spec_lines -%}
                   <li>{{ line }}</li>
@@ -169,21 +163,6 @@
     </ul>
   </div>
 </div>
-
-<script>
-(function () {
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-pg-info-toggle]');
-    if (!btn) return;
-    var item = btn.closest('.itm-pg-picker__item');
-    var panel = item && item.querySelector('[data-pg-specs]');
-    if (!panel) return;
-    var open = !panel.hidden;
-    panel.hidden = open;
-    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-  });
-})();
-</script>
 
 <style>
   .itm-pg-picker {
@@ -245,9 +224,17 @@
     border-bottom: 1px solid #e2e2e2;
   }
   .itm-pg-picker__list { border-top: none; }
-  .itm-pg-picker__item { border-bottom: 1px solid #ececec; }
+  {%- comment -%}
+    Zebra striping (white / grey / white / grey) so a long run of near-
+    identical rows stays scannable — the row and its always-open specs
+    block underneath share one background so each "item" reads as one
+    visual band, not two different-coloured pieces stacked on top of
+    each other.
+  {%- endcomment -%}
+  .itm-pg-picker__item { border-bottom: 1px solid #ececec; background: #ffffff; }
+  .itm-pg-picker__item:nth-child(even) { background: #f4f4f4; }
+  .itm-pg-picker__item:nth-child(even) .itm-pg-picker__specs { background: #ececec; }
   .itm-pg-picker__row { padding: 12px 16px; }
-  .itm-pg-picker__item:hover { background: #fafafa; }
   .itm-pg-picker__name {
     font-family: var(--font-heading-family);
     font-size: 14px;
@@ -276,27 +263,6 @@
     gap: 8px;
     justify-content: flex-end;
   }
-  .itm-pg-picker__info-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    height: 34px;
-    padding: 0 10px;
-    border: 1px solid #d0d0d0;
-    border-radius: 4px;
-    background: #ffffff;
-    color: #444444;
-    font-family: var(--font-heading-family);
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .itm-pg-picker__info-toggle:hover { border-color: #aaaaaa; }
-  .itm-pg-picker__info-toggle[aria-expanded="true"] .itm-pg-picker__info-caret { transform: rotate(180deg); }
-  .itm-pg-picker__info-caret { transition: transform 0.15s ease; }
   .itm-pg-picker__atc {
     display: inline-flex;
     align-items: center;
@@ -337,7 +303,6 @@
     line-height: 1.5;
     color: #444444;
   }
-  .itm-pg-picker__specs[hidden] { display: none; }
 
   @media (max-width: 749px) {
     .itm-pg-picker {
@@ -361,8 +326,6 @@
     .itm-pg-picker__name { grid-area: name; }
     .itm-pg-picker__price { grid-area: price; }
     .itm-pg-picker__actions { grid-area: actions; align-self: center; }
-    .itm-pg-picker__info-toggle span { display: none; }
-    .itm-pg-picker__info-toggle { width: 34px; padding: 0; justify-content: center; }
     .itm-pg-picker__specs ul { grid-template-columns: 1fr; }
   }
 </style>
