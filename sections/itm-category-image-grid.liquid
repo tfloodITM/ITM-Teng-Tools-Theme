@@ -176,14 +176,24 @@
   #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media {
     position: relative;
     height: {{ section.settings.height }}px;
-    background: #f4f4f4;
+    background: #ffffff;
     overflow: hidden;
   }
+  {%- comment -%}
+    object-fit: contain (not cover) — cover crops to fill the box, which
+    cut off product photos that aren't a perfect square (a wrench shot
+    running diagonally, an open case, etc.), making them look like they
+    bleed past the card edge. Contain always shows the whole image at full
+    width, never cropped. The media box's own background is white (not
+    grey) so any leftover space contain leaves top/bottom or side to side
+    blends straight into the white card instead of reading as a separate
+    grey box around a shrunk photo.
+  {%- endcomment -%}
   #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media img,
   #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media svg {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
   #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__body {
