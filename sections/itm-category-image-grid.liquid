@@ -32,6 +32,25 @@
     background-color: {% if section.settings.contained %}transparent{% else %}{{ section.settings.divider_color }}{% endif %};
   }
   {%- comment -%}
+    Full width ("Contain to page width" off) means the grid runs edge to
+    edge with nothing else adding side margins for it — the outer cards
+    were sitting flush against the browser edge instead of getting the
+    same breathing room the cards get from each other. Padding the grid
+    itself by the same amount as the inter-card gap gives it a matching
+    outer margin, and since the grid's own background already shows
+    through that gap as divider_color, the padding reads as the exact
+    same strip of colour continuing around the outside. Contained mode is
+    untouched — .page-width already supplies its own side padding there,
+    so adding this on top would double it up.
+  {%- endcomment -%}
+  {%- unless section.settings.contained -%}
+    #shopify-section-{{ section.id }} .itm-catigrid__grid {
+      padding-left: {{ section.settings.divider_width }}px;
+      padding-right: {{ section.settings.divider_width }}px;
+      box-sizing: border-box;
+    }
+  {%- endunless -%}
+  {%- comment -%}
     Graduated mid-size breakpoints: as the desktop viewport narrows (laptop
     widths, before the phone breakpoint at 749px kicks in), drop ONE column
     at a time instead of jumping straight from the full desktop count to
@@ -208,6 +227,10 @@
     #shopify-section-{{ section.id }} .itm-catigrid__grid {
       grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
       gap: {{ section.settings.divider_width_mobile }}px;
+      {%- unless section.settings.contained -%}
+        padding-left: {{ section.settings.divider_width_mobile }}px;
+        padding-right: {{ section.settings.divider_width_mobile }}px;
+      {%- endunless -%}
     }
     #shopify-section-{{ section.id }} .itm-catigrid__item {
       height: {{ section.settings.height_mobile }}px;
