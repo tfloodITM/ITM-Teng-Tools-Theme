@@ -178,16 +178,6 @@
     height: {{ section.settings.height }}px;
     background: #f4f4f4;
     overflow: hidden;
-    {%- comment -%}
-      A small inset around the image, not just cover-cropped edge to edge —
-      some product photos (a spread-out spanner set, an open case) run right
-      to their own frame, so with zero padding here they read as bleeding
-      past the card itself. Padding the box (rather than the image) keeps
-      the existing cover-crop behaviour, just inside a slightly smaller
-      area, so the media background peeks through as a thin, even margin.
-    {%- endcomment -%}
-    padding: 14px;
-    box-sizing: border-box;
   }
   #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media img,
   #shopify-section-{{ section.id }} .itm-catigrid__item--card .itm-catigrid__media svg {
