@@ -52,23 +52,22 @@
 {%- comment -%}
   Judge.me's product-review metafields (reviews.rating_count etc.) aren't
   populated at all on this store, so there's no reliable Liquid-side signal
-  for "does this product actually have reviews" — checking that server-side
-  turned out to always come back blank, which is why the heading was never
-  hiding regardless of review count. The Judge.me widget itself is the only
-  thing that actually knows: with "empty_state" set to "empty widget" (see
-  the block settings), Judge.me renders #judgeme_product_reviews with zero
-  children when a product has no reviews, and populates it once it does —
-  so watching that container directly, instead of guessing from metafields,
-  is what actually reflects reality. The heading stays visible by default
-  (no flash-then-hide for the common case) and only disappears after giving
-  Judge.me's async widget a few seconds to load in, so a slow connection
-  doesn't get mistaken for "no reviews".
+  for "does this product actually have reviews" — that's checked here in
+  the browser instead, against what Judge.me's own widget actually renders
+  (confirmed live: on a zero-review product #judgeme_product_reviews never
+  gets created in the DOM at all, not merely left empty — so "the container
+  doesn't exist" is itself the "no reviews" signal, not just a fallback).
+  The heading stays visible by default (no flash-then-hide for the common
+  case) and only disappears after giving Judge.me's async widget a few
+  seconds to create/populate the container, so a slow connection doesn't
+  get mistaken for "no reviews".
 {%- endcomment -%}
 <script>
 (function () {
   var heading = document.getElementById('itm-apps-heading-{{ section.id }}');
   var container = document.getElementById('judgeme_product_reviews');
-  if (!heading || !container) return;
+  if (!heading) return;
+  if (!container) { heading.style.display = 'none'; return; }
 
   function hasContent() { return container.children.length > 0; }
 
