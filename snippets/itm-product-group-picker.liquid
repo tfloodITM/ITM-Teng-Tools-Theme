@@ -1,0 +1,194 @@
+{%- comment -%}
+  ITM Product Group Picker
+  ------------------------
+  Renders a "product group" collection (a single model available in a run of
+  sizes/specs — e.g. Metric Combination Spanners, 20-40 near-identical
+  products differing only by size) as ONE hero photo plus a compact,
+  scannable list of every size — not N repeated full product cards, which
+  just shows the same photo dozens of times and buries the thing a shopper
+  actually needs: "pick my size, add to cart, done."
+
+  Params:
+    - collection (Collection) — required, a collection with
+      custom.product_group == true
+    - section_id (String) — the parent section's ID, for the delegated
+      add-to-cart click handler that's already wired up there
+      ({{ section.id }}, not this snippet's own — snippets don't get one)
+
+  Reuses the same .sbc__atc[data-variant-id] class/attribute the parent
+  section's existing "Add to cart" click handler already delegates on, so
+  no new JS is needed here at all.
+{%- endcomment -%}
+
+{%- liquid
+  assign hero_product = collection.metafields.custom.primary_product_ref.value
+  if hero_product == blank
+    assign hero_product = collection.products.first
+  endif
+  assign hero_image = collection.image
+  if hero_image == blank and hero_product
+    assign hero_image = hero_product.featured_image
+  endif
+-%}
+
+<div class="itm-pg-picker">
+  <div class="itm-pg-picker__hero">
+    <div class="itm-pg-picker__hero-media">
+      {%- if hero_image -%}
+        {{ hero_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 40vw, 90vw', widths: '400,600,800,900', alt: collection.title }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'itm-pg-picker__ph-svg' }}
+      {%- endif -%}
+    </div>
+    {%- if collection.description != blank -%}
+      <div class="itm-pg-picker__desc rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+
+  <div class="itm-pg-picker__list-wrap">
+    <div class="itm-pg-picker__list-head">
+      <span>{{ 'products.facets.product' | t | default: 'Model' }}</span>
+      <span>{{ 'products.facets.price' | t | default: 'Price' }}</span>
+      <span aria-hidden="true"></span>
+    </div>
+    <ul class="itm-pg-picker__list list-unstyled">
+      {%- for product in collection.products -%}
+        <li class="itm-pg-picker__row">
+          <a href="{{ product.url }}" class="itm-pg-picker__name">{{ product.title }}</a>
+          <span class="itm-pg-picker__price">
+            {%- if product.compare_at_price > product.price -%}
+              <s class="itm-pg-picker__was">{{ product.compare_at_price | money }}</s>
+            {%- endif -%}
+            {{ product.price_min | money }}
+          </span>
+          {%- if product.variants.size == 1 and product.available -%}
+            <button class="itm-pg-picker__atc sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">
+              {{- 'products.product.add_to_cart' | t | default: 'Add' -}}
+            </button>
+          {%- elsif product.available -%}
+            <a href="{{ product.url }}" class="itm-pg-picker__atc itm-pg-picker__atc--options sbc__atc">
+              {{- 'products.product.choose_options' | t | default: 'Options' -}}
+            </a>
+          {%- else -%}
+            <button class="itm-pg-picker__atc sbc__atc" disabled>{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</button>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .itm-pg-picker {
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .itm-pg-picker__hero-media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #f4f4f4;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .itm-pg-picker__hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    display: block;
+  }
+  .itm-pg-picker__ph-svg { width: 100%; height: 100%; opacity: 0.2; }
+  .itm-pg-picker__desc {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #444444;
+  }
+
+  .itm-pg-picker__list-head,
+  .itm-pg-picker__row {
+    display: grid;
+    grid-template-columns: 1fr 100px 110px;
+    align-items: center;
+    gap: 12px;
+  }
+  .itm-pg-picker__list-head {
+    padding: 0 16px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #888888;
+    border-bottom: 1px solid #e2e2e2;
+  }
+  .itm-pg-picker__list { border-top: none; }
+  .itm-pg-picker__row {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ececec;
+  }
+  .itm-pg-picker__row:hover { background: #fafafa; }
+  .itm-pg-picker__name {
+    font-family: var(--font-heading-family);
+    font-size: 14px;
+    font-weight: 700;
+    color: #131313;
+    text-decoration: none;
+    line-height: 1.3;
+  }
+  .itm-pg-picker__name:hover { text-decoration: underline; }
+  .itm-pg-picker__price {
+    font-size: 14px;
+    font-weight: 600;
+    color: #131313;
+    white-space: nowrap;
+  }
+  .itm-pg-picker__was {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.55;
+    text-decoration: line-through;
+  }
+  .itm-pg-picker__atc {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 4px;
+    background: #BD2321;
+    color: #ffffff;
+    font-family: var(--font-heading-family);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+    white-space: nowrap;
+  }
+  .itm-pg-picker__atc:hover { filter: brightness(0.85); }
+  .itm-pg-picker__atc:disabled { opacity: 0.45; cursor: default; pointer-events: none; }
+
+  @media (max-width: 749px) {
+    .itm-pg-picker {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .itm-pg-picker__hero-media { max-width: 260px; margin: 0 auto; }
+    .itm-pg-picker__list-head { display: none; }
+    .itm-pg-picker__row {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "name atc" "price atc";
+      row-gap: 4px;
+      padding: 12px;
+    }
+    .itm-pg-picker__name { grid-area: name; }
+    .itm-pg-picker__price { grid-area: price; }
+    .itm-pg-picker__atc { grid-area: atc; align-self: center; }
+  }
+</style>

@@ -314,7 +314,26 @@
 {%- endstyle -%}
 
 <div class="itm-cg gradient color-{{ section.settings.color_scheme }}" data-itm-cg-section="{{ section.id }}" data-price-max="{{ section.settings.price_slider_max | default: 0 }}">
-  {%- paginate collection.products by section.settings.products_per_page -%}
+  {%- comment -%}
+    "Product group" collections (Metric Combination Spanners, 3/8" Drive
+    Metric Impact Sockets, etc.) are one model in a run of sizes — 20-40
+    near-identical products differing only by size/spec. Paginating those
+    into pages of {{ 'section.settings.products_per_page' }} makes no sense
+    when the whole point is comparing every size at a glance, so they get a
+    generously high per-page cap instead — effectively "show them all on one
+    page" without needing real pagination or infinite scroll for a list this
+    size. Ordinary collections are untouched.
+  {%- endcomment -%}
+  {%- assign is_product_group = false -%}
+  {%- assign pg_meta = collection.metafields.custom.product_group.value -%}
+  {%- if pg_meta == true or pg_meta == 'true' -%}
+    {%- assign is_product_group = true -%}
+  {%- endif -%}
+  {%- assign per_page = section.settings.products_per_page -%}
+  {%- if is_product_group -%}
+    {%- assign per_page = 200 -%}
+  {%- endif -%}
+  {%- paginate collection.products by per_page -%}
 
     <div class="page-width">
 
@@ -412,7 +431,19 @@
           {%- assign has_group_children = true -%}
         {%- endif -%}
 
-        {%- if collection.products.size == 0 and has_group_children == false -%}
+        {%- comment -%}
+          A "product group" collection itself (Metric Combination Spanners
+          and the like) is one model in a run of 20-40 near-identical sizes
+          — showing that as a normal grid means the same photo repeated
+          20-40 times, which buries the thing a shopper actually wants: pick
+          a size, add to cart. itm-product-group-picker renders one hero
+          photo plus a compact list of every size instead.
+        {%- endcomment -%}
+        {%- if is_product_group -%}
+          <div id="product-grid" data-id="{{ section.id }}">
+            {% render 'itm-product-group-picker', collection: collection %}
+          </div>
+        {%- elsif collection.products.size == 0 and has_group_children == false -%}
           <div class="itm-cg__empty" id="product-grid" data-id="{{ section.id }}">
             <p class="collection-empty">{{ 'sections.collection_template.empty' | t }}</p>
             <p class="collection-empty">{{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class: 'underlined-link link' }}</p>
