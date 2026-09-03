@@ -42,7 +42,7 @@
         "star_empty_color": "#e30613",
         "review_count_size": 14,
         "review_count_size_mobile": 9,
-        "review_count_color": "#e3e3e3",
+        "review_count_color": "#666666",
         "title_size": 16,
         "title_size_mobile": 11,
         "title_weight": "700",
