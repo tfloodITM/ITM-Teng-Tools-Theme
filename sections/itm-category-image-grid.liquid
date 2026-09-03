@@ -41,7 +41,7 @@
     untouched, and every step is floored at 2 so it never collapses to a
     single stretched-out column before the mobile breakpoint takes over.
   {%- endcomment -%}
-  @media (max-width: 1450px) and (min-width: 1251px) {
+  @media (max-width: 1650px) and (min-width: 1251px) {
     #shopify-section-{{ section.id }} .itm-catigrid__grid {
       grid-template-columns: repeat({{ section.settings.columns_desktop | minus: 1 | at_least: 2 }}, 1fr);
     }
