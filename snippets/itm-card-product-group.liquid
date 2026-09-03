@@ -16,17 +16,27 @@
   {%- endif -%}
 {%- endif -%}
 
-{%- assign primary_product = nil -%}
-{%- for p in coll.products -%}
-  {%- if p.metafields.custom.primary_product -%}
-    {%- assign prim_val = p.metafields.custom.primary_product.value | default: p.metafields.custom.primary_product -%}
-    {%- if prim_val == true or prim_val == 'true' or prim_val == 1 or prim_val == '1' -%}
-      {%- assign primary_product = p -%}
-      {%- break -%}
+{%- comment -%}
+  primary_product_ref (a direct product_reference metafield on the GROUP
+  collection itself) is the source of truth NetSuite writes — cleaner and
+  cheaper than scanning every product in the collection for a boolean flag.
+  The old scan stays as a fallback for any group collection that predates
+  that metafield, then finally just the first product, so a group is never
+  left with no image at all.
+{%- endcomment -%}
+{%- assign primary_product = coll.metafields.custom.primary_product_ref.value -%}
+{%- if primary_product == blank -%}
+  {%- for p in coll.products -%}
+    {%- if p.metafields.custom.primary_product -%}
+      {%- assign prim_val = p.metafields.custom.primary_product.value | default: p.metafields.custom.primary_product -%}
+      {%- if prim_val == true or prim_val == 'true' or prim_val == 1 or prim_val == '1' -%}
+        {%- assign primary_product = p -%}
+        {%- break -%}
+      {%- endif -%}
     {%- endif -%}
-  {%- endif -%}
-{%- endfor -%}
-{%- if primary_product == nil and coll.products.first -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if primary_product == blank and coll.products.first -%}
   {%- assign primary_product = coll.products.first -%}
 {%- endif -%}
 

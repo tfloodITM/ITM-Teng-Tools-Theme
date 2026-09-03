@@ -4,7 +4,10 @@
   Full-page product grid for collection pages that mirrors the homepage
   "Shop by Category" card + grid layout (sbc__* classes), wrapped in Shopify's
   native faceted filtering + sorting (facets snippet + facets.js, Section
-  Rendering API). Products only — no product-group cards.
+  Rendering API). Renders real products, plus — via
+  custom.product_group_children — "product group" cards for collections
+  whose actual inventory lives in child collections instead (see the comment
+  further down, right before the grid, for how that works).
 
   Required DOM contract for facets.js:
     #ProductGridContainer > .collection > #product-grid
@@ -390,7 +393,26 @@
           <div class="collection">
             <div class="loading-overlay gradient"></div>
 
-        {%- if collection.products.size == 0 -%}
+        {%- comment -%}
+          Some collections (e.g. "Combination Spanners") are deliberately
+          empty shells — their real inventory lives in child "product group"
+          collections instead (e.g. "Metric Combination Spanners", "Imperial
+          Combination Spanners"), linked via the custom.product_group_children
+          metafield. Rendering those as cards here — same visual style as a
+          product card, one photo + "From $X" + a link to the group's own
+          page — means a collection with zero products of its own still shows
+          real, clickable content instead of the empty state. A collection
+          can have BOTH real products and group children (they render
+          together, groups first); it only falls to the empty state when it
+          truly has neither.
+        {%- endcomment -%}
+        {%- assign group_children = collection.metafields.custom.product_group_children.value -%}
+        {%- assign has_group_children = false -%}
+        {%- if group_children != blank and group_children.size > 0 -%}
+          {%- assign has_group_children = true -%}
+        {%- endif -%}
+
+        {%- if collection.products.size == 0 and has_group_children == false -%}
           <div class="itm-cg__empty" id="product-grid" data-id="{{ section.id }}">
             <p class="collection-empty">{{ 'sections.collection_template.empty' | t }}</p>
             <p class="collection-empty">{{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class: 'underlined-link link' }}</p>
@@ -402,6 +424,13 @@
             class="sbc__grid itm-cg__grid list-unstyled"
             style="--sbc-cols: {{ section.settings.products_per_row }};"
           >
+            {%- if has_group_children -%}
+              {%- for group_col in group_children -%}
+                <li class="sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+                  {% render 'itm-card-product-group', group_collection: group_col %}
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
             {%- for product in collection.products -%}
               {%- assign card_badge_top = '' -%}
               {%- assign card_badge_bottom = '' -%}
