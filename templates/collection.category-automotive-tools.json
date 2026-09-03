@@ -74,13 +74,143 @@
             "description": "Tools built for tyre fitting, balancing and wheel servicing.",
             "link": "shopify://collections/tyre-tools"
           }
+        },
+        "category_automotive_electrical": {
+          "type": "category",
+          "settings": {
+            "title": "Automotive Electrical",
+            "subtitle": "Shop now",
+            "description": "Tools for automotive electrical diagnosis and repair work.",
+            "link": "shopify://collections/automotive-electrical"
+          }
+        },
+        "category_automotive_engine_service": {
+          "type": "category",
+          "settings": {
+            "title": "Automotive Engine Service",
+            "subtitle": "Shop now",
+            "description": "Specialist tools for engine servicing and maintenance.",
+            "link": "shopify://collections/automotive-engine-service"
+          }
+        },
+        "category_automotive_filter_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Automotive Filter Tools",
+            "subtitle": "Shop now",
+            "description": "Filter wrenches and tools for fast, mess-free filter changes.",
+            "link": "shopify://collections/automotive-filter-tools"
+          }
+        },
+        "category_creepers_seats": {
+          "type": "category",
+          "settings": {
+            "title": "Creepers & Seats",
+            "subtitle": "Shop now",
+            "description": "Mechanic's creepers and seats for comfortable work under the vehicle.",
+            "link": "shopify://collections/creepers-seats"
+          }
+        },
+        "category_hooks_picks": {
+          "type": "category",
+          "settings": {
+            "title": "Hooks & Picks",
+            "subtitle": "Shop now",
+            "description": "Hook and pick sets for seals, gaskets and hard-to-reach components.",
+            "link": "shopify://collections/hooks-picks"
+          }
+        },
+        "category_magnetic_trays": {
+          "type": "category",
+          "settings": {
+            "title": "Magnetic Trays",
+            "subtitle": "Shop now",
+            "description": "Magnetic trays that keep fasteners and small parts within reach.",
+            "link": "shopify://collections/magnetic-trays"
+          }
+        },
+        "category_nut_splitters": {
+          "type": "category",
+          "settings": {
+            "title": "Nut Splitters",
+            "subtitle": "Shop now",
+            "description": "Nut splitters for removing seized or rounded-off nuts.",
+            "link": "shopify://collections/nut-splitters"
+          }
+        },
+        "category_pick_up_inspection_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Pick Up & Inspection Tools",
+            "subtitle": "Shop now",
+            "description": "Pick-up tools and inspection mirrors for hard-to-reach spots.",
+            "link": "shopify://collections/pick-up-inspection-tools"
+          }
+        },
+        "category_specialist_engine_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Specialist Engine Tools",
+            "subtitle": "Shop now",
+            "description": "Purpose-built tools for specific engine service tasks.",
+            "link": "shopify://collections/specialist-engine-tools"
+          }
+        },
+        "category_specialist_sockets": {
+          "type": "category",
+          "settings": {
+            "title": "Specialist Sockets",
+            "subtitle": "Shop now",
+            "description": "Purpose-built sockets for automotive-specific fasteners.",
+            "link": "shopify://collections/specialist-sockets"
+          }
+        },
+        "category_specialist_wrenches_auto": {
+          "type": "category",
+          "settings": {
+            "title": "Specialist Wrenches",
+            "subtitle": "Shop now",
+            "description": "Purpose-built wrenches for specific fastener types and applications.",
+            "link": "shopify://collections/specialist-wrenches"
+          }
+        },
+        "category_threading_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Threading Tools",
+            "subtitle": "Shop now",
+            "description": "Taps, dies and threading tools for repairing damaged threads.",
+            "link": "shopify://collections/threading-tools"
+          }
+        },
+        "category_work_lights": {
+          "type": "category",
+          "settings": {
+            "title": "Work Lights",
+            "subtitle": "Shop now",
+            "description": "Work lights for clear visibility in the engine bay or under the vehicle.",
+            "link": "shopify://collections/work-lights"
+          }
         }
       },
       "block_order": [
         "category_automotive_body_panel",
         "category_automotive_brake_tools",
         "category_pullers",
-        "category_tyre_tools"
+        "category_tyre_tools",
+        "category_automotive_electrical",
+        "category_automotive_engine_service",
+        "category_automotive_filter_tools",
+        "category_creepers_seats",
+        "category_hooks_picks",
+        "category_magnetic_trays",
+        "category_nut_splitters",
+        "category_pick_up_inspection_tools",
+        "category_specialist_engine_tools",
+        "category_specialist_sockets",
+        "category_specialist_wrenches_auto",
+        "category_threading_tools",
+        "category_work_lights"
       ],
       "name": "Category Image Grid",
       "settings": {

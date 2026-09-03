@@ -74,13 +74,213 @@
             "description": "Versatile adjustable wrenches for fasteners of almost any size.",
             "link": "shopify://collections/adjustable-wrenches"
           }
+        },
+        "category_1000v_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "1000V Spanners",
+            "subtitle": "Shop now",
+            "description": "Insulated spanners rated to 1000V for safe work on live electrical systems.",
+            "link": "shopify://collections/1000v-spanners"
+          }
+        },
+        "category_anti_slip_combination_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Anti Slip Combination Spanners",
+            "subtitle": "Shop now",
+            "description": "Combination spanners with an anti-slip grip on the ring end for extra control.",
+            "link": "shopify://collections/anti-slip-combination-spanners"
+          }
+        },
+        "category_double_flex_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Double Flex Wrenches",
+            "subtitle": "Shop now",
+            "description": "Combination wrenches with a flexible head at both ends for awkward angles.",
+            "link": "shopify://collections/double-flex-wrenches"
+          }
+        },
+        "category_flare_nut_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Flare Nut Wrenches",
+            "subtitle": "Shop now",
+            "description": "Open-ended wrenches shaped to grip flare nuts without rounding them off.",
+            "link": "shopify://collections/flare-nut-wrenches"
+          }
+        },
+        "category_flex_head_ratchet_combination_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Flex Head Ratchet Combination Spanners",
+            "subtitle": "Shop now",
+            "description": "Ratchet combination spanners with a flexible head for tight, angled spaces.",
+            "link": "shopify://collections/flex-head-ratchet-combination-spanners"
+          }
+        },
+        "category_hook_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Hook Wrenches",
+            "subtitle": "Shop now",
+            "description": "Hook-style wrenches for turning round nuts and retaining rings.",
+            "link": "shopify://collections/hook-wrenches"
+          }
+        },
+        "category_long_combination_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Long Combination Spanners",
+            "subtitle": "Shop now",
+            "description": "Extra-length combination spanners for added reach and leverage.",
+            "link": "shopify://collections/long-combination-spanners"
+          }
+        },
+        "category_long_ring_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Long Ring Spanners",
+            "subtitle": "Shop now",
+            "description": "Extra-length ring spanners for added reach and leverage.",
+            "link": "shopify://collections/long-ring-spanners"
+          }
+        },
+        "category_off_set_ring_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Off-Set Ring Spanners",
+            "subtitle": "Shop now",
+            "description": "Ring spanners with an offset head for extra hand clearance.",
+            "link": "shopify://collections/off-set-ring-spanners"
+          }
+        },
+        "category_open_end_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Open End Spanners",
+            "subtitle": "Shop now",
+            "description": "Classic open-ended spanners for quick access to nuts and bolts.",
+            "link": "shopify://collections/open-end-spanners"
+          }
+        },
+        "category_pin_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Pin Wrenches",
+            "subtitle": "Shop now",
+            "description": "Pin-style wrenches for turning notched or slotted fittings.",
+            "link": "shopify://collections/pin-wrenches"
+          }
+        },
+        "category_pipe_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Pipe Wrenches",
+            "subtitle": "Shop now",
+            "description": "Heavy-duty wrenches built to grip and turn round pipe and fittings.",
+            "link": "shopify://collections/pipe-wrenches"
+          }
+        },
+        "category_quick_ring_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Quick Ring Wrenches",
+            "subtitle": "Shop now",
+            "description": "Ring wrenches designed for fast, repeated turning without repositioning.",
+            "link": "shopify://collections/quick-ring-wrenches"
+          }
+        },
+        "category_ratchet_ring_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Ratchet Ring Spanners",
+            "subtitle": "Shop now",
+            "description": "Ring spanners with a built-in ratchet for fast work in confined spaces.",
+            "link": "shopify://collections/ratchet-ring-spanners"
+          }
+        },
+        "category_rigger_jigger_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Rigger Jigger Spanners",
+            "subtitle": "Shop now",
+            "description": "Compact rigger jigger spanners for scaffolding and rigging work.",
+            "link": "shopify://collections/rigger-jigger-spanners"
+          }
+        },
+        "category_spanner_holders": {
+          "type": "category",
+          "settings": {
+            "title": "Spanner Holders",
+            "subtitle": "Shop now",
+            "description": "Racks and holders that keep spanner sets organised and within reach.",
+            "link": "shopify://collections/spanner-holders"
+          }
+        },
+        "category_specialist_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Specialist Wrenches",
+            "subtitle": "Shop now",
+            "description": "Purpose-built wrenches for specific fastener types and applications.",
+            "link": "shopify://collections/specialist-wrenches"
+          }
+        },
+        "category_stubby_combination_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Stubby Combination Spanners",
+            "subtitle": "Shop now",
+            "description": "Short-body combination spanners for tight, confined spaces.",
+            "link": "shopify://collections/stubby-combination-spanners"
+          }
+        },
+        "category_stubby_ratchet_combination_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Stubby Ratchet Combination Spanners",
+            "subtitle": "Shop now",
+            "description": "Short-body ratchet combination spanners for tight, confined spaces.",
+            "link": "shopify://collections/stubby-ratchet-combination-spanners"
+          }
+        },
+        "category_tubular_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Tubular Wrenches",
+            "subtitle": "Shop now",
+            "description": "Tubular box wrenches for turning fasteners in deep or recessed spots.",
+            "link": "shopify://collections/tubular-wrenches"
+          }
         }
       },
       "block_order": [
         "category_combination_spanners",
         "category_ratchet_combination_spanners",
         "category_spanner_sets",
-        "category_adjustable_wrenches"
+        "category_adjustable_wrenches",
+        "category_1000v_spanners",
+        "category_anti_slip_combination_spanners",
+        "category_double_flex_wrenches",
+        "category_flare_nut_wrenches",
+        "category_flex_head_ratchet_combination_spanners",
+        "category_hook_wrenches",
+        "category_long_combination_spanners",
+        "category_long_ring_spanners",
+        "category_off_set_ring_spanners",
+        "category_open_end_spanners",
+        "category_pin_wrenches",
+        "category_pipe_wrenches",
+        "category_quick_ring_wrenches",
+        "category_ratchet_ring_spanners",
+        "category_rigger_jigger_spanners",
+        "category_spanner_holders",
+        "category_specialist_wrenches",
+        "category_stubby_combination_spanners",
+        "category_stubby_ratchet_combination_spanners",
+        "category_tubular_wrenches"
       ],
       "name": "Category Image Grid",
       "settings": {

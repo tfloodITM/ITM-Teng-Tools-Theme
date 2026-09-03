@@ -74,13 +74,23 @@
             "description": "Insulated sockets rated for safe use on live electrical work.",
             "link": "shopify://collections/1000v-sockets"
           }
+        },
+        "category_magnetic_drive_adaptors": {
+          "type": "category",
+          "settings": {
+            "title": "Magnetic Drive Adaptors",
+            "subtitle": "Shop now",
+            "description": "Magnetic drive adaptors that hold sockets and bits securely for one-handed use.",
+            "link": "shopify://collections/magnetic-drive-adaptors"
+          }
         }
       },
       "block_order": [
         "category_chrome_socket_sets",
         "category_impact_sockets",
         "category_ratchets_handles",
-        "category_1000v_sockets"
+        "category_1000v_sockets",
+        "category_magnetic_drive_adaptors"
       ],
       "name": "Category Image Grid",
       "settings": {

@@ -74,13 +74,33 @@
             "description": "Modular stacking kits that grow with your tool collection.",
             "link": "shopify://collections/stack-tool-kits"
           }
+        },
+        "category_get_organised_eva_trays": {
+          "type": "category",
+          "settings": {
+            "title": "Get Organised System - EVA Trays",
+            "subtitle": "Shop now",
+            "description": "Foam-cut EVA trays that click into the Get Organised™ system to keep every tool in its place.",
+            "link": "shopify://collections/get-organised-system-eva-trays"
+          }
+        },
+        "category_get_organised_ps_trays": {
+          "type": "category",
+          "settings": {
+            "title": "Get Organised System - PS Trays",
+            "subtitle": "Shop now",
+            "description": "Durable PS trays for the Get Organised™ system, keeping every tool organised and easy to find.",
+            "link": "shopify://collections/get-organised-system-ps-trays"
+          }
         }
       },
       "block_order": [
         "category_roller_cabinet_tool_kits",
         "category_chest_tool_kits",
         "category_portable_tool_kits",
-        "category_stack_tool_kits"
+        "category_stack_tool_kits",
+        "category_get_organised_eva_trays",
+        "category_get_organised_ps_trays"
       ],
       "name": "Category Image Grid",
       "settings": {

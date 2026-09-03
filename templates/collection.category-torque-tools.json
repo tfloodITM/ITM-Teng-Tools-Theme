@@ -74,13 +74,23 @@
             "description": "Calibration kits and accessories to keep your torque tools accurate.",
             "link": "shopify://collections/torque-tool-accessories"
           }
+        },
+        "category_torque_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Torque Spanners",
+            "subtitle": "Shop now",
+            "description": "Preset torque spanners for fast, accurate fastening to a fixed setting.",
+            "link": "shopify://collections/torque-spanners"
+          }
         }
       },
       "block_order": [
         "category_torque_wrenches",
         "category_torque_screwdrivers",
         "category_torque_multipliers",
-        "category_torque_tool_accessories"
+        "category_torque_tool_accessories",
+        "category_torque_spanners"
       ],
       "name": "Category Image Grid",
       "settings": {
