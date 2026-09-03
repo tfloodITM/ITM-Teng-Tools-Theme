@@ -39,36 +39,8 @@
   }
 </style>
 
-{%- liquid
-  comment
-    This section is generic (any app block can sit in it), but when it's
-    hosting the Judge.me review widget specifically, the heading above
-    ("Customer Reviews") shouldn't show up on a product that has none —
-    Judge.me's own "empty_state" setting already decides what the widget
-    itself displays in that case; this just stops the heading floating
-    above nothing. Reviews.rating_count is the same standard metafield
-    Judge.me writes to that the rest of the theme already reads for star
-    badges (see itm-collection-grid.liquid), so this stays in sync with
-    whatever Judge.me has actually recorded — no separate app call needed.
-  endcomment
-  assign has_judgeme_reviews_block = false
-  for block in section.blocks
-    if block.type contains 'judge-me-reviews'
-      assign has_judgeme_reviews_block = true
-    endif
-  endfor
-
-  assign hide_heading = false
-  if has_judgeme_reviews_block and product != blank
-    assign review_count = product.metafields.reviews.rating_count.value
-    if review_count == blank or review_count == 0
-      assign hide_heading = true
-    endif
-  endif
--%}
-
-{%- if section.settings.heading != blank and hide_heading == false -%}
-  <h2 class="itm-apps__heading inline-richtext h2">{{ section.settings.heading }}</h2>
+{%- if section.settings.heading != blank -%}
+  <h2 class="itm-apps__heading inline-richtext h2" id="itm-apps-heading-{{ section.id }}">{{ section.settings.heading }}</h2>
 {%- endif -%}
 
 <div class="{% if section.settings.include_margins %}page-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -76,6 +48,43 @@
     {% render block %}
   {%- endfor -%}
 </div>
+
+{%- comment -%}
+  Judge.me's product-review metafields (reviews.rating_count etc.) aren't
+  populated at all on this store, so there's no reliable Liquid-side signal
+  for "does this product actually have reviews" — checking that server-side
+  turned out to always come back blank, which is why the heading was never
+  hiding regardless of review count. The Judge.me widget itself is the only
+  thing that actually knows: with "empty_state" set to "empty widget" (see
+  the block settings), Judge.me renders #judgeme_product_reviews with zero
+  children when a product has no reviews, and populates it once it does —
+  so watching that container directly, instead of guessing from metafields,
+  is what actually reflects reality. The heading stays visible by default
+  (no flash-then-hide for the common case) and only disappears after giving
+  Judge.me's async widget a few seconds to load in, so a slow connection
+  doesn't get mistaken for "no reviews".
+{%- endcomment -%}
+<script>
+(function () {
+  var heading = document.getElementById('itm-apps-heading-{{ section.id }}');
+  var container = document.getElementById('judgeme_product_reviews');
+  if (!heading || !container) return;
+
+  function hasContent() { return container.children.length > 0; }
+
+  var observer = new MutationObserver(function () {
+    if (hasContent()) {
+      heading.style.display = '';
+      observer.disconnect();
+    }
+  });
+  observer.observe(container, { childList: true, subtree: true });
+
+  setTimeout(function () {
+    if (!hasContent()) heading.style.display = 'none';
+  }, 2500);
+})();
+</script>
 
 {% schema %}
 {
