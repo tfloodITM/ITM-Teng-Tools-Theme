@@ -459,6 +459,25 @@
           </ul>
 
           {% render 'pagination', paginate: paginate %}
+          {%- comment -%}
+            Infinite scroll: the numbered page links above stay in the DOM
+            (real links, works with JS off) but get hidden by the script
+            below once it's driving things — it fetches the next page and
+            appends its cards onto this same grid instead of navigating.
+            Sentinel only renders while there's actually another page to
+            fetch; current/total page counts come straight from Liquid's
+            own paginate object, no extra request needed to know them.
+          {%- endcomment -%}
+          {%- if paginate.pages > paginate.current_page -%}
+            <div
+              class="itm-cg__infinite-sentinel"
+              data-itm-cg-sentinel
+              data-current-page="{{ paginate.current_page }}"
+              data-total-pages="{{ paginate.pages }}"
+              aria-hidden="true"
+            ></div>
+            <p class="itm-cg__infinite-status" data-itm-cg-loading hidden>Loading more…</p>
+          {%- endif -%}
         {%- endif -%}
           </div>{%- comment -%} .collection {%- endcomment -%}
         </div>{%- comment -%} #ProductGridContainer {%- endcomment -%}
@@ -542,6 +561,20 @@
 .itm-cg__count-top { margin: 0 0 12px; }
 .itm-cg__count-top:empty { display: none; }
 .itm-cg__count-top .product-count { margin: 0; justify-content: flex-start; }
+
+/* ── Infinite scroll ── */
+.itm-cg__infinite-sentinel {
+  /* Invisible trip-wire, not a spacer — height is only so IntersectionObserver
+     has something to actually measure crossing the viewport edge. */
+  height: 1px;
+}
+.itm-cg__infinite-status {
+  margin: 24px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(var(--color-foreground), 0.7);
+}
+.itm-cg__infinite-status[hidden] { display: none; }
 
 /* ── Mobile: full-bleed grid + buttons sitting directly on the grid ── */
 @media (max-width: 749px) {
@@ -984,7 +1017,84 @@ input.mobile-sort__radio {
     });
   });
 
+  /* ── Infinite scroll: fetch the next page and append its cards onto this
+        grid instead of navigating to a numbered page. Re-runnable (idempotent
+        per sentinel) so it can be called again after facets.js swaps the
+        whole grid container out for a fresh, server-rendered one (new filter/
+        sort results start back at their own page 1/N, with their own fresh
+        sentinel — the old observer is just disconnected and dropped). ── */
+  var infiniteObserver = null;
+  function initInfiniteScroll() {
+    if (infiniteObserver) { infiniteObserver.disconnect(); infiniteObserver = null; }
+    if (!('IntersectionObserver' in window)) return;
+
+    var sentinel = section.querySelector('[data-itm-cg-sentinel]');
+    if (!sentinel) return;
+
+    var grid = section.querySelector('#product-grid');
+    var loadingEl = section.querySelector('[data-itm-cg-loading]');
+    var paginationWrapper = section.querySelector('.pagination-wrapper');
+    if (!grid) return;
+
+    var currentPage = parseInt(sentinel.getAttribute('data-current-page'), 10) || 1;
+    var totalPages  = parseInt(sentinel.getAttribute('data-total-pages'), 10) || 1;
+    var loading = false;
+
+    /* The real numbered links stay a working fallback until JS actually
+       takes over — only hide them once there's a live observer in place. */
+    if (paginationWrapper) paginationWrapper.style.display = 'none';
+
+    function loadNextPage() {
+      if (loading || currentPage >= totalPages) return;
+      loading = true;
+      if (loadingEl) loadingEl.hidden = false;
+
+      var nextPage = currentPage + 1;
+      var url = new URL(window.location.href);
+      url.searchParams.set('page', nextPage);
+
+      fetch(url.toString())
+        .then(function (r) { return r.text(); })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var newGrid = doc.getElementById('product-grid');
+          if (newGrid) {
+            Array.from(newGrid.children).forEach(function (li) { grid.appendChild(li); });
+          }
+          currentPage = nextPage;
+          loading = false;
+          if (loadingEl) loadingEl.hidden = true;
+          /* Appending cards above is itself a mutation inside #ProductGridContainer,
+             which re-triggers the observer that calls initInfiniteScroll() again —
+             keeping this attribute in sync means that re-run reads the page we
+             actually just reached, not a stale "1", so it can't re-fetch and
+             double up the same page. */
+          sentinel.setAttribute('data-current-page', currentPage);
+          if (currentPage >= totalPages) {
+            infiniteObserver.disconnect();
+            sentinel.remove();
+          }
+        })
+        .catch(function () {
+          loading = false;
+          if (loadingEl) loadingEl.hidden = true;
+          /* Fetch failed — fall back to the real pagination links rather
+             than leaving the shopper stuck with no way to see more. */
+          if (paginationWrapper) paginationWrapper.style.display = '';
+          if (infiniteObserver) infiniteObserver.disconnect();
+        });
+    }
+
+    infiniteObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) loadNextPage();
+      });
+    }, { rootMargin: '600px 0px' });
+    infiniteObserver.observe(sentinel);
+  }
+
   initCards();
+  initInfiniteScroll();
 
   /* ── Mobile: FILTER / SORT open one full-screen bottom sheet (the native facet
         drawer, restyled). Reuses the native form so AJAX filter/sort keeps working. ── */
@@ -1036,10 +1146,11 @@ input.mobile-sort__radio {
     if (e.target.closest('.mobile-facets__footer .button--primary')) { closeDrawer(); return; }
   });
 
-  /* Re-init carousels after facets.js replaces #ProductGridContainer */
+  /* Re-init carousels (and infinite scroll's sentinel/observer) after
+     facets.js replaces #ProductGridContainer with fresh filter/sort results. */
   var gridContainer = section.querySelector('#ProductGridContainer');
   if (gridContainer && 'MutationObserver' in window) {
-    var obs = new MutationObserver(function () { initCards(); });
+    var obs = new MutationObserver(function () { initCards(); initInfiniteScroll(); });
     obs.observe(gridContainer, { childList: true, subtree: true });
   }
 
