@@ -333,6 +333,18 @@
   {%- if is_product_group -%}
     {%- assign per_page = 200 -%}
   {%- endif -%}
+  {%- comment -%}
+    Liquid has no parentheses for grouping — "A and B or C" evaluates
+    left-to-right as "(A and B) or C", not what you'd want here — so this
+    is worked out as its own flag first rather than inline in the two
+    {% if %} tags below.
+  {%- endcomment -%}
+  {%- assign show_facets_ui = false -%}
+  {%- unless is_product_group -%}
+    {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+      {%- assign show_facets_ui = true -%}
+    {%- endif -%}
+  {%- endunless -%}
   {%- paginate collection.products by per_page -%}
 
     <div class="page-width">
@@ -340,8 +352,15 @@
       {%- comment -%} Mobile: product count moves up here, under the collection title {%- endcomment -%}
       <div class="itm-cg__count-top medium-hide large-up-hide" data-count-slot></div>
 
+      {%- comment -%}
+        A product-group page (23 sizes of one model) has no real use for
+        faceted filtering/sorting — there's nothing meaningful to filter by,
+        and the sidebar was pushing the compact size-list layout around on
+        mobile for no benefit. Skip the whole filters UI for it, same way a
+        real product page doesn't have one either.
+      {%- endcomment -%}
       {%- comment -%} Mobile: FILTERS + SORT buttons above the grid {%- endcomment -%}
-      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+      {%- if show_facets_ui -%}
         <div class="itm-cg__mbar medium-hide large-up-hide">
           {%- if section.settings.enable_filtering -%}
             <button type="button" class="itm-cg__mbtn" data-open-filters>
@@ -359,7 +378,7 @@
       {%- endif -%}
 
       <div class="facets-vertical">
-        {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+        {%- if show_facets_ui -%}
           <div class="itm-cg__leftcol">
 
             {%- comment -%} Desktop: Sort at the top of the left panel. Single source of
