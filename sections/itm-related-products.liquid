@@ -97,7 +97,7 @@
   #shopify-section-{{ section.id }} .sbc__list-btn:hover { filter: brightness(0.85); }
   #shopify-section-{{ section.id }} .sbc__icon-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; line-height: 0; }
   #shopify-section-{{ section.id }} .sbc__icon-wrap svg { width: 22px; height: 22px; }
-  #shopify-section-{{ section.id }} .sbc__list-plus { position: absolute; bottom: -4px; right: -3px; width: 12px; height: 12px; border-radius: 50%; pointer-events: none; background: #000000; color: #ffc107; }
+  #shopify-section-{{ section.id }} .sbc__list-plus { position: absolute; bottom: -4px; right: -3px; width: 12px; height: 12px; border-radius: 50%; pointer-events: none; background: {{ section.settings.list_plus_bg }}; color: {{ section.settings.list_plus_color }}; }
   #shopify-section-{{ section.id }} .sbc__list-plus::before, #shopify-section-{{ section.id }} .sbc__list-plus::after { content: ''; position: absolute; top: 50%; left: 50%; background: currentColor; border-radius: 1px; transform: translate(-50%, -50%); }
   #shopify-section-{{ section.id }} .sbc__list-plus::before { width: 55%; height: 2px; }
   #shopify-section-{{ section.id }} .sbc__list-plus::after { width: 2px; height: 55%; }
@@ -326,8 +326,8 @@
     { "type": "color", "id": "card_img_bg", "label": "Image area background", "default": "#f2f2f2" },
     { "type": "color", "id": "arrow_color", "label": "Carousel arrow colour", "default": "#000000" },
     { "type": "header", "content": "Card band" },
-    { "type": "color", "id": "card_band_bg", "label": "Band background", "default": "#2e2e2e" },
-    { "type": "color", "id": "card_band_text", "label": "Band text colour", "default": "#ffffff" },
+    { "type": "color", "id": "card_band_bg", "label": "Band background", "default": "#F4F4F4" },
+    { "type": "color", "id": "card_band_text", "label": "Band text colour", "default": "#131313" },
     {
       "type": "select", "id": "text_align", "label": "Text alignment",
       "options": [ { "value": "center", "label": "Center" }, { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ],
@@ -347,17 +347,20 @@
     { "type": "range", "id": "price_size", "label": "Font size – desktop (px)", "min": 10, "max": 22, "step": 1, "default": 16 },
     { "type": "range", "id": "price_size_mobile", "label": "Font size – mobile (px)", "min": 8, "max": 16, "step": 1, "default": 10 },
     { "type": "select", "id": "price_weight", "label": "Font weight", "options": [ { "value": "700", "label": "Bold" }, { "value": "400", "label": "Normal" } ], "default": "400" },
-    { "type": "color", "id": "price_color", "label": "Text colour", "default": "#ffffff" },
+    { "type": "color", "id": "price_color", "label": "Text colour", "default": "#000000" },
     { "type": "header", "content": "Add to Cart button" },
     { "type": "checkbox", "id": "show_atc", "label": "Show Add to Cart row", "default": true },
     { "type": "range", "id": "atc_height", "label": "Row height (px)", "min": 28, "max": 64, "step": 2, "default": 40 },
     { "type": "range", "id": "atc_font_size", "label": "Font size (px)", "min": 9, "max": 16, "step": 1, "default": 12 },
     { "type": "select", "id": "atc_font_weight", "label": "Font weight", "options": [ { "value": "700", "label": "Bold" }, { "value": "400", "label": "Normal" } ], "default": "700" },
     { "type": "checkbox", "id": "atc_show_arrow", "label": "Show arrow on button", "default": true },
-    { "type": "color", "id": "atc_bg", "label": "Background", "default": "#e30613" },
+    { "type": "color", "id": "atc_bg", "label": "Background", "default": "#BD2321" },
     { "type": "color", "id": "atc_color", "label": "Text / icon colour", "default": "#ffffff" },
     { "type": "color", "id": "actions_divider_color", "label": "Divider colour", "default": "#ffffff" },
-    { "type": "color", "id": "list_btn_bg", "label": "Save-to-list button background", "default": "#e30613" },
+    { "type": "header", "content": "Save-to-list button" },
+    { "type": "color", "id": "list_btn_bg", "label": "Background", "default": "#BD2321" },
+    { "type": "color", "id": "list_plus_bg", "label": "\"Saved\" badge background", "default": "#BD2321" },
+    { "type": "color", "id": "list_plus_color", "label": "\"Saved\" badge plus colour", "default": "#ffffff" },
     { "type": "header", "content": "Section padding" },
     { "type": "range", "id": "side_padding_desktop", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Side padding – desktop", "info": "0 = full width edge-to-edge.", "default": 0 },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 36 },
