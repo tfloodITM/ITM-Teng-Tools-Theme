@@ -78,6 +78,40 @@
   gap: 4px;
 }
 
+{%- comment -%}
+  Mobile: a long ancestor chain (All Products > Hand Tools > Spanners &
+  Wrenches > Combination Spanners > Imperial Combination Spanners) was
+  wrapping onto a second line. One row, horizontally scrollable instead —
+  and scrolled to the END by default (the script below), since the page
+  you're actually ON is the useful part, not "All Products" every time.
+  The left-edge fade is the "there's more this way" hint for that.
+{%- endcomment -%}
+@media (max-width: 749px) {
+  .breadcrumbs { position: relative; }
+  .breadcrumbs::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    background: linear-gradient(to right, rgb(var(--color-background)) 0%, rgba(var(--color-background), 0) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .breadcrumbs__list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .breadcrumbs__list::-webkit-scrollbar { display: none; }
+  .breadcrumbs__item {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
 .breadcrumbs__item:last-child::after {
   content: '';
 }
@@ -95,5 +129,17 @@
   border-bottom-color: rgba(var(--color-button));
 }
 
-
 </style>
+
+<script>
+(function () {
+  if (window.matchMedia('(max-width: 749px)').matches) {
+    document.querySelectorAll('.breadcrumbs__list').forEach(function (list) {
+      /* Scrolled to the end by default — the page you're actually on is
+         the useful part of a long chain, not "All Products" every time.
+         Tap-and-drag (native touch scroll) still gets you back to the start. */
+      list.scrollLeft = list.scrollWidth;
+    });
+  }
+})();
+</script>

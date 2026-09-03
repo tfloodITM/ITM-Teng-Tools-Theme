@@ -11,13 +11,10 @@
   Params:
     - collection (Collection) — required, a collection with
       custom.product_group == true
-    - section_id (String) — the parent section's ID, for the delegated
-      add-to-cart click handler that's already wired up there
-      ({{ section.id }}, not this snippet's own — snippets don't get one)
 
   Reuses the same .sbc__atc[data-variant-id] class/attribute the parent
   section's existing "Add to cart" click handler already delegates on, so
-  no new JS is needed here at all.
+  no new JS is needed for that part.
 {%- endcomment -%}
 
 {%- liquid
@@ -29,20 +26,57 @@
   if hero_image == blank and hero_product
     assign hero_image = hero_product.featured_image
   endif
+
+  comment
+    Price range across every size in the group, product-page style
+    ("From $16.20" or "$16.20 - $24.90" if they're not all the same price).
+  endcomment
+  assign price_min = null
+  assign price_max = null
+  for p in collection.products
+    if price_min == null or p.price_min < price_min
+      assign price_min = p.price_min
+    endif
+    if price_max == null or p.price_min > price_max
+      assign price_max = p.price_min
+    endif
+  endfor
 -%}
 
 <div class="itm-pg-picker">
   <div class="itm-pg-picker__hero">
     <div class="itm-pg-picker__hero-media">
       {%- if hero_image -%}
-        {{ hero_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 40vw, 90vw', widths: '400,600,800,900', alt: collection.title }}
+        {{ hero_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 40vw, 100vw', widths: '400,600,800,900', alt: collection.title }}
       {%- else -%}
         {{ 'product-1' | placeholder_svg_tag: 'itm-pg-picker__ph-svg' }}
       {%- endif -%}
     </div>
-    {%- if collection.description != blank -%}
-      <div class="itm-pg-picker__desc rte">{{ collection.description }}</div>
-    {%- endif -%}
+
+    {%- comment -%}
+      Repeats the collection title right beside its own photo, product-page
+      style — the page's own H1 (rendered further up by the banner section)
+      can be a full scroll away by the time someone's actually looking at
+      the size list, especially on mobile.
+    {%- endcomment -%}
+    <div class="itm-pg-picker__hero-info">
+      <h2 class="itm-pg-picker__title">{{ collection.title }}</h2>
+      <div class="itm-pg-picker__meta">
+        <span class="itm-pg-picker__count">{{ collection.products.size }} {{ 'products.facets.sizes' | t | default: 'sizes' }}</span>
+        {%- if price_min -%}
+          <span class="itm-pg-picker__price-range">
+            {%- if price_min == price_max -%}
+              {{ price_min | money }}
+            {%- else -%}
+              {{ 'products.product.from_price' | t | default: 'From' }} {{ price_min | money }}
+            {%- endif -%}
+          </span>
+        {%- endif -%}
+      </div>
+      {%- if collection.description != blank -%}
+        <div class="itm-pg-picker__desc rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
   </div>
 
   <div class="itm-pg-picker__list-wrap">
@@ -53,30 +87,103 @@
     </div>
     <ul class="itm-pg-picker__list list-unstyled">
       {%- for product in collection.products -%}
-        <li class="itm-pg-picker__row">
-          <a href="{{ product.url }}" class="itm-pg-picker__name">{{ product.title }}</a>
-          <span class="itm-pg-picker__price">
-            {%- if product.compare_at_price > product.price -%}
-              <s class="itm-pg-picker__was">{{ product.compare_at_price | money }}</s>
-            {%- endif -%}
-            {{ product.price_min | money }}
-          </span>
-          {%- if product.variants.size == 1 and product.available -%}
-            <button class="itm-pg-picker__atc sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">
-              {{- 'products.product.add_to_cart' | t | default: 'Add' -}}
-            </button>
-          {%- elsif product.available -%}
-            <a href="{{ product.url }}" class="itm-pg-picker__atc itm-pg-picker__atc--options sbc__atc">
-              {{- 'products.product.choose_options' | t | default: 'Options' -}}
-            </a>
-          {%- else -%}
-            <button class="itm-pg-picker__atc sbc__atc" disabled>{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</button>
+        {%- liquid
+          comment
+            web_specifications is raw NetSuite-sourced HTML — <li>Label: value
+            pairs, sometimes with a NESTED <ul> under a label like "Included
+            In:" or "Drawer Dimensions:" that's cross-reference/prose, not a
+            real spec (see card-product-group / itm-product-group-grid for
+            the same exclusion rule elsewhere in this theme). Splitting on
+            "<li>" then cutting each piece at its first "<" isolates just
+            that top-level li's own inline text and naturally discards any
+            nested <li> content under it — the nested list's OWN items never
+            show up as separate pieces at all, only the excluded label does,
+            which is why it still needs filtering out by name below.
+          endcomment
+          assign spec_raw = product.metafields.custom.web_specifications.value
+          assign spec_lines_str = ''
+          if spec_raw != blank
+            assign spec_parts = spec_raw | split: '<li>'
+            for part in spec_parts
+              assign line = part | split: '<' | first | strip
+              if line != blank
+                assign line_lower = line | downcase
+                assign excluded = false
+                if line_lower contains 'included in' or line_lower contains 'includes' or line_lower contains 'drawer dimensions'
+                  assign excluded = true
+                endif
+                unless excluded
+                  assign spec_lines_str = spec_lines_str | append: line | append: '|||'
+                endunless
+              endif
+            endfor
+          endif
+          assign spec_lines = spec_lines_str | split: '|||'
+          assign has_specs = false
+          if spec_lines.size > 0
+            assign has_specs = true
+          endif
+        -%}
+        <li class="itm-pg-picker__item">
+          <div class="itm-pg-picker__row">
+            <a href="{{ product.url }}" class="itm-pg-picker__name">{{ product.title }}</a>
+            <span class="itm-pg-picker__price">
+              {%- if product.compare_at_price > product.price -%}
+                <s class="itm-pg-picker__was">{{ product.compare_at_price | money }}</s>
+              {%- endif -%}
+              {{ product.price_min | money }}
+            </span>
+            <div class="itm-pg-picker__actions">
+              {%- if has_specs -%}
+                <button type="button" class="itm-pg-picker__info-toggle" aria-expanded="false" data-pg-info-toggle>
+                  <span>{{ 'products.product.specs' | t | default: 'Specs' }}</span>
+                  <svg class="itm-pg-picker__info-caret" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              {%- endif -%}
+              {%- if product.variants.size == 1 and product.available -%}
+                <button class="itm-pg-picker__atc sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">
+                  {{- 'products.product.add_to_cart' | t | default: 'Add' -}}
+                  <svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </button>
+              {%- elsif product.available -%}
+                <a href="{{ product.url }}" class="itm-pg-picker__atc itm-pg-picker__atc--options sbc__atc">
+                  {{- 'products.product.choose_options' | t | default: 'Options' -}}
+                  <svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </a>
+              {%- else -%}
+                <button class="itm-pg-picker__atc sbc__atc" disabled>{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</button>
+              {%- endif -%}
+            </div>
+          </div>
+          {%- if has_specs -%}
+            <div class="itm-pg-picker__specs" data-pg-specs hidden>
+              <ul>
+                {%- for line in spec_lines -%}
+                  <li>{{ line }}</li>
+                {%- endfor -%}
+              </ul>
+            </div>
           {%- endif -%}
         </li>
       {%- endfor -%}
     </ul>
   </div>
 </div>
+
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-pg-info-toggle]');
+    if (!btn) return;
+    var item = btn.closest('.itm-pg-picker__item');
+    var panel = item && item.querySelector('[data-pg-specs]');
+    if (!panel) return;
+    var open = !panel.hidden;
+    panel.hidden = open;
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+  });
+})();
+</script>
 
 <style>
   .itm-pg-picker {
@@ -100,8 +207,22 @@
     display: block;
   }
   .itm-pg-picker__ph-svg { width: 100%; height: 100%; opacity: 0.2; }
+
+  .itm-pg-picker__title {
+    margin: 16px 0 4px;
+    font-size: 22px;
+    text-transform: uppercase;
+  }
+  .itm-pg-picker__meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .itm-pg-picker__count { color: #666666; }
+  .itm-pg-picker__price-range { font-weight: 700; color: #131313; }
   .itm-pg-picker__desc {
-    margin-top: 16px;
+    margin-top: 12px;
     font-size: 14px;
     line-height: 1.5;
     color: #444444;
@@ -110,7 +231,7 @@
   .itm-pg-picker__list-head,
   .itm-pg-picker__row {
     display: grid;
-    grid-template-columns: 1fr 100px 110px;
+    grid-template-columns: 1fr 100px 160px;
     align-items: center;
     gap: 12px;
   }
@@ -124,11 +245,9 @@
     border-bottom: 1px solid #e2e2e2;
   }
   .itm-pg-picker__list { border-top: none; }
-  .itm-pg-picker__row {
-    padding: 12px 16px;
-    border-bottom: 1px solid #ececec;
-  }
-  .itm-pg-picker__row:hover { background: #fafafa; }
+  .itm-pg-picker__item { border-bottom: 1px solid #ececec; }
+  .itm-pg-picker__row { padding: 12px 16px; }
+  .itm-pg-picker__item:hover { background: #fafafa; }
   .itm-pg-picker__name {
     font-family: var(--font-heading-family);
     font-size: 14px;
@@ -151,6 +270,33 @@
     opacity: 0.55;
     text-decoration: line-through;
   }
+  .itm-pg-picker__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .itm-pg-picker__info-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #444444;
+    font-family: var(--font-heading-family);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .itm-pg-picker__info-toggle:hover { border-color: #aaaaaa; }
+  .itm-pg-picker__info-toggle[aria-expanded="true"] .itm-pg-picker__info-caret { transform: rotate(180deg); }
+  .itm-pg-picker__info-caret { transition: transform 0.15s ease; }
   .itm-pg-picker__atc {
     display: inline-flex;
     align-items: center;
@@ -174,21 +320,49 @@
   .itm-pg-picker__atc:hover { filter: brightness(0.85); }
   .itm-pg-picker__atc:disabled { opacity: 0.45; cursor: default; pointer-events: none; }
 
+  .itm-pg-picker__specs {
+    padding: 4px 16px 16px;
+    background: #fafafa;
+  }
+  .itm-pg-picker__specs ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 4px 20px;
+  }
+  .itm-pg-picker__specs li {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #444444;
+  }
+  .itm-pg-picker__specs[hidden] { display: none; }
+
   @media (max-width: 749px) {
     .itm-pg-picker {
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 0;
     }
-    .itm-pg-picker__hero-media { max-width: 260px; margin: 0 auto; }
+    .itm-pg-picker__hero {
+      margin: 0 -1.5rem;
+    }
+    .itm-pg-picker__hero-media { border-radius: 0; }
+    .itm-pg-picker__hero-info { padding: 0 1.5rem; }
+    .itm-pg-picker__title { margin-top: 14px; font-size: 19px; }
+    .itm-pg-picker__list-wrap { margin-top: 20px; }
     .itm-pg-picker__list-head { display: none; }
     .itm-pg-picker__row {
       grid-template-columns: 1fr auto;
-      grid-template-areas: "name atc" "price atc";
+      grid-template-areas: "name actions" "price actions";
       row-gap: 4px;
       padding: 12px;
     }
     .itm-pg-picker__name { grid-area: name; }
     .itm-pg-picker__price { grid-area: price; }
-    .itm-pg-picker__atc { grid-area: atc; align-self: center; }
+    .itm-pg-picker__actions { grid-area: actions; align-self: center; }
+    .itm-pg-picker__info-toggle span { display: none; }
+    .itm-pg-picker__info-toggle { width: 34px; padding: 0; justify-content: center; }
+    .itm-pg-picker__specs ul { grid-template-columns: 1fr; }
   }
 </style>
