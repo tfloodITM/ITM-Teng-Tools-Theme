@@ -305,8 +305,15 @@
     return null;
   }
 
-  var currentKey = null;
-  var currentDir = 1;
+  {% comment %}
+    Default sort state on page load, purely visual (no reorder — the
+    products stay in the order the collection itself already returns
+    them in). This just bolds "Model" with a ▼ so it's obvious at a
+    glance that every column here is clickable, not a plain label row.
+    A key of -1 renders ▼ per updateIndicators below, matching that.
+  {% endcomment %}
+  var currentKey = 'name';
+  var currentDir = -1;
 
   function updateIndicators(key, dir) {
     picker.querySelectorAll('[data-pg-sort-key]').forEach(function (btn) {
@@ -344,6 +351,9 @@
     rows.forEach(function (row) { list.appendChild(row); });
     updateIndicators(key, dir);
   }
+
+  {% comment %} Paints the default state above — no sort applied, just the indicator. {% endcomment %}
+  updateIndicators(currentKey, currentDir);
 
   picker.querySelectorAll('[data-pg-sort-key]').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -461,7 +471,12 @@
     text-align: left;
   }
   .itm-pg-picker__sort-btn:hover { color: #131313; }
-  .itm-pg-picker__sort-btn.is-active { color: #131313; }
+  {%- comment -%}
+    font-weight: 900 (not a made-up 800) — this theme's self-hosted
+    Montserrat only has real 400/700/900 weight files; anything else
+    renders as a synthetic faux-bold that looks subtly off.
+  {%- endcomment -%}
+  .itm-pg-picker__sort-btn.is-active { color: #131313; font-weight: 900; }
   .itm-pg-picker__sort-btn--name { flex: 1.4 1 0; }
   .itm-pg-picker__sort-btn--price { flex: 0.7 1 0; }
   .itm-pg-picker__sort-btn--actions { flex: 0 0 96px; cursor: default; }
