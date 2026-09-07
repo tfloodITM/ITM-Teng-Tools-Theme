@@ -156,8 +156,15 @@
     #shopify-section-{{ section.id }} .facets__disclosure-vertical > summary .icon-caret { display: none; }
 
     /* Sort block at the top of the sidebar, flush-left + same font as the filters */
-    /* One continuous top line, full-bleed to the screen edges */
+    /* One continuous top line, full-bleed to the screen edges — but not on a
+       product-group page (e.g. Metric/Imperial Combination Spanners): that
+       page has no filters sidebar to divide from, and the line was just
+       cutting across the top of the hero photo/table for no reason. The
+       real is_product_group flag isn't assigned until further down the
+       template, so it's re-checked here directly from the same metafield. */
     #shopify-section-{{ section.id }} .facets-vertical { margin-top: 12px; position: relative; }
+    {%- assign pg_divider_check = collection.metafields.custom.product_group.value -%}
+    {%- unless pg_divider_check == true or pg_divider_check == 'true' -%}
     #shopify-section-{{ section.id }} .facets-vertical::before {
       content: '';
       position: absolute;
@@ -167,6 +174,7 @@
       transform: translateX(-50%);
       border-top: 1px solid #d0d0d0;
     }
+    {%- endunless -%}
     #shopify-section-{{ section.id }} .itm-cg__grid { margin-top: 0; }  /* keeps its own top border, flush with the full-bleed line */
     #shopify-section-{{ section.id }} .itm-cg__leftcol {
       display: flex;
