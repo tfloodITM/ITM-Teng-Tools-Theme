@@ -3,10 +3,21 @@
   ------------------------
   Renders a "product group" collection (a single model available in a run of
   sizes/specs — e.g. Metric Combination Spanners, 20-40 near-identical
-  products differing only by size) as ONE hero photo plus a compact,
-  scannable list of every size — not N repeated full product cards, which
-  just shows the same photo dozens of times and buries the thing a shopper
-  actually needs: "pick my size, add to cart, done."
+  products differing only by size) as ONE hero photo plus a sortable list of
+  every size — not N repeated full product cards, which just shows the same
+  photo dozens of times and buries the thing a shopper actually needs: "pick
+  my size, add to cart, done."
+
+  Desktop: every spec (Size, Jaw Diameter, Ring Diameter, ...) gets its own
+  column, and every column header — Model, each spec, Price — is a sort
+  button (click once for ascending, again for descending, same convention
+  as any spreadsheet/data table).
+
+  Mobile: there's no room for 6+ columns, so it's a native <select> instead
+  — the OS's own picker UI is the most reliable "choose one of these" control
+  on a phone, next to a small direction toggle. Rows stay the existing
+  compact card layout with the always-visible 2-column specs block
+  underneath.
 
   Params:
     - collection (Collection) — required, a collection with
@@ -14,7 +25,11 @@
 
   Reuses the same .sbc__atc[data-variant-id] class/attribute the parent
   section's existing "Add to cart" click handler already delegates on, so
-  no new JS is needed for that part.
+  no new JS is needed for that part. Sorting itself is plain client-side JS
+  reordering the already-rendered <li> elements — the spec VALUES are free
+  text ("1-7/16 Inch", "50mm", "102"), not real numbers, so there's no clean
+  way to do this as a Liquid/server-side sort; see parseSpecValue below for
+  how a value like that becomes a comparable number.
 {%- endcomment -%}
 
 {%- liquid
@@ -41,6 +56,35 @@
       assign price_max = p.price_min
     endif
   endfor
+
+  comment
+    Column discovery pass: the union of every spec label across every
+    product in the group (first-seen order), not just the first product's —
+    a group is broadly consistent, but not perfectly, so building the
+    column list off just one product risks silently dropping a column that
+    only shows up on a different size. '|||' on both ends of the
+    accumulator (not just between entries) so the "contains" check below
+    can't false-positive on one label being a plain substring of another
+    (e.g. "Ring Diameter" inside "Ring Diameter (mm)").
+  endcomment
+  assign column_labels_str = '|||'
+  for p in collection.products
+    capture p_pairs
+      render 'itm-spec-parser', product: p
+    endcapture
+    assign p_pairs = p_pairs | strip
+    unless p_pairs == blank
+      assign p_tokens = p_pairs | split: ';;'
+      for token in p_tokens
+        assign tok_label = token | split: '=' | first
+        assign needle = '|||' | append: tok_label | append: '|||'
+        unless column_labels_str contains needle
+          assign column_labels_str = column_labels_str | append: tok_label | append: '|||'
+        endunless
+      endfor
+    endunless
+  endfor
+  assign column_labels = column_labels_str | split: '|||'
 -%}
 
 <div class="itm-pg-picker">
@@ -79,64 +123,72 @@
     </div>
   </div>
 
-  <div class="itm-pg-picker__list-wrap">
-    <div class="itm-pg-picker__list-head">
-      <span>Model</span>
-      <span>Price</span>
-      <span aria-hidden="true"></span>
+  {%- comment -%}
+    Mobile sort control — a native <select>, not a custom dropdown/sheet.
+    A single-choice picker is exactly what a <select> is for, and the OS's
+    own picker UI (the iOS wheel / Android list) is more reliable and more
+    familiar to someone on a phone than a bespoke overlay would be. The
+    small ▲/▼ button beside it is the only extra piece needed for direction,
+    since a <select> alone has no notion of "click again to reverse".
+  {%- endcomment -%}
+  <div class="itm-pg-picker__mobile-sort medium-hide large-up-hide">
+    <label class="itm-pg-picker__mobile-sort-label" for="PgSortSelect-{{ collection.id }}">Sort by</label>
+    <div class="itm-pg-picker__mobile-sort-row">
+      <select id="PgSortSelect-{{ collection.id }}" class="itm-pg-picker__mobile-sort-select" data-pg-sort-select>
+        <option value="name">Model (A–Z)</option>
+        {%- for col in column_labels -%}
+          {%- unless col == blank -%}
+            <option value="spec:{{ col | escape }}">{{ col }}</option>
+          {%- endunless -%}
+        {%- endfor -%}
+        <option value="price">Price</option>
+      </select>
+      <button type="button" class="itm-pg-picker__mobile-sort-dir" data-pg-sort-dir aria-label="Reverse sort direction">▲</button>
     </div>
-    <ul class="itm-pg-picker__list list-unstyled">
+  </div>
+
+  <div class="itm-pg-picker__list-wrap">
+    <div class="itm-pg-picker__list-head medium-up-hide-not">
+      <button type="button" class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--name" data-pg-sort-key="name">
+        Model <span class="itm-pg-picker__sort-arrow"></span>
+      </button>
+      {%- for col in column_labels -%}
+        {%- unless col == blank -%}
+          <button type="button" class="itm-pg-picker__sort-btn" data-pg-sort-key="spec:{{ col | escape }}">
+            {{ col }} <span class="itm-pg-picker__sort-arrow"></span>
+          </button>
+        {%- endunless -%}
+      {%- endfor -%}
+      <button type="button" class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--price" data-pg-sort-key="price">
+        Price <span class="itm-pg-picker__sort-arrow"></span>
+      </button>
+      <span class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--actions" aria-hidden="true"></span>
+    </div>
+
+    <ul class="itm-pg-picker__list list-unstyled" data-pg-list>
       {%- for product in collection.products -%}
         {%- liquid
-          comment
-            web_specifications is raw NetSuite-sourced HTML — <li>Label: value
-            pairs, sometimes with a NESTED <ul> under a label like "Included
-            In:" or "Drawer Dimensions:" that's cross-reference/prose, not a
-            real spec (see card-product-group / itm-product-group-grid for
-            the same exclusion rule elsewhere in this theme) — e.g.
-            "<li>Included In:<ul><li>6507JMMA<li>TCMM724N<li>6507JMM</ul>".
+          capture row_pairs
+            render 'itm-spec-parser', product: product
+          endcapture
+          assign row_pairs = row_pairs | strip
+          assign row_tokens = ''
+          unless row_pairs == blank
+            assign row_tokens = row_pairs | split: ';;'
+          endunless
 
-            Splitting flat on "<li>" does NOT respect that nesting — Liquid's
-            split has no concept of tag depth, so "6507JMMA" etc. come out as
-            their own top-level pieces too, not swallowed by the "Included
-            In:" piece the way real HTML parsing would. Checking each piece
-            by name only catches the label itself; the bare SKU codes after
-            it don't contain "included in" so they were slipping through as
-            if they were real specs. Tracking "currently inside a nested
-            list to skip" as its own flag — set when an excluded label's
-            piece opens a <ul> it doesn't also close, cleared the next time
-            a piece actually contains </ul> — skips every piece in between
-            regardless of what's in it.
+          comment
+            Mobile's always-open specs block still wants plain "Label:
+            Value" lines (see the markup below) — rebuild that same flat
+            format from the tokens rather than re-parsing the HTML a third
+            time.
           endcomment
-          assign spec_raw = product.metafields.custom.web_specifications.value
           assign spec_lines_str = ''
-          if spec_raw != blank
-            assign spec_parts = spec_raw | split: '<li>'
-            assign skip_nested = false
-            for part in spec_parts
-              if skip_nested
-                if part contains '</ul>'
-                  assign skip_nested = false
-                endif
-              else
-                assign line = part | split: '<' | first | strip
-                if line != blank
-                  assign line_lower = line | downcase
-                  assign excluded = false
-                  if line_lower contains 'included in' or line_lower contains 'includes' or line_lower contains 'drawer dimensions'
-                    assign excluded = true
-                  endif
-                  if excluded
-                    if part contains '<ul>'
-                      unless part contains '</ul>'
-                        assign skip_nested = true
-                      endunless
-                    endif
-                  else
-                    assign spec_lines_str = spec_lines_str | append: line | append: '|||'
-                  endif
-                endif
-              endif
+          if row_tokens != ''
+            for token in row_tokens
+              assign tok_label = token | split: '=' | first
+              assign tok_value = token | remove_first: tok_label | remove_first: '='
+              assign spec_lines_str = spec_lines_str | append: tok_label | append: ': ' | append: tok_value | append: '|||'
             endfor
           endif
           assign spec_lines = spec_lines_str | split: '|||'
@@ -145,9 +197,28 @@
             assign has_specs = true
           endif
         -%}
-        <li class="itm-pg-picker__item">
+        <li class="itm-pg-picker__item" data-pg-row data-name="{{ product.title | escape }}" data-price="{{ product.price }}">
           <div class="itm-pg-picker__row">
             <a href="{{ product.url }}" class="itm-pg-picker__name">{{ product.title }}</a>
+
+            {%- comment -%} Desktop-only per-column cells — hidden on mobile via CSS. {%- endcomment -%}
+            {%- for col in column_labels -%}
+              {%- unless col == blank -%}
+                {%- liquid
+                  assign cell_value = ''
+                  if row_tokens != ''
+                    for token in row_tokens
+                      assign tok_label = token | split: '=' | first
+                      if tok_label == col
+                        assign cell_value = token | remove_first: tok_label | remove_first: '='
+                      endif
+                    endfor
+                  endif
+                -%}
+                <span class="itm-pg-picker__cell" data-col="{{ col | escape }}" data-value="{{ cell_value | escape }}">{{ cell_value | default: '—' }}</span>
+              {%- endunless -%}
+            {%- endfor -%}
+
             <span class="itm-pg-picker__price">
               {%- if product.compare_at_price > product.price -%}
                 <s class="itm-pg-picker__was">{{ product.compare_at_price | money }}</s>
@@ -170,6 +241,7 @@
               {%- endif -%}
             </div>
           </div>
+          {%- comment -%} Mobile-only — hidden on desktop via CSS, since the row above already has a column per spec there. {%- endcomment -%}
           {%- if has_specs -%}
             <div class="itm-pg-picker__specs">
               <ul>
@@ -184,6 +256,127 @@
     </ul>
   </div>
 </div>
+
+<script>
+(function () {
+  var root = document.currentScript.previousElementSibling;
+  {% comment %} Fallback in case the DOM shifted — walk up to find the .itm-pg-picker itself. {% endcomment %}
+  var container = document.currentScript.closest ? document.currentScript.parentElement : null;
+  var picker = container ? container.querySelector('.itm-pg-picker') : document.querySelector('.itm-pg-picker');
+  if (!picker) return;
+
+  var list = picker.querySelector('[data-pg-list]');
+  if (!list) return;
+
+  {% comment %}
+    Spec values are free text ("1-7/16 Inch", "50mm", "102", "24.6") — this
+    pulls out something comparable: mixed fractions ("1-7/16") and plain
+    fractions ("7/16") resolve to their decimal value, otherwise it's just
+    the first plain number found in the string. Returns null for anything
+    with no number at all (a text-only value), which always sorts last
+    regardless of direction — a missing/non-numeric spec shouldn't just
+    silently land at the top of an ascending sort.
+  {% endcomment %}
+  function parseSpecValue(str) {
+    if (!str) return null;
+    str = String(str).trim();
+    var mixed = str.match(/^(\d+)\s*-\s*(\d+)\s*\/\s*(\d+)/);
+    if (mixed) return parseInt(mixed[1], 10) + (parseInt(mixed[2], 10) / parseInt(mixed[3], 10));
+    var frac = str.match(/^(\d+)\s*\/\s*(\d+)/);
+    if (frac) return parseInt(frac[1], 10) / parseInt(frac[2], 10);
+    var num = str.match(/-?\d+(\.\d+)?/);
+    if (num) return parseFloat(num[0]);
+    return null;
+  }
+
+  function getSortValue(row, key) {
+    if (key === 'name') return (row.dataset.name || '').toLowerCase();
+    if (key === 'price') return parseFloat(row.dataset.price) || 0;
+    if (key.indexOf('spec:') === 0) {
+      var col = key.slice(5);
+      var cells = row.querySelectorAll('.itm-pg-picker__cell');
+      for (var i = 0; i < cells.length; i++) {
+        if (cells[i].getAttribute('data-col') === col) {
+          return parseSpecValue(cells[i].getAttribute('data-value'));
+        }
+      }
+      return null;
+    }
+    return null;
+  }
+
+  var currentKey = null;
+  var currentDir = 1;
+
+  function updateIndicators(key, dir) {
+    picker.querySelectorAll('[data-pg-sort-key]').forEach(function (btn) {
+      var isActive = btn.getAttribute('data-pg-sort-key') === key;
+      btn.classList.toggle('is-active', isActive);
+      var arrow = btn.querySelector('.itm-pg-picker__sort-arrow');
+      if (arrow) arrow.textContent = isActive ? (dir === 1 ? '▲' : '▼') : '';
+    });
+    var select = picker.querySelector('[data-pg-sort-select]');
+    if (select) select.value = key;
+    var dirBtn = picker.querySelector('[data-pg-sort-dir]');
+    if (dirBtn) dirBtn.textContent = dir === 1 ? '▲' : '▼';
+  }
+
+  function applySort(key, dir) {
+    var rows = Array.prototype.slice.call(list.children).filter(function (el) {
+      return el.hasAttribute('data-pg-row');
+    });
+    var isName = key === 'name';
+    rows.sort(function (a, b) {
+      var av = getSortValue(a, key);
+      var bv = getSortValue(b, key);
+      if (isName) {
+        if (av < bv) return -1 * dir;
+        if (av > bv) return 1 * dir;
+        return 0;
+      }
+      var aMissing = (av === null || av === undefined || isNaN(av));
+      var bMissing = (bv === null || bv === undefined || isNaN(bv));
+      if (aMissing && bMissing) return 0;
+      if (aMissing) return 1;
+      if (bMissing) return -1;
+      return (av - bv) * dir;
+    });
+    rows.forEach(function (row) { list.appendChild(row); });
+    updateIndicators(key, dir);
+  }
+
+  picker.querySelectorAll('[data-pg-sort-key]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var key = btn.getAttribute('data-pg-sort-key');
+      if (currentKey === key) {
+        currentDir = currentDir * -1;
+      } else {
+        currentKey = key;
+        currentDir = 1;
+      }
+      applySort(currentKey, currentDir);
+    });
+  });
+
+  var mobileSelect = picker.querySelector('[data-pg-sort-select]');
+  if (mobileSelect) {
+    mobileSelect.addEventListener('change', function () {
+      currentKey = mobileSelect.value;
+      currentDir = 1;
+      applySort(currentKey, currentDir);
+    });
+  }
+
+  var dirBtn = picker.querySelector('[data-pg-sort-dir]');
+  if (dirBtn) {
+    dirBtn.addEventListener('click', function () {
+      if (!currentKey) return;
+      currentDir = currentDir * -1;
+      applySort(currentKey, currentDir);
+    });
+  }
+})();
+</script>
 
 <style>
   .itm-pg-picker {
@@ -228,33 +421,56 @@
     color: #444444;
   }
 
+  /* ── Desktop sort header + rows: flexbox, not a fixed grid, since the
+       number of spec columns is data-driven and varies per category. ── */
   .itm-pg-picker__list-head,
   .itm-pg-picker__row {
-    display: grid;
-    grid-template-columns: 1fr 100px 160px;
+    display: flex;
     align-items: center;
     gap: 12px;
   }
   .itm-pg-picker__list-head {
-    padding: 0 16px 10px;
-    font-size: 12px;
+    padding: 0 16px 8px;
+    border-bottom: 1px solid #e2e2e2;
+  }
+  .itm-pg-picker__sort-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background: none;
+    padding: 4px 0;
+    font-family: var(--font-heading-family);
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: #888888;
-    border-bottom: 1px solid #e2e2e2;
+    cursor: pointer;
+    text-align: left;
   }
+  .itm-pg-picker__sort-btn:hover { color: #131313; }
+  .itm-pg-picker__sort-btn.is-active { color: #131313; }
+  .itm-pg-picker__sort-btn--name { flex: 1.4 1 0; }
+  .itm-pg-picker__sort-btn--price { flex: 0.7 1 0; }
+  .itm-pg-picker__sort-btn--actions { flex: 0 0 96px; cursor: default; }
+  .itm-pg-picker__sort-arrow { font-size: 9px; color: var(--mega-accent, #BD2321); }
+
   .itm-pg-picker__list { border-top: none; }
   {%- comment -%}
-    Zebra striping — exactly two flat shades total (white / grey), not four.
-    The specs block below has no background of its own at all, so it just
-    shows whatever colour its parent .itm-pg-picker__item already is — the
-    whole item (row + specs together) is one solid band, full stop.
+    Zebra striping — exactly two flat shades total (white / grey). The
+    specs block (mobile only) has no background of its own — it shows
+    whatever colour its parent .itm-pg-picker__item already is, so the
+    whole item reads as one solid band.
   {%- endcomment -%}
   .itm-pg-picker__item { border-bottom: 1px solid #e2e2e2; background: #ffffff; }
   .itm-pg-picker__item:nth-child(even) { background: #f4f4f4; }
   .itm-pg-picker__row { padding: 12px 16px; }
   .itm-pg-picker__name {
+    flex: 1.4 1 0;
+    min-width: 0;
     font-family: var(--font-heading-family);
     font-size: 14px;
     font-weight: 700;
@@ -263,7 +479,15 @@
     line-height: 1.3;
   }
   .itm-pg-picker__name:hover { text-decoration: underline; }
+  .itm-pg-picker__cell {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 13px;
+    color: #444444;
+  }
   .itm-pg-picker__price {
+    flex: 0.7 1 0;
+    min-width: 0;
     font-size: 14px;
     font-weight: 600;
     color: #131313;
@@ -277,9 +501,9 @@
     text-decoration: line-through;
   }
   .itm-pg-picker__actions {
+    flex: 0 0 96px;
     display: flex;
     align-items: center;
-    gap: 8px;
     justify-content: flex-end;
   }
   .itm-pg-picker__atc {
@@ -305,52 +529,90 @@
   .itm-pg-picker__atc:hover { filter: brightness(0.85); }
   .itm-pg-picker__atc:disabled { opacity: 0.45; cursor: default; pointer-events: none; }
 
-  .itm-pg-picker__specs {
-    padding: 4px 16px 16px;
-  }
-  .itm-pg-picker__specs ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 4px 20px;
-  }
-  .itm-pg-picker__specs li {
-    font-size: 13px;
-    line-height: 1.5;
-    color: #444444;
-  }
+  /* Mobile-only specs block — hidden on desktop, where every spec already
+     has its own column in the row above instead. */
+  .itm-pg-picker__specs { display: none; }
+
+  /* Mobile sort control — hidden on desktop (medium-hide large-up-hide
+     classes already do this, this is belt-and-braces for anyone who
+     overrides those utility classes at the section level). */
+  .itm-pg-picker__mobile-sort { display: none; }
 
   @media (max-width: 749px) {
-    {%- comment -%}
-      No negative-margin bleed here — guessing at the exact page gutter to
-      cancel out was the actual cause of the mobile layout shifting/
-      overflowing sideways. Just full width of its own column instead;
-      still fills the screen, without the risk.
-    {%- endcomment -%}
     .itm-pg-picker {
       grid-template-columns: 1fr;
       gap: 0;
     }
     .itm-pg-picker__title { margin-top: 14px; font-size: 19px; }
-    .itm-pg-picker__list-wrap { margin-top: 20px; }
+
+    .itm-pg-picker__mobile-sort {
+      display: block;
+      margin-top: 20px;
+      padding: 0 1.5rem;
+    }
+    .itm-pg-picker__mobile-sort-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #666666;
+    }
+    .itm-pg-picker__mobile-sort-row { display: flex; gap: 8px; }
+    .itm-pg-picker__mobile-sort-select {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 44px;
+      padding: 0 12px;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      background: #ffffff;
+      font-family: var(--font-body-family);
+      font-size: 14px;
+      color: #131313;
+    }
+    .itm-pg-picker__mobile-sort-dir {
+      flex: 0 0 44px;
+      height: 44px;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      background: #ffffff;
+      font-size: 16px;
+      color: #BD2321;
+      cursor: pointer;
+    }
+
+    .itm-pg-picker__list-wrap { margin-top: 16px; }
     .itm-pg-picker__list-head { display: none; }
+    .itm-pg-picker__cell { display: none; }
     .itm-pg-picker__row {
-      grid-template-columns: 1fr auto;
-      grid-template-areas: "name actions" "price actions";
-      row-gap: 4px;
+      flex-wrap: wrap;
       padding: 12px;
     }
-    .itm-pg-picker__name { grid-area: name; }
-    .itm-pg-picker__price { grid-area: price; }
-    .itm-pg-picker__actions { grid-area: actions; align-self: center; }
+    .itm-pg-picker__name { flex: 1 1 auto; width: 100%; order: 1; }
+    .itm-pg-picker__price { flex: 1 1 auto; order: 2; }
+    .itm-pg-picker__actions { flex: 0 0 auto; order: 3; margin-left: auto; }
+
+    .itm-pg-picker__specs { display: block; padding: 4px 12px 12px; }
     {%- comment -%}
       Two columns instead of one long vertical stack — a phone is wide
       enough for "Size / Jaw Diameter / Jaw Height" beside "Ring Diameter /
       Ring Height / Length" rather than wasting the right half of the
       screen on every single spec line.
     {%- endcomment -%}
-    .itm-pg-picker__specs ul { grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+    .itm-pg-picker__specs ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 12px;
+    }
+    .itm-pg-picker__specs li {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #444444;
+    }
   }
 </style>

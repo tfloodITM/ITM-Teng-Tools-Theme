@@ -1,0 +1,70 @@
+{%- comment -%}
+  ITM Spec Parser
+  ---------------
+  Parses a product's custom.web_specifications (raw NetSuite HTML — <li>
+  Label: value pairs, sometimes with a NESTED <ul> under a label like
+  "Included In:" or "Drawer Dimensions:" that's cross-reference/prose, not
+  a real spec) into a flat "Label=Value;;Label=Value;;..." string.
+
+  Pulled out into its own snippet so this parsing logic exists exactly
+  once — itm-product-group-picker.liquid calls it twice (once to discover
+  every column across a whole group of products, once per row to fill in
+  that row's cells) and duplicating a state machine this fiddly across two
+  places is exactly how it drifts out of sync and re-breaks later.
+
+  Param: product (Product) — required
+  Output: call this via {% capture x %}{% render 'itm-spec-parser', product: product %}{% endcapture %}
+  and split the result on ';;' then '=' — blank if there's no usable data.
+{%- endcomment -%}
+{%- liquid
+  assign spec_raw = product.metafields.custom.web_specifications.value
+  assign pairs_str = ''
+  if spec_raw != blank
+    assign spec_parts = spec_raw | split: '<li>'
+    assign skip_nested = false
+    for part in spec_parts
+      if skip_nested
+        if part contains '</ul>'
+          assign skip_nested = false
+        endif
+      else
+        assign line = part | split: '<' | first | strip
+        if line != blank
+          assign line_lower = line | downcase
+          assign excluded = false
+          if line_lower contains 'included in' or line_lower contains 'includes' or line_lower contains 'drawer dimensions'
+            assign excluded = true
+          endif
+          if excluded
+            if part contains '<ul>'
+              unless part contains '</ul>'
+                assign skip_nested = true
+              endunless
+            endif
+          else
+            comment
+              Colon is the more common separator ("Size: 50mm"), dash the
+              other one seen in this data ("Width - 660mm"). remove_first
+              (not split+last) for the value so a value that itself
+              contains a colon or dash further along ("Ratio: 1:4") isn't
+              cut short at the wrong occurrence.
+            endcomment
+            assign this_label = line
+            assign this_value = ''
+            if line contains ':'
+              assign this_label = line | split: ':' | first | strip
+              assign this_value = line | remove_first: this_label | remove_first: ':' | strip
+            elsif line contains ' - '
+              assign this_label = line | split: ' - ' | first | strip
+              assign this_value = line | remove_first: this_label | remove_first: ' - ' | strip
+            endif
+            if this_label != blank
+              assign pairs_str = pairs_str | append: this_label | append: '=' | append: this_value | append: ';;'
+            endif
+          endif
+        endif
+      endif
+    endfor
+  endif
+  echo pairs_str
+-%}
