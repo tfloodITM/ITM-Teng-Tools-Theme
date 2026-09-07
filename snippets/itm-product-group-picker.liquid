@@ -401,10 +401,19 @@
   }
   .itm-pg-picker__ph-svg { width: 100%; height: 100%; opacity: 0.2; }
 
+  {%- comment -%}
+    text-align: left is explicit here (not just inherited from
+    .itm-pg-picker__hero-info below) because base.css has a global
+    "h2, .h2 { text-align: center; ... }" rule — a class selector already
+    beats a bare tag selector on specificity, so this is enough to win,
+    but only if it's actually declared.
+  {%- endcomment -%}
+  .itm-pg-picker__hero-info { text-align: left; }
   .itm-pg-picker__title {
     margin: 16px 0 4px;
     font-size: 22px;
     text-transform: uppercase;
+    text-align: left;
   }
   .itm-pg-picker__meta {
     display: flex;
