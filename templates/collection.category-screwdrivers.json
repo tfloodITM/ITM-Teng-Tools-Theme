@@ -1,0 +1,249 @@
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-ac332372-6be7-41d4-8ba3-c07b83b6cc86",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "cover",
+        "image_width": 55,
+        "image_height": 380,
+        "color_scheme": "scheme-3",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_category_icon": true,
+        "icon_size": 40,
+        "icon_color": "#ffffff",
+        "show_accent_bar": true,
+        "accent_bar_color": "#e30613"
+      }
+    },
+    "sub_categories": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_1000v_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "1000V Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Insulated screwdrivers rated to 1000V for safe work on live electrical systems.",
+            "link": "shopify://collections/1000v-screwdrivers"
+          }
+        },
+        "category_double_ended_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Double Ended Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Two drive tips in one handle for a compact, do-it-all screwdriver.",
+            "link": "shopify://collections/double-ended-screwdrivers"
+          }
+        },
+        "category_flat_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Flat Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Slotted-tip screwdrivers for standard flathead fasteners.",
+            "link": "shopify://collections/flat-screwdrivers"
+          }
+        },
+        "category_hex_ball_end_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Hex Ball End Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Ball-end hex screwdrivers that drive at an angle for awkward access.",
+            "link": "shopify://collections/hex-ball-end-screwdrivers"
+          }
+        },
+        "category_hex_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Hex Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Hex-tip screwdrivers for socket-head fasteners.",
+            "link": "shopify://collections/hex-screwdrivers"
+          }
+        },
+        "category_hose_clip_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Hose Clip Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Purpose-built screwdrivers for tightening and releasing hose clips.",
+            "link": "shopify://collections/hose-clip-screwdrivers"
+          }
+        },
+        "category_mini_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Mini Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Compact precision screwdrivers for small fasteners and tight spaces.",
+            "link": "shopify://collections/mini-screwdrivers"
+          }
+        },
+        "category_nutdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Nutdrivers",
+            "subtitle": "Shop now",
+            "description": "Nut-driving screwdrivers for fast, one-handed fastening of hex nuts and bolts.",
+            "link": "shopify://collections/nutdrivers"
+          }
+        },
+        "category_phillips_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Phillips Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Cross-point Phillips screwdrivers for everyday fastening work.",
+            "link": "shopify://collections/phillips-screwdrivers"
+          }
+        },
+        "category_power_through_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Power Through Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Screwdrivers built to take a hammer blow on the end cap for stubborn fasteners.",
+            "link": "shopify://collections/power-through-screwdrivers"
+          }
+        },
+        "category_pozidriv_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Pozidriv Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Pozidriv-tip screwdrivers for a more secure grip than standard Phillips.",
+            "link": "shopify://collections/pozidriv-screwdrivers"
+          }
+        },
+        "category_ratchet_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Ratchet Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Ratcheting screwdrivers that speed up repetitive fastening work.",
+            "link": "shopify://collections/ratchet-screwdrivers"
+          }
+        },
+        "category_robertson_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Robertson Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Square-tip Robertson screwdrivers for a firm, slip-free drive.",
+            "link": "shopify://collections/robertson-screwdrivers"
+          }
+        },
+        "category_screwdriver_handles_hex": {
+          "type": "category",
+          "settings": {
+            "title": "Screwdriver Handles - 1/4 Hex",
+            "subtitle": "Shop now",
+            "description": "Standalone 1/4in hex handles for use with interchangeable screwdriver bits.",
+            "link": "shopify://collections/screwdriver-handles-1-4-hex"
+          }
+        },
+        "category_screwdriver_sets": {
+          "type": "category",
+          "settings": {
+            "title": "Screwdriver Sets",
+            "subtitle": "Shop now",
+            "description": "Complete screwdriver sets covering every tip type you'll need on the job.",
+            "link": "shopify://collections/screwdriver-sets"
+          }
+        },
+        "category_tamper_proof_torx_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Tamper Proof Torx Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Torx screwdrivers with a centre pin to drive tamper-proof security fasteners.",
+            "link": "shopify://collections/tamper-proof-torx-screwdrivers"
+          }
+        },
+        "category_torx_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Torx Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Torx-tip screwdrivers for star-drive fasteners.",
+            "link": "shopify://collections/torx-screwdrivers"
+          }
+        }
+      },
+      "block_order": [
+        "category_1000v_screwdrivers",
+        "category_double_ended_screwdrivers",
+        "category_flat_screwdrivers",
+        "category_hex_ball_end_screwdrivers",
+        "category_hex_screwdrivers",
+        "category_hose_clip_screwdrivers",
+        "category_mini_screwdrivers",
+        "category_nutdrivers",
+        "category_phillips_screwdrivers",
+        "category_power_through_screwdrivers",
+        "category_pozidriv_screwdrivers",
+        "category_ratchet_screwdrivers",
+        "category_robertson_screwdrivers",
+        "category_screwdriver_handles_hex",
+        "category_screwdriver_sets",
+        "category_tamper_proof_torx_screwdrivers",
+        "category_torx_screwdrivers"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#f4f4f4",
+        "top_divider": true,
+        "top_divider_color": "#e2e2e2",
+        "layout_style": "card",
+        "columns_desktop": "6",
+        "columns_mobile": "2",
+        "contained": false,
+        "card_shadow": true,
+        "divider_width": 20,
+        "divider_width_mobile": 12,
+        "divider_color": "#f4f4f4",
+        "radius": 12,
+        "height": 320,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 22,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "600",
+        "subtitle_color": "#e30613"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
+}

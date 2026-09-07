@@ -1,0 +1,179 @@
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-ac332372-6be7-41d4-8ba3-c07b83b6cc86",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "cover",
+        "image_width": 55,
+        "image_height": 380,
+        "color_scheme": "scheme-3",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_category_icon": true,
+        "icon_size": 40,
+        "icon_color": "#ffffff",
+        "show_accent_bar": true,
+        "accent_bar_color": "#e30613"
+      }
+    },
+    "sub_categories": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_dial_indicators_magnetic_bases": {
+          "type": "category",
+          "settings": {
+            "title": "Dial Indicators & Magnetic Bases",
+            "subtitle": "Shop now",
+            "description": "Precision dial indicators and magnetic bases for accurate measurement setups.",
+            "link": "shopify://collections/dial-indicators-magnetic-bases"
+          }
+        },
+        "category_gauges": {
+          "type": "category",
+          "settings": {
+            "title": "Gauges",
+            "subtitle": "Shop now",
+            "description": "Feeler, thread and depth gauges for precise measurement on the job.",
+            "link": "shopify://collections/gauges"
+          }
+        },
+        "category_levels": {
+          "type": "category",
+          "settings": {
+            "title": "Levels",
+            "subtitle": "Shop now",
+            "description": "Spirit levels for accurate levelling and alignment work.",
+            "link": "shopify://collections/levels"
+          }
+        },
+        "category_marking_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Marking Tools",
+            "subtitle": "Shop now",
+            "description": "Scribes, punches and marking tools for accurate layout work.",
+            "link": "shopify://collections/marking-tools"
+          }
+        },
+        "category_micrometers": {
+          "type": "category",
+          "settings": {
+            "title": "Micrometers",
+            "subtitle": "Shop now",
+            "description": "Precision micrometers for fine, accurate measurement.",
+            "link": "shopify://collections/micrometers"
+          }
+        },
+        "category_multimeters": {
+          "type": "category",
+          "settings": {
+            "title": "Multimeters",
+            "subtitle": "Shop now",
+            "description": "Multimeters for testing voltage, current and continuity on the job.",
+            "link": "shopify://collections/multimeters"
+          }
+        },
+        "category_squares": {
+          "type": "category",
+          "settings": {
+            "title": "Squares",
+            "subtitle": "Shop now",
+            "description": "Try squares and combination squares for accurate right angles and layout.",
+            "link": "shopify://collections/squares"
+          }
+        },
+        "category_steel_rules": {
+          "type": "category",
+          "settings": {
+            "title": "Steel Rules",
+            "subtitle": "Shop now",
+            "description": "Precision steel rules for accurate measurement and marking.",
+            "link": "shopify://collections/steel-rules"
+          }
+        },
+        "category_tape_measures": {
+          "type": "category",
+          "settings": {
+            "title": "Tape Measures",
+            "subtitle": "Shop now",
+            "description": "Durable tape measures built for everyday site and workshop use.",
+            "link": "shopify://collections/tape-measures"
+          }
+        },
+        "category_vernier_calipers": {
+          "type": "category",
+          "settings": {
+            "title": "Vernier Calipers",
+            "subtitle": "Shop now",
+            "description": "Vernier calipers for precise internal, external and depth measurements.",
+            "link": "shopify://collections/vernier-calipers"
+          }
+        }
+      },
+      "block_order": [
+        "category_dial_indicators_magnetic_bases",
+        "category_gauges",
+        "category_levels",
+        "category_marking_tools",
+        "category_micrometers",
+        "category_multimeters",
+        "category_squares",
+        "category_steel_rules",
+        "category_tape_measures",
+        "category_vernier_calipers"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#f4f4f4",
+        "top_divider": true,
+        "top_divider_color": "#e2e2e2",
+        "layout_style": "card",
+        "columns_desktop": "6",
+        "columns_mobile": "2",
+        "contained": false,
+        "card_shadow": true,
+        "divider_width": 20,
+        "divider_width_mobile": 12,
+        "divider_color": "#f4f4f4",
+        "radius": 12,
+        "height": 320,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 22,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "600",
+        "subtitle_color": "#e30613"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
+}

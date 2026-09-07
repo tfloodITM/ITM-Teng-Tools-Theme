@@ -102,6 +102,24 @@
             "link": "shopify://collections/automotive-filter-tools"
           }
         },
+        "category_automotive_pipe_hose": {
+          "type": "category",
+          "settings": {
+            "title": "Automotive Pipe & Hose",
+            "subtitle": "Shop now",
+            "description": "Tools for removing and fitting automotive pipes, hoses and clamps without damage.",
+            "link": "shopify://collections/automotive-pipe-hose"
+          }
+        },
+        "category_automotive_steering_suspension": {
+          "type": "category",
+          "settings": {
+            "title": "Automotive Steering & Suspension",
+            "subtitle": "Shop now",
+            "description": "Specialist tools for steering and suspension component removal and service.",
+            "link": "shopify://collections/automotive-steering-suspension"
+          }
+        },
         "category_creepers_seats": {
           "type": "category",
           "settings": {
@@ -201,6 +219,8 @@
         "category_automotive_electrical",
         "category_automotive_engine_service",
         "category_automotive_filter_tools",
+        "category_automotive_pipe_hose",
+        "category_automotive_steering_suspension",
         "category_creepers_seats",
         "category_hooks_picks",
         "category_magnetic_trays",

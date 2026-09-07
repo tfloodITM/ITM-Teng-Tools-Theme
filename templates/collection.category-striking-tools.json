@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "breadcrumbs": {
@@ -39,68 +30,48 @@
     "sub_categories": {
       "type": "itm-category-image-grid",
       "blocks": {
-        "category_insert_torque_tools": {
+        "category_chisels_bolsters": {
           "type": "category",
           "settings": {
-            "title": "Insert Torque Tools",
+            "title": "Chisels & Bolsters",
             "subtitle": "Shop now",
-            "description": "Interchangeable torque-limiting inserts for use with a compatible torque wrench body.",
-            "link": "shopify://collections/insert-torque-tools"
+            "description": "Cold chisels and bolsters for cutting, shaping and demolition work.",
+            "link": "shopify://collections/chisels-bolsters"
           }
         },
-        "category_torque_wrenches": {
+        "category_hammers": {
           "type": "category",
           "settings": {
-            "title": "Torque Wrenches",
+            "title": "Hammers",
             "subtitle": "Shop now",
-            "description": "Calibrated torque wrenches for accurate, repeatable fastening every time.",
-            "link": "shopify://collections/torque-wrenches"
+            "description": "Hammers for every trade, from claw hammers to sledgehammers.",
+            "link": "shopify://collections/hammers"
           }
         },
-        "category_torque_screwdrivers": {
+        "category_pry_bars": {
           "type": "category",
           "settings": {
-            "title": "Torque Screwdrivers",
+            "title": "Pry Bars",
             "subtitle": "Shop now",
-            "description": "Precision torque screwdrivers for delicate, spec-critical fastening.",
-            "link": "shopify://collections/torque-screwdrivers"
+            "description": "Pry bars for prising, lifting and demolition work.",
+            "link": "shopify://collections/pry-bars"
           }
         },
-        "category_torque_multipliers": {
+        "category_punches": {
           "type": "category",
           "settings": {
-            "title": "Torque Multipliers",
+            "title": "Punches",
             "subtitle": "Shop now",
-            "description": "Multiply your force for high-torque jobs without the strain.",
-            "link": "shopify://collections/torque-multipliers"
-          }
-        },
-        "category_torque_tool_accessories": {
-          "type": "category",
-          "settings": {
-            "title": "Torque Tool Accessories",
-            "subtitle": "Shop now",
-            "description": "Calibration kits and accessories to keep your torque tools accurate.",
-            "link": "shopify://collections/torque-tool-accessories"
-          }
-        },
-        "category_torque_spanners": {
-          "type": "category",
-          "settings": {
-            "title": "Torque Spanners",
-            "subtitle": "Shop now",
-            "description": "Preset torque spanners for fast, accurate fastening to a fixed setting.",
-            "link": "shopify://collections/torque-spanners"
+            "description": "Centre and pin punches for marking and driving out pins.",
+            "link": "shopify://collections/punches"
           }
         }
       },
       "block_order": [
-        "category_insert_torque_tools",
-        "category_torque_wrenches",
-        "category_torque_screwdrivers",
-        "category_torque_multipliers",
-        "category_torque_tool_accessories",
-        "category_torque_spanners"
+        "category_chisels_bolsters",
+        "category_hammers",
+        "category_pry_bars",
+        "category_punches"
       ],
       "name": "Category Image Grid",
       "settings": {
@@ -110,7 +81,7 @@
         "padding_bottom": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 0,
-        "padding_bg": "#F4F4F4",
+        "padding_bg": "#f4f4f4",
         "top_divider": true,
         "top_divider_color": "#e2e2e2",
         "layout_style": "card",
@@ -120,7 +91,7 @@
         "card_shadow": true,
         "divider_width": 20,
         "divider_width_mobile": 12,
-        "divider_color": "#F4F4F4",
+        "divider_color": "#f4f4f4",
         "radius": 12,
         "height": 320,
         "height_mobile": 190,

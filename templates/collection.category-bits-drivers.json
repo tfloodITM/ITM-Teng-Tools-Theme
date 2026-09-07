@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "breadcrumbs": {
@@ -39,68 +30,68 @@
     "sub_categories": {
       "type": "itm-category-image-grid",
       "blocks": {
-        "category_insert_torque_tools": {
+        "category_adaptors": {
           "type": "category",
           "settings": {
-            "title": "Insert Torque Tools",
+            "title": "Adaptors",
             "subtitle": "Shop now",
-            "description": "Interchangeable torque-limiting inserts for use with a compatible torque wrench body.",
-            "link": "shopify://collections/insert-torque-tools"
+            "description": "Bit and socket adaptors for connecting tools of different drive sizes.",
+            "link": "shopify://collections/adaptors"
           }
         },
-        "category_torque_wrenches": {
+        "category_bit_holders": {
           "type": "category",
           "settings": {
-            "title": "Torque Wrenches",
+            "title": "Bit Holders",
             "subtitle": "Shop now",
-            "description": "Calibrated torque wrenches for accurate, repeatable fastening every time.",
-            "link": "shopify://collections/torque-wrenches"
+            "description": "Bit holders for quick, secure bit changes on drivers and drills.",
+            "link": "shopify://collections/bit-holders"
           }
         },
-        "category_torque_screwdrivers": {
+        "category_impact_drivers_bits": {
           "type": "category",
           "settings": {
-            "title": "Torque Screwdrivers",
+            "title": "Impact Drivers & Bits",
             "subtitle": "Shop now",
-            "description": "Precision torque screwdrivers for delicate, spec-critical fastening.",
-            "link": "shopify://collections/torque-screwdrivers"
+            "description": "Impact-rated drivers and bits built to handle high-torque power tools.",
+            "link": "shopify://collections/impact-drivers-bits"
           }
         },
-        "category_torque_multipliers": {
+        "category_nutsetters": {
           "type": "category",
           "settings": {
-            "title": "Torque Multipliers",
+            "title": "Nutsetters",
             "subtitle": "Shop now",
-            "description": "Multiply your force for high-torque jobs without the strain.",
-            "link": "shopify://collections/torque-multipliers"
+            "description": "Nutsetters for fast, one-handed driving of hex nuts and bolts.",
+            "link": "shopify://collections/nutsetters"
           }
         },
-        "category_torque_tool_accessories": {
+        "category_screwdriver_bit_sets": {
           "type": "category",
           "settings": {
-            "title": "Torque Tool Accessories",
+            "title": "Screwdriver Bit Sets",
             "subtitle": "Shop now",
-            "description": "Calibration kits and accessories to keep your torque tools accurate.",
-            "link": "shopify://collections/torque-tool-accessories"
+            "description": "Complete bit sets covering every tip type you'll need on the job.",
+            "link": "shopify://collections/screwdriver-bit-sets"
           }
         },
-        "category_torque_spanners": {
+        "category_screwdriver_bits": {
           "type": "category",
           "settings": {
-            "title": "Torque Spanners",
+            "title": "Screwdriver Bits",
             "subtitle": "Shop now",
-            "description": "Preset torque spanners for fast, accurate fastening to a fixed setting.",
-            "link": "shopify://collections/torque-spanners"
+            "description": "Screwdriver bits sold individually for every fastener type.",
+            "link": "shopify://collections/screwdriver-bits"
           }
         }
       },
       "block_order": [
-        "category_insert_torque_tools",
-        "category_torque_wrenches",
-        "category_torque_screwdrivers",
-        "category_torque_multipliers",
-        "category_torque_tool_accessories",
-        "category_torque_spanners"
+        "category_adaptors",
+        "category_bit_holders",
+        "category_impact_drivers_bits",
+        "category_nutsetters",
+        "category_screwdriver_bit_sets",
+        "category_screwdriver_bits"
       ],
       "name": "Category Image Grid",
       "settings": {
@@ -110,7 +101,7 @@
         "padding_bottom": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 0,
-        "padding_bg": "#F4F4F4",
+        "padding_bg": "#f4f4f4",
         "top_divider": true,
         "top_divider_color": "#e2e2e2",
         "layout_style": "card",
@@ -120,7 +111,7 @@
         "card_shadow": true,
         "divider_width": 20,
         "divider_width_mobile": 12,
-        "divider_color": "#F4F4F4",
+        "divider_color": "#f4f4f4",
         "radius": 12,
         "height": 320,
         "height_mobile": 190,

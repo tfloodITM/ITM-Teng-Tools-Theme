@@ -48,6 +48,15 @@
             "link": "shopify://collections/chrome-socket-sets"
           }
         },
+        "category_chrome_sockets": {
+          "type": "category",
+          "settings": {
+            "title": "Chrome Sockets",
+            "subtitle": "Shop now",
+            "description": "Precision-forged chrome sockets sold individually for every drive size.",
+            "link": "shopify://collections/chrome-sockets"
+          }
+        },
         "category_impact_sockets": {
           "type": "category",
           "settings": {
@@ -87,6 +96,7 @@
       },
       "block_order": [
         "category_chrome_socket_sets",
+        "category_chrome_sockets",
         "category_impact_sockets",
         "category_ratchets_handles",
         "category_1000v_sockets",

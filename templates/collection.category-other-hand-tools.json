@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "breadcrumbs": {
@@ -39,68 +30,98 @@
     "sub_categories": {
       "type": "itm-category-image-grid",
       "blocks": {
-        "category_insert_torque_tools": {
+        "category_deburring_tools": {
           "type": "category",
           "settings": {
-            "title": "Insert Torque Tools",
+            "title": "Deburring Tools",
             "subtitle": "Shop now",
-            "description": "Interchangeable torque-limiting inserts for use with a compatible torque wrench body.",
-            "link": "shopify://collections/insert-torque-tools"
+            "description": "Deburring tools for a clean, sharp-edge-free finish on cut metal and plastic.",
+            "link": "shopify://collections/deburring-tools"
           }
         },
-        "category_torque_wrenches": {
+        "category_door_hinge_adjustment_tools": {
           "type": "category",
           "settings": {
-            "title": "Torque Wrenches",
+            "title": "Door Hinge Adjustment Tools",
             "subtitle": "Shop now",
-            "description": "Calibrated torque wrenches for accurate, repeatable fastening every time.",
-            "link": "shopify://collections/torque-wrenches"
+            "description": "Purpose-built tools for adjusting and aligning door hinges.",
+            "link": "shopify://collections/door-hinge-adjustment-tools"
           }
         },
-        "category_torque_screwdrivers": {
+        "category_files": {
           "type": "category",
           "settings": {
-            "title": "Torque Screwdrivers",
+            "title": "Files",
             "subtitle": "Shop now",
-            "description": "Precision torque screwdrivers for delicate, spec-critical fastening.",
-            "link": "shopify://collections/torque-screwdrivers"
+            "description": "Hand files for shaping, smoothing and deburring metal and other materials.",
+            "link": "shopify://collections/files"
           }
         },
-        "category_torque_multipliers": {
+        "category_hand_riveters": {
           "type": "category",
           "settings": {
-            "title": "Torque Multipliers",
+            "title": "Hand Riveters",
             "subtitle": "Shop now",
-            "description": "Multiply your force for high-torque jobs without the strain.",
-            "link": "shopify://collections/torque-multipliers"
+            "description": "Hand riveters for fast, reliable pop-riveting on the job.",
+            "link": "shopify://collections/hand-riveters"
           }
         },
-        "category_torque_tool_accessories": {
+        "category_knives": {
           "type": "category",
           "settings": {
-            "title": "Torque Tool Accessories",
+            "title": "Knives",
             "subtitle": "Shop now",
-            "description": "Calibration kits and accessories to keep your torque tools accurate.",
-            "link": "shopify://collections/torque-tool-accessories"
+            "description": "Utility and craft knives for cutting a wide range of materials on site.",
+            "link": "shopify://collections/knives"
           }
         },
-        "category_torque_spanners": {
+        "category_saws": {
           "type": "category",
           "settings": {
-            "title": "Torque Spanners",
+            "title": "Saws",
             "subtitle": "Shop now",
-            "description": "Preset torque spanners for fast, accurate fastening to a fixed setting.",
-            "link": "shopify://collections/torque-spanners"
+            "description": "Hand saws for wood, metal and general-purpose cutting.",
+            "link": "shopify://collections/saws"
+          }
+        },
+        "category_scrapers": {
+          "type": "category",
+          "settings": {
+            "title": "Scrapers",
+            "subtitle": "Shop now",
+            "description": "Scrapers for removing gaskets, paint and adhesive residue.",
+            "link": "shopify://collections/scrapers"
+          }
+        },
+        "category_tinsnips_other": {
+          "type": "category",
+          "settings": {
+            "title": "Tinsnips",
+            "subtitle": "Shop now",
+            "description": "Aviation-style snips for cutting sheet metal cleanly and accurately.",
+            "link": "shopify://collections/tin-snips"
+          }
+        },
+        "category_tool_lanyards": {
+          "type": "category",
+          "settings": {
+            "title": "Tool Lanyards",
+            "subtitle": "Shop now",
+            "description": "Retractable tool lanyards to stop dropped tools on elevated work.",
+            "link": "shopify://collections/tool-lanyards"
           }
         }
       },
       "block_order": [
-        "category_insert_torque_tools",
-        "category_torque_wrenches",
-        "category_torque_screwdrivers",
-        "category_torque_multipliers",
-        "category_torque_tool_accessories",
-        "category_torque_spanners"
+        "category_deburring_tools",
+        "category_door_hinge_adjustment_tools",
+        "category_files",
+        "category_hand_riveters",
+        "category_knives",
+        "category_saws",
+        "category_scrapers",
+        "category_tinsnips_other",
+        "category_tool_lanyards"
       ],
       "name": "Category Image Grid",
       "settings": {
@@ -110,7 +131,7 @@
         "padding_bottom": 40,
         "padding_top_mobile": 20,
         "padding_bottom_mobile": 0,
-        "padding_bg": "#F4F4F4",
+        "padding_bg": "#f4f4f4",
         "top_divider": true,
         "top_divider_color": "#e2e2e2",
         "layout_style": "card",
@@ -120,7 +141,7 @@
         "card_shadow": true,
         "divider_width": 20,
         "divider_width_mobile": 12,
-        "divider_color": "#F4F4F4",
+        "divider_color": "#f4f4f4",
         "radius": 12,
         "height": 320,
         "height_mobile": 190,

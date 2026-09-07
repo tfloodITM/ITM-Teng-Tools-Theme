@@ -1,0 +1,189 @@
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-ac332372-6be7-41d4-8ba3-c07b83b6cc86",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "cover",
+        "image_width": 55,
+        "image_height": 380,
+        "color_scheme": "scheme-3",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_category_icon": true,
+        "icon_size": 40,
+        "icon_color": "#ffffff",
+        "show_accent_bar": true,
+        "accent_bar_color": "#e30613"
+      }
+    },
+    "sub_categories": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_annular_cutters": {
+          "type": "category",
+          "settings": {
+            "title": "Annular Cutters",
+            "subtitle": "Shop now",
+            "description": "Annular cutters for fast, clean holes in steel with a magnetic drill.",
+            "link": "shopify://collections/annular-cutters"
+          }
+        },
+        "category_carbide_burrs": {
+          "type": "category",
+          "settings": {
+            "title": "Carbide Burrs",
+            "subtitle": "Shop now",
+            "description": "Tungsten carbide burrs for shaping, deburring and grinding metal.",
+            "link": "shopify://collections/carbide-burrs"
+          }
+        },
+        "category_countersinks": {
+          "type": "category",
+          "settings": {
+            "title": "Countersinks",
+            "subtitle": "Shop now",
+            "description": "Countersink bits for a clean, flush finish around screw heads.",
+            "link": "shopify://collections/countersinks"
+          }
+        },
+        "category_drill_bits": {
+          "type": "category",
+          "settings": {
+            "title": "Drill Bits",
+            "subtitle": "Shop now",
+            "description": "Drill bits for wood, metal and masonry, sold individually and in sets.",
+            "link": "shopify://collections/drill-bits"
+          }
+        },
+        "category_hand_reamers": {
+          "type": "category",
+          "settings": {
+            "title": "Hand Reamers",
+            "subtitle": "Shop now",
+            "description": "Hand reamers for fine-tuning hole size and finish after drilling.",
+            "link": "shopify://collections/hand-reamers"
+          }
+        },
+        "category_holesaws": {
+          "type": "category",
+          "settings": {
+            "title": "Holesaws",
+            "subtitle": "Shop now",
+            "description": "Holesaws for cutting large-diameter holes in wood, metal and plastic.",
+            "link": "shopify://collections/holesaws"
+          }
+        },
+        "category_magnetic_drill_cutting_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Magnetic Drill Cutting Tools",
+            "subtitle": "Shop now",
+            "description": "Cutting tools and accessories built for use with magnetic drills.",
+            "link": "shopify://collections/magnetic-drill-cutting-tools"
+          }
+        },
+        "category_screw_stud_extractors": {
+          "type": "category",
+          "settings": {
+            "title": "Screw & Stud Extractors",
+            "subtitle": "Shop now",
+            "description": "Extractors for removing broken or stripped screws and studs.",
+            "link": "shopify://collections/screw-stud-extractors"
+          }
+        },
+        "category_screw_extractors": {
+          "type": "category",
+          "settings": {
+            "title": "Screw Extractors",
+            "subtitle": "Shop now",
+            "description": "Purpose-built extractors for backing out damaged or seized screws.",
+            "link": "shopify://collections/screw-extractors"
+          }
+        },
+        "category_step_drills": {
+          "type": "category",
+          "settings": {
+            "title": "Step Drills",
+            "subtitle": "Shop now",
+            "description": "Step drills for clean, burr-free holes in a range of diameters from one bit.",
+            "link": "shopify://collections/step-drills"
+          }
+        },
+        "category_threading_tools_cutting": {
+          "type": "category",
+          "settings": {
+            "title": "Threading Tools",
+            "subtitle": "Shop now",
+            "description": "Taps, dies and threading tools for cutting and repairing threads.",
+            "link": "shopify://collections/threading-tools"
+          }
+        }
+      },
+      "block_order": [
+        "category_annular_cutters",
+        "category_carbide_burrs",
+        "category_countersinks",
+        "category_drill_bits",
+        "category_hand_reamers",
+        "category_holesaws",
+        "category_magnetic_drill_cutting_tools",
+        "category_screw_stud_extractors",
+        "category_screw_extractors",
+        "category_step_drills",
+        "category_threading_tools_cutting"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#f4f4f4",
+        "top_divider": true,
+        "top_divider_color": "#e2e2e2",
+        "layout_style": "card",
+        "columns_desktop": "6",
+        "columns_mobile": "2",
+        "contained": false,
+        "card_shadow": true,
+        "divider_width": 20,
+        "divider_width_mobile": 12,
+        "divider_color": "#f4f4f4",
+        "radius": 12,
+        "height": 320,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 22,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "600",
+        "subtitle_color": "#e30613"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
+}

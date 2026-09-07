@@ -1,0 +1,469 @@
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-ac332372-6be7-41d4-8ba3-c07b83b6cc86",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "cover",
+        "image_width": 55,
+        "image_height": 380,
+        "color_scheme": "scheme-3",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_category_icon": true,
+        "icon_size": 40,
+        "icon_color": "#ffffff",
+        "show_accent_bar": true,
+        "accent_bar_color": "#e30613"
+      }
+    },
+    "sub_categories": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_air_surface_cleaners": {
+          "type": "category",
+          "settings": {
+            "title": "Air Surface Cleaners",
+            "subtitle": "Shop now",
+            "description": "Air-powered surface cleaners for fast, efficient cleaning of flat surfaces.",
+            "link": "shopify://collections/air-surface-cleaners"
+          }
+        },
+        "category_air_angle_grinders": {
+          "type": "category",
+          "settings": {
+            "title": "Air Angle Grinders",
+            "subtitle": "Shop now",
+            "description": "Air-powered angle grinders for cutting, grinding and finishing metal.",
+            "link": "shopify://collections/air-angle-grinders"
+          }
+        },
+        "category_air_belt_sanders": {
+          "type": "category",
+          "settings": {
+            "title": "Air Belt Sanders",
+            "subtitle": "Shop now",
+            "description": "Air-powered belt sanders for fast material removal and finishing.",
+            "link": "shopify://collections/air-belt-sanders"
+          }
+        },
+        "category_air_bevelling_machines": {
+          "type": "category",
+          "settings": {
+            "title": "Air Bevelling Machines",
+            "subtitle": "Shop now",
+            "description": "Air-powered bevelling machines for preparing weld edges.",
+            "link": "shopify://collections/air-bevelling-machines"
+          }
+        },
+        "category_air_blow_guns": {
+          "type": "category",
+          "settings": {
+            "title": "Air Blow Guns",
+            "subtitle": "Shop now",
+            "description": "Air blow guns for clearing debris, dust and moisture.",
+            "link": "shopify://collections/air-blow-guns"
+          }
+        },
+        "category_air_body_saws": {
+          "type": "category",
+          "settings": {
+            "title": "Air Body Saws",
+            "subtitle": "Shop now",
+            "description": "Air-powered body saws for fast cutting in automotive body work.",
+            "link": "shopify://collections/air-body-saws"
+          }
+        },
+        "category_air_caulking_guns": {
+          "type": "category",
+          "settings": {
+            "title": "Air Caulking Guns",
+            "subtitle": "Shop now",
+            "description": "Air-powered caulking guns for fast, consistent bead application.",
+            "link": "shopify://collections/air-caulking-guns"
+          }
+        },
+        "category_air_concrete_breakers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Concrete Breakers",
+            "subtitle": "Shop now",
+            "description": "Air-powered concrete breakers for demolition and breaking work.",
+            "link": "shopify://collections/air-concrete-breakers"
+          }
+        },
+        "category_air_couplers_and_air_fittings": {
+          "type": "category",
+          "settings": {
+            "title": "Air Couplers and Air Fittings",
+            "subtitle": "Shop now",
+            "description": "Couplers and fittings for connecting air tools to your compressed air supply.",
+            "link": "shopify://collections/air-couplers-and-air-fittings"
+          }
+        },
+        "category_air_cut_off_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Air Cut Off Tools",
+            "subtitle": "Shop now",
+            "description": "Air-powered cut-off tools for fast, clean cuts in metal.",
+            "link": "shopify://collections/air-cut-off-tools"
+          }
+        },
+        "category_air_die_grinders": {
+          "type": "category",
+          "settings": {
+            "title": "Air Die Grinders",
+            "subtitle": "Shop now",
+            "description": "Air-powered die grinders for grinding, shaping and finishing in tight spaces.",
+            "link": "shopify://collections/air-die-grinders"
+          }
+        },
+        "category_air_drills": {
+          "type": "category",
+          "settings": {
+            "title": "Air Drills",
+            "subtitle": "Shop now",
+            "description": "Air-powered drills for drilling in metal, wood and other materials.",
+            "link": "shopify://collections/air-drills"
+          }
+        },
+        "category_air_filter_regulators": {
+          "type": "category",
+          "settings": {
+            "title": "Air Filter Regulators",
+            "subtitle": "Shop now",
+            "description": "Filter regulators that condition and control your compressed air supply.",
+            "link": "shopify://collections/air-filter-regulators"
+          }
+        },
+        "category_air_flux_chippers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Flux Chippers",
+            "subtitle": "Shop now",
+            "description": "Air-powered flux chippers for removing weld slag and flux.",
+            "link": "shopify://collections/air-flux-chippers"
+          }
+        },
+        "category_air_grease_guns": {
+          "type": "category",
+          "settings": {
+            "title": "Air Grease Guns",
+            "subtitle": "Shop now",
+            "description": "Air-powered grease guns for fast, high-volume lubrication work.",
+            "link": "shopify://collections/air-grease-guns"
+          }
+        },
+        "category_air_hammers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Hammers",
+            "subtitle": "Shop now",
+            "description": "Air hammers for cutting, chiselling and demolition work.",
+            "link": "shopify://collections/air-hammers"
+          }
+        },
+        "category_air_hoists": {
+          "type": "category",
+          "settings": {
+            "title": "Air Hoists",
+            "subtitle": "Shop now",
+            "description": "Air-powered hoists for lifting heavy loads in the workshop.",
+            "link": "shopify://collections/air-hoists"
+          }
+        },
+        "category_air_hoses_and_reels": {
+          "type": "category",
+          "settings": {
+            "title": "Air Hoses and Reels",
+            "subtitle": "Shop now",
+            "description": "Air hoses and reels for a tidy, reliable compressed air supply.",
+            "link": "shopify://collections/air-hoses-and-reels"
+          }
+        },
+        "category_air_impact_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Air Impact Wrenches",
+            "subtitle": "Shop now",
+            "description": "Air-powered impact wrenches for fast, high-torque fastening work.",
+            "link": "shopify://collections/air-impact-wrenches"
+          }
+        },
+        "category_air_nailers_staplers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Nailers & Staplers",
+            "subtitle": "Shop now",
+            "description": "Air-powered nailers and staplers for fast fixing work.",
+            "link": "shopify://collections/air-nailers-staplers"
+          }
+        },
+        "category_air_needle_scalers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Needle Scalers",
+            "subtitle": "Shop now",
+            "description": "Air-powered needle scalers for removing rust, scale and old paint.",
+            "link": "shopify://collections/air-needle-scalers"
+          }
+        },
+        "category_air_nibblers_shears": {
+          "type": "category",
+          "settings": {
+            "title": "Air Nibblers & Shears",
+            "subtitle": "Shop now",
+            "description": "Air-powered nibblers and shears for cutting sheet metal cleanly.",
+            "link": "shopify://collections/air-nibblers-shears"
+          }
+        },
+        "category_air_polishers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Polishers",
+            "subtitle": "Shop now",
+            "description": "Air-powered polishers for a fast, smooth finish on paint and metal.",
+            "link": "shopify://collections/air-polishers"
+          }
+        },
+        "category_air_punch_and_flange_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Air Punch and Flange Tools",
+            "subtitle": "Shop now",
+            "description": "Air-powered punch and flange tools for automotive body and panel work.",
+            "link": "shopify://collections/air-punch-and-flange-tools"
+          }
+        },
+        "category_air_ratchet_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Air Ratchet Wrenches",
+            "subtitle": "Shop now",
+            "description": "Air-powered ratchet wrenches for fast fastening in confined spaces.",
+            "link": "shopify://collections/air-ratchet-wrenches"
+          }
+        },
+        "category_air_riveters": {
+          "type": "category",
+          "settings": {
+            "title": "Air Riveters",
+            "subtitle": "Shop now",
+            "description": "Air-powered riveters for fast, reliable pop-riveting work.",
+            "link": "shopify://collections/air-riveters"
+          }
+        },
+        "category_air_sand_rammers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Sand Rammers",
+            "subtitle": "Shop now",
+            "description": "Air-powered sand rammers for foundry and moulding work.",
+            "link": "shopify://collections/air-sand-rammers"
+          }
+        },
+        "category_air_sanders": {
+          "type": "category",
+          "settings": {
+            "title": "Air Sanders",
+            "subtitle": "Shop now",
+            "description": "Air-powered sanders for fast material removal and finishing.",
+            "link": "shopify://collections/air-sanders"
+          }
+        },
+        "category_air_scaling_hammers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Scaling Hammers",
+            "subtitle": "Shop now",
+            "description": "Air-powered scaling hammers for removing rust, scale and coatings.",
+            "link": "shopify://collections/air-scaling-hammers"
+          }
+        },
+        "category_air_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Air-powered screwdrivers for fast, repetitive fastening work.",
+            "link": "shopify://collections/air-screwdrivers"
+          }
+        },
+        "category_air_straight_grinders": {
+          "type": "category",
+          "settings": {
+            "title": "Air Straight Grinders",
+            "subtitle": "Shop now",
+            "description": "Air-powered straight grinders for grinding and finishing in tight spaces.",
+            "link": "shopify://collections/air-straight-grinders"
+          }
+        },
+        "category_air_suction_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Air Suction Tools",
+            "subtitle": "Shop now",
+            "description": "Air-powered suction tools for lifting and handling sheet materials.",
+            "link": "shopify://collections/air-suction-tools"
+          }
+        },
+        "category_air_tappers": {
+          "type": "category",
+          "settings": {
+            "title": "Air Tappers",
+            "subtitle": "Shop now",
+            "description": "Air-powered tapping tools for fast, repeatable thread cutting.",
+            "link": "shopify://collections/air-tappers"
+          }
+        },
+        "category_air_tool_accessories": {
+          "type": "category",
+          "settings": {
+            "title": "Air Tool Accessories",
+            "subtitle": "Shop now",
+            "description": "Accessories to keep your air tools running reliably.",
+            "link": "shopify://collections/air-tool-accessories"
+          }
+        },
+        "category_air_tool_oil": {
+          "type": "category",
+          "settings": {
+            "title": "Air Tool Oil",
+            "subtitle": "Shop now",
+            "description": "Lubricating oil to keep air tools running smoothly and prevent wear.",
+            "link": "shopify://collections/air-tool-oil"
+          }
+        },
+        "category_air_vertical_grinders": {
+          "type": "category",
+          "settings": {
+            "title": "Air Vertical Grinders",
+            "subtitle": "Shop now",
+            "description": "Air-powered vertical grinders for grinding and finishing work.",
+            "link": "shopify://collections/air-vertical-grinders"
+          }
+        },
+        "category_air_vibrators": {
+          "type": "category",
+          "settings": {
+            "title": "Air Vibrators",
+            "subtitle": "Shop now",
+            "description": "Air-powered vibrators for consolidating concrete and bulk materials.",
+            "link": "shopify://collections/air-vibrators"
+          }
+        },
+        "category_spring_balancers": {
+          "type": "category",
+          "settings": {
+            "title": "Spring Balancers",
+            "subtitle": "Shop now",
+            "description": "Spring balancers that suspend air tools within easy reach and reduce fatigue.",
+            "link": "shopify://collections/spring-balancers"
+          }
+        },
+        "category_tyre_inflators": {
+          "type": "category",
+          "settings": {
+            "title": "Tyre Inflators",
+            "subtitle": "Shop now",
+            "description": "Air-powered tyre inflators for fast, accurate tyre pressure checks.",
+            "link": "shopify://collections/tyre-inflators"
+          }
+        }
+      },
+      "block_order": [
+        "category_air_surface_cleaners",
+        "category_air_angle_grinders",
+        "category_air_belt_sanders",
+        "category_air_bevelling_machines",
+        "category_air_blow_guns",
+        "category_air_body_saws",
+        "category_air_caulking_guns",
+        "category_air_concrete_breakers",
+        "category_air_couplers_and_air_fittings",
+        "category_air_cut_off_tools",
+        "category_air_die_grinders",
+        "category_air_drills",
+        "category_air_filter_regulators",
+        "category_air_flux_chippers",
+        "category_air_grease_guns",
+        "category_air_hammers",
+        "category_air_hoists",
+        "category_air_hoses_and_reels",
+        "category_air_impact_wrenches",
+        "category_air_nailers_staplers",
+        "category_air_needle_scalers",
+        "category_air_nibblers_shears",
+        "category_air_polishers",
+        "category_air_punch_and_flange_tools",
+        "category_air_ratchet_wrenches",
+        "category_air_riveters",
+        "category_air_sand_rammers",
+        "category_air_sanders",
+        "category_air_scaling_hammers",
+        "category_air_screwdrivers",
+        "category_air_straight_grinders",
+        "category_air_suction_tools",
+        "category_air_tappers",
+        "category_air_tool_accessories",
+        "category_air_tool_oil",
+        "category_air_vertical_grinders",
+        "category_air_vibrators",
+        "category_spring_balancers",
+        "category_tyre_inflators"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#f4f4f4",
+        "top_divider": true,
+        "top_divider_color": "#e2e2e2",
+        "layout_style": "card",
+        "columns_desktop": "6",
+        "columns_mobile": "2",
+        "contained": false,
+        "card_shadow": true,
+        "divider_width": 20,
+        "divider_width_mobile": 12,
+        "divider_color": "#f4f4f4",
+        "radius": 12,
+        "height": 320,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 22,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "600",
+        "subtitle_color": "#e30613"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
+}

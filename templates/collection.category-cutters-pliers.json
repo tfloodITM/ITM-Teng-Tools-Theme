@@ -1,0 +1,299 @@
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-ac332372-6be7-41d4-8ba3-c07b83b6cc86",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "cover",
+        "image_width": 55,
+        "image_height": 380,
+        "color_scheme": "scheme-3",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_category_icon": true,
+        "icon_size": 40,
+        "icon_color": "#ffffff",
+        "show_accent_bar": true,
+        "accent_bar_color": "#e30613"
+      }
+    },
+    "sub_categories": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_1000v_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "1000V Pliers",
+            "subtitle": "Shop now",
+            "description": "Insulated pliers rated to 1000V for safe work on live electrical systems.",
+            "link": "shopify://collections/1000v-pliers"
+          }
+        },
+        "category_bolt_cutters": {
+          "type": "category",
+          "settings": {
+            "title": "Bolt Cutters",
+            "subtitle": "Shop now",
+            "description": "Heavy-duty cutters built to shear through bolts, chain and rod.",
+            "link": "shopify://collections/bolt-cutters"
+          }
+        },
+        "category_cable_cutters": {
+          "type": "category",
+          "settings": {
+            "title": "Cable Cutters",
+            "subtitle": "Shop now",
+            "description": "Purpose-built cutters for clean cuts through cable and wire.",
+            "link": "shopify://collections/cable-cutters"
+          }
+        },
+        "category_carpenters_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Carpenters Pliers",
+            "subtitle": "Shop now",
+            "description": "Combination pliers built for gripping, cutting and pulling nails on site.",
+            "link": "shopify://collections/carpenters-pliers"
+          }
+        },
+        "category_circlip_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Circlip Pliers",
+            "subtitle": "Shop now",
+            "description": "Internal and external circlip pliers for fitting and removing retaining rings.",
+            "link": "shopify://collections/circlip-pliers"
+          }
+        },
+        "category_end_cutting_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "End Cutting Pliers",
+            "subtitle": "Shop now",
+            "description": "End-cutting pliers for flush cuts on wire and nails close to the surface.",
+            "link": "shopify://collections/end-cutting-pliers"
+          }
+        },
+        "category_flush_cut_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Flush Cut Pliers",
+            "subtitle": "Shop now",
+            "description": "Flush-cut pliers that leave a clean, low-profile cut on wire and pins.",
+            "link": "shopify://collections/flush-cut-pliers"
+          }
+        },
+        "category_groove_joint_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Groove Joint Pliers",
+            "subtitle": "Shop now",
+            "description": "Adjustable groove joint pliers for gripping pipe, fittings and fasteners of varying sizes.",
+            "link": "shopify://collections/groove-joint-pliers"
+          }
+        },
+        "category_linesman_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Linesman Pliers",
+            "subtitle": "Shop now",
+            "description": "Heavy-duty linesman pliers for cutting, gripping and twisting wire.",
+            "link": "shopify://collections/linesman-pliers"
+          }
+        },
+        "category_locking_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Locking Pliers",
+            "subtitle": "Shop now",
+            "description": "Self-locking pliers that clamp and hold fast, freeing up your hands.",
+            "link": "shopify://collections/locking-pliers"
+          }
+        },
+        "category_long_nose_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Long Nose Pliers",
+            "subtitle": "Shop now",
+            "description": "Long nose pliers for precise gripping and bending in tight spaces.",
+            "link": "shopify://collections/long-nose-pliers"
+          }
+        },
+        "category_mini_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Mini Pliers",
+            "subtitle": "Shop now",
+            "description": "Compact pliers for fine, detailed work in confined spaces.",
+            "link": "shopify://collections/mini-pliers"
+          }
+        },
+        "category_needle_nose_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Needle Nose Pliers",
+            "subtitle": "Shop now",
+            "description": "Fine-tipped needle nose pliers for precision work in tight spots.",
+            "link": "shopify://collections/needle-nose-pliers"
+          }
+        },
+        "category_pincer_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Pincer Pliers",
+            "subtitle": "Shop now",
+            "description": "Pincer pliers for pulling nails and gripping round stock.",
+            "link": "shopify://collections/pincer-pliers"
+          }
+        },
+        "category_plier_sets": {
+          "type": "category",
+          "settings": {
+            "title": "Plier Sets",
+            "subtitle": "Shop now",
+            "description": "Complete plier sets covering every type you'll need on the job.",
+            "link": "shopify://collections/plier-sets"
+          }
+        },
+        "category_pvc_cutters": {
+          "type": "category",
+          "settings": {
+            "title": "PVC Cutters",
+            "subtitle": "Shop now",
+            "description": "Purpose-built cutters for clean, square cuts through PVC pipe and tubing.",
+            "link": "shopify://collections/pvc-cutters"
+          }
+        },
+        "category_scissors": {
+          "type": "category",
+          "settings": {
+            "title": "Scissors",
+            "subtitle": "Shop now",
+            "description": "Heavy-duty workshop scissors for everyday cutting tasks.",
+            "link": "shopify://collections/scissors"
+          }
+        },
+        "category_side_cutters": {
+          "type": "category",
+          "settings": {
+            "title": "Side Cutters",
+            "subtitle": "Shop now",
+            "description": "Side-cutting pliers for trimming wire close and clean.",
+            "link": "shopify://collections/side-cutters"
+          }
+        },
+        "category_tin_snips": {
+          "type": "category",
+          "settings": {
+            "title": "Tin Snips",
+            "subtitle": "Shop now",
+            "description": "Aviation-style snips for cutting sheet metal cleanly and accurately.",
+            "link": "shopify://collections/tin-snips"
+          }
+        },
+        "category_tube_pipe_cutters": {
+          "type": "category",
+          "settings": {
+            "title": "Tube & Pipe Cutters",
+            "subtitle": "Shop now",
+            "description": "Purpose-built cutters for clean, square cuts on tube and pipe.",
+            "link": "shopify://collections/tube-pipe-cutters"
+          }
+        },
+        "category_water_pump_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Water Pump Pliers",
+            "subtitle": "Shop now",
+            "description": "Multi-position water pump pliers for gripping pipes and fittings of varying sizes.",
+            "link": "shopify://collections/water-pump-pliers"
+          }
+        },
+        "category_wire_crimping_stripping_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Wire Crimping & Stripping Pliers",
+            "subtitle": "Shop now",
+            "description": "Combination pliers for stripping insulation and crimping terminals in one tool.",
+            "link": "shopify://collections/wire-crimping-stripping-pliers"
+          }
+        }
+      },
+      "block_order": [
+        "category_1000v_pliers",
+        "category_bolt_cutters",
+        "category_cable_cutters",
+        "category_carpenters_pliers",
+        "category_circlip_pliers",
+        "category_end_cutting_pliers",
+        "category_flush_cut_pliers",
+        "category_groove_joint_pliers",
+        "category_linesman_pliers",
+        "category_locking_pliers",
+        "category_long_nose_pliers",
+        "category_mini_pliers",
+        "category_needle_nose_pliers",
+        "category_pincer_pliers",
+        "category_plier_sets",
+        "category_pvc_cutters",
+        "category_scissors",
+        "category_side_cutters",
+        "category_tin_snips",
+        "category_tube_pipe_cutters",
+        "category_water_pump_pliers",
+        "category_wire_crimping_stripping_pliers"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#f4f4f4",
+        "top_divider": true,
+        "top_divider_color": "#e2e2e2",
+        "layout_style": "card",
+        "columns_desktop": "6",
+        "columns_mobile": "2",
+        "contained": false,
+        "card_shadow": true,
+        "divider_width": 20,
+        "divider_width_mobile": 12,
+        "divider_color": "#f4f4f4",
+        "radius": 12,
+        "height": 320,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 22,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "600",
+        "subtitle_color": "#e30613"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
+}
