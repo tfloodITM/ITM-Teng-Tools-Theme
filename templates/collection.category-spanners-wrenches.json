@@ -192,6 +192,15 @@
             "link": "shopify://collections/quick-ring-wrenches"
           }
         },
+        "category_ratchet_podgers": {
+          "type": "category",
+          "settings": {
+            "title": "Ratchet Podgers",
+            "subtitle": "Shop now",
+            "description": "Ratchet ring spanners with a tapered podger point for aligning holes in scaffolding and steel work.",
+            "link": "shopify://collections/ratchet-podgers"
+          }
+        },
         "category_ratchet_ring_spanners": {
           "type": "category",
           "settings": {
@@ -208,6 +217,15 @@
             "subtitle": "Shop now",
             "description": "Compact rigger jigger spanners for scaffolding and rigging work.",
             "link": "shopify://collections/rigger-jigger-spanners"
+          }
+        },
+        "category_slogging_spanners": {
+          "type": "category",
+          "settings": {
+            "title": "Slogging Spanners",
+            "subtitle": "Shop now",
+            "description": "Heavy-duty slogging spanners built to be struck with a hammer for extra torque on stubborn fasteners.",
+            "link": "shopify://collections/slogging-spanners"
           }
         },
         "category_spanner_holders": {
@@ -274,8 +292,10 @@
         "category_pin_wrenches",
         "category_pipe_wrenches",
         "category_quick_ring_wrenches",
+        "category_ratchet_podgers",
         "category_ratchet_ring_spanners",
         "category_rigger_jigger_spanners",
+        "category_slogging_spanners",
         "category_spanner_holders",
         "category_specialist_wrenches",
         "category_stubby_combination_spanners",
