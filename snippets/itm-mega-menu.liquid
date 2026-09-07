@@ -305,10 +305,15 @@
        ancestors by default (form elements opt out of that) — it was
        silently falling back to the browser's own "normal", a few px
        taller than what everything else here actually resolves to. */
-    font-weight:800; /* `font:inherit` here was quietly wiping out the
+    font-weight:900; /* `font:inherit` here was quietly wiping out the
       bold weight .itm-mega__top otherwise gives every other nav item —
       set explicitly, and a touch bolder than the rest since Products is
-      the primary trigger */
+      the primary trigger. 900, not 800: this theme's self-hosted
+      Montserrat only ships 400/700/900 weight files (see base font setup)
+      — 800 has no real file to render from, so the browser was faking a
+      synthetic bold for it, which visibly renders differently (that's the
+      "looks like a different font" from Support & Resources next to it).
+      900 is a real loaded weight, so it's genuinely bolder, not faked. */
     color:{{ trigger_text_color }} !important;
     /* Padding-left/right only — top/bottom stay whatever .itm-mega__top's
        shorthand + the border-bottom fix above already resolve to, so this
@@ -375,7 +380,15 @@
        hover-cube above compensates for is missing here too, so pull it
        back out with a negative margin to reach the full 58.6px row. */
     margin:-6px 0;
-    background:color-mix(in srgb, currentColor 20%, transparent);
+    {%- comment -%}
+      Was color-mix(currentColor 20%, transparent) — currentColor here
+      resolves to .itm-mega__top's own dark text colour (rgb(var(--color-
+      foreground))), not the bar's actual background, so on the red bar it
+      rendered as a barely-visible dark sliver instead of a clean divider.
+      Explicit white fixes that regardless of what colour scheme the bar
+      itself ends up using.
+    {%- endcomment -%}
+    background:rgba(255, 255, 255, 0.35);
   }
 
   {%- comment -%}
