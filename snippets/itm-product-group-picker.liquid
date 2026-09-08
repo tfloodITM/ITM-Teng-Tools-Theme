@@ -147,7 +147,7 @@
     </div>
   </div>
 
-  <div class="itm-pg-picker__list-wrap">
+  <div class="itm-pg-picker__list-wrap" data-pg-list-wrap>
     <div class="itm-pg-picker__list-head medium-up-hide-not">
       <button type="button" class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--name" data-pg-sort-key="name">
         Model <span class="itm-pg-picker__sort-arrow"></span>
@@ -258,6 +258,22 @@
         </li>
       {%- endfor -%}
     </ul>
+  </div>
+
+  {%- comment -%}
+    Floating horizontal scrollbar — mirrors .itm-pg-picker__list-wrap's own
+    scrollbar, but pins to the bottom of the VIEWPORT (not the table)
+    whenever the table is taller than the screen, so someone looking at
+    row 3 of 17 doesn't have to scroll all the way down to the table's own
+    native scrollbar just to pan sideways through the spec columns. Synced
+    both ways with the real wrap's scrollLeft by the script below. Hidden
+    entirely once the table doesn't need horizontal scrolling at all, and
+    once the table's own bottom (native scrollbar included) has actually
+    scrolled into view — nothing left to float over at that point, the
+    real one right there does the job.
+  {%- endcomment -%}
+  <div class="itm-pg-picker__floating-scroll" data-pg-floating-scroll hidden aria-hidden="true">
+    <div class="itm-pg-picker__floating-scroll-track" data-pg-floating-scroll-track></div>
   </div>
 </div>
 
@@ -388,6 +404,81 @@
       currentDir = currentDir * -1;
       applySort(currentKey, currentDir);
     });
+  }
+
+  {% comment %}
+    Floating horizontal scrollbar (desktop only — see the @media rule in
+    the CSS below, which just hides .itm-pg-picker__floating-scroll
+    outright on mobile). Two states only:
+      1. Table needs no horizontal scroll at all → stay hidden, always.
+      2. Table needs it, and its own bottom edge (native scrollbar
+         included) is currently below the viewport → show this floating
+         bar pinned to the viewport's own bottom edge instead, so
+         whichever row you're looking at, the means to scroll sideways
+         is always on screen.
+    The moment the table's real bottom scrolls up into view, this hides
+    again — the actual scrollbar is right there to take over, so there's
+    nothing left to float over. scrollLeft is kept in sync both ways so
+    either one can be dragged interchangeably.
+  {% endcomment %}
+  var scrollWrap  = picker.querySelector('[data-pg-list-wrap]');
+  var floatBar    = picker.querySelector('[data-pg-floating-scroll]');
+  var floatTrack  = floatBar ? floatBar.querySelector('[data-pg-floating-scroll-track]') : null;
+
+  if (scrollWrap && floatBar && floatTrack) {
+    var syncingFromWrap = false;
+    var syncingFromFloat = false;
+    var layoutQueued = false;
+
+    function layoutFloatingScroll() {
+      layoutQueued = false;
+      floatTrack.style.width = scrollWrap.scrollWidth + 'px';
+
+      var needsScroll = scrollWrap.scrollWidth > scrollWrap.clientWidth + 1;
+      if (!needsScroll) {
+        floatBar.hidden = true;
+        return;
+      }
+
+      var rect = scrollWrap.getBoundingClientRect();
+      var viewportH = window.innerHeight || document.documentElement.clientHeight;
+      var shouldFloat = rect.top < viewportH && rect.bottom > viewportH;
+
+      floatBar.hidden = !shouldFloat;
+      if (shouldFloat) {
+        floatBar.style.left = rect.left + 'px';
+        floatBar.style.width = rect.width + 'px';
+        if (floatBar.scrollLeft !== scrollWrap.scrollLeft) {
+          syncingFromWrap = true;
+          floatBar.scrollLeft = scrollWrap.scrollLeft;
+          syncingFromWrap = false;
+        }
+      }
+    }
+
+    function queueLayout() {
+      if (layoutQueued) return;
+      layoutQueued = true;
+      window.requestAnimationFrame(layoutFloatingScroll);
+    }
+
+    scrollWrap.addEventListener('scroll', function () {
+      if (syncingFromFloat) return;
+      syncingFromWrap = true;
+      floatBar.scrollLeft = scrollWrap.scrollLeft;
+      syncingFromWrap = false;
+    });
+
+    floatBar.addEventListener('scroll', function () {
+      if (syncingFromWrap) return;
+      syncingFromFloat = true;
+      scrollWrap.scrollLeft = floatBar.scrollLeft;
+      syncingFromFloat = false;
+    });
+
+    window.addEventListener('scroll', queueLayout, { passive: true });
+    window.addEventListener('resize', queueLayout);
+    layoutFloatingScroll();
   }
 })();
 </script>
@@ -638,6 +729,30 @@
   .itm-pg-picker__sort-btn--actions { flex: 0 0 130px; padding-top: 0; padding-bottom: 0; cursor: default; }
 
   {%- comment -%}
+    Floating scrollbar — [hidden] by default (see the markup) and toggled
+    by the script above via that same attribute. position: fixed with
+    left/width set in JS from the real wrap's getBoundingClientRect(), so
+    it always sits exactly under the table regardless of the page's own
+    layout/sidebar. z-index above the sticky Model/Price columns (3)
+    since it needs to sit on top of the whole table, not behind it.
+  {%- endcomment -%}
+  .itm-pg-picker__floating-scroll {
+    position: fixed;
+    bottom: 0;
+    height: 14px;
+    z-index: 10;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    background: #f4f4f4;
+    border-top: 1px solid #d8d8d8;
+  }
+  .itm-pg-picker__floating-scroll[hidden] { display: none; }
+  .itm-pg-picker__floating-scroll-track {
+    {%- comment -%} Height only — width is set in JS to match the real table's scrollWidth, so the two thumbs are always the same proportional size. {%- endcomment -%}
+    height: 1px;
+  }
+
+  {%- comment -%}
     Closes the table into a neat bordered box on desktop — left/right
     borders on the wrap itself (the header's own border-bottom already
     draws the line under "Model / Size / .../ Price", and the top/bottom
@@ -875,6 +990,14 @@
     .itm-pg-picker__item:last-child { border-bottom: 1px solid #e2e2e2; }
     .itm-pg-picker__list-head { display: none; }
     .itm-pg-picker__cell { display: none; }
+    {%- comment -%}
+      Mobile never scrolls this table horizontally (rows stack instead —
+      see .itm-pg-picker__row below), so there's nothing for the floating
+      scrollbar to ever mirror. !important beats the inline style the
+      script sets on this element (display isn't one of the properties it
+      touches, but this keeps it unconditionally off regardless).
+    {%- endcomment -%}
+    .itm-pg-picker__floating-scroll { display: none !important; }
     .itm-pg-picker__row {
       flex-wrap: wrap;
       width: auto;
