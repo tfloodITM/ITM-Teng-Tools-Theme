@@ -775,7 +775,7 @@
         "underline_active": true,
         "circle_border_width_active": 1,
         "circle_border_color_active": "#000000",
-        "show_view_all": true,
+        "show_view_all": false,
         "view_all_style": "underline",
         "view_all_height": 44,
         "view_all_radius": 4,

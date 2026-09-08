@@ -248,20 +248,25 @@
       <button type="button" class="sbc__pills-arrow sbc__pills-arrow--prev" data-sbc-scroll="prev" aria-label="Scroll categories left" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
       </button>
-      <div class="sbc__pills" role="tablist" data-sbc-pills>
+      {%- comment -%}
+        Category circles are now plain links straight to each collection —
+        no more in-page tab-switching, so no role="tablist"/"tab", no
+        aria-selected, no is-active default state. That "is-active" used
+        to mark whichever tab's products panel was currently showing
+        below; there's no such panel anymore, so nothing is ever
+        "selected" here — every circle behaves identically (default state
+        + hover), including the first one, which used to start
+        pre-underlined for exactly that now-gone reason.
+      {%- endcomment -%}
+      <div class="sbc__pills" data-sbc-pills>
         {%- assign pill_index = 0 -%}
         {%- for block in section.blocks -%}
           {%- assign col = block.settings.collection -%}
           {%- if col -%}
             {%- assign pill_label = block.settings.label | default: col.title -%}
-            <button
-              class="sbc__pill{% if pill_index == 0 %} is-active{% endif %}"
-              data-sbc-tab="{{ section.id }}-{{ pill_index }}"
-              data-sbc-url="{{ col.url }}"
-              data-sbc-label="{{ pill_label }}"
-              role="tab"
-              aria-selected="{% if pill_index == 0 %}true{% else %}false{% endif %}"
-              aria-controls="sbc-panel-{{ section.id }}-{{ pill_index }}"
+            <a
+              href="{{ col.url }}"
+              class="sbc__pill"
               {{ block.shopify_attributes }}
             >
               {%- comment -%}
@@ -289,7 +294,7 @@
                 {%- endif -%}
               </span>
               <span class="sbc__pill-label">{{ pill_label }}</span>
-            </button>
+            </a>
             {%- assign pill_index = pill_index | plus: 1 -%}
           {%- endif -%}
         {%- endfor -%}
@@ -324,12 +329,20 @@
   {%- for block in section.blocks -%}
     {%- assign col = block.settings.collection -%}
     {%- if col -%}
+      {%- comment -%}
+        Always hidden now, including panel 0 — the circles above no longer
+        switch a tab to reveal one of these (they're plain links straight
+        to the collection instead), so there's no interaction left that
+        can ever un-hide any panel. Left in place rather than deleted, in
+        case this in-page product preview is wanted again later — it's
+        fully inert like this, costs nothing to keep.
+      {%- endcomment -%}
       <div
         id="sbc-panel-{{ section.id }}-{{ panel_index }}"
-        class="sbc__panel{% if panel_index == 0 %} is-active{% endif %}"
+        class="sbc__panel"
         data-sbc-panel="{{ section.id }}-{{ panel_index }}"
         role="tabpanel"
-        {% if panel_index != 0 %}hidden{% endif %}
+        hidden
       >
         <div class="sbc__grid" style="--sbc-cols: {{ section.settings.products_per_row }};">
           {%- for product in col.products limit: section.settings.products_limit -%}
@@ -541,6 +554,13 @@
 .sbc__pills::-webkit-scrollbar { display: none; }
 .sbc__pill { flex-shrink: 0; }
 
+{%- comment -%}
+  text-decoration: none — this used to be a <button>, which never gets a
+  default underline; now that it's a real <a> (see the markup above),
+  without this the browser's own default link underline would otherwise
+  show under the label text all the time, not just on the ":hover" rule
+  further up that's actually meant to draw it.
+{%- endcomment -%}
 .sbc__pill {
   display: flex;
   flex-direction: column;
@@ -549,6 +569,7 @@
   background: transparent;
   padding: 0;
   cursor: pointer;
+  text-decoration: none;
   font-family: var(--font-heading-family);
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -1032,37 +1053,14 @@
 <script>
 (function () {
 
-  /* ── Tab switching + View All sync ── */
-  document.querySelectorAll('[data-sbc-section]').forEach(function (section) {
-    section.querySelectorAll('[data-sbc-tab]').forEach(function (pill) {
-      pill.addEventListener('click', function () {
-        var id    = pill.dataset.sbcTab;
-        var url   = pill.dataset.sbcUrl;
-        var label = pill.dataset.sbcLabel;
-
-        section.querySelectorAll('[data-sbc-tab]').forEach(function (p) {
-          p.classList.remove('is-active');
-          p.setAttribute('aria-selected', 'false');
-        });
-        pill.classList.add('is-active');
-        pill.setAttribute('aria-selected', 'true');
-        pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-        section.querySelectorAll('[data-sbc-panel]').forEach(function (panel) {
-          panel.hidden = true;
-          panel.classList.remove('is-active');
-        });
-        var target = section.querySelector('[data-sbc-panel="' + id + '"]');
-        if (target) { target.hidden = false; target.classList.add('is-active'); equaliseBands(section); }
-
-        section.querySelectorAll('[data-sbc-view-all]').forEach(function (link) {
-          if (url) link.href = url;
-          var textSpan = link.querySelector('.sbc__val-text');
-          if (textSpan && label) textSpan.textContent = 'View All ' + label;
-        });
-      });
-    });
-  });
+  {%- comment -%}
+    The old tab-switching + View All sync block lived here — it listened
+    for clicks on [data-sbc-tab], which no longer exists on anything now
+    that the circles are plain <a href> links straight to each collection
+    (see the pills markup above). Removed rather than left dead, since it
+    referenced attributes (data-sbc-tab/-url/-label, [data-sbc-panel],
+    [data-sbc-view-all]) that no longer mean anything here.
+  {%- endcomment -%}
 
   /* ── Category circles: scroll arrows (mobile) ──
      The prev arrow only ever shows once the row has actually been scrolled
