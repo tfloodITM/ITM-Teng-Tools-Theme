@@ -470,14 +470,25 @@
     width: max-content;
     min-width: 100%;
   }
+  {%- comment -%}
+    Vertical padding only — the 16px horizontal inset that used to live
+    here is now the sticky rules' own left: 16px / right: 16px (below),
+    since sticky measures its offset from the scroll container, not from
+    this padding. Keeping padding here TOO would double the gap.
+  {%- endcomment -%}
   .itm-pg-picker__list-head {
-    padding: 12px 16px;
+    padding: 12px 0;
     border-bottom: 1px solid #e2e2e2;
     background: #ffffff;
+    border-radius: 5px 5px 0 0;
   }
   .itm-pg-picker__sort-btn {
     flex: 0 0 150px;
     min-width: 0;
+    max-width: 150px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -513,11 +524,20 @@
     box-shadow on the scroll-facing edge is the same "there's more here"
     affordance a spreadsheet's frozen columns use.
   {%- endcomment -%}
+  {%- comment -%}
+    left/right are 16px, not 0 — sticky measures its offset against the
+    SCROLL CONTAINER's edge, completely ignoring the row/header's own
+    padding (that padding only ever applied while the element was still in
+    normal flow) — so left: 0 put Add to Cart and Model flush against the
+    scrollport with no breathing room the instant they actually stuck. This
+    keeps the same 16px gutter the row's own padding uses, whether stuck or
+    not.
+  {%- endcomment -%}
   .itm-pg-picker__sort-btn--name,
   .itm-pg-picker__name {
     position: sticky;
-    left: 0;
-    z-index: 2;
+    left: 16px;
+    z-index: 3;
     flex: 0 0 210px;
     background: var(--pg-row-bg, #ffffff);
     box-shadow: 6px 0 8px -6px rgba(0, 0, 0, 0.15);
@@ -525,8 +545,8 @@
   .itm-pg-picker__list-head-end,
   .itm-pg-picker__row-end {
     position: sticky;
-    right: 0;
-    z-index: 2;
+    right: 16px;
+    z-index: 3;
     flex: 0 0 auto;
     {%- comment -%}
       margin-left: auto keeps this flush against the right edge even when
@@ -554,31 +574,49 @@
     own border-bottom below).
   {%- endcomment -%}
   {%- comment -%}
-    overflow-y (not the shorthand overflow) so this doesn't clobber the
-    overflow-x: auto set above — both target the same element, and the
-    shorthand would reset overflow-x back to hidden, silently killing the
-    horizontal scroll this whole layout depends on.
+    No overflow: hidden here — mismatched overflow-x/overflow-y values on
+    the same element (auto + hidden) is exactly the kind of thing that
+    makes position: sticky behave unreliably, which is what was happening.
+    The rounded-corner look this used to get from clipping is done by
+    rounding the header's own top corners and the last row's own bottom
+    corners directly instead — same result, no clipping needed at all.
   {%- endcomment -%}
   .itm-pg-picker__list-wrap {
     border: 1px solid #e2e2e2;
     border-radius: 6px;
-    overflow-y: hidden;
   }
   .itm-pg-picker__list { border-top: none; }
   .itm-pg-picker__item:last-child { border-bottom: none; }
+  .itm-pg-picker__item:last-child .itm-pg-picker__row { border-radius: 0 0 5px 5px; }
   {%- comment -%}
     Zebra striping — exactly two flat shades total (white / grey). The
     specs block (mobile only) has no background of its own — it shows
     whatever colour its parent .itm-pg-picker__item already is, so the
     whole item reads as one solid band.
+
+    width: max-content + min-width: 100% here too, matching .itm-pg-picker
+    __row/__list-head — without it, the LI itself stays at its ordinary
+    block width (the visible viewport) while its .row child grows wider to
+    fit every spec column, so the row's content visibly overflowed the LI
+    with nothing behind it: no zebra background, no border-bottom, past
+    wherever the original unscrolled width ended. That gap of "nothing" is
+    exactly the stray grey/white boxes and missing dividers.
   {%- endcomment -%}
   .itm-pg-picker__item {
     --pg-row-bg: #ffffff;
+    width: max-content;
+    min-width: 100%;
     border-bottom: 1px solid #e2e2e2;
     background: var(--pg-row-bg);
   }
   .itm-pg-picker__item:nth-child(even) { --pg-row-bg: #f4f4f4; }
-  .itm-pg-picker__row { padding: 12px 16px; }
+  .itm-pg-picker__row { padding: 12px 0; }
+  {%- comment -%}
+    No padding-left here — the sticky rule's "left: 16px" (below) already
+    holds this box's edge 16px off the scrollport, active immediately
+    since Model's natural position (flush left) is always less than that
+    minimum. Adding padding-left here too would double the gap to 32px.
+  {%- endcomment -%}
   .itm-pg-picker__name {
     padding-right: 8px;
     font-family: var(--font-heading-family);
@@ -589,9 +627,22 @@
     line-height: 1.3;
   }
   .itm-pg-picker__name:hover { text-decoration: underline; }
+  {%- comment -%}
+    overflow: hidden + break-word — some scraped spec values come through
+    as one run-on word with no spaces at all (a mis-parsed multi-value
+    field, e.g. "FlipReverseLever"), which white-space: normal can't wrap
+    on its own since there's no space to break at. Without this it just
+    overflowed its 150px box and visibly bled into whatever sat next to it
+    — including, at the far end of a row, the sticky Price/Add to Cart
+    zone.
+  {%- endcomment -%}
   .itm-pg-picker__cell {
     flex: 0 0 150px;
     min-width: 0;
+    max-width: 150px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
     font-size: 13px;
     line-height: 1.35;
     color: #444444;
