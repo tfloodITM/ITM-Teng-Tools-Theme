@@ -79,7 +79,20 @@
   <div class="sbc__slide is-active">
     {{ resolved_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: resolved_title }}
   </div>
+{%- elsif resolved_product.featured_image -%}
+  {%- comment -%}
+    Shopify's own uploaded product photo — reliable, always present when
+    it exists, no dependency on the variant having a SKU or on ITM's
+    external CDN actually having a matching file at a guessed path.
+  {%- endcomment -%}
+  <div class="sbc__slide is-active">
+    {{ resolved_product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: resolved_product.title }}
+  </div>
 {%- elsif resolved_product -%}
+  {%- comment -%}
+    Fallback for the rarer case where Shopify has no image uploaded at all
+    but the product's SKU maps to a real photo on ITM's own CDN.
+  {%- endcomment -%}
   {%- assign group_sku = resolved_product.selected_or_first_available_variant.sku | default: resolved_product.title | strip -%}
   <div class="sbc__slide is-active">
     <img
