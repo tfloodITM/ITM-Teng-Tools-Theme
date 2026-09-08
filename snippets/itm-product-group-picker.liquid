@@ -567,27 +567,60 @@
     otherwise just sits its text at the top of whatever height stretch
     gives it.
   {%- endcomment -%}
+  {%- comment -%}
+    max-width: 210px here is NOT decorative — .itm-pg-picker__sort-btn--name
+    also carries the plain .itm-pg-picker__sort-btn class (for its shared
+    button/font/hover styling), which sets max-width: 150px for every
+    OTHER header column. Without overriding it back to 210px here too,
+    flex: 0 0 210px is silently capped down to 150px on the header only
+    (a <span>/<a> in the body rows never had that class, so it always
+    rendered the full 210px) — the exact reason the divider line sat
+    further left in the header than in the rows below it.
+  {%- endcomment -%}
   .itm-pg-picker__sort-btn--name,
   .itm-pg-picker__name {
     position: sticky;
     left: 0;
     z-index: 3;
     flex: 0 0 210px;
+    max-width: 210px;
     display: flex;
     align-items: center;
     padding: 12px 0 12px 16px;
     background: var(--pg-row-bg, #ffffff);
     border-right: 1px solid #d8d8d8;
   }
+  {%- comment -%}
+    flex: 0 0 241px (a fixed number), not "auto" — auto sizes this box to
+    fit its own content, and relying on the header's two buttons
+    (90 + 12 gap + 110) happening to measure out to the exact same pixel
+    width as the row's price span + Add to Cart button (90 + 12 + 110) is
+    exactly the kind of thing that only needs one tiny rendering
+    difference — different element type, font kerning, a shorter price
+    string — to drift a few px and misalign the two dividers. A fixed
+    number removes that risk entirely, the same way every other column
+    here already uses a fixed width instead of shrink-to-fit.
+
+    241 = 212 content (90 + 12 gap + 110, fixed/non-shrinking children)
+    + 28 padding (12 left + 16 right, below) + 1 border-left — this theme
+    is box-sizing: border-box sitewide, so the box's declared width has
+    to include padding/border, not just its content.
+
+    padding: 12px 16px 12px 12px — 16px on the right (against the
+    scrollport edge, matching the Name column's own left gutter) and now
+    12px on the LEFT too, so the border-left line has breathing room
+    before the price/actions content instead of sitting flush against it.
+  {%- endcomment -%}
   .itm-pg-picker__list-head-end,
   .itm-pg-picker__row-end {
     position: sticky;
     right: 0;
     z-index: 3;
-    flex: 0 0 auto;
-    padding: 12px 16px 12px 0;
+    flex: 0 0 241px;
+    padding: 12px 16px 12px 12px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
     background: var(--pg-row-bg, #ffffff);
     border-left: 1px solid #d8d8d8;
@@ -599,7 +632,7 @@
     12px top/bottom, doubling up to 24px and making this one column taller
     than every other header button.
   {%- endcomment -%}
-  .itm-pg-picker__sort-btn--price { flex: 0 0 90px; padding-top: 0; padding-bottom: 0; padding-left: 12px; }
+  .itm-pg-picker__sort-btn--price { flex: 0 0 90px; padding-top: 0; padding-bottom: 0; }
   .itm-pg-picker__sort-btn--actions { flex: 0 0 110px; padding-top: 0; padding-bottom: 0; cursor: default; }
 
   {%- comment -%}
