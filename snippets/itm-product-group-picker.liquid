@@ -461,23 +461,39 @@
     specs.
   {%- endcomment -%}
   .itm-pg-picker__list-wrap { overflow-x: auto; }
+  {%- comment -%}
+    align-items: stretch (not center) — every cell in a row must be the
+    row's FULL height, not just as tall as its own text, otherwise the
+    sticky Model/Price divider lines only cover the text's own height and
+    show as a short floating dash instead of a continuous line, and don't
+    line up row-to-row (worse still, a row that happens to have a
+    2-line-wrapped spec value is taller overall, so a neighbouring 1-line
+    cell centred within it leaves visible gaps top and bottom). With
+    stretch, every cell's own box — border/background included — always
+    matches its row's real height, so cell-to-cell it reads as one
+    unbroken line down the whole table. Cells that need their text
+    vertically centred (not stretched-and-top-aligned) declare their own
+    "display: flex; align-items: center" below.
+  {%- endcomment -%}
   .itm-pg-picker__list-head,
   .itm-pg-picker__row {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     flex-wrap: nowrap;
     gap: 12px;
     width: max-content;
     min-width: 100%;
   }
   {%- comment -%}
-    Vertical padding only — the 16px horizontal inset that used to live
-    here is now the sticky rules' own left: 16px / right: 16px (below),
-    since sticky measures its offset from the scroll container, not from
-    this padding. Keeping padding here TOO would double the gap.
+    No padding here (moved onto the individual header buttons / the
+    sticky end-cap below) — with align-items: stretch above, the header's
+    own height comes from its tallest child instead, so if THIS row also
+    carried its own 12px top/bottom padding, that would just be dead
+    space stacked on top of the already-padded children rather than
+    matching them, throwing the divider lines' top/bottom edges out of
+    line with the header's own border-bottom.
   {%- endcomment -%}
   .itm-pg-picker__list-head {
-    padding: 12px 0;
     border-bottom: 1px solid #e2e2e2;
     background: #ffffff;
     border-radius: 5px 5px 0 0;
@@ -494,7 +510,7 @@
     gap: 4px;
     border: none;
     background: none;
-    padding: 0;
+    padding: 12px 0;
     font-family: var(--font-heading-family);
     font-size: 11px;
     font-weight: 700;
@@ -539,6 +555,17 @@
     actually stopping when scrolled: the auto margin confused the sticky
     calculation for the whole block, even though it looked fine when the
     table happened to be scrolled all the way).
+
+    padding-top/bottom: 12px + display: flex; align-items: center — the
+    row/head no longer carry any vertical padding of their own (see
+    align-items: stretch above), so every sticky box needs that padding
+    on ITSELF: it's what makes the box (and so its border-right/left and
+    background) reach the row's true full height with zero gap top or
+    bottom, closing the "line stops short of the row edges" bug. Centring
+    the text back inside that now-taller box is what "display: flex;
+    align-items: center" on .itm-pg-picker__name is for — a plain <a>
+    otherwise just sits its text at the top of whatever height stretch
+    gives it.
   {%- endcomment -%}
   .itm-pg-picker__sort-btn--name,
   .itm-pg-picker__name {
@@ -546,7 +573,9 @@
     left: 0;
     z-index: 3;
     flex: 0 0 210px;
-    padding-left: 16px;
+    display: flex;
+    align-items: center;
+    padding: 12px 0 12px 16px;
     background: var(--pg-row-bg, #ffffff);
     border-right: 1px solid #d8d8d8;
   }
@@ -556,15 +585,22 @@
     right: 0;
     z-index: 3;
     flex: 0 0 auto;
-    padding-right: 16px;
+    padding: 12px 16px 12px 0;
     display: flex;
     align-items: center;
     gap: 12px;
     background: var(--pg-row-bg, #ffffff);
     border-left: 1px solid #d8d8d8;
   }
-  .itm-pg-picker__sort-btn--price { flex: 0 0 90px; padding-left: 12px; }
-  .itm-pg-picker__sort-btn--actions { flex: 0 0 110px; cursor: default; }
+  {%- comment -%}
+    padding-top/bottom: 0 on both — they sit inside .itm-pg-picker__list-head-end,
+    which already carries its own 12px top/bottom padding (above); without
+    this reset they'd ALSO keep the base .itm-pg-picker__sort-btn rule's
+    12px top/bottom, doubling up to 24px and making this one column taller
+    than every other header button.
+  {%- endcomment -%}
+  .itm-pg-picker__sort-btn--price { flex: 0 0 90px; padding-top: 0; padding-bottom: 0; padding-left: 12px; }
+  .itm-pg-picker__sort-btn--actions { flex: 0 0 110px; padding-top: 0; padding-bottom: 0; cursor: default; }
 
   {%- comment -%}
     Closes the table into a neat bordered box on desktop — left/right
@@ -610,14 +646,22 @@
     background: var(--pg-row-bg);
   }
   .itm-pg-picker__item:nth-child(even) { --pg-row-bg: #f4f4f4; }
-  .itm-pg-picker__row { padding: 12px 0; }
   {%- comment -%}
-    No padding-left here — the sticky rule (below, shared with
-    .itm-pg-picker__sort-btn--name) already carries "padding-left: 16px"
-    directly on the sticky box itself, so its opaque background covers
-    all the way to the true scroll edge (left: 0) with the 16px gutter
-    just inset text within it. Adding padding-left here too would double
-    the gap to 32px.
+    No padding on the row itself — align-items: stretch (above) means
+    every cell's own padding IS the row's height, so padding here too
+    would just add dead space on top of that, throwing rows out of sync
+    with the header and re-opening the "divider line doesn't reach the
+    row's real edges" gap this was built to close.
+  {%- endcomment -%}
+  {%- comment -%}
+    No padding-left/top/bottom here either — the sticky rule (above,
+    shared with .itm-pg-picker__sort-btn--name) already carries
+    "padding: 12px 0 12px 16px" directly on the sticky box itself, so its
+    opaque background covers all the way to the true scroll edge
+    (left: 0) with the 16px/12px gutters just inset text within it.
+    Repeating any of that here would double the gap. padding-right: 8px
+    below is the one side the sticky rule leaves at 0, so it's set here
+    instead — the gap before the next (scrolling) column.
   {%- endcomment -%}
   .itm-pg-picker__name {
     padding-right: 8px;
@@ -645,6 +689,9 @@
     overflow: hidden;
     overflow-wrap: break-word;
     word-break: break-word;
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
     font-size: 13px;
     line-height: 1.35;
     color: #444444;
@@ -797,8 +844,7 @@
       background: none;
       flex: 1 1 auto;
       width: 100%;
-      padding-left: 0;
-      padding-right: 0;
+      padding: 0;
       order: 1;
       text-align: left !important;
     }
@@ -810,6 +856,8 @@
       flex: 1 1 auto;
       width: 100%;
       margin-left: 0;
+      padding-top: 0;
+      padding-bottom: 0;
       padding-right: 0;
       justify-content: space-between;
     }
