@@ -261,19 +261,26 @@
   </div>
 
   {%- comment -%}
-    Floating horizontal scrollbar — mirrors .itm-pg-picker__list-wrap's own
-    scrollbar, but pins to the bottom of the VIEWPORT (not the table)
-    whenever the table is taller than the screen, so someone looking at
-    row 3 of 17 doesn't have to scroll all the way down to the table's own
-    native scrollbar just to pan sideways through the spec columns. Synced
-    both ways with the real wrap's scrollLeft by the script below. Hidden
-    entirely once the table doesn't need horizontal scrolling at all, and
-    once the table's own bottom (native scrollbar included) has actually
-    scrolled into view — nothing left to float over at that point, the
-    real one right there does the job.
+    Floating horizontal scrollbar — pins to the bottom of the VIEWPORT
+    (not the table) whenever the table is taller than the screen, so
+    someone looking at row 3 of 17 doesn't have to scroll all the way
+    down to the table's own native scrollbar just to pan sideways through
+    the spec columns. Hidden entirely once the table doesn't need
+    horizontal scrolling at all, and once the table's own bottom (native
+    scrollbar included) has actually scrolled into view — nothing left to
+    float over at that point, the real one right there does the job.
+
+    This is a hand-drawn thumb (see the script below), not a native
+    overflow:scroll element mirroring the real one — a native scrollbar
+    only reliably shows a visible, grabbable handle in "classic" mode;
+    most modern browsers/OSes render it as an overlay that's invisible
+    until hovered or actively scrolling, which is exactly why the first
+    version of this looked like an empty line with nothing to grab.
+    Drawing the thumb ourselves means it always looks the same regardless
+    of the visitor's OS/browser scrollbar settings.
   {%- endcomment -%}
   <div class="itm-pg-picker__floating-scroll" data-pg-floating-scroll hidden aria-hidden="true">
-    <div class="itm-pg-picker__floating-scroll-track" data-pg-floating-scroll-track></div>
+    <div class="itm-pg-picker__floating-scroll-thumb" data-pg-floating-scroll-thumb></div>
   </div>
 </div>
 
@@ -418,21 +425,42 @@
          is always on screen.
     The moment the table's real bottom scrolls up into view, this hides
     again — the actual scrollbar is right there to take over, so there's
-    nothing left to float over. scrollLeft is kept in sync both ways so
-    either one can be dragged interchangeably.
+    nothing left to float over.
+
+    The thumb is hand-drawn and hand-dragged (pointer events), not a
+    native overflow:scroll element — see the comment on the markup for
+    why a real native scrollbar doesn't work here (most browsers/OSes
+    render it as an invisible-until-hovered overlay).
   {% endcomment %}
   var scrollWrap  = picker.querySelector('[data-pg-list-wrap]');
   var floatBar    = picker.querySelector('[data-pg-floating-scroll]');
-  var floatTrack  = floatBar ? floatBar.querySelector('[data-pg-floating-scroll-track]') : null;
+  var floatThumb  = floatBar ? floatBar.querySelector('[data-pg-floating-scroll-thumb]') : null;
 
-  if (scrollWrap && floatBar && floatTrack) {
-    var syncingFromWrap = false;
-    var syncingFromFloat = false;
+  if (scrollWrap && floatBar && floatThumb) {
     var layoutQueued = false;
+    var dragging = false;
+    var dragStartX = 0;
+    var dragStartScrollLeft = 0;
+
+    function maxScrollLeft() {
+      return scrollWrap.scrollWidth - scrollWrap.clientWidth;
+    }
+
+    function updateThumb() {
+      var trackWidth = floatBar.clientWidth;
+      var visibleRatio = trackWidth / scrollWrap.scrollWidth;
+      {% comment %} 30px floor — a proportionally-sized thumb on a very wide (many-column) table can otherwise shrink to just a few px, too small to reliably grab. {% endcomment %}
+      var thumbWidth = Math.max(trackWidth * visibleRatio, 30);
+      var maxThumbLeft = trackWidth - thumbWidth;
+      var scrollable = maxScrollLeft();
+      var thumbLeft = scrollable > 0 ? (scrollWrap.scrollLeft / scrollable) * maxThumbLeft : 0;
+
+      floatThumb.style.width = thumbWidth + 'px';
+      floatThumb.style.left = thumbLeft + 'px';
+    }
 
     function layoutFloatingScroll() {
       layoutQueued = false;
-      floatTrack.style.width = scrollWrap.scrollWidth + 'px';
 
       var needsScroll = scrollWrap.scrollWidth > scrollWrap.clientWidth + 1;
       if (!needsScroll) {
@@ -448,11 +476,7 @@
       if (shouldFloat) {
         floatBar.style.left = rect.left + 'px';
         floatBar.style.width = rect.width + 'px';
-        if (floatBar.scrollLeft !== scrollWrap.scrollLeft) {
-          syncingFromWrap = true;
-          floatBar.scrollLeft = scrollWrap.scrollLeft;
-          syncingFromWrap = false;
-        }
+        updateThumb();
       }
     }
 
@@ -462,18 +486,54 @@
       window.requestAnimationFrame(layoutFloatingScroll);
     }
 
+    {% comment %} Real table scrolled (mouse wheel/trackpad/its own native bar) — keep the floating thumb in sync. {% endcomment %}
     scrollWrap.addEventListener('scroll', function () {
-      if (syncingFromFloat) return;
-      syncingFromWrap = true;
-      floatBar.scrollLeft = scrollWrap.scrollLeft;
-      syncingFromWrap = false;
+      if (!floatBar.hidden) updateThumb();
     });
 
-    floatBar.addEventListener('scroll', function () {
-      if (syncingFromWrap) return;
-      syncingFromFloat = true;
-      scrollWrap.scrollLeft = floatBar.scrollLeft;
-      syncingFromFloat = false;
+    {% comment %} Dragging the floating thumb itself scrolls the real table. {% endcomment %}
+    floatThumb.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      dragStartX = e.clientX;
+      dragStartScrollLeft = scrollWrap.scrollLeft;
+      floatThumb.classList.add('is-dragging');
+      if (floatThumb.setPointerCapture) floatThumb.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    floatThumb.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var trackWidth = floatBar.clientWidth;
+      var maxThumbLeft = trackWidth - floatThumb.offsetWidth;
+      var scrollable = maxScrollLeft();
+      if (maxThumbLeft <= 0 || scrollable <= 0) return;
+      var deltaX = e.clientX - dragStartX;
+      var scrollDelta = (deltaX / maxThumbLeft) * scrollable;
+      scrollWrap.scrollLeft = Math.max(0, Math.min(scrollable, dragStartScrollLeft + scrollDelta));
+    });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      floatThumb.classList.remove('is-dragging');
+      if (e && e.pointerId != null && floatThumb.releasePointerCapture) {
+        try { floatThumb.releasePointerCapture(e.pointerId); } catch (err) {}
+      }
+    }
+    floatThumb.addEventListener('pointerup', endDrag);
+    floatThumb.addEventListener('pointercancel', endDrag);
+
+    {% comment %} Clicking the track itself (not the thumb) jumps straight to that position, same as clicking a native scrollbar track. {% endcomment %}
+    floatBar.addEventListener('pointerdown', function (e) {
+      if (e.target === floatThumb) return;
+      var barRect = floatBar.getBoundingClientRect();
+      var clickX = e.clientX - barRect.left;
+      var trackWidth = floatBar.clientWidth;
+      var maxThumbLeft = trackWidth - floatThumb.offsetWidth;
+      var scrollable = maxScrollLeft();
+      if (maxThumbLeft <= 0 || scrollable <= 0) return;
+      var targetThumbLeft = Math.max(0, Math.min(maxThumbLeft, clickX - floatThumb.offsetWidth / 2));
+      scrollWrap.scrollLeft = (targetThumbLeft / maxThumbLeft) * scrollable;
     });
 
     window.addEventListener('scroll', queueLayout, { passive: true });
@@ -735,22 +795,33 @@
     it always sits exactly under the table regardless of the page's own
     layout/sidebar. z-index above the sticky Model/Price columns (3)
     since it needs to sit on top of the whole table, not behind it.
+
+    This bar itself is just the TRACK — a plain background strip. The
+    thumb is a separate, explicitly-styled/positioned child (width + left
+    set in JS, proportional to how much of the table's total scroll width
+    is currently visible), not a native browser scrollbar — see the
+    comment on the markup for why.
   {%- endcomment -%}
   .itm-pg-picker__floating-scroll {
     position: fixed;
     bottom: 0;
     height: 14px;
     z-index: 10;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    background: #f4f4f4;
+    background: #ececec;
     border-top: 1px solid #d8d8d8;
+    cursor: pointer;
   }
   .itm-pg-picker__floating-scroll[hidden] { display: none; }
-  .itm-pg-picker__floating-scroll-track {
-    {%- comment -%} Height only — width is set in JS to match the real table's scrollWidth, so the two thumbs are always the same proportional size. {%- endcomment -%}
-    height: 1px;
+  .itm-pg-picker__floating-scroll-thumb {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 999px;
+    background: #b0b0b0;
+    cursor: grab;
   }
+  .itm-pg-picker__floating-scroll-thumb:hover { background: #8c8c8c; }
+  .itm-pg-picker__floating-scroll-thumb.is-dragging { background: #8c8c8c; cursor: grabbing; }
 
   {%- comment -%}
     Closes the table into a neat bordered box on desktop — left/right
