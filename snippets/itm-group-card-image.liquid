@@ -40,11 +40,22 @@
   {%- comment -%}
     Same primary-product resolution as the card itself: the
     primary_product_ref metafield NetSuite writes first, then the older
-    per-product boolean flag, then just the first product.
+    per-product boolean flag. After that, don't just grab
+    collection.products.first blindly — the collection's own sort order can
+    put a product with no photo uploaded first, while a later one in the
+    same category has a perfectly good one. Scan for the first product that
+    actually HAS a photo instead, and only fall back to a genuinely
+    image-less product as the last resort (so there's still something for
+    the CDN-guess path below, or so the card at least links somewhere).
   {%- endcomment -%}
   {%- assign primary_product = current.metafields.custom.primary_product_ref.value -%}
+  {%- assign first_with_image = nil -%}
+  {%- assign first_any = nil -%}
   {%- if primary_product == blank -%}
     {%- for p in current.products limit: 20 -%}
+      {%- if first_any == blank -%}
+        {%- assign first_any = p -%}
+      {%- endif -%}
       {%- if p.metafields.custom.primary_product -%}
         {%- assign prim_val = p.metafields.custom.primary_product.value | default: p.metafields.custom.primary_product -%}
         {%- if prim_val == true or prim_val == 'true' or prim_val == 1 or prim_val == '1' -%}
@@ -52,10 +63,16 @@
           {%- break -%}
         {%- endif -%}
       {%- endif -%}
+      {%- if first_with_image == blank and p.featured_image -%}
+        {%- assign first_with_image = p -%}
+      {%- endif -%}
     {%- endfor -%}
   {%- endif -%}
-  {%- if primary_product == blank and current.products.first -%}
-    {%- assign primary_product = current.products.first -%}
+  {%- if primary_product == blank and first_with_image -%}
+    {%- assign primary_product = first_with_image -%}
+  {%- endif -%}
+  {%- if primary_product == blank and first_any -%}
+    {%- assign primary_product = first_any -%}
   {%- endif -%}
 
   {%- if primary_product -%}
