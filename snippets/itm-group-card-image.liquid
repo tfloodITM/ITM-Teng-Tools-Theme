@@ -30,7 +30,16 @@
 
 {%- for i in (0..5) -%}
   {%- if current == blank -%}
-    {%- assign debug_stop_reason = 'current became blank' -%}
+    {%- comment -%}
+      Only record this generic reason if a more specific one wasn't
+      already set at the end of the previous iteration — otherwise this
+      unconditionally overwrites the real cause every time, which is
+      exactly what happened last round: the log said "current became
+      blank" no matter what actually caused it, telling us nothing.
+    {%- endcomment -%}
+    {%- if debug_stop_reason == blank -%}
+      {%- assign debug_stop_reason = 'current was already blank entering iteration ' | append: i -%}
+    {%- endif -%}
     {%- break -%}
   {%- endif -%}
   {%- comment -%}

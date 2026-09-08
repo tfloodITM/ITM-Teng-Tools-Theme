@@ -525,8 +525,49 @@
           >
             {%- if has_group_children -%}
               {%- for group_col in group_children -%}
+                {%- comment -%}
+                  Walking down to a real photo happens HERE, at the section's
+                  own top level, not inside a nested snippet — Liquid's
+                  metafield resolution on a referenced object (like group_col,
+                  itself obtained via THIS collection's own metafield) turned
+                  out to become unreliable a couple of {% render %} levels
+                  deep (confirmed: it worked fine reading collection's own
+                  metafields right here, and worked fine on a page where the
+                  hub collection IS the page's native `collection`, but
+                  silently failed 2-3 renders deep trying to read a CHILD
+                  collection's own metafields from inside itm-card-product-
+                  group.liquid → itm-group-card-image.liquid). Resolving it
+                  here and handing the card snippet the finished answer
+                  sidesteps that entirely.
+                {%- endcomment -%}
+                {%- assign gc_current = group_col -%}
+                {%- assign gc_image = nil -%}
+                {%- assign gc_product = nil -%}
+                {%- for gi in (0..5) -%}
+                  {%- if gc_current == blank -%}
+                    {%- break -%}
+                  {%- endif -%}
+                  {%- if gc_current.image -%}
+                    {%- assign gc_image = gc_current.image -%}
+                    {%- break -%}
+                  {%- endif -%}
+                  {%- assign gc_candidate = gc_current.metafields.custom.primary_product_ref.value | default: gc_current.products.first -%}
+                  {%- if gc_candidate -%}
+                    {%- assign gc_product = gc_candidate -%}
+                    {%- break -%}
+                  {%- endif -%}
+                  {%- assign gc_kids = gc_current.metafields.custom.product_group_children.value -%}
+                  {%- if gc_kids.size -%}
+                    {%- assign gc_current = gc_kids.first -%}
+                  {%- elsif gc_kids != blank -%}
+                    {%- comment -%} a single-reference list can resolve as the bare object itself {%- endcomment -%}
+                    {%- assign gc_current = gc_kids -%}
+                  {%- else -%}
+                    {%- assign gc_current = blank -%}
+                  {%- endif -%}
+                {%- endfor -%}
                 <li class="sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-                  {% render 'itm-card-product-group', group_collection: group_col %}
+                  {% render 'itm-card-product-group', group_collection: group_col, resolved_image: gc_image, resolved_product: gc_product %}
                 </li>
               {%- endfor -%}
             {%- endif -%}

@@ -49,11 +49,46 @@
   <a class="sbc__card-img-link" href="{{ coll.url }}">
     <div class="sbc__card-img">
       {%- comment -%}
-        Handles the plain case (coll.image / primary_product, same as
-        before) and, when a hub collection has neither, recurses into its
-        product_group_children for a photo — see the snippet itself.
+        resolved_image / resolved_product are worked out by the caller
+        (itm-collection-grid.liquid), walking down through
+        product_group_children when this hub has neither an image nor
+        products of its own — done there, not in a nested snippet, because
+        Liquid's metafield resolution on a referenced object stopped being
+        reliable a couple of render levels deep. Falls back to this card's
+        own coll/primary_product (the shallow, no-walk case) if the caller
+        didn't pass anything, so this snippet still works standalone.
       {%- endcomment -%}
-      {% render 'itm-group-card-image', collection: coll %}
+      {%- assign img_source = resolved_image | default: coll.image -%}
+      {%- assign img_product = resolved_product | default: primary_product -%}
+      {%- if img_source -%}
+        <div class="sbc__slide is-active">
+          {{ img_source | image_url: width: 600 | image_tag: loading: 'lazy', alt: coll.title }}
+        </div>
+      {%- elsif img_product.featured_image -%}
+        <div class="sbc__slide is-active">
+          {{ img_product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: img_product.title }}
+        </div>
+      {%- elsif img_product -%}
+        {%- comment -%}
+          Last resort for the rare product with no Shopify image uploaded
+          at all — guesses a path on ITM's own CDN from its SKU.
+        {%- endcomment -%}
+        {%- assign group_sku = img_product.selected_or_first_available_variant.sku | default: img_product.title | strip -%}
+        <div class="sbc__slide is-active">
+          <img
+            src="{% render 'itm-cdn-product-image', sku: group_sku, image_number: 1 %}"
+            data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
+            alt="{{ img_product.title | escape }}"
+            width="600"
+            height="600"
+            loading="lazy"
+          >
+        </div>
+      {%- else -%}
+        <div class="sbc__slide is-active">
+          <img src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ coll.title | escape }}" width="600" height="600" loading="lazy">
+        </div>
+      {%- endif -%}
     </div>
   </a>
 </div>
