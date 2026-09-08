@@ -33,6 +33,21 @@
     {%- assign debug_stop_reason = 'current became blank' -%}
     {%- break -%}
   {%- endif -%}
+  {%- comment -%}
+    current, from the second iteration on, is itself an object obtained
+    via another collection's metafield reference — and a collection
+    obtained that way only exposes its basic fields (title, image,
+    products, handle), NOT its own metafields (confirmed: title/image/
+    products all resolved fine, but product_group_children came back
+    blank even on a collection verified to have it set). Re-fetching it
+    through the global `collections` object by handle gets a fully native
+    collection whose own metafields resolve normally.
+  {%- endcomment -%}
+  {%- assign current = collections[current.handle] -%}
+  {%- if current == blank -%}
+    {%- assign debug_stop_reason = 'handle re-fetch came back blank' -%}
+    {%- break -%}
+  {%- endif -%}
   {%- assign debug_hops = debug_hops | append: current.title | append: ' > ' -%}
 
   {%- if current.image -%}
