@@ -309,7 +309,25 @@
       if block_desc == blank and linked_col.description != blank
         assign block_desc = linked_col.description | strip_html | truncate: 110
       endif
+      comment
+        Some linked collections (e.g. "Combination Spanners") are
+        deliberately empty shells — their real inventory lives in child
+        "product group" collections instead (e.g. "Metric Combination
+        Spanners"), linked via custom.product_group_children. Shopify's own
+        products_count only ever counts real products directly in the
+        collection, so a hub like that reads as "0 products" despite having
+        real, clickable options — swap in the group count instead, same fix
+        as the collection's own page.
+      endcomment
       assign product_count = linked_col.products_count
+      assign group_children = linked_col.metafields.custom.product_group_children.value
+      if group_children != blank and group_children.size > 0
+        if product_count == 0
+          assign product_count = group_children.size
+        else
+          assign product_count = product_count | plus: group_children.size
+        endif
+      endif
     -%}
     {%- if section.settings.layout_style == 'card' -%}
       <a

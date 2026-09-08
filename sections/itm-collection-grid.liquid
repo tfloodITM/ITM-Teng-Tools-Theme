@@ -321,7 +321,7 @@
   {%- endif -%}
 {%- endstyle -%}
 
-<div class="itm-cg gradient color-{{ section.settings.color_scheme }}" data-itm-cg-section="{{ section.id }}" data-price-max="{{ section.settings.price_slider_max | default: 0 }}">
+<div class="itm-cg gradient color-{{ section.settings.color_scheme }}" data-itm-cg-section="{{ section.id }}" data-price-max="{{ section.settings.price_slider_max | default: 0 }}"{% if is_group_hub %} data-group-hub-count="{{ effective_products_count }}"{% endif %}>
   {%- comment -%}
     "Product group" collections (Metric Combination Spanners, 3/8" Drive
     Metric Impact Sockets, etc.) are one model in a run of sizes — 20-40
@@ -385,16 +385,14 @@
     Liquid has no parentheses for grouping — "A and B or C" evaluates
     left-to-right as "(A and B) or C", not what you'd want here — so this
     is worked out as its own flag first rather than inline in the two
-    {% if %} tags below. A group hub gets the same treatment as a
-    product-group leaf: there's nothing real to filter or sort across, and
-    the sidebar was pushing layout around for no benefit.
+    {% if %} tags below. Only a true product-group leaf (23 sizes of one
+    model) skips the sidebar entirely — a group hub still uses the normal
+    sort/filter sidebar like every other category page; it just needed its
+    own product count (above) since it has no real products of its own to
+    count natively.
   {%- endcomment -%}
   {%- assign show_facets_ui = false -%}
-  {%- assign skip_facets_ui = false -%}
-  {%- if is_product_group or is_group_hub -%}
-    {%- assign skip_facets_ui = true -%}
-  {%- endif -%}
-  {%- unless skip_facets_ui -%}
+  {%- unless is_product_group -%}
     {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
       {%- assign show_facets_ui = true -%}
     {%- endif -%}
@@ -403,18 +401,8 @@
 
     <div class="page-width">
 
-      {%- comment -%}
-        Mobile: product count moves up here, under the collection title. A
-        group hub has no facets widget to pull a count from (there isn't
-        one, per above), so it renders its own — and stays visible on
-        desktop too, since a group hub's grid has no sidebar of its own to
-        show a count in either.
-      {%- endcomment -%}
-      {%- if is_group_hub -%}
-        <div class="itm-cg__count-top" data-count-slot>{{ 'products.facets.product_count_simple' | t: count: effective_products_count }}</div>
-      {%- else -%}
-        <div class="itm-cg__count-top medium-hide large-up-hide" data-count-slot></div>
-      {%- endif -%}
+      {%- comment -%} Mobile: product count moves up here, under the collection title {%- endcomment -%}
+      <div class="itm-cg__count-top medium-hide large-up-hide" data-count-slot></div>
 
       {%- comment -%}
         A product-group page (23 sizes of one model) has no real use for
@@ -1020,6 +1008,21 @@ input.mobile-sort__radio {
 (function () {
   var section = document.querySelector('[data-itm-cg-section="{{ section.id }}"]');
   if (!section) return;
+
+  /* A "group hub" (e.g. Combination Spanners) has 0 real products of its
+     own — everything real lives in its group-children collections instead
+     — so Shopify's native count widget always reads "0 products" here,
+     which is wrong (there are 2 real, clickable ranges). Liquid already
+     worked out the correct number (data-group-hub-count); patch the native
+     widget's text with it before it gets moved up for mobile below. */
+  var groupHubCount = section.dataset.groupHubCount;
+  if (groupHubCount !== undefined && groupHubCount !== '') {
+    var n = parseInt(groupHubCount, 10);
+    var label = n + ' product' + (n === 1 ? '' : 's');
+    section.querySelectorAll('#ProductCount, #ProductCountDesktop').forEach(function (el) {
+      el.textContent = label;
+    });
+  }
 
   /* Move the (mobile) product count up under the collection title.
      facets.js updates #ProductCount by id, so it keeps working after the move. */
