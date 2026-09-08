@@ -48,27 +48,12 @@
 <div class="sbc__img-wrap">
   <a class="sbc__card-img-link" href="{{ coll.url }}">
     <div class="sbc__card-img">
-      {%- if coll.image -%}
-        <div class="sbc__slide is-active">
-          {{ coll.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: coll.title }}
-        </div>
-      {%- elsif primary_product -%}
-        {%- assign group_sku = primary_product.selected_or_first_available_variant.sku | default: primary_product.title | strip -%}
-        <div class="sbc__slide is-active">
-          <img
-            src="{% render 'itm-cdn-product-image', sku: group_sku, image_number: 1 %}"
-            data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
-            alt="{{ primary_product.title | escape }}"
-            width="600"
-            height="600"
-            loading="lazy"
-          >
-        </div>
-      {%- else -%}
-        <div class="sbc__slide is-active">
-          <img src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ coll.title | escape }}" width="600" height="600" loading="lazy">
-        </div>
-      {%- endif -%}
+      {%- comment -%}
+        Handles the plain case (coll.image / primary_product, same as
+        before) and, when a hub collection has neither, recurses into its
+        product_group_children for a photo — see the snippet itself.
+      {%- endcomment -%}
+      {% render 'itm-group-card-image', collection: coll %}
     </div>
   </a>
 </div>
