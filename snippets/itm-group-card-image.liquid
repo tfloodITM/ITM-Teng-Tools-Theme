@@ -9,33 +9,42 @@
   further down (e.g. 1" Drive Chrome Sockets has no image but points at
   Chrome Sockets - 1" Drive Metric, which finally has real products).
   Rather than show "image coming soon" the moment the first level comes up
-  empty, this borrows a photo from the first child, recursing as many
-  levels as it takes to reach a collection with a real image or a real
-  product — same thing a person would do browsing the category tree by
-  hand.
+  empty, this walks down the first-child chain (bounded to 6 levels — the
+  real tree never goes deeper) until it reaches a collection with a real
+  image or a real product to borrow a photo from.
+
+  This is a plain bounded loop, NOT a snippet rendering itself — Shopify's
+  Liquid engine doesn't allow a snippet to {% render %} itself recursively,
+  so walking the chain here (rather than recursing into a copy of this
+  snippet) is the only way to do this in one file.
 
   Params:
     - collection (Collection) — required
-    - depth (number) — internal recursion guard; never pass this in
 {%- endcomment -%}
-{%- liquid
-  assign depth = depth | default: 0
-  assign found = false
--%}
-{%- if collection.image -%}
-  <div class="sbc__slide is-active">
-    {{ collection.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: collection.title }}
-  </div>
-  {%- assign found = true -%}
-{%- else -%}
+{%- assign current = collection -%}
+{%- assign resolved_image = nil -%}
+{%- assign resolved_product = nil -%}
+{%- assign resolved_title = collection.title -%}
+
+{%- for i in (0..5) -%}
+  {%- if current == blank -%}
+    {%- break -%}
+  {%- endif -%}
+
+  {%- if current.image -%}
+    {%- assign resolved_image = current.image -%}
+    {%- assign resolved_title = current.title -%}
+    {%- break -%}
+  {%- endif -%}
+
   {%- comment -%}
     Same primary-product resolution as the card itself: the
     primary_product_ref metafield NetSuite writes first, then the older
     per-product boolean flag, then just the first product.
   {%- endcomment -%}
-  {%- assign primary_product = collection.metafields.custom.primary_product_ref.value -%}
+  {%- assign primary_product = current.metafields.custom.primary_product_ref.value -%}
   {%- if primary_product == blank -%}
-    {%- for p in collection.products -%}
+    {%- for p in current.products limit: 20 -%}
       {%- if p.metafields.custom.primary_product -%}
         {%- assign prim_val = p.metafields.custom.primary_product.value | default: p.metafields.custom.primary_product -%}
         {%- if prim_val == true or prim_val == 'true' or prim_val == 1 or prim_val == '1' -%}
@@ -45,40 +54,45 @@
       {%- endif -%}
     {%- endfor -%}
   {%- endif -%}
-  {%- if primary_product == blank and collection.products.first -%}
-    {%- assign primary_product = collection.products.first -%}
+  {%- if primary_product == blank and current.products.first -%}
+    {%- assign primary_product = current.products.first -%}
   {%- endif -%}
 
   {%- if primary_product -%}
-    {%- assign group_sku = primary_product.selected_or_first_available_variant.sku | default: primary_product.title | strip -%}
-    <div class="sbc__slide is-active">
-      <img
-        src="{% render 'itm-cdn-product-image', sku: group_sku, image_number: 1 %}"
-        data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
-        alt="{{ primary_product.title | escape }}"
-        width="600"
-        height="600"
-        loading="lazy"
-      >
-    </div>
-    {%- assign found = true -%}
+    {%- assign resolved_product = primary_product -%}
+    {%- break -%}
   {%- endif -%}
-{%- endif -%}
 
-{%- unless found -%}
   {%- comment -%}
-    Still nothing on this collection — borrow the first real child's photo
-    instead, recursing further if that child is ALSO an empty hub. Capped
-    at 5 levels as a sanity guard against a metafield loop; the real tree
-    never goes past 6 levels total.
+    Nothing on this level — step down into its first real child and try
+    again next iteration.
   {%- endcomment -%}
-  {%- assign kids = collection.metafields.custom.product_group_children.value -%}
-  {%- if depth < 5 and kids != blank and kids.size > 0 -%}
-    {%- assign next_depth = depth | plus: 1 -%}
-    {% render 'itm-group-card-image', collection: kids.first, depth: next_depth %}
+  {%- assign kids = current.metafields.custom.product_group_children.value -%}
+  {%- if kids != blank and kids.size > 0 -%}
+    {%- assign current = kids.first -%}
   {%- else -%}
-    <div class="sbc__slide is-active">
-      <img src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ collection.title | escape }}" width="600" height="600" loading="lazy">
-    </div>
+    {%- assign current = blank -%}
   {%- endif -%}
-{%- endunless -%}
+{%- endfor -%}
+
+{%- if resolved_image -%}
+  <div class="sbc__slide is-active">
+    {{ resolved_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: resolved_title }}
+  </div>
+{%- elsif resolved_product -%}
+  {%- assign group_sku = resolved_product.selected_or_first_available_variant.sku | default: resolved_product.title | strip -%}
+  <div class="sbc__slide is-active">
+    <img
+      src="{% render 'itm-cdn-product-image', sku: group_sku, image_number: 1 %}"
+      data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
+      alt="{{ resolved_product.title | escape }}"
+      width="600"
+      height="600"
+      loading="lazy"
+    >
+  </div>
+{%- else -%}
+  <div class="sbc__slide is-active">
+    <img src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ collection.title | escape }}" width="600" height="600" loading="lazy">
+  </div>
+{%- endif -%}
