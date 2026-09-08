@@ -591,17 +591,19 @@
     border-right: 1px solid #d8d8d8;
   }
   {%- comment -%}
-    flex: 0 0 241px (a fixed number), not "auto" — auto sizes this box to
+    flex: 0 0 261px (a fixed number), not "auto" — auto sizes this box to
     fit its own content, and relying on the header's two buttons
-    (90 + 12 gap + 110) happening to measure out to the exact same pixel
-    width as the row's price span + Add to Cart button (90 + 12 + 110) is
+    (90 + 12 gap + 130) happening to measure out to the exact same pixel
+    width as the row's price span + Add to Cart button (90 + 12 + 130) is
     exactly the kind of thing that only needs one tiny rendering
     difference — different element type, font kerning, a shorter price
     string — to drift a few px and misalign the two dividers. A fixed
     number removes that risk entirely, the same way every other column
-    here already uses a fixed width instead of shrink-to-fit.
+    here already uses a fixed width instead of shrink-to-fit — see also
+    the min-width: 0 added to .itm-pg-picker__actions below, which closes
+    the actual gap that was causing that drift in practice.
 
-    241 = 212 content (90 + 12 gap + 110, fixed/non-shrinking children)
+    261 = 232 content (90 + 12 gap + 130, fixed/non-shrinking children)
     + 28 padding (12 left + 16 right, below) + 1 border-left — this theme
     is box-sizing: border-box sitewide, so the box's declared width has
     to include padding/border, not just its content.
@@ -616,7 +618,7 @@
     position: sticky;
     right: 0;
     z-index: 3;
-    flex: 0 0 241px;
+    flex: 0 0 261px;
     padding: 12px 16px 12px 12px;
     display: flex;
     align-items: center;
@@ -633,7 +635,7 @@
     than every other header button.
   {%- endcomment -%}
   .itm-pg-picker__sort-btn--price { flex: 0 0 90px; padding-top: 0; padding-bottom: 0; }
-  .itm-pg-picker__sort-btn--actions { flex: 0 0 110px; padding-top: 0; padding-bottom: 0; cursor: default; }
+  .itm-pg-picker__sort-btn--actions { flex: 0 0 130px; padding-top: 0; padding-bottom: 0; cursor: default; }
 
   {%- comment -%}
     Closes the table into a neat bordered box on desktop — left/right
@@ -745,8 +747,25 @@
     opacity: 0.55;
     text-decoration: line-through;
   }
+  {%- comment -%}
+    min-width: 0; overflow: hidden — every other fixed-width box in this
+    table already has this (see .itm-pg-picker__cell, .itm-pg-picker__price,
+    the base .itm-pg-picker__sort-btn), this one was the one exception.
+    Without it, a flex item defaults to min-width: auto, meaning its real
+    ADD TO CART button content (wider than the 130px allotted here) was
+    free to force this box wider than declared — while the header's own
+    placeholder for this column IS a .sort-btn and already had this
+    protection, so it stayed pinned at spec. That mismatch (row-end
+    quietly wider than list-head-end) is what put the two sticky boxes'
+    borders at different x-positions once real button content was in
+    play. The button itself already truncates via its own
+    text-overflow: ellipsis (inherited from .sbc__atc) if it's ever
+    genuinely too tight, so nothing is lost by capping this.
+  {%- endcomment -%}
   .itm-pg-picker__actions {
-    flex: 0 0 110px;
+    flex: 0 0 130px;
+    min-width: 0;
+    overflow: hidden;
     padding-left: 8px;
     display: flex;
     align-items: center;
