@@ -159,10 +159,12 @@
           </button>
         {%- endunless -%}
       {%- endfor -%}
-      <button type="button" class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--price" data-pg-sort-key="price">
-        Price <span class="itm-pg-picker__sort-arrow"></span>
-      </button>
-      <span class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--actions" aria-hidden="true"></span>
+      <div class="itm-pg-picker__list-head-end">
+        <button type="button" class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--price" data-pg-sort-key="price">
+          Price <span class="itm-pg-picker__sort-arrow"></span>
+        </button>
+        <span class="itm-pg-picker__sort-btn itm-pg-picker__sort-btn--actions" aria-hidden="true"></span>
+      </div>
     </div>
 
     <ul class="itm-pg-picker__list list-unstyled" data-pg-list>
@@ -219,26 +221,28 @@
               {%- endunless -%}
             {%- endfor -%}
 
-            <span class="itm-pg-picker__price">
-              {%- if product.compare_at_price > product.price -%}
-                <s class="itm-pg-picker__was">{{ product.compare_at_price | money }}</s>
-              {%- endif -%}
-              {{ product.price_min | money }}
-            </span>
-            <div class="itm-pg-picker__actions">
-              {%- if product.variants.size == 1 and product.available -%}
-                <button class="itm-pg-picker__atc sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">
-                  {{- 'products.product.add_to_cart' | t | default: 'Add' -}}
-                  <svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                </button>
-              {%- elsif product.available -%}
-                <a href="{{ product.url }}" class="itm-pg-picker__atc itm-pg-picker__atc--options sbc__atc">
-                  {{- 'products.product.choose_options' | t | default: 'Options' -}}
-                  <svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                </a>
-              {%- else -%}
-                <button class="itm-pg-picker__atc sbc__atc" disabled>{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</button>
-              {%- endif -%}
+            <div class="itm-pg-picker__row-end">
+              <span class="itm-pg-picker__price">
+                {%- if product.compare_at_price > product.price -%}
+                  <s class="itm-pg-picker__was">{{ product.compare_at_price | money }}</s>
+                {%- endif -%}
+                {{ product.price_min | money }}
+              </span>
+              <div class="itm-pg-picker__actions">
+                {%- if product.variants.size == 1 and product.available -%}
+                  <button class="itm-pg-picker__atc sbc__atc" data-variant-id="{{ product.first_available_variant.id }}">
+                    {{- 'products.product.add_to_cart' | t | default: 'Add' -}}
+                    <svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                  </button>
+                {%- elsif product.available -%}
+                  <a href="{{ product.url }}" class="itm-pg-picker__atc itm-pg-picker__atc--options sbc__atc">
+                    {{- 'products.product.choose_options' | t | default: 'Options' -}}
+                    <svg class="sbc__atc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                  </a>
+                {%- else -%}
+                  <button class="itm-pg-picker__atc sbc__atc" disabled>{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</button>
+                {%- endif -%}
+              </div>
             </div>
           </div>
           {%- comment -%} Mobile-only — hidden on desktop via CSS, since the row above already has a column per spec there. {%- endcomment -%}
@@ -440,20 +444,39 @@
     color: #444444;
   }
 
-  /* ── Desktop sort header + rows: flexbox, not a fixed grid, since the
-       number of spec columns is data-driven and varies per category. ── */
+  {%- comment -%}
+    Desktop sort header + rows: flexbox, not a fixed grid, since the number
+    of spec columns is data-driven and varies per category — anywhere from
+    3-4 (Combination Spanners) to 15+ (Torque Wrenches: Drive, No of Teeth,
+    Scale Resolution, Range, Accuracy, Calibration Certificate...). Cramming
+    that many into one row by shrinking each column's share (the original
+    approach) is exactly what caused headers to collide/overlap once a
+    category had more than ~7 specs. Instead: every spec column gets the
+    SAME fixed width regardless of count (real "neat even spacing" — a
+    9-column and a 17-column table look equally tidy, just wider), the row
+    is allowed to grow past the viewport, and .itm-pg-picker__list-wrap
+    scrolls horizontally. Model and Price/Add to Cart are pulled out of
+    that scroll via position: sticky so the two things a shopper actually
+    needs — which size, and buying it — never go offscreen while browsing
+    specs.
+  {%- endcomment -%}
+  .itm-pg-picker__list-wrap { overflow-x: auto; }
   .itm-pg-picker__list-head,
   .itm-pg-picker__row {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
     gap: 12px;
+    width: max-content;
+    min-width: 100%;
   }
   .itm-pg-picker__list-head {
     padding: 12px 16px;
     border-bottom: 1px solid #e2e2e2;
+    background: #ffffff;
   }
   .itm-pg-picker__sort-btn {
-    flex: 1 1 0;
+    flex: 0 0 150px;
     min-width: 0;
     display: inline-flex;
     align-items: center;
@@ -469,6 +492,8 @@
     color: #888888;
     cursor: pointer;
     text-align: left;
+    white-space: normal;
+    line-height: 1.3;
   }
   .itm-pg-picker__sort-btn:hover { color: #131313; }
   {%- comment -%}
@@ -477,10 +502,49 @@
     renders as a synthetic faux-bold that looks subtly off.
   {%- endcomment -%}
   .itm-pg-picker__sort-btn.is-active { color: #131313; font-weight: 900; }
-  .itm-pg-picker__sort-btn--name { flex: 1.4 1 0; }
-  .itm-pg-picker__sort-btn--price { flex: 0.7 1 0; }
-  .itm-pg-picker__sort-btn--actions { flex: 0 0 96px; cursor: default; }
   .itm-pg-picker__sort-arrow { font-size: 9px; color: var(--mega-accent, #BD2321); }
+
+  {%- comment -%}
+    The sticky left/right zones. --pg-row-bg is set once per <li> (see the
+    zebra striping below) and inherited automatically by everything inside
+    it — including these — so the sticky cells always match their own
+    row's white/grey shade rather than going transparent and letting
+    scrolled-past spec columns show through underneath them. The small
+    box-shadow on the scroll-facing edge is the same "there's more here"
+    affordance a spreadsheet's frozen columns use.
+  {%- endcomment -%}
+  .itm-pg-picker__sort-btn--name,
+  .itm-pg-picker__name {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    flex: 0 0 210px;
+    background: var(--pg-row-bg, #ffffff);
+    box-shadow: 6px 0 8px -6px rgba(0, 0, 0, 0.15);
+  }
+  .itm-pg-picker__list-head-end,
+  .itm-pg-picker__row-end {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    flex: 0 0 auto;
+    {%- comment -%}
+      margin-left: auto keeps this flush against the right edge even when
+      a category has so few spec columns that the row never actually
+      overflows/scrolls (e.g. Combination Spanners) — without it, Price/Add
+      to Cart would just trail immediately after the last spec column with
+      empty space stranded past it, instead of anchoring to the edge like
+      it does once a table is wide enough to scroll.
+    {%- endcomment -%}
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--pg-row-bg, #ffffff);
+    box-shadow: -6px 0 8px -6px rgba(0, 0, 0, 0.15);
+  }
+  .itm-pg-picker__sort-btn--price { flex: 0 0 90px; }
+  .itm-pg-picker__sort-btn--actions { flex: 0 0 110px; cursor: default; }
 
   {%- comment -%}
     Closes the table into a neat bordered box on desktop — left/right
@@ -489,10 +553,16 @@
     edges of the box come from the wrap's border-top plus the last row's
     own border-bottom below).
   {%- endcomment -%}
+  {%- comment -%}
+    overflow-y (not the shorthand overflow) so this doesn't clobber the
+    overflow-x: auto set above — both target the same element, and the
+    shorthand would reset overflow-x back to hidden, silently killing the
+    horizontal scroll this whole layout depends on.
+  {%- endcomment -%}
   .itm-pg-picker__list-wrap {
     border: 1px solid #e2e2e2;
     border-radius: 6px;
-    overflow: hidden;
+    overflow-y: hidden;
   }
   .itm-pg-picker__list { border-top: none; }
   .itm-pg-picker__item:last-child { border-bottom: none; }
@@ -502,12 +572,15 @@
     whatever colour its parent .itm-pg-picker__item already is, so the
     whole item reads as one solid band.
   {%- endcomment -%}
-  .itm-pg-picker__item { border-bottom: 1px solid #e2e2e2; background: #ffffff; }
-  .itm-pg-picker__item:nth-child(even) { background: #f4f4f4; }
+  .itm-pg-picker__item {
+    --pg-row-bg: #ffffff;
+    border-bottom: 1px solid #e2e2e2;
+    background: var(--pg-row-bg);
+  }
+  .itm-pg-picker__item:nth-child(even) { --pg-row-bg: #f4f4f4; }
   .itm-pg-picker__row { padding: 12px 16px; }
   .itm-pg-picker__name {
-    flex: 1.4 1 0;
-    min-width: 0;
+    padding-right: 8px;
     font-family: var(--font-heading-family);
     font-size: 14px;
     font-weight: 700;
@@ -517,13 +590,15 @@
   }
   .itm-pg-picker__name:hover { text-decoration: underline; }
   .itm-pg-picker__cell {
-    flex: 1 1 0;
+    flex: 0 0 150px;
     min-width: 0;
     font-size: 13px;
+    line-height: 1.35;
     color: #444444;
+    white-space: normal;
   }
   .itm-pg-picker__price {
-    flex: 0.7 1 0;
+    flex: 0 0 90px;
     min-width: 0;
     font-size: 14px;
     font-weight: 600;
@@ -538,7 +613,8 @@
     text-decoration: line-through;
   }
   .itm-pg-picker__actions {
-    flex: 0 0 96px;
+    flex: 0 0 110px;
+    padding-left: 8px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -649,18 +725,40 @@
     .itm-pg-picker__cell { display: none; }
     .itm-pg-picker__row {
       flex-wrap: wrap;
+      width: auto;
+      min-width: 0;
       padding: 12px;
       text-align: left !important;
     }
+    {%- comment -%}
+      The desktop-only sticky/scroll treatment (position: sticky, the
+      scroll-edge shadow, the fixed 210px width) is switched off here —
+      mobile never scrolls this table horizontally, Name/Price/Add to
+      Cart just stack in the existing compact card layout.
+    {%- endcomment -%}
     .itm-pg-picker__name {
       display: block;
+      position: static;
+      box-shadow: none;
+      background: none;
       flex: 1 1 auto;
       width: 100%;
+      padding-right: 0;
       order: 1;
       text-align: left !important;
     }
-    .itm-pg-picker__price { flex: 1 1 auto; order: 2; }
-    .itm-pg-picker__actions { flex: 0 0 auto; order: 3; margin-left: auto; }
+    .itm-pg-picker__row-end {
+      position: static;
+      box-shadow: none;
+      background: none;
+      order: 2;
+      flex: 1 1 auto;
+      width: 100%;
+      margin-left: 0;
+      justify-content: space-between;
+    }
+    .itm-pg-picker__price { flex: 0 0 auto; }
+    .itm-pg-picker__actions { flex: 0 0 auto; padding-left: 0; }
 
     .itm-pg-picker__specs { display: block; padding: 4px 12px 12px; }
     {%- comment -%}
