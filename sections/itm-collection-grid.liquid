@@ -524,50 +524,60 @@
             style="--sbc-cols: {{ section.settings.products_per_row }};"
           >
             {%- if has_group_children -%}
+              {%- comment -%}
+                Confirmed the hard way across several rounds: Liquid's
+                metafield resolution simply does not reliably work on any
+                collection object obtained via ANOTHER collection's
+                metafield reference (group_col here) — not at any render
+                depth, not even re-fetched via collections[handle]. It ONLY
+                reliably works on the page's own native `collection` object.
+                So group_card_images is a single JSON metafield stored on
+                THIS collection itself (read once, right here, on the one
+                object metafields actually work on), mapping a child's
+                handle straight to its resolved photo URL — no per-child
+                metafield reads needed at all. Falls back to the (best-
+                effort, sometimes-unreliable) per-child walk below only for
+                children not covered by that map yet.
+              {%- endcomment -%}
+              {%- assign group_card_images_raw = collection.metafields.custom.group_card_images.value -%}
+              {%- assign group_card_images_map = nil -%}
+              {%- if group_card_images_raw != blank -%}
+                {%- assign group_card_images_map = group_card_images_raw | parse_json -%}
+              {%- endif -%}
               {%- for group_col in group_children -%}
-                {%- comment -%}
-                  Walking down to a real photo happens HERE, at the section's
-                  own top level, not inside a nested snippet — Liquid's
-                  metafield resolution on a referenced object (like group_col,
-                  itself obtained via THIS collection's own metafield) turned
-                  out to become unreliable a couple of {% render %} levels
-                  deep (confirmed: it worked fine reading collection's own
-                  metafields right here, and worked fine on a page where the
-                  hub collection IS the page's native `collection`, but
-                  silently failed 2-3 renders deep trying to read a CHILD
-                  collection's own metafields from inside itm-card-product-
-                  group.liquid → itm-group-card-image.liquid). Resolving it
-                  here and handing the card snippet the finished answer
-                  sidesteps that entirely.
-                {%- endcomment -%}
-                {%- assign gc_current = group_col -%}
+                {%- assign gc_image_url = nil -%}
+                {%- if group_card_images_map -%}
+                  {%- assign gc_image_url = group_card_images_map[group_col.handle] -%}
+                {%- endif -%}
                 {%- assign gc_image = nil -%}
                 {%- assign gc_product = nil -%}
-                {%- for gi in (0..5) -%}
-                  {%- if gc_current == blank -%}
-                    {%- break -%}
-                  {%- endif -%}
-                  {%- if gc_current.image -%}
-                    {%- assign gc_image = gc_current.image -%}
-                    {%- break -%}
-                  {%- endif -%}
-                  {%- assign gc_candidate = gc_current.metafields.custom.primary_product_ref.value | default: gc_current.products.first -%}
-                  {%- if gc_candidate -%}
-                    {%- assign gc_product = gc_candidate -%}
-                    {%- break -%}
-                  {%- endif -%}
-                  {%- assign gc_kids = gc_current.metafields.custom.product_group_children.value -%}
-                  {%- if gc_kids.size -%}
-                    {%- assign gc_current = gc_kids.first -%}
-                  {%- elsif gc_kids != blank -%}
-                    {%- comment -%} a single-reference list can resolve as the bare object itself {%- endcomment -%}
-                    {%- assign gc_current = gc_kids -%}
-                  {%- else -%}
-                    {%- assign gc_current = blank -%}
-                  {%- endif -%}
-                {%- endfor -%}
+                {%- unless gc_image_url -%}
+                  {%- assign gc_current = group_col -%}
+                  {%- for gi in (0..5) -%}
+                    {%- if gc_current == blank -%}
+                      {%- break -%}
+                    {%- endif -%}
+                    {%- if gc_current.image -%}
+                      {%- assign gc_image = gc_current.image -%}
+                      {%- break -%}
+                    {%- endif -%}
+                    {%- assign gc_candidate = gc_current.metafields.custom.primary_product_ref.value | default: gc_current.products.first -%}
+                    {%- if gc_candidate -%}
+                      {%- assign gc_product = gc_candidate -%}
+                      {%- break -%}
+                    {%- endif -%}
+                    {%- assign gc_kids = gc_current.metafields.custom.product_group_children.value -%}
+                    {%- if gc_kids.size -%}
+                      {%- assign gc_current = gc_kids.first -%}
+                    {%- elsif gc_kids != blank -%}
+                      {%- assign gc_current = gc_kids -%}
+                    {%- else -%}
+                      {%- assign gc_current = blank -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endunless -%}
                 <li class="sbc__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-                  {% render 'itm-card-product-group', group_collection: group_col, resolved_image: gc_image, resolved_product: gc_product %}
+                  {% render 'itm-card-product-group', group_collection: group_col, resolved_image: gc_image, resolved_image_url: gc_image_url, resolved_product: gc_product %}
                 </li>
               {%- endfor -%}
             {%- endif -%}

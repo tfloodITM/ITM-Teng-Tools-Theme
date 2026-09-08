@@ -60,7 +60,15 @@
       {%- endcomment -%}
       {%- assign img_source = resolved_image | default: coll.image -%}
       {%- assign img_product = resolved_product | default: primary_product -%}
-      {%- if img_source -%}
+      {%- if resolved_image_url -%}
+        {%- comment -%}
+          A pre-resolved plain URL from the section's group_card_images
+          map — already a real Shopify CDN file, just used directly.
+        {%- endcomment -%}
+        <div class="sbc__slide is-active">
+          <img src="{{ resolved_image_url }}" alt="{{ coll.title | escape }}" width="600" height="600" loading="lazy">
+        </div>
+      {%- elsif img_source -%}
         <div class="sbc__slide is-active">
           {{ img_source | image_url: width: 600 | image_tag: loading: 'lazy', alt: coll.title }}
         </div>
