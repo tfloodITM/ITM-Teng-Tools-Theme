@@ -520,50 +520,50 @@
     zebra striping below) and inherited automatically by everything inside
     it — including these — so the sticky cells always match their own
     row's white/grey shade rather than going transparent and letting
-    scrolled-past spec columns show through underneath them. The small
-    box-shadow on the scroll-facing edge is the same "there's more here"
-    affordance a spreadsheet's frozen columns use.
-  {%- endcomment -%}
-  {%- comment -%}
-    left/right are 16px, not 0 — sticky measures its offset against the
-    SCROLL CONTAINER's edge, completely ignoring the row/header's own
-    padding (that padding only ever applied while the element was still in
-    normal flow) — so left: 0 put Add to Cart and Model flush against the
-    scrollport with no breathing room the instant they actually stuck. This
-    keeps the same 16px gutter the row's own padding uses, whether stuck or
-    not.
+    scrolled-past spec columns show through underneath them.
+
+    left/right MUST be 0, not 16px — 16px was tried first for breathing
+    room, but that left the strip from the true scroll edge (0) to 16px
+    completely uncovered by this box, so whatever was scrolling underneath
+    showed straight through it. The 16px gutter is padding-left/right on
+    the box ITSELF instead, so the opaque background covers all the way to
+    the true edge and the text is simply inset within that fully-covered
+    box — nothing to peek out from behind.
+
+    A solid border (not a soft box-shadow) marks the scroll boundary —
+    concrete "this is the edge" line, not a gradient that visually eats
+    into whatever text sits just past it.
+
+    No margin-left: auto on the sticky block — sticky positioning combined
+    with an auto margin is unreliable (this is exactly why Price wasn't
+    actually stopping when scrolled: the auto margin confused the sticky
+    calculation for the whole block, even though it looked fine when the
+    table happened to be scrolled all the way).
   {%- endcomment -%}
   .itm-pg-picker__sort-btn--name,
   .itm-pg-picker__name {
     position: sticky;
-    left: 16px;
+    left: 0;
     z-index: 3;
     flex: 0 0 210px;
+    padding-left: 16px;
     background: var(--pg-row-bg, #ffffff);
-    box-shadow: 6px 0 8px -6px rgba(0, 0, 0, 0.15);
+    border-right: 1px solid #d8d8d8;
   }
   .itm-pg-picker__list-head-end,
   .itm-pg-picker__row-end {
     position: sticky;
-    right: 16px;
+    right: 0;
     z-index: 3;
     flex: 0 0 auto;
-    {%- comment -%}
-      margin-left: auto keeps this flush against the right edge even when
-      a category has so few spec columns that the row never actually
-      overflows/scrolls (e.g. Combination Spanners) — without it, Price/Add
-      to Cart would just trail immediately after the last spec column with
-      empty space stranded past it, instead of anchoring to the edge like
-      it does once a table is wide enough to scroll.
-    {%- endcomment -%}
-    margin-left: auto;
+    padding-right: 16px;
     display: flex;
     align-items: center;
     gap: 12px;
     background: var(--pg-row-bg, #ffffff);
-    box-shadow: -6px 0 8px -6px rgba(0, 0, 0, 0.15);
+    border-left: 1px solid #d8d8d8;
   }
-  .itm-pg-picker__sort-btn--price { flex: 0 0 90px; }
+  .itm-pg-picker__sort-btn--price { flex: 0 0 90px; padding-left: 12px; }
   .itm-pg-picker__sort-btn--actions { flex: 0 0 110px; cursor: default; }
 
   {%- comment -%}
@@ -612,10 +612,12 @@
   .itm-pg-picker__item:nth-child(even) { --pg-row-bg: #f4f4f4; }
   .itm-pg-picker__row { padding: 12px 0; }
   {%- comment -%}
-    No padding-left here — the sticky rule's "left: 16px" (below) already
-    holds this box's edge 16px off the scrollport, active immediately
-    since Model's natural position (flush left) is always less than that
-    minimum. Adding padding-left here too would double the gap to 32px.
+    No padding-left here — the sticky rule (below, shared with
+    .itm-pg-picker__sort-btn--name) already carries "padding-left: 16px"
+    directly on the sticky box itself, so its opaque background covers
+    all the way to the true scroll edge (left: 0) with the 16px gutter
+    just inset text within it. Adding padding-left here too would double
+    the gap to 32px.
   {%- endcomment -%}
   .itm-pg-picker__name {
     padding-right: 8px;
@@ -783,29 +785,32 @@
     }
     {%- comment -%}
       The desktop-only sticky/scroll treatment (position: sticky, the
-      scroll-edge shadow, the fixed 210px width) is switched off here —
-      mobile never scrolls this table horizontally, Name/Price/Add to
-      Cart just stack in the existing compact card layout.
+      scroll-edge border line, the sticky-box padding, the fixed 210px
+      width) is switched off here — mobile never scrolls this table
+      horizontally, Name/Price/Add to Cart just stack in the existing
+      compact card layout.
     {%- endcomment -%}
     .itm-pg-picker__name {
       display: block;
       position: static;
-      box-shadow: none;
+      border-right: none;
       background: none;
       flex: 1 1 auto;
       width: 100%;
+      padding-left: 0;
       padding-right: 0;
       order: 1;
       text-align: left !important;
     }
     .itm-pg-picker__row-end {
       position: static;
-      box-shadow: none;
+      border-left: none;
       background: none;
       order: 2;
       flex: 1 1 auto;
       width: 100%;
       margin-left: 0;
+      padding-right: 0;
       justify-content: space-between;
     }
     .itm-pg-picker__price { flex: 0 0 auto; }
