@@ -82,14 +82,22 @@
 
   {%- comment -%}
     Nothing on this level — step down into its first real child and try
-    again next iteration.
+    again next iteration. A list.collection_reference metafield with
+    exactly ONE reference can resolve as the bare collection object itself
+    rather than a one-item array (a Shopify Liquid quirk), so kids.size
+    would be nil (Collection has no such property) and silently look empty
+    — check for that shape explicitly rather than assuming an array.
   {%- endcomment -%}
   {%- assign kids = current.metafields.custom.product_group_children.value -%}
-  {%- if kids != blank and kids.size > 0 -%}
-    {%- assign current = kids.first -%}
-  {%- else -%}
-    {%- assign current = blank -%}
+  {%- assign next_col = nil -%}
+  {%- if kids != blank -%}
+    {%- if kids.size -%}
+      {%- assign next_col = kids.first -%}
+    {%- else -%}
+      {%- assign next_col = kids -%}
+    {%- endif -%}
   {%- endif -%}
+  {%- assign current = next_col -%}
 {%- endfor -%}
 
 {%- if resolved_image -%}
