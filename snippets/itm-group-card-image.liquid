@@ -25,11 +25,15 @@
 {%- assign resolved_image = nil -%}
 {%- assign resolved_product = nil -%}
 {%- assign resolved_title = collection.title -%}
+{%- assign debug_hops = '' -%}
+{%- assign debug_stop_reason = '' -%}
 
 {%- for i in (0..5) -%}
   {%- if current == blank -%}
+    {%- assign debug_stop_reason = 'current became blank' -%}
     {%- break -%}
   {%- endif -%}
+  {%- assign debug_hops = debug_hops | append: current.title | append: ' > ' -%}
 
   {%- if current.image -%}
     {%- assign resolved_image = current.image -%}
@@ -97,6 +101,9 @@
       {%- assign next_col = kids -%}
     {%- endif -%}
   {%- endif -%}
+  {%- if next_col == blank -%}
+    {%- assign debug_stop_reason = 'no product_group_children found on: ' | append: current.title -%}
+  {%- endif -%}
   {%- assign current = next_col -%}
 {%- endfor -%}
 
@@ -130,6 +137,12 @@
     >
   </div>
 {%- else -%}
+  {%- comment -%}
+    TEMPORARY debug trail — remove once the intermittent "some cards have
+    no image" issue is confirmed fixed. Shows exactly which collections
+    this walked through and why it gave up, right in the page source.
+  {%- endcomment -%}
+  <!-- itm-group-card-image: no image found. started at "{{ collection.title }}". walked: {{ debug_hops }}. stopped because: {{ debug_stop_reason }} -->
   <div class="sbc__slide is-active">
     <img src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ collection.title | escape }}" width="600" height="600" loading="lazy">
   </div>
