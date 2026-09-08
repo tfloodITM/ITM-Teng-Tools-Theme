@@ -137,9 +137,21 @@
     margin: 0;
     line-height: 1.4;
   }
+  #shopify-section-{{ section.id }} .itm-catigrid__subtitle-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 0.85em;
+    height: 0.85em;
+    margin-left: 5px;
+    stroke-width: 2.5;
+    vertical-align: -0.05em;
+    overflow: visible;
+  }
   {%- if section.settings.cta_style == 'underline' -%}
     #shopify-section-{{ section.id }} .itm-catigrid__subtitle {
       display: inline;
+    }
+    #shopify-section-{{ section.id }} .itm-catigrid__subtitle-text {
       border-bottom: 1.5px solid {{ section.settings.subtitle_color }};
       padding-bottom: 2px;
     }
@@ -361,7 +373,10 @@
               <span class="itm-catigrid__count">{{ product_count }} product{% if product_count != 1 %}s{% endif %}</span>
             {%- endif -%}
             {%- if block.settings.subtitle != blank -%}
-              <span class="itm-catigrid__subtitle">{{ block.settings.subtitle }}</span>
+              <span class="itm-catigrid__subtitle">
+                <span class="itm-catigrid__subtitle-text">{{ block.settings.subtitle }}</span>
+                <svg class="itm-catigrid__subtitle-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </span>
             {%- endif -%}
           </div>
         </div>
@@ -391,7 +406,10 @@
               <h3 class="itm-catigrid__title">{{ block.settings.title }}</h3>
             {%- endif -%}
             {%- if block.settings.subtitle != blank -%}
-              <p class="itm-catigrid__subtitle">{{ block.settings.subtitle }}</p>
+              <p class="itm-catigrid__subtitle">
+                <span class="itm-catigrid__subtitle-text">{{ block.settings.subtitle }}</span>
+                <svg class="itm-catigrid__subtitle-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </p>
             {%- endif -%}
           </div>
         {%- endif -%}
