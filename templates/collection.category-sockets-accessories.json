@@ -24,7 +24,7 @@
         "show_category_icon": true,
         "icon_size": 40,
         "icon_color": "#ffffff",
-        "show_accent_bar": false,
+        "show_accent_bar": true,
         "accent_bar_color": "#e30613",
         "show_collection_image": true,
         "banner_image": "shopify://shop_images/DSC7490_NIKredigerad.jpg",
