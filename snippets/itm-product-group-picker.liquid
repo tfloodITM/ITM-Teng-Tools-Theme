@@ -758,10 +758,20 @@
     scrollbar-width/-color and ::-webkit-scrollbar rules below force it
     to render as an always-visible, classic-style bar instead.
   {%- endcomment -%}
+  {%- comment -%}
+    height: 24px — a classic (non-overlay) Windows scrollbar typically
+    needs ~15-17px of its own to actually draw. This bar's first version
+    was only 16px tall total (15px after the border), which is right at
+    that edge — confirmed via DevTools that every property below WAS
+    correctly applied (overflow-x: scroll, scrollbar-color, a genuinely
+    huge 552px-vs-1941px overflow) with still no visible scrollbar,
+    pointing at "not enough room to draw it" rather than the CSS being
+    ignored. Comfortably taller here so there's no longer any ambiguity.
+  {%- endcomment -%}
   .itm-pg-picker__floating-scroll {
     position: fixed;
     bottom: 0;
-    height: 16px;
+    height: 24px;
     z-index: 10;
     overflow-x: scroll;
     overflow-y: hidden;
@@ -774,7 +784,7 @@
   .itm-pg-picker__floating-scroll-track { height: 1px; }
   {%- comment -%} WebKit/Blink (Chrome, Edge, Safari) — scrollbar-width/-color above only affects Firefox; this is the equivalent forced-visible styling for everything else. {%- endcomment -%}
   .itm-pg-picker__floating-scroll::-webkit-scrollbar {
-    height: 14px;
+    height: 20px;
   }
   .itm-pg-picker__floating-scroll::-webkit-scrollbar-track {
     background: #f4f4f4;
