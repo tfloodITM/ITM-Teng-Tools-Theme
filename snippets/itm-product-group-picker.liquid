@@ -279,8 +279,24 @@
     still no visible/usable scrollbar). A plain background-coloured div
     has no such ambiguity — it renders the same everywhere.
   {%- endcomment -%}
+  {%- comment -%}
+    Prev/next arrow buttons flank the thumb track — matching the look of
+    a classic scrollbar (some browsers/OSes render native ones with these
+    built in; a hand-drawn bar needs them added explicitly to read the
+    same way). Each click nudges the real table by a fixed step rather
+    than jumping a full page — clicking the bare track already does that
+    (see the script), so the arrows are for small, precise adjustments.
+  {%- endcomment -%}
   <div class="itm-pg-picker__floating-scroll" data-pg-floating-scroll hidden aria-hidden="true">
-    <div class="itm-pg-picker__floating-scroll-thumb" data-pg-floating-scroll-thumb></div>
+    <button type="button" class="itm-pg-picker__floating-scroll-arrow itm-pg-picker__floating-scroll-arrow--prev" data-pg-floating-scroll-prev tabindex="-1" aria-label="Scroll left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <div class="itm-pg-picker__floating-scroll-track" data-pg-floating-scroll-track>
+      <div class="itm-pg-picker__floating-scroll-thumb" data-pg-floating-scroll-thumb></div>
+    </div>
+    <button type="button" class="itm-pg-picker__floating-scroll-arrow itm-pg-picker__floating-scroll-arrow--next" data-pg-floating-scroll-next tabindex="-1" aria-label="Scroll right">
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
   </div>
 </div>
 
@@ -437,11 +453,14 @@
     reliably controllable from CSS. A hand-drawn div has no such
     dependency: its width, position and colour are 100% ours.
   {% endcomment %}
-  var scrollWrap = picker.querySelector('[data-pg-list-wrap]');
-  var floatBar   = picker.querySelector('[data-pg-floating-scroll]');
-  var floatThumb = floatBar ? floatBar.querySelector('[data-pg-floating-scroll-thumb]') : null;
+  var scrollWrap  = picker.querySelector('[data-pg-list-wrap]');
+  var floatBar    = picker.querySelector('[data-pg-floating-scroll]');
+  var floatTrack  = floatBar ? floatBar.querySelector('[data-pg-floating-scroll-track]') : null;
+  var floatThumb  = floatTrack ? floatTrack.querySelector('[data-pg-floating-scroll-thumb]') : null;
+  var floatPrev   = floatBar ? floatBar.querySelector('[data-pg-floating-scroll-prev]') : null;
+  var floatNext   = floatBar ? floatBar.querySelector('[data-pg-floating-scroll-next]') : null;
 
-  if (scrollWrap && floatBar && floatThumb) {
+  if (scrollWrap && floatBar && floatTrack && floatThumb) {
     var dragging = false;
     var dragStartX = 0;
     var dragStartScrollLeft = 0;
@@ -450,8 +469,14 @@
       return scrollWrap.scrollWidth - scrollWrap.clientWidth;
     }
 
+    {% comment %}
+      floatTrack.clientWidth (not floatBar's) — the track is now only the
+      middle portion of the bar, flanked by the prev/next arrow buttons,
+      so it's narrower than the bar itself. Sizing the thumb against the
+      whole bar's width would make it visually overflow past the arrows.
+    {% endcomment %}
     function updateThumb() {
-      var trackWidth = floatBar.clientWidth;
+      var trackWidth = floatTrack.clientWidth;
       var scrollable = maxScrollLeft();
       {% comment %} 40px floor — a proportionally-sized thumb on a very wide (many-column) table can otherwise shrink to just a few px, too small to reliably grab. {% endcomment %}
       var thumbWidth = Math.max(trackWidth * (trackWidth / scrollWrap.scrollWidth), 40);
@@ -521,7 +546,7 @@
 
     floatThumb.addEventListener('pointermove', function (e) {
       if (!dragging) return;
-      var trackWidth = floatBar.clientWidth;
+      var trackWidth = floatTrack.clientWidth;
       var maxThumbLeft = trackWidth - floatThumb.offsetWidth;
       var scrollable = maxScrollLeft();
       if (maxThumbLeft <= 0 || scrollable <= 0) return;
@@ -540,18 +565,31 @@
     floatThumb.addEventListener('pointerup', endDrag);
     floatThumb.addEventListener('pointercancel', endDrag);
 
-    {% comment %} Clicking the track itself (not the thumb) jumps straight to that position. {% endcomment %}
-    floatBar.addEventListener('pointerdown', function (e) {
+    {% comment %} Clicking the bare track (not the thumb) jumps straight to that position — a full "page" move, same convention as clicking a native scrollbar track. {% endcomment %}
+    floatTrack.addEventListener('pointerdown', function (e) {
       if (e.target === floatThumb) return;
-      var barRect = floatBar.getBoundingClientRect();
-      var clickX = e.clientX - barRect.left;
-      var trackWidth = floatBar.clientWidth;
+      var trackRect = floatTrack.getBoundingClientRect();
+      var clickX = e.clientX - trackRect.left;
+      var trackWidth = floatTrack.clientWidth;
       var maxThumbLeft = trackWidth - floatThumb.offsetWidth;
       var scrollable = maxScrollLeft();
       if (maxThumbLeft <= 0 || scrollable <= 0) return;
       var targetThumbLeft = Math.max(0, Math.min(maxThumbLeft, clickX - floatThumb.offsetWidth / 2));
       scrollWrap.scrollLeft = (targetThumbLeft / maxThumbLeft) * scrollable;
     });
+
+    {% comment %} Prev/next arrows — a small fixed nudge per click (not a full page, that's what clicking the track does), smooth-scrolled so repeated clicks feel natural. {% endcomment %}
+    var ARROW_STEP = 120;
+    if (floatPrev) {
+      floatPrev.addEventListener('click', function () {
+        scrollWrap.scrollBy({ left: -ARROW_STEP, behavior: 'smooth' });
+      });
+    }
+    if (floatNext) {
+      floatNext.addEventListener('click', function () {
+        scrollWrap.scrollBy({ left: ARROW_STEP, behavior: 'smooth' });
+      });
+    }
 
     window.addEventListener('scroll', queueEvaluate, { passive: true });
     window.addEventListener('resize', queueEvaluate);
@@ -822,32 +860,42 @@
     layout/sidebar. z-index above the sticky Model/Price columns (3)
     since it needs to sit on top of the whole table, not behind it.
 
-    This bar is just its own flat background — no overflow/scrollbar
-    properties of any kind on it, since it isn't a scroll container at
-    all. The thumb (next rule) is a plain absolutely-positioned child
-    whose width/left the script sets directly; nothing here depends on
-    how any particular browser or OS chooses to draw a scrollbar.
+    height: 14px — matches a typical native scrollbar's own thickness (a
+    first version at 16px read as visibly thicker than the table's real
+    one once side by side). display: flex to lay out prev-arrow / track /
+    next-arrow in a row; the track (next rule) is the only flexible one,
+    the arrows are a fixed width each.
   {%- endcomment -%}
   .itm-pg-picker__floating-scroll {
     position: fixed;
     bottom: 0;
-    height: 16px;
+    height: 14px;
     z-index: 10;
+    display: flex;
+    align-items: stretch;
     background: #ececec;
     border-top: 1px solid #d8d8d8;
-    cursor: pointer;
   }
   .itm-pg-picker__floating-scroll[hidden] { display: none; }
+  .itm-pg-picker__floating-scroll-arrow {
+    flex: 0 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    padding: 0;
+    color: #8c8c8c;
+    cursor: pointer;
+  }
+  .itm-pg-picker__floating-scroll-arrow:hover { color: #4a4a4a; }
+  .itm-pg-picker__floating-scroll-track {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+  }
   {%- comment -%}
-    left/right: 0 (not just a width) — a position: absolute box with only
-    top/bottom/width set still defaults to left: auto, which resolves to
-    "wherever it would naturally sit" (effectively 0 here since it's the
-    only child) rather than a value the script can reliably build on top
-    of. Being explicit about all four edges up front is what the earlier
-    version was missing, and is what showed up as odd extra padding
-    around the thumb — its true position wasn't actually 0 until the
-    script's first left/width write landed.
-
     display: block !important — the actual root cause of every previous
     round of this not showing anything at all: base.css carries a
     sitewide reset, "a:empty, ul:empty, div:empty, ... { display: none }",
@@ -861,6 +909,11 @@
     a specificity workaround (a more specific selector here would still
     lose to any FUTURE equally-global rule) and not stuffing the div with
     filler content just to dodge :empty.
+
+    left: 0 explicitly, same reasoning as before — an absolutely
+    positioned box with only top/bottom/width set still defaults to
+    left: auto, an unreliable base for the script's own left writes to
+    build on top of.
   {%- endcomment -%}
   .itm-pg-picker__floating-scroll-thumb {
     display: block !important;
