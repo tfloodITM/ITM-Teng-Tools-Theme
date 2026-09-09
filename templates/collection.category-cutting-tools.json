@@ -30,33 +30,6 @@
     "sub_categories": {
       "type": "itm-category-image-grid",
       "blocks": {
-        "category_annular_cutters": {
-          "type": "category",
-          "settings": {
-            "title": "Annular Cutters",
-            "subtitle": "Shop now",
-            "description": "Annular cutters for fast, clean holes in steel with a magnetic drill.",
-            "link": "shopify://collections/annular-cutters"
-          }
-        },
-        "category_carbide_burrs": {
-          "type": "category",
-          "settings": {
-            "title": "Carbide Burrs",
-            "subtitle": "Shop now",
-            "description": "Tungsten carbide burrs for shaping, deburring and grinding metal.",
-            "link": "shopify://collections/carbide-burrs"
-          }
-        },
-        "category_countersinks": {
-          "type": "category",
-          "settings": {
-            "title": "Countersinks",
-            "subtitle": "Shop now",
-            "description": "Countersink bits for a clean, flush finish around screw heads.",
-            "link": "shopify://collections/countersinks"
-          }
-        },
         "category_drill_bits": {
           "type": "category",
           "settings": {
@@ -64,33 +37,6 @@
             "subtitle": "Shop now",
             "description": "Drill bits for wood, metal and masonry, sold individually and in sets.",
             "link": "shopify://collections/drill-bits"
-          }
-        },
-        "category_hand_reamers": {
-          "type": "category",
-          "settings": {
-            "title": "Hand Reamers",
-            "subtitle": "Shop now",
-            "description": "Hand reamers for fine-tuning hole size and finish after drilling.",
-            "link": "shopify://collections/hand-reamers"
-          }
-        },
-        "category_holesaws": {
-          "type": "category",
-          "settings": {
-            "title": "Holesaws",
-            "subtitle": "Shop now",
-            "description": "Holesaws for cutting large-diameter holes in wood, metal and plastic.",
-            "link": "shopify://collections/holesaws"
-          }
-        },
-        "category_magnetic_drill_cutting_tools": {
-          "type": "category",
-          "settings": {
-            "title": "Magnetic Drill Cutting Tools",
-            "subtitle": "Shop now",
-            "description": "Cutting tools and accessories built for use with magnetic drills.",
-            "link": "shopify://collections/magnetic-drill-cutting-tools"
           }
         },
         "category_screw_stud_extractors": {
@@ -111,15 +57,6 @@
             "link": "shopify://collections/screw-extractors"
           }
         },
-        "category_step_drills": {
-          "type": "category",
-          "settings": {
-            "title": "Step Drills",
-            "subtitle": "Shop now",
-            "description": "Step drills for clean, burr-free holes in a range of diameters from one bit.",
-            "link": "shopify://collections/step-drills"
-          }
-        },
         "category_threading_tools_cutting": {
           "type": "category",
           "settings": {
@@ -131,16 +68,9 @@
         }
       },
       "block_order": [
-        "category_annular_cutters",
-        "category_carbide_burrs",
-        "category_countersinks",
         "category_drill_bits",
-        "category_hand_reamers",
-        "category_holesaws",
-        "category_magnetic_drill_cutting_tools",
         "category_screw_stud_extractors",
         "category_screw_extractors",
-        "category_step_drills",
         "category_threading_tools_cutting"
       ],
       "name": "Category Image Grid",
