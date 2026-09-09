@@ -847,8 +847,23 @@
     version was missing, and is what showed up as odd extra padding
     around the thumb — its true position wasn't actually 0 until the
     script's first left/width write landed.
+
+    display: block !important — the actual root cause of every previous
+    round of this not showing anything at all: base.css carries a
+    sitewide reset, "a:empty, ul:empty, div:empty, ... { display: none }",
+    aimed at hiding genuinely empty structural elements left over from
+    unfilled Liquid content. This thumb is a legitimately empty <div> (a
+    plain visual bar with nothing inside it — its size/position come from
+    inline styles, not content) so it matched that rule too, and
+    div:empty (specificity 0,1,1) beats this class selector on its own
+    (0,1,0) regardless of which one comes later in the stylesheet.
+    !important is the correct tool against a global reset like this, not
+    a specificity workaround (a more specific selector here would still
+    lose to any FUTURE equally-global rule) and not stuffing the div with
+    filler content just to dodge :empty.
   {%- endcomment -%}
   .itm-pg-picker__floating-scroll-thumb {
+    display: block !important;
     position: absolute;
     left: 0;
     top: 2px;
