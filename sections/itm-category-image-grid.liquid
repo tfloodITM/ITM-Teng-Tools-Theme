@@ -316,16 +316,33 @@
         Spanners"), linked via custom.product_group_children. Shopify's own
         products_count only ever counts real products directly in the
         collection, so a hub like that reads as "0 products" despite having
-        real, clickable options — swap in the group count instead, same fix
-        as the collection's own page.
+        real, clickable options.
+
+        custom.effective_products_count (precomputed via the Admin API,
+        same pattern as group_card_images) is checked FIRST and wins when
+        present — it's the only reliable source for a hub whose children
+        are themselves hubs 2-3 levels deep, since reading .metafields on
+        an object reached through another collection's own metafield
+        reference doesn't resolve reliably in Liquid (confirmed this
+        session), ruling out a live multi-level walk here.
+
+        Without that metafield, this falls back to a live one-level sum
+        of each direct child's own products_count — reading a plain field
+        (not a nested metafield) on an object reached via
+        product_group_children DOES resolve reliably, so this fallback is
+        safe, just not deep-recursive. A hub whose real inventory sits 2+
+        levels down (rather than directly on its immediate children) will
+        undercount here until it also gets an effective_products_count of
+        its own.
       endcomment
-      assign product_count = linked_col.products_count
-      assign group_children = linked_col.metafields.custom.product_group_children.value
-      if group_children != blank and group_children.size > 0
-        if product_count == 0
-          assign product_count = group_children.size
-        else
-          assign product_count = product_count | plus: group_children.size
+      assign product_count = linked_col.metafields.custom.effective_products_count.value
+      if product_count == blank
+        assign product_count = linked_col.products_count
+        assign group_children = linked_col.metafields.custom.product_group_children.value
+        if group_children != blank and group_children.size > 0
+          for child in group_children
+            assign product_count = product_count | plus: child.products_count
+          endfor
         endif
       endif
     -%}
