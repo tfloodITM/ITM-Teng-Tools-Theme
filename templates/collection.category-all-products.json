@@ -1,0 +1,249 @@
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "itm-collection-breadcrumbs",
+      "settings": {
+        "color_scheme": "scheme-ac332372-6be7-41d4-8ba3-c07b83b6cc86",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "banner_image": "",
+        "image_fit": "cover",
+        "image_width": 55,
+        "image_height": 380,
+        "color_scheme": "scheme-3",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_category_icon": true,
+        "icon_size": 40,
+        "icon_color": "#ffffff",
+        "show_accent_bar": true,
+        "accent_bar_color": "#e30613"
+      }
+    },
+    "sub_categories": {
+      "type": "itm-category-image-grid",
+      "blocks": {
+        "category_air_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Air Tools and Accessories",
+            "subtitle": "Shop now",
+            "description": "Air-powered tools and accessories for the workshop and trade van.",
+            "link": "shopify://collections/air-tools-and-accessories"
+          }
+        },
+        "category_automotive_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Automotive Tools",
+            "subtitle": "Shop now",
+            "description": "Specialist tools built for automotive diagnostic, service and repair work.",
+            "link": "shopify://collections/automotive-tools"
+          }
+        },
+        "category_bits_drivers": {
+          "type": "category",
+          "settings": {
+            "title": "Bits & Drivers",
+            "subtitle": "Shop now",
+            "description": "Screwdriver bits, socket bits, holders and drivers for every drive size.",
+            "link": "shopify://collections/bits-drivers"
+          }
+        },
+        "category_clamps": {
+          "type": "category",
+          "settings": {
+            "title": "Clamps",
+            "subtitle": "Shop now",
+            "description": "Lever, welding and general-purpose clamps for a firm, reliable hold.",
+            "link": "shopify://collections/clamps"
+          }
+        },
+        "category_cutters_pliers": {
+          "type": "category",
+          "settings": {
+            "title": "Cutters & Pliers",
+            "subtitle": "Shop now",
+            "description": "Pliers, cutters and snips for gripping, cutting and shaping work.",
+            "link": "shopify://collections/cutters-pliers"
+          }
+        },
+        "category_cutting_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Cutting Tools",
+            "subtitle": "Shop now",
+            "description": "Drill bits, extractors and threading tools for precise cutting work.",
+            "link": "shopify://collections/cutting-tools"
+          }
+        },
+        "category_hex_torx_keys": {
+          "type": "category",
+          "settings": {
+            "title": "Hex & Torx Keys",
+            "subtitle": "Shop now",
+            "description": "Hex and Torx keys and sets for fast, reliable fastening work.",
+            "link": "shopify://collections/hex-torx-keys"
+          }
+        },
+        "category_measuring_marking": {
+          "type": "category",
+          "settings": {
+            "title": "Measuring & Marking",
+            "subtitle": "Shop now",
+            "description": "Measuring and marking tools for accurate, repeatable results.",
+            "link": "shopify://collections/measuring-marking"
+          }
+        },
+        "category_other_hand_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Other Hand Tools",
+            "subtitle": "Shop now",
+            "description": "Files, saws, scrapers and other everyday hand tools.",
+            "link": "shopify://collections/other-hand-tools"
+          }
+        },
+        "category_screwdrivers": {
+          "type": "category",
+          "settings": {
+            "title": "Screwdrivers",
+            "subtitle": "Shop now",
+            "description": "Screwdrivers in every drive type, built for lasting torque.",
+            "link": "shopify://collections/screwdrivers"
+          }
+        },
+        "category_sockets_accessories": {
+          "type": "category",
+          "settings": {
+            "title": "Sockets & Accessories",
+            "subtitle": "Shop now",
+            "description": "Sockets, ratchets and accessories for every drive size.",
+            "link": "shopify://collections/sockets-accessories"
+          }
+        },
+        "category_spanners_wrenches": {
+          "type": "category",
+          "settings": {
+            "title": "Spanners & Wrenches",
+            "subtitle": "Shop now",
+            "description": "Spanners and wrenches engineered for a precise, reliable fit.",
+            "link": "shopify://collections/spanners-wrenches"
+          }
+        },
+        "category_striking_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Striking Tools",
+            "subtitle": "Shop now",
+            "description": "Chisels, hammers, pry bars and punches built to take real force.",
+            "link": "shopify://collections/striking-tools"
+          }
+        },
+        "category_tool_kits": {
+          "type": "category",
+          "settings": {
+            "title": "Tool Kits",
+            "subtitle": "Shop now",
+            "description": "Complete, professionally organised kits for every trade and workshop.",
+            "link": "shopify://collections/tool-kits"
+          }
+        },
+        "category_tool_storage": {
+          "type": "category",
+          "settings": {
+            "title": "Tool Storage",
+            "subtitle": "Shop now",
+            "description": "Roll cabinets, tool chests and storage units for a fully organised workshop.",
+            "link": "shopify://collections/tool-storage"
+          }
+        },
+        "category_torque_tools": {
+          "type": "category",
+          "settings": {
+            "title": "Torque Tools",
+            "subtitle": "Shop now",
+            "description": "Torque wrenches and tools for precise, verifiable fastening.",
+            "link": "shopify://collections/torque-tools"
+          }
+        },
+        "category_vices": {
+          "type": "category",
+          "settings": {
+            "title": "Vices",
+            "subtitle": "Shop now",
+            "description": "Bench vices built for a secure, dependable hold.",
+            "link": "shopify://collections/vices"
+          }
+        }
+      },
+      "block_order": [
+        "category_air_tools",
+        "category_automotive_tools",
+        "category_bits_drivers",
+        "category_clamps",
+        "category_cutters_pliers",
+        "category_cutting_tools",
+        "category_hex_torx_keys",
+        "category_measuring_marking",
+        "category_other_hand_tools",
+        "category_screwdrivers",
+        "category_sockets_accessories",
+        "category_spanners_wrenches",
+        "category_striking_tools",
+        "category_tool_kits",
+        "category_tool_storage",
+        "category_torque_tools",
+        "category_vices"
+      ],
+      "name": "Category Image Grid",
+      "settings": {
+        "heading": "",
+        "heading_gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0,
+        "padding_bg": "#f4f4f4",
+        "top_divider": true,
+        "top_divider_color": "#e2e2e2",
+        "layout_style": "card",
+        "columns_desktop": "6",
+        "columns_mobile": "2",
+        "contained": false,
+        "card_shadow": true,
+        "divider_width": 20,
+        "divider_width_mobile": 12,
+        "divider_color": "#f4f4f4",
+        "radius": 12,
+        "height": 320,
+        "height_mobile": 190,
+        "overlay_opacity": 55,
+        "text_padding": 20,
+        "text_padding_mobile": 14,
+        "title_size": 22,
+        "title_size_mobile": 13,
+        "title_weight": "700",
+        "title_transform": "uppercase",
+        "title_color": "#ffffff",
+        "cta_style": "underline",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 11,
+        "subtitle_weight": "600",
+        "subtitle_color": "#e30613"
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "banner",
+    "sub_categories"
+  ]
+}
