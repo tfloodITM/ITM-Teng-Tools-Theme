@@ -99,12 +99,7 @@
             assign wrapper_class = wrapper_class | append: ' slideshow__controls--border-radius-mobile'
           endif
         -%}
-        {% render 'slider-controls',
-          slider_id: 'Slider-' | append: section.id,
-          pages: section.blocks.size,
-          wrapper_class: wrapper_class,
-          show_arrows: true
-        %}
+        {% render 'slider-controls', slider_id: 'Slider-', append: section.id, pages: section.blocks.size, wrapper_class: wrapper_class, show_arrows: true %}
       {%- endif -%}
 
     </div>
@@ -227,3 +222,20 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'slider-controls',
+              slider_id: 'Slider-' | append: section.id,
+              pages: section.blocks.size,
+              wrapper_class: wrapper_class,
+              show_arrows: true
+            %}
+  to: "{% render 'slider-controls', slider_id: 'Slider-', append: section.id, pages:
+    section.blocks.size, wrapper_class: wrapper_class, show_arrows: true %}"
+  position: 4944..5093
+{% endcomment %}
