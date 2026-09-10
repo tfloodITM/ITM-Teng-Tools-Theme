@@ -131,12 +131,7 @@
           </div>
 
           {% if pages > 1 %}
-            {% render 'slider-controls',
-              slider_id: 'Slider-' | append: section.id,
-              pages: pages,
-              wrapper_class: 'slider-buttons slider-buttons--bar testimonial-hero__controls',
-              show_arrows: true
-            %}
+            {% render 'slider-controls', slider_id: 'Slider-', append: section.id, pages: pages, wrapper_class: 'slider-buttons slider-buttons--bar testimonial-hero__controls', show_arrows: true %}
           {% endif %}
         </div>
       </div>
@@ -329,3 +324,21 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'slider-controls',
+                  slider_id: 'Slider-' | append: section.id,
+                  pages: pages,
+                  wrapper_class: 'slider-buttons slider-buttons--bar testimonial-hero__controls',
+                  show_arrows: true
+                %}
+  to: "{% render 'slider-controls', slider_id: 'Slider-', append: section.id, pages:
+    pages, wrapper_class: 'slider-buttons slider-buttons--bar testimonial-hero__controls',
+    show_arrows: true %}"
+  position: 5587..5772
+{% endcomment %}
