@@ -8,13 +8,16 @@
 {%- comment -%}
   ===== Modern app-style flyout list =====
   Top-level items get an icon in a soft, brand-tinted rounded square, the
-  label, and a chevron — same shape as any category-list app menu. Shopify
-  navigation links have no icon field of their own, so the icon is guessed
-  from the link's own title (matching this theme's existing sharpening-
-  capability icon set where the title mentions one) with a plain generic
-  icon as the fallback for anything that doesn't match (accessories, gift
-  cards, etc.) — there's no way to know the merchant's real menu titles
-  ahead of time, so this degrades gracefully rather than guessing wrong.
+  label, and a chevron — same shape as any category-list app menu.
+
+  Icons come from the shared snippets/itm-category-icon.liquid lookup —
+  the exact same title-keyword matching the desktop "Products" mega menu
+  and every collection banner already use — so a category gets the same
+  icon everywhere on the site, mobile included. Shopify nav links have no
+  icon field of their own; that snippet falls back to a plain generic
+  icon for anything that doesn't match a known category keyword (Resources,
+  Contact Us, gift cards, etc.), so this still degrades gracefully rather
+  than guessing wrong.
 {%- endcomment -%}
 <style>
   /* Sits snug under the header — Dawn's own 3rem top padding is why it
@@ -69,8 +72,10 @@
   .itm-drawer-arrow{ flex:0 0 auto; width:9px; height:9px; opacity:.4; }
   .itm-drawer-arrow svg{ width:100%; height:100%; display:block; }
 
-  /* Sub-menu levels: same row shape, no icon card (they're inside a
-     category already), slightly smaller label so the hierarchy still reads. */
+  /* Sub-menu levels (the real "Air Tools", "Screwdrivers", etc. category
+     list under "Products") — same row shape and icon card as the top
+     level, matching the desktop mega menu; just a slightly smaller label
+     so the hierarchy still reads. */
   .menu-drawer__submenu .itm-drawer-row{ padding-left:20px !important; }
   .menu-drawer__submenu .itm-drawer-label{ font-size:14px; font-weight:500; }
   .menu-drawer__close-button.itm-drawer-row{ font-weight:700; border-bottom-width:2px; }
@@ -95,34 +100,10 @@
       <div class="menu-drawer__inner-container">
         <div class="menu-drawer__navigation-container">
           <nav class="menu-drawer__navigation">
-            {%- comment -%}
-              No standard Shopify link has an icon field of its own, so this
-              guesses one from the title, matched against the store's real
-              uploaded menu icons, falling back to a plain generic icon (not
-              another external asset — no 404 risk) for anything that doesn't
-              match a keyword (Resources, Contact Us, etc.). It's a
-              best-effort visual, not a merchant-configurable one, since a
-              nav link has nowhere of its own to store an icon choice.
-            {%- endcomment -%}
             {%- capture itm_drawer_chevron -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>{%- endcapture -%}
-            {%- capture itm_drawer_fallback_icon -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>{%- endcapture -%}
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
               {%- for link in section.settings.menu.links -%}
-                {%- liquid
-                  assign itm_lt = link.title | downcase
-                  assign itm_icon_url = ''
-                  if itm_lt contains 'electric'
-                    assign itm_icon_url = 'https://cdn.shopify.com/s/files/1/0778/6928/5630/files/ad303b1a-afc3-4e32-b538-7cef36b4b82b.png?v=1787185870'
-                  elsif itm_lt contains 'pocket' or itm_lt contains 'portable'
-                    assign itm_icon_url = 'https://cdn.shopify.com/s/files/1/0778/6928/5630/files/4115f9d5-7fa0-45c1-9a70-14066ac18646.png?v=1787185870'
-                  elsif itm_lt contains 'bench'
-                    assign itm_icon_url = 'https://cdn.shopify.com/s/files/1/0778/6928/5630/files/a5e8f11a-6beb-4a29-950e-7ae6fea53068.png?v=1787185870'
-                  elsif itm_lt contains 'kitchen'
-                    assign itm_icon_url = 'https://cdn.shopify.com/s/files/1/0778/6928/5630/files/0a38c568-5801-40cc-99d9-272b037d6c56.png?v=1787185871'
-                  elsif itm_lt contains 'accessor' or itm_lt contains 'parts'
-                    assign itm_icon_url = 'https://cdn.shopify.com/s/files/1/0778/6928/5630/files/f75695ee-d6f7-4f63-808d-1b4a5d2a9fa1.png?v=1787185871'
-                  endif
-                -%}
+                {%- capture itm_icon_svg -%}{% render 'itm-category-icon', title: link.title %}{%- endcapture -%}
                 <li>
                   {%- if link.links != blank -%}
                     <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
@@ -130,13 +111,7 @@
                         id="HeaderDrawer-{{ link.handle }}"
                         class="menu-drawer__menu-item list-menu__item link link--text focus-inset itm-drawer-row{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
                       >
-                        <span class="itm-drawer-icon" aria-hidden="true">
-                          {%- if itm_icon_url != blank -%}
-                            <img src="{{ itm_icon_url }}" alt="" width="22" height="22" loading="lazy">
-                          {%- else -%}
-                            {{ itm_drawer_fallback_icon }}
-                          {%- endif -%}
-                        </span>
+                        <span class="itm-drawer-icon" aria-hidden="true">{{ itm_icon_svg }}</span>
                         <span class="itm-drawer-label">{{ link.title | escape }}</span>
                         <span class="itm-drawer-arrow" aria-hidden="true">{{ itm_drawer_chevron }}</span>
                         <span class="svg-wrapper">
@@ -160,6 +135,7 @@
                           </button>
                           <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
                             {%- for childlink in link.links -%}
+                              {%- capture itm_child_icon_svg -%}{% render 'itm-category-icon', title: childlink.title %}{%- endcapture -%}
                               <li>
                                 {%- if childlink.links == blank -%}
                                   <a
@@ -170,6 +146,7 @@
                                       aria-current="page"
                                     {% endif %}
                                   >
+                                    <span class="itm-drawer-icon" aria-hidden="true">{{ itm_child_icon_svg }}</span>
                                     <span class="itm-drawer-label">{{ childlink.title | escape }}</span>
                                     <span class="itm-drawer-arrow" aria-hidden="true">{{ itm_drawer_chevron }}</span>
                                   </a>
@@ -179,6 +156,7 @@
                                       id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
                                       class="menu-drawer__menu-item link link--text list-menu__item focus-inset itm-drawer-row"
                                     >
+                                      <span class="itm-drawer-icon" aria-hidden="true">{{ itm_child_icon_svg }}</span>
                                       <span class="itm-drawer-label">{{ childlink.title | escape }}</span>
                                       <span class="itm-drawer-arrow" aria-hidden="true">{{ itm_drawer_chevron }}</span>
                                       <span class="svg-wrapper">
@@ -240,13 +218,7 @@
                         aria-current="page"
                       {% endif %}
                     >
-                      <span class="itm-drawer-icon" aria-hidden="true">
-                        {%- if itm_icon_url != blank -%}
-                          <img src="{{ itm_icon_url }}" alt="" width="22" height="22" loading="lazy">
-                        {%- else -%}
-                          {{ itm_drawer_fallback_icon }}
-                        {%- endif -%}
-                      </span>
+                      <span class="itm-drawer-icon" aria-hidden="true">{{ itm_icon_svg }}</span>
                       <span class="itm-drawer-label">{{ link.title | escape }}</span>
                       <span class="itm-drawer-arrow" aria-hidden="true">{{ itm_drawer_chevron }}</span>
                     </a>
