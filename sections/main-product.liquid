@@ -435,75 +435,6 @@
     color: {{ section.settings.guarantee_color | default: '#333333' }};
   }
 
-  /* ITM trust block (bottom of product info) */
-  #shopify-section-{{ section.id }} .itm-trust {
-    display: flex;
-    flex-direction: {% if section.settings.trust_layout == 'vertical' %}column{% else %}row{% endif %};
-    flex-wrap: {% if section.settings.trust_layout == 'vertical' %}wrap{% else %}nowrap{% endif %};
-    align-items: stretch;
-    gap: {{ section.settings.trust_row_gap | default: 14 }}px;
-    margin-top: {{ section.settings.trust_margin_top | default: 8 }}px;
-    margin-bottom: {{ section.settings.trust_margin_bottom | default: 0 }}px;
-  }
-  #shopify-section-{{ section.id }} .itm-trust__row {
-    display: flex;
-    gap: {{ section.settings.trust_icon_gap | default: 8 }}px;
-    {%- if section.settings.trust_layout == 'vertical' -%}
-    align-items: center;
-    {%- else -%}
-    flex: 1 1 0;
-    min-width: 0;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    {%- endif -%}
-  }
-  {%- if section.settings.trust_layout != 'vertical' -%}
-  #shopify-section-{{ section.id }} .itm-trust__text { align-items: center; }
-  {%- endif -%}
-  #shopify-section-{{ section.id }} .itm-trust__icon {
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    /* Scales up on wider screens: = setting at ~1440px, grows beyond, capped at 2x,
-       never below the setting on smaller screens. */
-    width: clamp({{ section.settings.trust_icon_size | default: 36 }}px, calc({{ section.settings.trust_icon_size | default: 36 }}px + (100vw - 1440px) * 0.025), {{ section.settings.trust_icon_size | default: 36 | times: 2 }}px);
-    height: clamp({{ section.settings.trust_icon_size | default: 36 }}px, calc({{ section.settings.trust_icon_size | default: 36 }}px + (100vw - 1440px) * 0.025), {{ section.settings.trust_icon_size | default: 36 | times: 2 }}px);
-    color: {{ section.settings.trust_icon_color | default: '#1a1a1a' }};
-  }
-  #shopify-section-{{ section.id }} .itm-trust__icon svg { width: 100%; height: 100%; display: block; }
-  #shopify-section-{{ section.id }} .itm-trust__icon img { width: 100%; height: 100%; object-fit: contain; }
-  #shopify-section-{{ section.id }} .itm-trust__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  #shopify-section-{{ section.id }} .itm-trust__heading {
-    font-family: var(--font-body-family);
-    font-size: clamp({{ section.settings.trust_heading_size | default: 14 }}px, calc({{ section.settings.trust_heading_size | default: 14 }}px + (100vw - 1440px) * 0.006), {{ section.settings.trust_heading_size | default: 14 | times: 1.7 | round }}px);
-    font-weight: {% if section.settings.trust_heading_bold %}700{% else %}400{% endif %};
-    line-height: 1.25;
-    color: {{ section.settings.trust_color | default: '#1a1a1a' }};
-  }
-  #shopify-section-{{ section.id }} .itm-trust__sub {
-    font-family: var(--font-body-family);
-    font-size: clamp({{ section.settings.trust_text_size | default: 13 }}px, calc({{ section.settings.trust_text_size | default: 13 }}px + (100vw - 1440px) * 0.005), {{ section.settings.trust_text_size | default: 13 | times: 1.7 | round }}px);
-    font-weight: {% if section.settings.trust_sub_bold %}600{% else %}400{% endif %};
-    line-height: 1.3;
-    color: {{ section.settings.trust_sub_color | default: '#666666' }};
-  }
-  {%- if section.settings.trust_layout != 'vertical' -%}
-  /* Short vertical 1px divider centered in the gap between trust items */
-  #shopify-section-{{ section.id }} .itm-trust__row { position: relative; }
-  #shopify-section-{{ section.id }} .itm-trust__row + .itm-trust__row::before {
-    content: '';
-    position: absolute;
-    left: calc(-1 * {{ section.settings.trust_row_gap | default: 14 }}px / 2);
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: {{ section.settings.trust_divider_height | default: 55 }}%;
-    background: {{ section.settings.trust_divider_color | default: '#d0d0d0' }};
-  }
-  {%- endif -%}
-
   /* Left-align the dynamic-checkout "More payment options" link */
   #shopify-section-{{ section.id }} .shopify-payment-button__more-options {
     text-align: left;
@@ -511,7 +442,7 @@
     margin-right: auto;
   }
 
-  /* Features / Specifications accordions under the trust block */
+  /* Features / Specifications / Warranty accordions (bottom of product info) */
   #shopify-section-{{ section.id }} .itm-info-accordions {
     margin-top: {{ section.settings.info_accordions_margin_top | default: 16 }}px;
   }
@@ -567,7 +498,7 @@
     /* Sticky info: the whole info column stays while the image grid scrolls, and
        releases at the grid bottom. Offset by the header height so it doesn't slide
        behind the header. Note: the buy box is intentionally NOT independently sticky —
-       it scrolls with the column so it can't overlap the trust block / accordions. */
+       it scrolls with the column so it can't overlap the accordions. */
     .itm-product-grid > .itm-product-col--info {
       position: sticky;
       top: calc(var(--header-height, 100px) + {{ section.settings.info_sticky_top | default: 20 }}px);
@@ -2759,7 +2690,7 @@
               </div>
             {%- endif -%}
 
-            {%- comment -%} ITM: Features / Specifications accordions under the trust block {%- endcomment -%}
+            {%- comment -%} ITM: Features / Specifications / Warranty accordions {%- endcomment -%}
             {%- if section.settings.show_info_accordions -%}
               <div class="itm-info-accordions">
                 {% render 'itm-info-accordion',

@@ -363,7 +363,8 @@
           "settings": {
             "source": "metafield",
             "metafield_id": "custom.web_specifications",
-            "manual_html": ""
+            "manual_html": "",
+            "table": true
           }
         }
       },

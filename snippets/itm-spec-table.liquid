@@ -1,0 +1,80 @@
+{%- comment -%}
+  ITM Spec Table
+  --------------
+  Renders raw NetSuite spec HTML ("<li>Label: value</li>" pairs) as a
+  clean, centered, two-column Attribute/Value table with alternating
+  white/grey rows. Parsing is shared via itm-spec-parser (the same parser
+  the sortable product-group table already uses), so there's exactly one
+  place that understands this raw HTML's format — this snippet only
+  handles turning parsed pairs into a table.
+
+  Used by both snippets/itm-info-accordion.liquid (the Specifications
+  accordion) and sections/itm-product-html-section.liquid (the standalone
+  "HTML Section" — the one actually live on real product pages, whose own
+  "html" block has a "Show as table" setting).
+
+  Params:
+    raw_html (string) — required. The raw spec HTML to parse.
+
+  Usage: {% render 'itm-spec-table', raw_html: html_output %}
+  Renders nothing if there's no usable data.
+{%- endcomment -%}
+{%- liquid
+  assign spec_raw_str = raw_html | append: ''
+  capture spec_pairs
+    render 'itm-spec-parser', raw_html: spec_raw_str
+  endcapture
+  assign spec_pairs = spec_pairs | strip
+-%}
+{%- if spec_pairs != '' -%}
+  <table class="itm-spec-table">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- assign spec_pairs_list = spec_pairs | split: ';;' -%}
+      {%- for pair in spec_pairs_list -%}
+        {%- unless pair == blank -%}
+          {%- assign spec_label = pair | split: '=' | first -%}
+          {%- assign spec_value = pair | remove_first: spec_label | remove_first: '=' -%}
+          <tr>
+            <td>{{ spec_label }}</td>
+            <td>{{ spec_value }}</td>
+          </tr>
+        {%- endunless -%}
+      {%- endfor -%}
+    </tbody>
+  </table>
+{%- endif -%}
+
+<style>
+  .itm-spec-table {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .itm-spec-table th,
+  .itm-spec-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e2e2;
+  }
+  .itm-spec-table th {
+    font-weight: 700;
+    border-bottom: 1px solid #d0d0d0;
+  }
+  {%- comment -%}
+    A solid, clearly-visible light grey (not a barely-there foreground
+    tint) — the whole point was a plain white/grey striped table like the
+    reference screenshot, not something that reads as almost-white either
+    way.
+  {%- endcomment -%}
+  .itm-spec-table tbody tr:nth-child(odd) {
+    background: #f7f6f3;
+  }
+</style>

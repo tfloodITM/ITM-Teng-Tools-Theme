@@ -210,7 +210,17 @@
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
-                  {{ html_output }}
+                  {%- if block.settings.table -%}
+                    {%- comment -%}
+                      Spec-style content (raw NetSuite "<li>Label: value</li>"
+                      HTML, not real prose) — same shared table renderer the
+                      Specifications accordion uses, so both stay visually
+                      identical and this parsing logic exists in one place.
+                    {%- endcomment -%}
+                    {% render 'itm-spec-table', raw_html: html_output %}
+                  {%- else -%}
+                    {{ html_output }}
+                  {%- endif -%}
                 </div>
               {%- endif -%}
 
@@ -360,6 +370,13 @@
           "id": "manual_html",
           "label": "Manual HTML",
           "info": "Used when source is set to Custom HTML or the metafield is empty."
+        },
+        {
+          "type": "checkbox",
+          "id": "table",
+          "label": "Show as Attribute / Value table",
+          "info": "For spec-style content (raw \"Label: value\" list data), rather than real prose — renders a proper two-column table instead of a plain bulleted list.",
+          "default": false
         }
       ]
     }
