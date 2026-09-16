@@ -2644,52 +2644,6 @@
             </div>
             {%- endif -%}
 
-            {%- comment -%} ITM: clean trust block at the bottom of the product info {%- endcomment -%}
-            {%- if section.settings.trust_enable -%}
-              <div class="itm-trust">
-                <div class="itm-trust__row">
-                  <span class="itm-trust__icon" aria-hidden="true">
-                    {%- if section.settings.trust_mb_icon != blank -%}
-                      <img src="{{ section.settings.trust_mb_icon | image_url: width: 96 }}" alt="" width="48" height="48" loading="lazy">
-                    {%- else -%}
-                      {{ 'itm-icon-moneyback.svg' | inline_asset_content }}
-                    {%- endif -%}
-                  </span>
-                  <div class="itm-trust__text">
-                    {%- if section.settings.trust_mb_heading != blank -%}<strong class="itm-trust__heading">{{ section.settings.trust_mb_heading | escape }}</strong>{%- endif -%}
-                    {%- if section.settings.trust_mb_text != blank -%}<span class="itm-trust__sub">{{ section.settings.trust_mb_text | escape }}</span>{%- endif -%}
-                  </div>
-                </div>
-                <div class="itm-trust__row">
-                  <span class="itm-trust__icon" aria-hidden="true">
-                    {%- if section.settings.trust_ship_icon != blank -%}
-                      <img src="{{ section.settings.trust_ship_icon | image_url: width: 96 }}" alt="" width="48" height="48" loading="lazy">
-                    {%- else -%}
-                      {{ 'itm-icon-shipping.svg' | inline_asset_content }}
-                    {%- endif -%}
-                  </span>
-                  <div class="itm-trust__text">
-                    {%- if section.settings.trust_ship_text != blank -%}<strong class="itm-trust__heading">{{ section.settings.trust_ship_text | escape }}</strong>{%- endif -%}
-                  </div>
-                </div>
-                {%- if section.settings.trust_warranty_heading != blank or section.settings.trust_warranty_text != blank -%}
-                <div class="itm-trust__row">
-                  <span class="itm-trust__icon" aria-hidden="true">
-                    {%- if section.settings.trust_warranty_icon != blank -%}
-                      <img src="{{ section.settings.trust_warranty_icon | image_url: width: 96 }}" alt="" width="48" height="48" loading="lazy">
-                    {%- else -%}
-                      {{ 'itm-icon-warranty.svg' | inline_asset_content }}
-                    {%- endif -%}
-                  </span>
-                  <div class="itm-trust__text">
-                    {%- if section.settings.trust_warranty_heading != blank -%}<strong class="itm-trust__heading">{{ section.settings.trust_warranty_heading | escape }}</strong>{%- endif -%}
-                    {%- if section.settings.trust_warranty_text != blank -%}<span class="itm-trust__sub">{{ section.settings.trust_warranty_text | escape }}</span>{%- endif -%}
-                  </div>
-                </div>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-
             {%- comment -%} ITM: Features / Specifications / Warranty accordions {%- endcomment -%}
             {%- if section.settings.show_info_accordions -%}
               <div class="itm-info-accordions">
@@ -2709,6 +2663,16 @@
                   content: section.settings.acc2_content,
                   open: section.settings.info_accordions_open,
                   table: section.settings.acc2_table
+                %}
+                {% render 'itm-info-accordion',
+                  product: product,
+                  heading: section.settings.acc3_heading,
+                  source: section.settings.acc3_source,
+                  metafield: section.settings.acc3_metafield,
+                  content: section.settings.acc3_content,
+                  open: section.settings.info_accordions_open,
+                  table: section.settings.acc3_table,
+                  icon: 'question'
                 %}
               </div>
             {%- endif -%}
@@ -5236,185 +5200,8 @@
     },
     {
       "type": "header",
-      "content": "ITM — Trust block (bottom of info)",
-      "info": "Clean money-back + free-shipping trust block shown at the bottom of the product info area."
-    },
-    {
-      "type": "checkbox",
-      "id": "trust_enable",
-      "label": "Show trust block",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "trust_layout",
-      "label": "Layout",
-      "options": [
-        { "value": "horizontal", "label": "Horizontal (side by side)" },
-        { "value": "vertical", "label": "Vertical (stacked)" }
-      ],
-      "default": "horizontal"
-    },
-    {
-      "type": "image_picker",
-      "id": "trust_mb_icon",
-      "label": "Money-back icon",
-      "info": "Optional — leave blank to use the built-in return icon."
-    },
-    {
-      "type": "text",
-      "id": "trust_mb_heading",
-      "label": "Money-back heading",
-      "default": "30-day money-back guarantee"
-    },
-    {
-      "type": "text",
-      "id": "trust_mb_text",
-      "label": "Money-back text",
-      "default": "Try it for 30 days. Love it or send it back for a full refund."
-    },
-    {
-      "type": "image_picker",
-      "id": "trust_ship_icon",
-      "label": "Free shipping icon",
-      "info": "Optional — leave blank to use the built-in truck icon."
-    },
-    {
-      "type": "text",
-      "id": "trust_ship_text",
-      "label": "Free shipping text",
-      "default": "Free shipping on orders over $99"
-    },
-    {
-      "type": "image_picker",
-      "id": "trust_warranty_icon",
-      "label": "Warranty icon",
-      "info": "Optional — leave blank to use the built-in shield icon."
-    },
-    {
-      "type": "text",
-      "id": "trust_warranty_heading",
-      "label": "Warranty heading",
-      "default": "3-year warranty"
-    },
-    {
-      "type": "text",
-      "id": "trust_warranty_text",
-      "label": "Warranty text",
-      "info": "Optional second line. Leave blank for heading only."
-    },
-    {
-      "type": "range",
-      "id": "trust_heading_size",
-      "label": "Heading size (px)",
-      "min": 10,
-      "max": 22,
-      "step": 1,
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "trust_text_size",
-      "label": "Sub-text size (px)",
-      "min": 9,
-      "max": 18,
-      "step": 1,
-      "default": 13
-    },
-    {
-      "type": "color",
-      "id": "trust_color",
-      "label": "Heading colour",
-      "default": "#1a1a1a"
-    },
-    {
-      "type": "color",
-      "id": "trust_sub_color",
-      "label": "Sub-text colour",
-      "default": "#666666"
-    },
-    {
-      "type": "checkbox",
-      "id": "trust_heading_bold",
-      "label": "Bold heading",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "trust_sub_bold",
-      "label": "Bold sub-text",
-      "default": false
-    },
-    {
-      "type": "color",
-      "id": "trust_icon_color",
-      "label": "Icon colour (built-in icons)",
-      "default": "#1a1a1a"
-    },
-    {
-      "type": "range",
-      "id": "trust_icon_size",
-      "label": "Icon size (px)",
-      "min": 16,
-      "max": 56,
-      "step": 2,
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "trust_icon_gap",
-      "label": "Gap icon → text (px)",
-      "min": 0,
-      "max": 24,
-      "step": 1,
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "trust_row_gap",
-      "label": "Gap between rows (px)",
-      "min": 0,
-      "max": 32,
-      "step": 1,
-      "default": 14
-    },
-    {
-      "type": "color",
-      "id": "trust_divider_color",
-      "label": "Divider line colour (between items)",
-      "default": "#d0d0d0"
-    },
-    {
-      "type": "range",
-      "id": "trust_divider_height",
-      "label": "Divider line height (%)",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 55
-    },
-    {
-      "type": "range",
-      "id": "trust_margin_top",
-      "label": "Space above block (px)",
-      "min": 0,
-      "max": 40,
-      "step": 1,
-      "default": 8
-    },
-    {
-      "type": "range",
-      "id": "trust_margin_bottom",
-      "label": "Space below block (px)",
-      "min": 0,
-      "max": 40,
-      "step": 1,
-      "default": 0
-    },
-    {
-      "type": "header",
       "content": "ITM — Info accordions",
-      "info": "Two accordions under the trust block. Each shows only when it has content (from a metafield or your own rich text)."
+      "info": "Features / Specifications / Warranty accordions at the bottom of the product info area. Each shows only when it has content (from a metafield or your own rich text)."
     },
     {
       "type": "checkbox",
@@ -5513,7 +5300,47 @@
     },
     {
       "type": "paragraph",
-      "content": "Title & content styling (both accordions)"
+      "content": "Accordion 3"
+    },
+    {
+      "type": "text",
+      "id": "acc3_heading",
+      "label": "Title",
+      "default": "Warranty"
+    },
+    {
+      "type": "select",
+      "id": "acc3_source",
+      "label": "Content source",
+      "options": [
+        { "value": "metafield", "label": "Product metafield" },
+        { "value": "richtext", "label": "Custom text (below)" }
+      ],
+      "default": "richtext"
+    },
+    {
+      "type": "text",
+      "id": "acc3_metafield",
+      "label": "Metafield (namespace.key)",
+      "info": "Used when source is Product metafield."
+    },
+    {
+      "type": "richtext",
+      "id": "acc3_content",
+      "label": "Custom text",
+      "info": "Used when source is Custom text.",
+      "default": "<p>All our tools meet, or exceed, the demands in ISO, DIN and other international standards. As an extra security for you, our tools are offered with a guarantee against material and manufacturing defects during the normal lifetime of the product in question. Defective products covered by the guarantee will be repaired or replaced. Defects or performance issues caused by accidents, not approved modifications, misuse, normal wear & tear or lack of proper care are excluded.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "acc3_table",
+      "label": "Show as Attribute / Value table",
+      "info": "For spec-style metafields (raw \"Label: value\" list data) rather than real prose. Ignored when source is Custom text.",
+      "default": false
+    },
+    {
+      "type": "paragraph",
+      "content": "Title & content styling (all three accordions)"
     },
     {
       "type": "range",

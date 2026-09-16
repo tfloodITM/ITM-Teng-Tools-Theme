@@ -1,6 +1,6 @@
 {%- comment -%}
-  ITM info accordion (Features / Specifications style, shared)
-  -----------------------------------------------------------
+  ITM info accordion (Features / Specifications / Warranty style, shared)
+  -------------------------------------------------------------------
   Params:
     product    (Product)  required
     heading    (string)   accordion title
@@ -17,6 +17,11 @@
                           logic exists in one place. Ignored when
                           source = richtext, since that content is genuine
                           prose, not label/value pairs.
+    icon       (string)   optional leading icon before the title. Only
+                          'question' is defined right now (a plain circled
+                          "?", used for the Warranty accordion) — left as a
+                          string rather than a plain boolean so more icons
+                          can be added here later without a new param.
 {%- endcomment -%}
 {%- liquid
   assign acc_value = ''
@@ -45,6 +50,15 @@
     <details{% if open %} open{% endif %}>
       <summary>
         <div class="summary__title">
+          {%- if icon == 'question' -%}
+            <span class="itm-acc-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 2-2.4 3.7"/>
+                <line x1="12" y1="17.2" x2="12" y2="17.2"/>
+              </svg>
+            </span>
+          {%- endif -%}
           <h2 class="accordion__title itm-acc-title">{{ heading | escape }}</h2>
         </div>
         {{- 'icon-caret.svg' | inline_asset_content -}}
@@ -59,3 +73,14 @@
     </details>
   </div>
 {%- endif -%}
+
+{%- comment -%}
+  Scoped to .itm-info-accordion specifically — .summary__title is a shared
+  Dawn class also used by the cart drawer and elsewhere, so an unscoped
+  rule here would leak into every accordion on the site, not just this one.
+{%- endcomment -%}
+<style>
+  .itm-info-accordion .summary__title { display: flex; align-items: center; gap: 10px; }
+  .itm-acc-icon { flex: 0 0 auto; display: inline-flex; }
+  .itm-acc-icon svg { width: 20px; height: 20px; display: block; }
+</style>
