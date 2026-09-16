@@ -66,7 +66,8 @@
               </tr>
             </thead>
             <tbody>
-              {%- for pair in acc_pairs | split: ';;' -%}
+              {%- assign acc_pairs_list = acc_pairs | split: ';;' -%}
+              {%- for pair in acc_pairs_list -%}
                 {%- unless pair == blank -%}
                   {%- assign spec_label = pair | split: '=' | first -%}
                   {%- assign spec_value = pair | remove_first: spec_label | remove_first: '=' -%}
