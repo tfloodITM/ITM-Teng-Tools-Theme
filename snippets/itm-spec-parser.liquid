@@ -12,12 +12,21 @@
   that row's cells) and duplicating a state machine this fiddly across two
   places is exactly how it drifts out of sync and re-breaks later.
 
-  Param: product (Product) — required
+  Params:
+    product  (Product) — required unless raw_html is given
+    raw_html (string)  — optional; parse this HTML directly instead of
+                         reading product.metafields.custom.web_specifications.
+                         Lets other callers (e.g. itm-info-accordion, whose
+                         Specifications metafield is a merchant setting, not
+                         always literally custom.web_specifications) reuse
+                         this exact parsing logic on whatever raw value they
+                         already resolved, instead of copying the state
+                         machine a second time.
   Output: call this via {% capture x %}{% render 'itm-spec-parser', product: product %}{% endcapture %}
   and split the result on ';;' then '=' — blank if there's no usable data.
 {%- endcomment -%}
 {%- liquid
-  assign spec_raw = product.metafields.custom.web_specifications.value
+  assign spec_raw = raw_html | default: product.metafields.custom.web_specifications.value
   assign pairs_str = ''
   if spec_raw != blank
     assign spec_parts = spec_raw | split: '<li>'

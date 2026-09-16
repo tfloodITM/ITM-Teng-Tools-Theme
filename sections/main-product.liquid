@@ -2776,7 +2776,8 @@
                   source: section.settings.acc2_source,
                   metafield: section.settings.acc2_metafield,
                   content: section.settings.acc2_content,
-                  open: section.settings.info_accordions_open
+                  open: section.settings.info_accordions_open,
+                  table: section.settings.acc2_table
                 %}
               </div>
             {%- endif -%}
@@ -5571,6 +5572,13 @@
       "id": "acc2_content",
       "label": "Custom text",
       "info": "Used when source is Custom text."
+    },
+    {
+      "type": "checkbox",
+      "id": "acc2_table",
+      "label": "Show as Attribute / Value table",
+      "info": "For spec-style metafields (raw \"Label: value\" list data) rather than real prose — renders a proper two-column table instead of a plain bulleted list. Ignored when source is Custom text.",
+      "default": true
     },
     {
       "type": "paragraph",
