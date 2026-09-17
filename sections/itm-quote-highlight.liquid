@@ -49,7 +49,7 @@
     font-size: {{ section.settings.mark_size_desktop }}px;
     line-height: 1;
     color: {{ section.settings.mark_color }};
-    margin-bottom: 4px;
+    margin-bottom: {{ section.settings.mark_spacing_desktop }}px;
   }
   #shopify-section-{{ sid }} .itm-qh__quote {
     font-size: {{ section.settings.quote_size_desktop }}px;
@@ -94,6 +94,7 @@
   @media (max-width: 749px) {
     #shopify-section-{{ sid }} .itm-qh__mark {
       font-size: {{ section.settings.mark_size_mobile }}px;
+      margin-bottom: {{ section.settings.mark_spacing_mobile }}px;
     }
     #shopify-section-{{ sid }} .itm-qh__quote {
       font-size: {{ section.settings.quote_size_mobile }}px;
@@ -297,6 +298,28 @@
       "max": 100,
       "step": 2,
       "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Space between quotation mark and quote text"
+    },
+    {
+      "type": "range",
+      "id": "mark_spacing_desktop",
+      "label": "Desktop (px)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "mark_spacing_mobile",
+      "label": "Mobile (px)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 4
     },
     {
       "type": "header",
