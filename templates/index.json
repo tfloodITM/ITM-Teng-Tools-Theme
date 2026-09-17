@@ -1093,6 +1093,7 @@
         "review_graham"
       ],
       "name": "Customer Reviews (only 2 real — see notes)",
+      "disabled": true,
       "settings": {
         "heading": "What Professionals Say",
         "review_count_text": "",
@@ -1103,6 +1104,44 @@
         "autoplay_speed": 50,
         "autoplay_direction": "left",
         "hover_border_color": "#e30613"
+      }
+    },
+    "itm_quote_highlight": {
+      "type": "itm-quote-highlight",
+      "name": "ITM — Quote highlight",
+      "blocks": {
+        "quote_jake": {
+          "type": "quote",
+          "settings": {
+            "quote": "When you've got ten seconds to change everything, your tools can't fail. That's why we trust Teng Tools.",
+            "name": "Jake Matthews",
+            "title": "Race Technician, T-Sport Bernau",
+            "initials": "JM",
+            "avatar_color": "#4a7cb5"
+          }
+        },
+        "quote_graham": {
+          "type": "quote",
+          "settings": {
+            "quote": "Teng Tools has given us a controlled environment — everything is consistent, traceable, and easy to manage across the site.",
+            "name": "Graham Finch",
+            "title": "Senior Maintenance Excellence Manager",
+            "initials": "GF",
+            "avatar_color": "#7a8ea0"
+          }
+        }
+      },
+      "block_order": ["quote_jake", "quote_graham"],
+      "settings": {
+        "heading": "",
+        "bg_color": "#ffffff",
+        "text_color": "#1a1a1a",
+        "subtext_color": "#666666",
+        "mark_color": "#c9c9c9",
+        "max_width": 760,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "autoplay_seconds": 6
       }
     },
     "featured_blog_yf4hXf": {
@@ -1891,6 +1930,7 @@
     "vidHero",
     "itm_video_section_d8iBmp",
     "ws_reviews",
+    "itm_quote_highlight",
     "featured_blog_yf4hXf",
     "fathers_day_categories",
     "home_video_section",
