@@ -349,7 +349,12 @@
   }
 {%- endstyle -%}
 
-{%- assign known_cats = 'Gift Guide,In The Kitchen,Learn To Sharpen,Press,Sharp Matters,The Workshop' | split: ',' -%}
+{%- comment -%}
+  Real category pills, pulled from whatever tags this blog's own articles
+  actually use — not a fixed list, so it never goes stale or shows
+  categories left over from a different blog/store.
+{%- endcomment -%}
+{%- assign known_cats = target_blog.tags -%}
 
 {%- comment -%}Featured articles via article pickers — reliable across all articles.{%- endcomment -%}
 {%- assign _feat_1 = section.settings.feat_article_1 -%}

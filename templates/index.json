@@ -1163,6 +1163,7 @@
     },
     "featured_blog_yf4hXf": {
       "type": "itm-home-blog",
+      "disabled": true,
       "name": "Home Blog Grid",
       "settings": {
         "blog": "education-hub",
@@ -1939,9 +1940,9 @@
       "type": "itm-home-blog",
       "name": "Home Blog Grid",
       "settings": {
-        "blog": "",
+        "blog": "education-hub",
         "show_title": true,
-        "heading": "LEARN",
+        "heading": "News & Articles",
         "subtitle": "",
         "subtitle_size": 14,
         "subtitle_color": "#666666",
@@ -1964,7 +1965,7 @@
         "featured_image_ratio": "16 / 9",
         "hover_line_color": "#e30613",
         "hover_line_height": 10,
-        "post_limit": 8,
+        "post_limit": 50,
         "columns_desktop": "4",
         "card_gap": 8,
         "image_ratio": "16 / 9",
