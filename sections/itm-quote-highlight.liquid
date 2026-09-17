@@ -23,6 +23,11 @@
     background: {{ section.settings.bg_color }};
     padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
   }
+  #shopify-section-{{ sid }} .itm-qh__heading {
+    font-weight: 800;
+    color: {{ section.settings.text_color }};
+    margin: 0 0 24px;
+  }
   #shopify-section-{{ sid }} .itm-qh__inner {
     max-width: {{ section.settings.max_width | default: 760 }}px;
     margin: 0 auto;
