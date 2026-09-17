@@ -383,9 +383,8 @@
     </div>
   {%- endif -%}
 
-  {%- if section.settings.show_filters -%}
+  {%- if section.settings.show_filters and known_cats.size > 0 -%}
     <nav class="itm-blog__filters" aria-label="Filter articles by category">
-      <a href="{{ target_blog.url }}" class="itm-blog__filter-btn itm-blog__filter-btn--active" data-all="true">All</a>
       {%- for tag in known_cats -%}
         <a href="{{ target_blog.url }}/tagged/{{ tag | handle }}" class="itm-blog__filter-btn">{{ tag }}</a>
       {%- endfor -%}

@@ -1965,7 +1965,7 @@
         "featured_image_ratio": "16 / 9",
         "hover_line_color": "#e30613",
         "hover_line_height": 10,
-        "post_limit": 50,
+        "post_limit": 4,
         "columns_desktop": "4",
         "card_gap": 8,
         "image_ratio": "16 / 9",
