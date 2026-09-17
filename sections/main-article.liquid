@@ -247,7 +247,7 @@
           {%- if article_cat != blank -%}<a class="article-hero__cat" href="{{ blog.url }}/tagged/{{ article_cat | handle }}">{{ article_cat }}</a>{%- endif -%}
           {%- if title_block == nil or title_block.settings.blog_show_date -%}<span>{{ article.published_at | time_tag: format: 'date' }}</span>{%- endif -%}
           <span class="dot">&middot;</span><span>{{ read_min }} min read</span>
-          {%- if title_block.settings.blog_show_author -%}<span class="dot">&middot;</span><span>{{ article.author }}</span>{%- endif -%}
+          {%- if title_block.settings.blog_show_author -%}<span class="dot">&middot;</span><span>Teng Tools</span>{%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -449,7 +449,7 @@
   "headline": {{ article.title | json }},
   "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
   "dateModified": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
-  "author": { "@type": "Person", "name": {{ article.author | json }} },
+  "author": { "@type": "Organization", "name": "Teng Tools" },
   "publisher": { "@type": "Organization", "name": {{ shop.name | json }}{% if settings.logo %}, "logo": { "@type": "ImageObject", "url": {{ settings.logo | image_url: width: 600 | json }} }{% endif %} }{% if article.image %},
   "image": [ {{ article.image | image_url: width: 1200 | json }} ]{% endif %}{% if article.excerpt != blank %},
   "description": {{ article.excerpt | strip_html | json }}{% else %},

@@ -13,6 +13,7 @@
       "type": "main-blog",
       "settings": {
         "show_title": true,
+        "heading": "News & Stories",
         "header_bg_style": "scheme",
         "header_color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
         "header_grad_start": "#f4f1ec",
@@ -27,7 +28,7 @@
         "subtitle_color": "#666666",
         "subtitle_weight": "400",
         "header_gap": 32,
-        "show_filters": true,
+        "show_filters": false,
         "pill_height": 38,
         "pill_font_size": 14,
         "pill_font_weight": "700",

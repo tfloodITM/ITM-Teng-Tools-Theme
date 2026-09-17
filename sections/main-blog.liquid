@@ -53,7 +53,7 @@
     font-size: clamp(2.4rem, 4vw, 4.2rem);
     line-height: 1.12;
     letter-spacing: -.01em;
-    font-weight: 700;
+    font-weight: 800;
   }
   #shopify-section-{{ section.id }} .itm-blog__hero-sub {
     margin: 1.6rem 0 0;
@@ -372,7 +372,7 @@
           <a href="{{ routes.root_url }}">Home</a><span class="sep">/</span><span>{{ blog.title | escape }}</span>
         </nav>
       {%- endif -%}
-      <h1 class="itm-blog__hero-title">{{ blog.title | escape }}</h1>
+      <h1 class="itm-blog__hero-title">{{ section.settings.heading | default: blog.title | escape }}</h1>
       {%- if section.settings.subtitle != blank -%}
         <p class="itm-blog__hero-sub">{{ section.settings.subtitle }}</p>
       {%- endif -%}
@@ -382,8 +382,8 @@
 
 <div class="itm-blog__inner">
 
-  {%- if section.settings.show_filters -%}
-    {%- assign filter_tags = 'Gift Guide,In The Kitchen,Learn To Sharpen,Press,Sharp Matters,The Workshop' | split: ',' -%}
+  {%- assign filter_tags = blog.tags -%}
+  {%- if section.settings.show_filters and filter_tags.size > 0 -%}
     <nav class="itm-blog__filters" aria-label="Filter articles by category">
       <a href="{{ blog.url }}" class="itm-blog__filter-btn{% unless current_tags %} itm-blog__filter-btn--active{% endunless %}">All</a>
       {%- for tag in filter_tags -%}
@@ -644,6 +644,11 @@
       "id": "show_title",
       "label": "Show blog title",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading override (blank = blog's own title)"
     },
     {
       "type": "select",
