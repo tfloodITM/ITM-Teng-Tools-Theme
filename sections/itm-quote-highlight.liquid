@@ -26,7 +26,7 @@
   #shopify-section-{{ sid }} .itm-qh__inner {
     max-width: {{ section.settings.max_width | default: 760 }}px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
     position: relative;
   }
   #shopify-section-{{ sid }} .itm-qh__stage {
@@ -60,7 +60,7 @@
   #shopify-section-{{ sid }} .itm-qh__person {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 12px;
   }
   #shopify-section-{{ sid }} .itm-qh__avatar {
@@ -94,22 +94,22 @@
   #shopify-section-{{ sid }} .itm-qh__dots {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 8px;
     margin-top: 28px;
   }
   #shopify-section-{{ sid }} .itm-qh__dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     padding: 0;
-    border: none;
-    background: {{ section.settings.mark_color }};
-    opacity: .35;
+    border: 1.5px solid {{ section.settings.mark_color }};
+    background: transparent;
     cursor: pointer;
   }
   #shopify-section-{{ sid }} .itm-qh__dot.is-on {
-    opacity: 1;
+    background: {{ section.settings.text_color }};
+    border-color: {{ section.settings.text_color }};
   }
 {%- endstyle -%}
 
