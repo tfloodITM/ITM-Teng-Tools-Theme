@@ -1093,8 +1093,18 @@
         "mark_color": "#c9c9c9",
         "max_width": 760,
         "padding_top": 64,
-        "padding_bottom": 64,
-        "autoplay_seconds": 6
+        "padding_bottom": 52,
+        "autoplay_seconds": 6,
+        "mark_size_desktop": 120,
+        "mark_size_mobile": 40,
+        "quote_size_desktop": 26,
+        "quote_size_mobile": 18,
+        "avatar_size_desktop": 52,
+        "avatar_size_mobile": 40,
+        "name_size_desktop": 18,
+        "name_size_mobile": 14,
+        "subline_size_desktop": 13,
+        "subline_size_mobile": 12
       }
     },
     "ws_reviews": {
