@@ -1166,7 +1166,7 @@
       "disabled": true,
       "name": "Home Blog Grid",
       "settings": {
-        "blog": "education-hub",
+        "blog": "news",
         "show_title": true,
         "heading": "News & Articles",
         "subtitle": "",
@@ -1940,7 +1940,7 @@
       "type": "itm-home-blog",
       "name": "Home Blog Grid",
       "settings": {
-        "blog": "education-hub",
+        "blog": "news",
         "show_title": true,
         "heading": "News & Articles",
         "subtitle": "",
