@@ -46,13 +46,13 @@
   #shopify-section-{{ sid }} .itm-qh__mark {
     display: block;
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: 64px;
+    font-size: {{ section.settings.mark_size_desktop }}px;
     line-height: 1;
     color: {{ section.settings.mark_color }};
     margin-bottom: 4px;
   }
   #shopify-section-{{ sid }} .itm-qh__quote {
-    font-size: clamp(1.15rem, 2vw, 1.6rem);
+    font-size: {{ section.settings.quote_size_desktop }}px;
     line-height: 1.45;
     color: {{ section.settings.text_color }};
     margin: 0 0 24px;
@@ -64,8 +64,8 @@
     gap: 12px;
   }
   #shopify-section-{{ sid }} .itm-qh__avatar {
-    width: 48px;
-    height: 48px;
+    width: {{ section.settings.avatar_size_desktop }}px;
+    height: {{ section.settings.avatar_size_desktop }}px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
@@ -74,7 +74,7 @@
     justify-content: center;
     color: #fff;
     font-weight: 700;
-    font-size: 14px;
+    font-size: {{ section.settings.avatar_size_desktop | times: 0.3 | round }}px;
     text-transform: uppercase;
   }
   #shopify-section-{{ sid }} .itm-qh__person-text {
@@ -83,13 +83,32 @@
   #shopify-section-{{ sid }} .itm-qh__name {
     display: block;
     font-weight: 700;
-    font-size: 15px;
+    font-size: {{ section.settings.name_size_desktop }}px;
     color: {{ section.settings.text_color }};
   }
   #shopify-section-{{ sid }} .itm-qh__title {
     display: block;
-    font-size: 13px;
+    font-size: {{ section.settings.subline_size_desktop }}px;
     color: {{ section.settings.subtext_color }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ sid }} .itm-qh__mark {
+      font-size: {{ section.settings.mark_size_mobile }}px;
+    }
+    #shopify-section-{{ sid }} .itm-qh__quote {
+      font-size: {{ section.settings.quote_size_mobile }}px;
+    }
+    #shopify-section-{{ sid }} .itm-qh__avatar {
+      width: {{ section.settings.avatar_size_mobile }}px;
+      height: {{ section.settings.avatar_size_mobile }}px;
+      font-size: {{ section.settings.avatar_size_mobile | times: 0.3 | round }}px;
+    }
+    #shopify-section-{{ sid }} .itm-qh__name {
+      font-size: {{ section.settings.name_size_mobile }}px;
+    }
+    #shopify-section-{{ sid }} .itm-qh__title {
+      font-size: {{ section.settings.subline_size_mobile }}px;
+    }
   }
   #shopify-section-{{ sid }} .itm-qh__dots {
     display: flex;
@@ -126,7 +145,7 @@
           <p class="itm-qh__quote">{{ block.settings.quote }}</p>
           <div class="itm-qh__person">
             {%- if block.settings.photo != blank -%}
-              <img class="itm-qh__avatar" src="{{ block.settings.photo | image_url: width: 96 }}" width="48" height="48" alt="" loading="lazy">
+              <img class="itm-qh__avatar" src="{{ block.settings.photo | image_url: width: 240 }}" alt="" loading="lazy">
             {%- else -%}
               <div class="itm-qh__avatar" style="background:{{ block.settings.avatar_color }}">{{ block.settings.initials }}</div>
             {%- endif -%}
@@ -256,6 +275,116 @@
       "max": 15,
       "step": 1,
       "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Quotation mark size"
+    },
+    {
+      "type": "range",
+      "id": "mark_size_desktop",
+      "label": "Desktop (px)",
+      "min": 20,
+      "max": 120,
+      "step": 2,
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "mark_size_mobile",
+      "label": "Mobile (px)",
+      "min": 16,
+      "max": 100,
+      "step": 2,
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Quote text size"
+    },
+    {
+      "type": "range",
+      "id": "quote_size_desktop",
+      "label": "Desktop (px)",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "quote_size_mobile",
+      "label": "Mobile (px)",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Photo / avatar size"
+    },
+    {
+      "type": "range",
+      "id": "avatar_size_desktop",
+      "label": "Desktop (px)",
+      "min": 24,
+      "max": 120,
+      "step": 2,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "avatar_size_mobile",
+      "label": "Mobile (px)",
+      "min": 24,
+      "max": 100,
+      "step": 2,
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Name text size"
+    },
+    {
+      "type": "range",
+      "id": "name_size_desktop",
+      "label": "Desktop (px)",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "name_size_mobile",
+      "label": "Mobile (px)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Subline (title / role) text size"
+    },
+    {
+      "type": "range",
+      "id": "subline_size_desktop",
+      "label": "Desktop (px)",
+      "min": 9,
+      "max": 24,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "subline_size_mobile",
+      "label": "Mobile (px)",
+      "min": 9,
+      "max": 20,
+      "step": 1,
+      "default": 12
     }
   ],
   "blocks": [
