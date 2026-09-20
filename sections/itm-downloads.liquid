@@ -1,0 +1,228 @@
+{%- comment -%}
+  ITM Downloads
+  -------------
+  A simple list/grid of downloadable files (catalogues, spec sheets,
+  warranty docs, etc). Each block is one download: title, optional
+  description, a file link (paste the URL of a file uploaded under
+  Shopify Admin > Settings > Files), and an optional thumbnail image.
+{%- endcomment -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .itm-dl {
+    max-width: {{ section.settings.max_width | default: 900 }}px;
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__heading {
+    font-weight: 800;
+    text-align: center;
+    margin: 0 0 8px;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__subtext {
+    text-align: center;
+    color: #666666;
+    margin: 0 0 40px;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop | default: 2 }}, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .itm-dl__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  #shopify-section-{{ section.id }} .itm-dl__item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__item:hover {
+    border-color: #e30613;
+    box-shadow: 0 0 0 1px #e30613;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__thumb {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__thumb svg {
+    width: 24px;
+    height: 24px;
+    color: #e30613;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__title {
+    font-weight: 800;
+    font-size: 16px;
+    margin: 0 0 2px;
+    color: #1a1a1a;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__desc {
+    font-size: 13px;
+    color: #666666;
+    margin: 0;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__arrow {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    color: #e30613;
+  }
+  #shopify-section-{{ section.id }} .itm-dl__empty {
+    text-align: center;
+    color: #666666;
+    padding: 40px 0;
+  }
+{%- endstyle -%}
+
+<div class="itm-dl">
+  {%- if section.settings.heading != blank -%}
+    <h1 class="itm-dl__heading">{{ section.settings.heading }}</h1>
+  {%- endif -%}
+  {%- if section.settings.subtext != blank -%}
+    <p class="itm-dl__subtext">{{ section.settings.subtext }}</p>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="itm-dl__grid">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.file_url }}" class="itm-dl__item" target="_blank" rel="noopener" {{ block.shopify_attributes }}>
+          <span class="itm-dl__thumb" aria-hidden="true">
+            {%- if block.settings.thumbnail != blank -%}
+              <img src="{{ block.settings.thumbnail | image_url: width: 96 }}" alt="" loading="lazy">
+            {%- else -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            {%- endif -%}
+          </span>
+          <span class="itm-dl__body">
+            <span class="itm-dl__title">{{ block.settings.title | escape }}</span>
+            {%- if block.settings.description != blank -%}
+              <span class="itm-dl__desc">{{ block.settings.description | escape }}</span>
+            {%- endif -%}
+          </span>
+          <svg class="itm-dl__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <p class="itm-dl__empty">No downloads added yet — add them from the theme editor.</p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "ITM — Downloads",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 40,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Downloads"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Product catalogues, spec sheets and warranty documents."
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "Max content width (px)",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "download",
+      "name": "Download",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Product Catalogue 2026"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description (optional)"
+        },
+        {
+          "type": "url",
+          "id": "file_url",
+          "label": "File link",
+          "info": "Upload the PDF under Shopify Admin > Settings > Files, then paste its URL here."
+        },
+        {
+          "type": "image_picker",
+          "id": "thumbnail",
+          "label": "Thumbnail (optional)",
+          "info": "Falls back to a plain document icon if left blank."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ITM — Downloads",
+      "blocks": [
+        { "type": "download" }
+      ]
+    }
+  ]
+}
+{% endschema %}
