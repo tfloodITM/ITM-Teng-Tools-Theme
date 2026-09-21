@@ -71,6 +71,23 @@
     font-size: 24px !important;
   }
 
+  .section-{{ section.id }}-padding .itm-html-text--centered {
+    text-align: center;
+  }
+  {%- comment -%}
+    Only the outer block is centered — list markers/bullets inside
+    still align to their own text rather than sitting centered on
+    their own, which reads oddly for anything but single-line content.
+    Constraining width + centering the block itself keeps prose from
+    stretching edge-to-edge once it's centered, matching how the
+    Specifications table is capped and centered too.
+  {%- endcomment -%}
+  .section-{{ section.id }}-padding .itm-html-text--centered > * {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .section-{{ section.id }}-padding .rich-text__heading::after {
     content: '';
     display: block;
@@ -203,7 +220,7 @@
 
               {%- if html_output != '' -%}
                 <div
-                  class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  class="rich-text__text rte{% if block.settings.center_text %} itm-html-text--centered{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                   {{ block.shopify_attributes }}
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
@@ -376,6 +393,13 @@
           "id": "table",
           "label": "Show as Attribute / Value table",
           "info": "For spec-style content (raw \"Label: value\" list data), rather than real prose — renders a proper two-column table instead of a plain bulleted list.",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "center_text",
+          "label": "Center this text",
+          "info": "Centers the paragraph text below the heading, matching the Specifications table's centered layout. Ignored when \"Show as Attribute / Value table\" above is on, since that's already centered.",
           "default": false
         }
       ]

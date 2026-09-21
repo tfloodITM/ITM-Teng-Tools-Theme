@@ -316,7 +316,8 @@
           "settings": {
             "source": "metafield",
             "metafield_id": "custom.web_features",
-            "manual_html": ""
+            "manual_html": "",
+            "center_text": true
           }
         }
       },
