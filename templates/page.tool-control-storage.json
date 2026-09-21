@@ -178,8 +178,9 @@
           "type": "tile",
           "settings": {
             "layout": "split",
+            "image": "shopify://shop_images/PRO35-banner-3.webp",
             "heading": "Improved Features",
-            "text": "<p><strong>Boost your performance</strong></p><p>Reinforced drawers rated to carry up to 40kg each, built to work with the wider Teng Tools tray system for a setup that stays organised as it grows.</p>",
+            "text": "<p><strong>Boost your performance</strong></p><p>Elevate your workspace with TengTools PRO35™ tool storage. This storage boast a host of enhanced features crafted to boost your performance. From reinforced drawer designs capable of holding up to 40kg to precision-engineered compatibility with our Tool Control System, every detail has been refined to ensure seamless functionality and unparalleled convenience. Say goodbye to cluttered workspaces and hello to streamlined productivity.<br/><br/></p>",
             "price": "",
             "link": "/collections/roll-cabinets",
             "btn_label": "",
@@ -207,8 +208,8 @@
             "border_color": "#000000",
             "hide_desktop": false,
             "hide_mobile": false,
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff",
+            "bg": "#FFFFFF",
+            "text_color": "#000000",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
