@@ -22,7 +22,7 @@
         "text": "<p>Introducing the next generation in tool storage, specifically designed to cater to the demands of professionals in automotive, maintenance, engineering and motorsport.</p>",
         "btn_label": "Shop Roller Cabinets",
         "btn_link": "/collections/roll-cabinets",
-        "bg_color": "#f4f4f4",
+        "bg_color": "#FFFFFF",
         "eyebrow_color": "#e30613",
         "heading_color": "#1a1a1a",
         "text_color": "#444444",
@@ -360,6 +360,7 @@
         "c3",
         "c4"
       ],
+      "disabled": true,
       "settings": {
         "section_use_scheme": false,
         "section_fill_scheme": "",
@@ -443,6 +444,7 @@
       "block_order": [
         "tcs_drawer_tile"
       ],
+      "disabled": true,
       "settings": {
         "section_bg": "#f4f4f4",
         "max_width": 1430,
@@ -526,6 +528,7 @@
         "x3",
         "x4"
       ],
+      "disabled": true,
       "settings": {
         "section_use_scheme": false,
         "section_fill_scheme": "",
@@ -565,6 +568,7 @@
       "blocks": {
         "tcs_sweden_tile": {
           "type": "tile",
+          "disabled": true,
           "settings": {
             "layout": "stacked",
             "heading": "Designed In Sweden",
@@ -609,6 +613,7 @@
       "block_order": [
         "tcs_sweden_tile"
       ],
+      "disabled": true,
       "settings": {
         "section_bg": "#f4f4f4",
         "max_width": 1430,
