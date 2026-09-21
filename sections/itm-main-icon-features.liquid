@@ -198,7 +198,16 @@
       scroll-snap-align: start;
       display: flex;
       gap: 1.5rem;
-      align-items: center;
+      {%- comment -%}
+        flex-start, not center: cards stretch to the height of the
+        tallest one in the row (flex default), so when descriptions
+        vary in length, centering would put each icon/title at a
+        different vertical position depending on its own card's
+        content height. Starting everything from the top keeps the
+        icon and title level across every card regardless of how long
+        any one description runs.
+      {%- endcomment -%}
+      align-items: flex-start;
       padding: 2rem;
       border: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
       border-radius: 18px;
@@ -267,7 +276,6 @@
       letter-spacing: 0.5px;
     }
     .feature__desc {
-      text-transform: uppercase;
       opacity: 0.75;
       font-size: 1.05rem;
       margin-top: 0.25rem;
