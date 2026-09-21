@@ -85,10 +85,32 @@
     text-decoration:none;
     isolation:isolate;
   }
+  {%- comment -%}
+    Scoped to .wpg__custom-color specifically, NOT bare .wpg__block: a
+    theme-scheme tile never sets --card-bg/--card-fg at all, and an
+    unset var() with no valid fallback computes to the property's
+    initial value (transparent) rather than skipping the declaration —
+    so a bare .wpg__block rule here would silently blank out every
+    scheme-coloured tile's real background, exactly the bug the
+    bg_color_css comment above already warned about for inline styles.
+    Mobile reads its own --card-bg-m/--card-fg-m, falling back to the
+    desktop one when a block has no mobile colour set — same fallback
+    pattern as the size variables above, just via CSS custom properties
+    instead of Liquid, since background/colour apply immediately (no
+    separate mobile-only style block to capture them into).
+  {%- endcomment -%}
+  #shopify-section-{{ sid }} .wpg__block.wpg__custom-color{
+    background:var(--card-bg-m, var(--card-bg));
+    color:var(--card-fg-m, var(--card-fg));
+  }
   @media (min-width:750px){
     #shopify-section-{{ sid }} .wpg__block{
       grid-column:span var(--span-d, 6);
       min-height:var(--min-h, 300px);
+    }
+    #shopify-section-{{ sid }} .wpg__block.wpg__custom-color{
+      background:var(--card-bg);
+      color:var(--card-fg);
     }
   }
 
@@ -911,9 +933,12 @@
         if block.settings.color_style == 'theme'
           assign scheme_class = 'color-' | append: block.settings.color_scheme | append: ' gradient'
         else
+          assign scheme_class = 'wpg__custom-color'
           assign bg = block.settings.bg | default: '#1a1a1a'
           assign fg = block.settings.text_color | default: '#FFFFFF'
-          assign bg_color_css = 'background:' | append: bg | append: ';color:' | append: fg | append: ';'
+          assign bg_m = block.settings.bg_mobile | default: bg
+          assign fg_m = block.settings.text_color_mobile | default: fg
+          assign bg_color_css = '--card-bg:' | append: bg | append: ';--card-fg:' | append: fg | append: ';--card-bg-m:' | append: bg_m | append: ';--card-fg-m:' | append: fg_m | append: ';'
         endif
         assign border_w = block.settings.border_width | default: 0
         assign border_c = block.settings.border_color | default: '#000000'
@@ -2876,14 +2901,26 @@
         {
           "type": "color",
           "id": "bg",
-          "label": "Background",
+          "label": "Background — desktop",
           "default": "#1a1a1a"
         },
         {
           "type": "color",
+          "id": "bg_mobile",
+          "label": "Background — mobile",
+          "info": "Leave blank to use the desktop colour above on mobile too."
+        },
+        {
+          "type": "color",
           "id": "text_color",
-          "label": "Text",
+          "label": "Text — desktop",
           "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "text_color_mobile",
+          "label": "Text — mobile",
+          "info": "Leave blank to use the desktop colour above on mobile too."
         },
         {
           "type": "color",
