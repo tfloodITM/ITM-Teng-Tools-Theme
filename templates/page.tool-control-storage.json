@@ -346,7 +346,7 @@
         "image": "shopify://shop_images/PRO35-small-kit-2.webp",
         "marker_color": "#ffc233",
         "max_width": 1100,
-        "max_width_mobile": 400,
+        "max_width_mobile": 410,
         "padding_top": 40,
         "padding_bottom": 40
       }
