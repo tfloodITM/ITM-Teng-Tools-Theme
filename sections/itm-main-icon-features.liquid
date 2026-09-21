@@ -54,6 +54,29 @@
     width: {{ section.settings.icon_size }}px;
     height: {{ section.settings.icon_size }}px;
   }
+  {%- comment -%}
+    "True colour" mode: show the uploaded icon exactly as uploaded
+    instead of the default flat-tint mask. The mask keeps only the
+    icon's silhouette and discards its actual colours, which is right
+    for plain transparent line-art icons but turns a pre-coloured badge
+    icon (its own circle/background baked in) into one solid blob —
+    that's the "icons render as a black dot" symptom this fixes. The
+    bubble is forced transparent here too, since a pre-styled badge icon
+    already has its own background baked in and doesn't need a second
+    circle drawn behind it.
+  {%- endcomment -%}
+  {%- if section.settings.icon_true_color -%}
+    #shopify-section-{{ section.id }} .feature__bubble {
+      background: transparent !important;
+    }
+    #shopify-section-{{ section.id }} .feature__glyph {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .feature__glyphimg {
+      display: block;
+      filter: none;
+    }
+  {%- endif -%}
   #shopify-section-{{ section.id }} .feature__title {
     font-size: {{ section.settings.title_size }}px;
     font-weight: {{ section.settings.title_weight }};
@@ -468,6 +491,13 @@
         "label": "Show circle behind icon",
         "info": "Turn off to remove the coloured circle and show just the icon on its own.",
         "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "icon_true_color",
+        "label": "Show uploaded icons in full colour",
+        "info": "Off (default) tints every icon a single flat colour — for plain transparent line-art icons only. Turn this on if your icons already have their own colours/background baked in (e.g. a pre-made circle badge icon) — otherwise they render as solid blobs, since the tint effect discards all colour information and keeps only the icon's silhouette.",
+        "default": false
       },
       {
         "type": "color",

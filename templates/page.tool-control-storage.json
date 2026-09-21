@@ -64,6 +64,7 @@
       "block_order": ["s1", "s2", "s3", "s4"],
       "settings": {
         "section_bg": "#eeeeee",
+        "icon_true_color": true,
         "padding_top": 32,
         "padding_bottom": 32
       }
@@ -94,6 +95,40 @@
       "settings": {
         "tile_padding": 40,
         "gap": 16,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "tcs_hotspot": {
+      "type": "itm-hotspot-image",
+      "blocks": {
+        "hs1": {
+          "type": "hotspot",
+          "settings": { "x_percent": 50, "y_percent": 10, "title": "Foam Worktop Mat", "text": "A protective work surface fitted to the top of the cabinet." }
+        },
+        "hs2": {
+          "type": "hotspot",
+          "settings": { "x_percent": 65, "y_percent": 25, "title": "3-Digit Combination Lock", "text": "Keep every drawer secure without needing a separate key." }
+        },
+        "hs3": {
+          "type": "hotspot",
+          "settings": { "x_percent": 80, "y_percent": 45, "title": "Ball Bearing Slides", "text": "Smooth, full-extension drawer runners rated for daily use." }
+        },
+        "hs4": {
+          "type": "hotspot",
+          "settings": { "x_percent": 55, "y_percent": 70, "title": "40kg Drawer Capacity", "text": "Each drawer is rated to carry up to 40kg fully loaded." }
+        },
+        "hs5": {
+          "type": "hotspot",
+          "settings": { "x_percent": 25, "y_percent": 88, "title": "Heavy-Duty Castors", "text": "Reinforced wheels built to move a fully loaded cabinet." }
+        }
+      },
+      "block_order": ["hs1", "hs2", "hs3", "hs4", "hs5"],
+      "settings": {
+        "heading": "Explore The Cabinet",
+        "image": "",
+        "marker_color": "#ffc233",
+        "max_width": 700,
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -469,6 +504,7 @@
     "tcs_hero",
     "tcs_spec_row",
     "tcs_features",
+    "tcs_hotspot",
     "tcs_feature_callout",
     "tcs_drawer_text",
     "tcs_extra_icons",
