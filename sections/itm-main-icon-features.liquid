@@ -173,11 +173,18 @@
   <style>
     :root { --feat-gap: 28px; --feat-cards: 3; }
     {%- comment -%}
-      Section-scoped override, so raising this instance's column count
-      doesn't change every other icon-features section on the site that
-      still relies on the :root default above.
+      Section-scoped AND desktop-gated: an ID selector always beats a
+      bare :root selector on specificity alone, media query or not — so
+      without the min-width guard here, this rule was winning over the
+      mobile :root override further down even at mobile widths, forcing
+      every instance back to its desktop column count on phones
+      regardless of what the mobile rule said. Gating it to desktop
+      keeps it out of the mobile cascade entirely instead of relying on
+      specificity to sort it out.
     {%- endcomment -%}
-    #shopify-section-{{ section.id }} { --feat-cards: {{ section.settings.columns_desktop | default: 3 }}; }
+    @media (min-width: 750px) {
+      #shopify-section-{{ section.id }} { --feat-cards: {{ section.settings.columns_desktop | default: 3 }}; }
+    }
 
     .features__viewport {
       overflow: hidden;
@@ -318,6 +325,16 @@
       .feature__text { text-align: center; }
       .feature__iconwrap { width: 52px; height: 52px; flex: 0 0 52px; }
       .feature__glyph, .feature__glyphimg, .feature__lottie { width: 26px; height: 26px; }
+      {%- comment -%}
+        Titles/descriptions were still rendering at their full desktop
+        font-size on mobile (there was no override at all here before),
+        so a two-word title like "EXTRA TOOL PROTECTION" at 24px bold
+        had no choice but to wrap across several lines in a ~45%-width
+        column — that's what was actually making the layout look
+        cramped, independent of the column-count bug fixed above.
+      {%- endcomment -%}
+      .feature__title { font-size: 1.05rem; letter-spacing: 0.2px; }
+      .feature__desc { font-size: 0.85rem; }
       {%- comment -%}
         A feature with no description text has nothing to fill the
         space a stacked, centered layout leaves below the title — so
