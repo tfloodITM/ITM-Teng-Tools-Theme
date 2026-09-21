@@ -9,30 +9,202 @@
  */
 {
   "sections": {
-    "tcs_grid": {
+    "tcs_hero": {
       "type": "itm-promo-grid",
       "blocks": {
-        "tcs_hero": {
+        "tcs_hero_tile": {
           "type": "tile",
           "settings": {
-            "layout": "overlay",
+            "layout": "split",
             "image": "",
-            "heading": "Heavy-Duty Roller Cabinets & Workshop Storage",
-            "text": "<p>Steel-framed storage built to carry a full workshop's worth of tools, with every size clicking into the same modular system.</p>",
+            "heading": "Made For Professionals",
+            "text": "<p><strong>3-piece cabinet frame &middot; 5-step rust protection</strong></p><p>The next generation of roller cabinet storage, built for the daily demands of automotive, maintenance, engineering and motorsport work.</p>",
             "price": "",
-            "link": "/collections/tool-storage",
-            "btn_label": "Shop Tool Storage",
+            "link": "/collections/roll-cabinets",
+            "btn_label": "Shop Roller Cabinets",
             "link_label": "",
             "btn_arrow": true,
             "span_desktop": 12,
             "span_mobile": 12,
-            "min_height": 420,
-            "min_height_mobile": 260,
-            "color_style": "custom",
-            "bg": "#1a1a1a",
-            "text_color": "#ffffff"
+            "min_height": 460,
+            "min_height_mobile": 320
           }
+        }
+      },
+      "block_order": ["tcs_hero_tile"],
+      "settings": {
+        "tile_padding": 40,
+        "gap": 16,
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
+    },
+    "tcs_spec_row": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "s1": {
+          "type": "item",
+          "settings": { "title": "3-Piece Heavy Gauge Steel Cabinet Frame", "text": "" }
         },
+        "s2": {
+          "type": "item",
+          "settings": { "title": "5-Step Phosphate-Free Rust Protection", "text": "" }
+        },
+        "s3": {
+          "type": "item",
+          "settings": { "title": "Up To 40kg Drawer Loading Capacity", "text": "" }
+        },
+        "s4": {
+          "type": "item",
+          "settings": { "title": "Teng Tools Control System Compatible", "text": "" }
+        }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "section_bg": "#eeeeee",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "tcs_features": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcs_features_tile": {
+          "type": "tile",
+          "settings": {
+            "layout": "split",
+            "image": "",
+            "heading": "Improved Features",
+            "text": "<p><strong>Boost your performance</strong></p><p>Reinforced drawers rated to carry up to 40kg each, built to work with the wider Teng Tools tray system for a setup that stays organised as it grows.</p>",
+            "price": "",
+            "link": "/collections/roll-cabinets",
+            "btn_label": "",
+            "link_label": "View details",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 320,
+            "min_height_mobile": 260
+          }
+        }
+      },
+      "block_order": ["tcs_features_tile"],
+      "settings": {
+        "tile_padding": 40,
+        "gap": 16,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "tcs_feature_callout": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "c1": {
+          "type": "item",
+          "settings": { "title": "Foam Worktop Mat", "text": "An optional protective mat for the top of your cabinet." }
+        },
+        "c2": {
+          "type": "item",
+          "settings": { "title": "3-Digit Combination Lock", "text": "Keep your drawers secure without needing a separate key." }
+        },
+        "c3": {
+          "type": "item",
+          "settings": { "title": "Ball Bearing Slides", "text": "Smooth, full-extension drawer runners rated for daily use." }
+        },
+        "c4": {
+          "type": "item",
+          "settings": { "title": "Heavy-Duty Castors", "text": "Reinforced wheels built to move a fully loaded cabinet." }
+        }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": {}
+    },
+    "tcs_drawer_text": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcs_drawer_tile": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Drawers Built To Carry The Load",
+            "text": "<p>Each drawer is rated up to 40kg, so a fully kitted-out cabinet stays solid and easy to roll around the workshop, even when every drawer is full.</p>",
+            "price": "",
+            "link": "",
+            "btn_label": "",
+            "link_label": "",
+            "btn_arrow": false,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 160,
+            "min_height_mobile": 140
+          }
+        }
+      },
+      "block_order": ["tcs_drawer_tile"],
+      "settings": {
+        "tile_padding": 24,
+        "gap": 16,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "tcs_extra_icons": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "x1": {
+          "type": "item",
+          "settings": { "title": "Comfort Grip Handle", "text": "An ergonomic handle for easier manoeuvring around the shop." }
+        },
+        "x2": {
+          "type": "item",
+          "settings": { "title": "Aluminium Handles", "text": "Lightweight, corrosion-resistant drawer handles." }
+        },
+        "x3": {
+          "type": "item",
+          "settings": { "title": "Extra Tool Protection", "text": "Liner options that guard your tools against knocks and scratches." }
+        },
+        "x4": {
+          "type": "item",
+          "settings": { "title": "Accessory Integration", "text": "Add side lockers, risers and other extras as your setup grows." }
+        }
+      },
+      "block_order": ["x1", "x2", "x3", "x4"],
+      "settings": {}
+    },
+    "tcs_sweden_badge": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcs_sweden_tile": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Designed In Sweden",
+            "text": "<p>Teng Tools storage is designed in Sweden and built to a standard trusted by professionals worldwide.</p>",
+            "price": "",
+            "link": "",
+            "btn_label": "",
+            "link_label": "",
+            "btn_arrow": false,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 120,
+            "min_height_mobile": 120
+          }
+        }
+      },
+      "block_order": ["tcs_sweden_tile"],
+      "settings": {
+        "tile_padding": 24,
+        "gap": 16,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "tcs_categories": {
+      "type": "itm-promo-grid",
+      "blocks": {
         "tcs_cat_portable": {
           "type": "tile",
           "settings": {
@@ -143,7 +315,6 @@
         }
       },
       "block_order": [
-        "tcs_hero",
         "tcs_cat_portable",
         "tcs_cat_chests",
         "tcs_cat_roller",
@@ -154,60 +325,19 @@
       "settings": {
         "tile_padding": 24,
         "gap": 16,
-        "padding_top": 60,
-        "padding_bottom": 20
+        "padding_top": 20,
+        "padding_bottom": 60
       }
-    },
-    "tcs_build_features": {
-      "type": "itm-main-icon-features",
-      "blocks": {
-        "f1": {
-          "type": "item",
-          "settings": { "title": "Heavy-Gauge Steel", "text": "A welded steel frame built to take the daily knocks of a working shop." }
-        },
-        "f2": {
-          "type": "item",
-          "settings": { "title": "Rust-Resistant Finish", "text": "A protective coating designed to hold up in real workshop conditions." }
-        },
-        "f3": {
-          "type": "item",
-          "settings": { "title": "Ball-Bearing Slides", "text": "Full-extension drawers that stay smooth even fully loaded." }
-        },
-        "f4": {
-          "type": "item",
-          "settings": { "title": "Modular Compatibility", "text": "Every size in the range is designed to stack and connect together." }
-        }
-      },
-      "block_order": ["f1", "f2", "f3", "f4"],
-      "settings": {}
-    },
-    "tcs_extra_features": {
-      "type": "itm-main-icon-features",
-      "blocks": {
-        "e1": {
-          "type": "item",
-          "settings": { "title": "Foam Worktop Mat", "text": "An optional protective work surface for the top of your cabinet." }
-        },
-        "e2": {
-          "type": "item",
-          "settings": { "title": "Combination Lock", "text": "Keep your tools secure with built-in locking on select models." }
-        },
-        "e3": {
-          "type": "item",
-          "settings": { "title": "Reinforced Castors", "text": "Heavy-duty wheels rated for a fully loaded cabinet." }
-        },
-        "e4": {
-          "type": "item",
-          "settings": { "title": "Accessory Ready", "text": "Add side lockers, risers and other extras as your setup grows." }
-        }
-      },
-      "block_order": ["e1", "e2", "e3", "e4"],
-      "settings": {}
     }
   },
   "order": [
-    "tcs_grid",
-    "tcs_build_features",
-    "tcs_extra_features"
+    "tcs_hero",
+    "tcs_spec_row",
+    "tcs_features",
+    "tcs_feature_callout",
+    "tcs_drawer_text",
+    "tcs_extra_icons",
+    "tcs_sweden_badge",
+    "tcs_categories"
   ]
 }

@@ -9,16 +9,38 @@
  */
 {
   "sections": {
-    "tcm_grid": {
+    "tcm_badges": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "b1": {
+          "type": "item",
+          "settings": { "title": "Made For Professionals", "text": "" }
+        },
+        "b2": {
+          "type": "item",
+          "settings": { "title": "Built To Last", "text": "" }
+        },
+        "b3": {
+          "type": "item",
+          "settings": { "title": "Lifetime Warranty", "text": "" }
+        }
+      },
+      "block_order": ["b1", "b2", "b3"],
+      "settings": {
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "tcm_hero": {
       "type": "itm-promo-grid",
       "blocks": {
-        "tcm_hero": {
+        "tcm_hero_tile": {
           "type": "tile",
           "settings": {
             "layout": "overlay",
             "image": "",
-            "heading": "One Tool Control System, Over 240 Tray Sets",
-            "text": "<p>Every Teng Tools tray clicks together into the same modular system, so your whole collection stays organised, no matter how it grows.</p>",
+            "heading": "One Flexible Tool Control System, Over 240 Tray Sets",
+            "text": "<p>Every tray in the range is compiled around the way technicians actually work, so your whole tool collection stays organised in one connected system.</p>",
             "price": "",
             "link": "/collections/tool-storage",
             "btn_label": "Shop Tool Storage",
@@ -32,8 +54,20 @@
             "bg": "#1a1a1a",
             "text_color": "#ffffff"
           }
-        },
-        "tcm_tt_series": {
+        }
+      },
+      "block_order": ["tcm_hero_tile"],
+      "settings": {
+        "tile_padding": 40,
+        "gap": 16,
+        "padding_top": 20,
+        "padding_bottom": 0
+      }
+    },
+    "tcm_tt_series": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcm_tt_tile": {
           "type": "tile",
           "settings": {
             "layout": "split",
@@ -50,55 +84,14 @@
             "min_height": 360,
             "min_height_mobile": 260
           }
-        },
-        "tcm_foam_series": {
-          "type": "tile",
-          "settings": {
-            "layout": "split",
-            "image": "",
-            "heading": "Foam Tray System",
-            "text": "<p>Cushioned, colour-coded foam trays that protect each tool in transit and make a missing item impossible to miss at a glance.</p>",
-            "price": "",
-            "link": "/collections/get-organised-system-ps-trays",
-            "btn_label": "Shop Foam Trays",
-            "link_label": "",
-            "btn_arrow": true,
-            "span_desktop": 12,
-            "span_mobile": 12,
-            "min_height": 360,
-            "min_height_mobile": 260
-          }
-        },
-        "tcm_modular": {
-          "type": "tile",
-          "settings": {
-            "layout": "stacked",
-            "image": "",
-            "heading": "One Modular System, Any Storage Width",
-            "text": "<p>Trays come in a range of standard widths designed to fit together inside roller cabinets, tool chests and portable cases alike — mix and match sizes as your collection grows.</p>",
-            "price": "",
-            "link": "/collections/tool-storage",
-            "btn_label": "",
-            "link_label": "Shop all storage",
-            "btn_arrow": true,
-            "span_desktop": 12,
-            "span_mobile": 12,
-            "min_height": 320,
-            "min_height_mobile": 240
-          }
         }
       },
-      "block_order": [
-        "tcm_hero",
-        "tcm_tt_series",
-        "tcm_foam_series",
-        "tcm_modular"
-      ],
+      "block_order": ["tcm_tt_tile"],
       "settings": {
-        "tile_padding": 24,
+        "tile_padding": 40,
         "gap": 16,
-        "padding_top": 60,
-        "padding_bottom": 20
+        "padding_top": 40,
+        "padding_bottom": 0
       }
     },
     "tcm_tt_features": {
@@ -110,55 +103,156 @@
         },
         "t2": {
           "type": "item",
-          "settings": { "title": "Durable Plastic", "text": "Built to handle daily use without cracking or warping." }
+          "settings": { "title": "Durability", "text": "Built to handle daily workshop use without cracking or warping." }
         },
         "t3": {
           "type": "item",
-          "settings": { "title": "Corrosion Resistant", "text": "Won't rust, unlike a bare metal drawer liner." }
+          "settings": { "title": "Easy To Clean", "text": "A smooth plastic surface that wipes down in seconds." }
         },
         "t4": {
           "type": "item",
-          "settings": { "title": "Shadow Layout", "text": "Every tool has a moulded outline, so a gap is obvious at a glance." }
+          "settings": { "title": "Lightweight", "text": "Adds next to no weight to a fully loaded drawer or case." }
         },
         "t5": {
           "type": "item",
-          "settings": { "title": "Click-Together Fit", "text": "Trays lock side-by-side so nothing shifts around in transit." }
+          "settings": { "title": "Corrosion-Resistant", "text": "Won't rust, unlike a bare metal drawer liner." }
         }
       },
       "block_order": ["t1", "t2", "t3", "t4", "t5"],
-      "settings": {}
+      "settings": {
+        "padding_top": 32,
+        "padding_bottom": 40
+      }
+    },
+    "tcm_foam_series": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcm_foam_tile": {
+          "type": "tile",
+          "settings": {
+            "layout": "split",
+            "image": "",
+            "heading": "Foam Tray System",
+            "text": "<p>Cushioned, colour-coded foam trays for a premium finish — protecting each tool in transit and making a missing item impossible to miss at a glance.</p>",
+            "price": "",
+            "link": "/collections/get-organised-system-ps-trays",
+            "btn_label": "Shop Foam Trays",
+            "link_label": "",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 360,
+            "min_height_mobile": 260
+          }
+        }
+      },
+      "block_order": ["tcm_foam_tile"],
+      "settings": {
+        "tile_padding": 40,
+        "gap": 16,
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
     },
     "tcm_foam_features": {
       "type": "itm-main-icon-features",
       "blocks": {
         "fo1": {
           "type": "item",
-          "settings": { "title": "Cushioned Protection", "text": "Foam padding protects tools from knocks in transit." }
+          "settings": { "title": "Protection", "text": "Foam padding cushions tools against knocks in transit." }
         },
         "fo2": {
           "type": "item",
-          "settings": { "title": "Colour-Coded", "text": "Bright foam colours make missing tools stand out instantly." }
+          "settings": { "title": "Durability", "text": "A dense foam that holds its shape through daily use." }
         },
         "fo3": {
           "type": "item",
-          "settings": { "title": "Custom Layouts", "text": "Cut-outs shaped to the exact tools you carry." }
+          "settings": { "title": "Customisable", "text": "Cut-outs shaped to the exact tools you carry." }
         },
         "fo4": {
           "type": "item",
-          "settings": { "title": "Quick Visual Check", "text": "Scan a tray in seconds to confirm everything's accounted for." }
+          "settings": { "title": "Safety", "text": "A quick visual check confirms every tool is accounted for before a job." }
         },
         "fo5": {
           "type": "item",
-          "settings": { "title": "Fits The Same System", "text": "Drops into the same drawers and cases as the standard tray range." }
+          "settings": { "title": "Cold-Environment Ready", "text": "Stays flexible and doesn't crack in cold workshop conditions." }
         }
       },
       "block_order": ["fo1", "fo2", "fo3", "fo4", "fo5"],
-      "settings": {}
+      "settings": {
+        "padding_top": 32,
+        "padding_bottom": 40
+      }
+    },
+    "tcm_modular": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcm_modular_tile": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "A Modular System That Fits Any Storage",
+            "text": "<p>Trays come in a range of standard widths designed to fit together inside roller cabinets, tool chests and portable cases alike — mix and match sizes as your collection grows.</p>",
+            "price": "",
+            "link": "/collections/tool-storage",
+            "btn_label": "",
+            "link_label": "Shop tool sets",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 320,
+            "min_height_mobile": 240
+          }
+        }
+      },
+      "block_order": ["tcm_modular_tile"],
+      "settings": {
+        "tile_padding": 40,
+        "gap": 16,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "tcm_sweden_badge": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcm_sweden_tile": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Designed In Sweden",
+            "text": "<p>Teng Tools storage is designed in Sweden and built to a standard trusted by professionals worldwide.</p>",
+            "price": "",
+            "link": "",
+            "btn_label": "",
+            "link_label": "",
+            "btn_arrow": false,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 120,
+            "min_height_mobile": 120
+          }
+        }
+      },
+      "block_order": ["tcm_sweden_tile"],
+      "settings": {
+        "tile_padding": 24,
+        "gap": 16,
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
-    "tcm_grid",
+    "tcm_badges",
+    "tcm_hero",
+    "tcm_tt_series",
     "tcm_tt_features",
-    "tcm_foam_features"
+    "tcm_foam_series",
+    "tcm_foam_features",
+    "tcm_modular",
+    "tcm_sweden_badge"
   ]
 }
