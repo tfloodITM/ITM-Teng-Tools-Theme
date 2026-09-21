@@ -15,9 +15,14 @@
 
 {%- style -%}
   #shopify-section-{{ sid }} .itm-hs {
-    max-width: {{ section.settings.max_width | default: 900 }}px;
+    max-width: {{ section.settings.max_width_mobile | default: 400 }}px;
     margin: 0 auto;
     padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+  }
+  @media (min-width: 750px) {
+    #shopify-section-{{ sid }} .itm-hs {
+      max-width: {{ section.settings.max_width | default: 900 }}px;
+    }
   }
   #shopify-section-{{ sid }} .itm-hs__heading {
     font-weight: 800;
@@ -36,6 +41,8 @@
   }
   #shopify-section-{{ sid }} .itm-hs__marker {
     position: absolute;
+    left: var(--hs-x);
+    top: var(--hs-y);
     width: 34px;
     height: 34px;
     margin: -17px 0 0 -17px;
@@ -117,6 +124,20 @@
     padding: 4px;
   }
   @media (max-width: 749px) {
+    {%- comment -%}
+      Reassigning --hs-x/--hs-y themselves (rather than duplicating the
+      positioning rules) means every rule that already reads them — the
+      marker's left/top, the popover's clamp() — automatically switches
+      to each hotspot's mobile position with nothing else to keep in
+      sync. Falls back to the desktop value already stored in --hs-x
+      when a hotspot has no mobile override, since --hs-x-mobile always
+      just mirrors --hs-x for those blocks (set in the markup above).
+    {%- endcomment -%}
+    #shopify-section-{{ sid }} .itm-hs__marker,
+    #shopify-section-{{ sid }} .itm-hs__popover {
+      --hs-x: var(--hs-x-mobile);
+      --hs-y: var(--hs-y-mobile);
+    }
     #shopify-section-{{ sid }} .itm-hs__marker {
       width: 28px;
       height: 28px;
@@ -147,10 +168,18 @@
       <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.heading | escape }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}" loading="lazy">
 
       {%- for block in section.blocks -%}
+        {%- liquid
+          assign hs_mob_x = block.settings.x_percent
+          assign hs_mob_y = block.settings.y_percent
+          if block.settings.use_mobile_position
+            assign hs_mob_x = block.settings.x_percent_mobile
+            assign hs_mob_y = block.settings.y_percent_mobile
+          endif
+        -%}
         <button
           type="button"
           class="itm-hs__marker"
-          style="left:{{ block.settings.x_percent }}%; top:{{ block.settings.y_percent }}%;"
+          style="--hs-x:{{ block.settings.x_percent }}%; --hs-y:{{ block.settings.y_percent }}%; --hs-x-mobile:{{ hs_mob_x }}%; --hs-y-mobile:{{ hs_mob_y }}%;"
           data-hs-marker="{{ forloop.index0 }}"
           aria-label="{{ block.settings.title | escape }}"
           {{ block.shopify_attributes }}
@@ -158,9 +187,17 @@
       {%- endfor -%}
 
       {%- for block in section.blocks -%}
+        {%- liquid
+          assign hs_mob_x = block.settings.x_percent
+          assign hs_mob_y = block.settings.y_percent
+          if block.settings.use_mobile_position
+            assign hs_mob_x = block.settings.x_percent_mobile
+            assign hs_mob_y = block.settings.y_percent_mobile
+          endif
+        -%}
         <div
           class="itm-hs__popover"
-          style="--hs-x:{{ block.settings.x_percent }}%; --hs-y:{{ block.settings.y_percent }}%;"
+          style="--hs-x:{{ block.settings.x_percent }}%; --hs-y:{{ block.settings.y_percent }}%; --hs-x-mobile:{{ hs_mob_x }}%; --hs-y-mobile:{{ hs_mob_y }}%;"
           data-hs-popover="{{ forloop.index0 }}"
         >
           <button type="button" class="itm-hs__popover-close" data-hs-close aria-label="Close">&times;</button>
@@ -238,11 +275,20 @@
     {
       "type": "range",
       "id": "max_width",
-      "label": "Max content width (px)",
+      "label": "Max content width (px) — desktop",
       "min": 400,
       "max": 1600,
       "step": 20,
       "default": 900
+    },
+    {
+      "type": "range",
+      "id": "max_width_mobile",
+      "label": "Max content width (px) — mobile",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "default": 400
     },
     {
       "type": "range",
@@ -271,7 +317,7 @@
         {
           "type": "range",
           "id": "x_percent",
-          "label": "Horizontal position (%)",
+          "label": "Horizontal position (%) — desktop",
           "min": 0,
           "max": 100,
           "step": 1,
@@ -280,7 +326,31 @@
         {
           "type": "range",
           "id": "y_percent",
-          "label": "Vertical position (%)",
+          "label": "Vertical position (%) — desktop",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "checkbox",
+          "id": "use_mobile_position",
+          "label": "Use a different position on mobile",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "x_percent_mobile",
+          "label": "Horizontal position (%) — mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "y_percent_mobile",
+          "label": "Vertical position (%) — mobile",
           "min": 0,
           "max": 100,
           "step": 1,
