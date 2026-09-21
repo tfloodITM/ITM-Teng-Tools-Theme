@@ -136,7 +136,7 @@
         {%- assign has_lottie_feature = false -%}
         {% for block in section.blocks %}
           {%- if block.settings.lottie_url != blank -%}{%- assign has_lottie_feature = true -%}{%- endif -%}
-          <div class="feature" {{ block.shopify_attributes }}>
+          <div class="feature{% if block.settings.text == blank %} feature--no-desc{% endif %}" {{ block.shopify_attributes }}>
             {% if block.settings.lottie_url != blank %}
               <div class="feature__iconwrap">
                 <span class="feature__bubble" aria-hidden="true"></span>
@@ -287,7 +287,15 @@
     }
 
     @media (max-width: 749px) {
-      :root { --feat-gap: 8px; --feat-cards: 3; }
+      {%- comment -%}
+        --feat-cards:2 + flex-wrap here means 4 items break into 2 rows
+        of 2 instead of overflowing/scrolling — the viewport's
+        overflow:hidden + scroll-snap above is only needed for the
+        genuinely-scrolling case (more items than fit), so wrapping is
+        safe here since a static, wrapped grid never needs to scroll.
+      {%- endcomment -%}
+      :root { --feat-gap: 8px; --feat-cards: 2; }
+      .features__track { flex-wrap: wrap; }
       .feature {
         flex-direction: column;
         align-items: center;
@@ -298,6 +306,19 @@
       .feature__text { text-align: center; }
       .feature__iconwrap { width: 52px; height: 52px; flex: 0 0 52px; }
       .feature__glyph, .feature__glyphimg, .feature__lottie { width: 26px; height: 26px; }
+      {%- comment -%}
+        A feature with no description text has nothing to fill the
+        space a stacked, centered layout leaves below the title — so
+        it keeps the icon next to the title in one row instead,
+        matching the desktop layout, rather than stacking icon-on-top
+        with an empty gap where the (missing) description would go.
+      {%- endcomment -%}
+      .feature--no-desc {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+      }
+      .feature--no-desc .feature__text { text-align: left; }
     }
   </style>
 
