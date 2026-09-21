@@ -91,7 +91,7 @@
         "section_use_scheme": false,
         "section_fill_scheme": "",
         "section_bg": "#eeeeee",
-        "icon_true_color": true,
+        "section_bg_mobile": "",
         "color_scheme": "",
         "section_border_width": 0,
         "section_border_color": "#e2e2e2",
@@ -104,15 +104,20 @@
         "icon_wrap_size": 84,
         "icon_wrap_size_mobile": 52,
         "show_icon_bubble": true,
+        "icon_true_color": true,
         "icon_bubble_color": "#00000026",
         "icon_border_width": 0,
         "icon_border_color": "#e30613",
         "title_size": 24,
         "title_size_mobile": 13,
         "title_weight": "800",
+        "title_color": "#1a1a1a",
+        "title_color_mobile": "",
         "desc_size": 17,
         "desc_size_mobile": 11,
-        "desc_weight": "400"
+        "desc_weight": "400",
+        "desc_color": "#1a1a1a",
+        "desc_color_mobile": ""
       }
     },
     "tcs_features": {
@@ -152,31 +157,78 @@
       "blocks": {
         "hs1": {
           "type": "hotspot",
-          "settings": { "x_percent": 50, "y_percent": 10, "title": "Foam Worktop Mat", "text": "A protective work surface fitted to the top of the cabinet." }
+          "settings": {
+            "x_percent": 34,
+            "y_percent": 13,
+            "use_mobile_position": false,
+            "x_percent_mobile": 50,
+            "y_percent_mobile": 50,
+            "title": "Foam Worktop Mat",
+            "text": "A protective work surface fitted to the top of the cabinet."
+          }
         },
         "hs2": {
           "type": "hotspot",
-          "settings": { "x_percent": 65, "y_percent": 25, "title": "3-Digit Combination Lock", "text": "Keep every drawer secure without needing a separate key." }
+          "settings": {
+            "x_percent": 55,
+            "y_percent": 18,
+            "use_mobile_position": false,
+            "x_percent_mobile": 50,
+            "y_percent_mobile": 50,
+            "title": "3-Digit Combination Lock",
+            "text": "Keep every drawer secure without needing a separate key."
+          }
         },
         "hs3": {
           "type": "hotspot",
-          "settings": { "x_percent": 80, "y_percent": 45, "title": "Ball Bearing Slides", "text": "Smooth, full-extension drawer runners rated for daily use." }
+          "settings": {
+            "x_percent": 76,
+            "y_percent": 25,
+            "use_mobile_position": false,
+            "x_percent_mobile": 50,
+            "y_percent_mobile": 50,
+            "title": "Ball Bearing Slides",
+            "text": "Smooth, full-extension drawer runners rated for daily use."
+          }
         },
         "hs4": {
           "type": "hotspot",
-          "settings": { "x_percent": 55, "y_percent": 70, "title": "40kg Drawer Capacity", "text": "Each drawer is rated to carry up to 40kg fully loaded." }
+          "settings": {
+            "x_percent": 60,
+            "y_percent": 62,
+            "use_mobile_position": false,
+            "x_percent_mobile": 50,
+            "y_percent_mobile": 50,
+            "title": "40kg Drawer Capacity",
+            "text": "Each drawer is rated to carry up to 40kg fully loaded."
+          }
         },
         "hs5": {
           "type": "hotspot",
-          "settings": { "x_percent": 25, "y_percent": 88, "title": "Heavy-Duty Castors", "text": "Reinforced wheels built to move a fully loaded cabinet." }
+          "settings": {
+            "x_percent": 28,
+            "y_percent": 77,
+            "use_mobile_position": false,
+            "x_percent_mobile": 50,
+            "y_percent_mobile": 50,
+            "title": "Heavy-Duty Castors",
+            "text": "Reinforced wheels built to move a fully loaded cabinet."
+          }
         }
       },
-      "block_order": ["hs1", "hs2", "hs3", "hs4", "hs5"],
+      "block_order": [
+        "hs1",
+        "hs2",
+        "hs3",
+        "hs4",
+        "hs5"
+      ],
       "settings": {
         "heading": "Explore The Cabinet",
-        "image": "",
+        "image": "shopify://shop_images/PRO35-small-kit-2.webp",
         "marker_color": "#ffc233",
         "max_width": 1100,
+        "max_width_mobile": 410,
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -227,6 +279,7 @@
         "section_use_scheme": false,
         "section_fill_scheme": "",
         "section_bg": "#ffffff",
+        "section_bg_mobile": "",
         "color_scheme": "",
         "section_border_width": 0,
         "section_border_color": "#e2e2e2",
@@ -239,15 +292,20 @@
         "icon_wrap_size": 84,
         "icon_wrap_size_mobile": 52,
         "show_icon_bubble": true,
+        "icon_true_color": false,
         "icon_bubble_color": "#00000026",
         "icon_border_width": 0,
         "icon_border_color": "#e30613",
         "title_size": 24,
         "title_size_mobile": 13,
         "title_weight": "800",
+        "title_color": "#1a1a1a",
+        "title_color_mobile": "",
         "desc_size": 17,
         "desc_size_mobile": 11,
-        "desc_weight": "400"
+        "desc_weight": "400",
+        "desc_color": "#1a1a1a",
+        "desc_color_mobile": ""
       }
     },
     "tcs_drawer_text": {
@@ -287,7 +345,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -384,6 +444,7 @@
         "section_use_scheme": false,
         "section_fill_scheme": "",
         "section_bg": "#ffffff",
+        "section_bg_mobile": "",
         "color_scheme": "",
         "section_border_width": 0,
         "section_border_color": "#e2e2e2",
@@ -396,15 +457,20 @@
         "icon_wrap_size": 84,
         "icon_wrap_size_mobile": 52,
         "show_icon_bubble": true,
+        "icon_true_color": false,
         "icon_bubble_color": "#00000026",
         "icon_border_width": 0,
         "icon_border_color": "#e30613",
         "title_size": 24,
         "title_size_mobile": 13,
         "title_weight": "800",
+        "title_color": "#1a1a1a",
+        "title_color_mobile": "",
         "desc_size": 17,
         "desc_size_mobile": 11,
-        "desc_weight": "400"
+        "desc_weight": "400",
+        "desc_color": "#1a1a1a",
+        "desc_color_mobile": ""
       }
     },
     "tcs_sweden_badge": {
@@ -444,7 +510,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -532,7 +600,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -572,7 +642,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -612,7 +684,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -652,7 +726,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -692,7 +768,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -732,7 +810,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
