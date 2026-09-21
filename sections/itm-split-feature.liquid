@@ -28,6 +28,7 @@
   }
   #shopify-section-{{ sid }} .itm-sf__text {
     order: {%- if image_side == 'left' -%}2{%- else -%}1{%- endif -%};
+    text-align: {{ section.settings.text_align | default: 'left' }};
   }
   #shopify-section-{{ sid }} .itm-sf__media {
     order: {%- if image_side == 'left' -%}1{%- else -%}2{%- endif -%};
@@ -46,6 +47,15 @@
     color: {{ section.settings.eyebrow_color }};
     font-size: {{ section.settings.eyebrow_size_desktop }}px;
     margin: 0 0 {{ section.settings.eyebrow_gap }}px;
+  }
+  {%- comment -%}
+    eyebrow is a richtext field now (for the same bold/italic editing
+    ability as the body text), which always wraps its output in a <p> —
+    reset that inner paragraph's own margin so it doesn't add extra
+    spacing on top of the margin already set above.
+  {%- endcomment -%}
+  #shopify-section-{{ sid }} .itm-sf__eyebrow p {
+    margin: 0;
   }
   #shopify-section-{{ sid }} .itm-sf__heading {
     font-weight: 800;
@@ -91,6 +101,9 @@
     #shopify-section-{{ sid }} .itm-sf__media {
       order: -1;
     }
+    #shopify-section-{{ sid }} .itm-sf__text {
+      text-align: {{ section.settings.text_align_mobile | default: section.settings.text_align | default: 'left' }};
+    }
     #shopify-section-{{ sid }} .itm-sf__eyebrow {
       font-size: {{ section.settings.eyebrow_size_mobile }}px;
     }
@@ -107,10 +120,16 @@
   <div class="itm-sf__inner">
     <div class="itm-sf__text">
       {%- if section.settings.eyebrow != blank -%}
-        <span class="itm-sf__eyebrow">{{ section.settings.eyebrow }}</span>
+        <div class="itm-sf__eyebrow">{{ section.settings.eyebrow }}</div>
       {%- endif -%}
       {%- if section.settings.heading != blank -%}
-        <h2 class="itm-sf__heading">{{ section.settings.heading }}</h2>
+        {%- comment -%}
+          heading is richtext (for bold/italic editing ability), which
+          always wraps its output in <p>...</p> — a <p> isn't valid
+          content inside <h2>, so it's stripped here while keeping any
+          inline formatting (bold/italic/links) the merchant added.
+        {%- endcomment -%}
+        <h2 class="itm-sf__heading">{{ section.settings.heading | strip_newlines | remove_first: '<p>' | remove_last: '</p>' }}</h2>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
         <div class="itm-sf__body">{{ section.settings.text }}</div>
@@ -144,6 +163,28 @@
       "default": "right"
     },
     {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment — desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text alignment — mobile",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
       "type": "image_picker",
       "id": "image",
       "label": "Image"
@@ -158,15 +199,15 @@
       "default": 0
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "eyebrow",
       "label": "Eyebrow line (optional)"
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "heading",
       "label": "Heading",
-      "default": "Heading"
+      "default": "<p>Heading</p>"
     },
     {
       "type": "richtext",
