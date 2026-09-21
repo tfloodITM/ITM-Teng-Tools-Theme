@@ -13,6 +13,8 @@
       "type": "itm-split-feature",
       "settings": {
         "image_side": "right",
+        "text_align": "left",
+        "text_align_mobile": "left",
         "image": "shopify://shop_images/PRO35-black-stack-1x1.webp",
         "image_radius": 0,
         "eyebrow": "3-Piece Cabinet Frame · 5-Step Rust Protection",
@@ -124,6 +126,8 @@
       "type": "itm-split-feature",
       "settings": {
         "image_side": "left",
+        "text_align": "left",
+        "text_align_mobile": "left",
         "image": "shopify://shop_images/PRO35-banner-3.webp",
         "image_radius": 0,
         "eyebrow": "Boost Your Performance",
