@@ -18,7 +18,7 @@
             "layout": "split",
             "image": "shopify://shop_images/PRO35-black-stack-1x1.webp",
             "heading": "Made For Professionals",
-            "text": "<p><strong>3-piece cabinet frame &middot; 5-step rust protection</strong></p><p>The next generation of roller cabinet storage, built for the daily demands of automotive, maintenance, engineering and motorsport work.</p>",
+            "text": "<p><strong>3-piece cabinet frame · 5-step rust protection</strong></p><p>Introducing the <strong>next generation</strong> in tool storage, specifically designed to cater to the demands of <strong>professionals</strong> in automotive, maintenance, engineering, and motorsport.<br/></p>",
             "price": "",
             "link": "/collections/roll-cabinets",
             "btn_label": "Shop Roller Cabinets",
@@ -29,16 +29,73 @@
             "span_desktop": 12,
             "span_mobile": 12,
             "min_height": 460,
-            "min_height_mobile": 320
+            "min_height_mobile": 320,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#F2F4F8",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#FFFFFF",
+            "text_color": "#000000",
+            "btn_bg": "#000000",
+            "btn_text": "#FFFFFF",
+            "btn_skew": 0
           }
         }
       },
-      "block_order": ["tcs_hero_tile"],
+      "block_order": [
+        "tcs_hero_tile"
+      ],
       "settings": {
-        "tile_padding": 40,
+        "section_bg": "#f4f4f4",
+        "max_width": 1430,
         "gap": 16,
+        "radius": 16,
         "padding_top": 40,
-        "padding_bottom": 0
+        "padding_bottom": 0,
+        "heading_weight": "900",
+        "heading_uppercase": true,
+        "heading_size": 24,
+        "text_size": 15,
+        "price_size": 30,
+        "tile_padding": 40,
+        "body_align": "center",
+        "overlay_opacity": 55,
+        "heading_size_mobile": 0,
+        "text_size_mobile": 0,
+        "price_size_mobile": 0,
+        "mobile_scale": 80,
+        "quote_lines": 4,
+        "btn_size": 15,
+        "btn_size_mobile": 0,
+        "btn_radius": 0,
+        "btn_pad_y": 11,
+        "btn_pad_x": 18,
+        "play_size": 68,
+        "play_bg": "#e30613",
+        "play_border_width": 0,
+        "play_border_color": "#ffffff",
+        "play_glow": "#ffffff",
+        "play_glow_size": 30,
+        "play_icon": "#ffffff",
+        "play_icon_size": 38,
+        "play_icon_nudge": 8,
+        "play_hover_scale": 112,
+        "play_pulse": true,
+        "play_pulse_color": "#ffffff",
+        "play_pulse_spread": 26,
+        "play_pulse_speed": 2800
       }
     },
     "tcs_spec_row": {
@@ -46,27 +103,73 @@
       "blocks": {
         "s1": {
           "type": "item",
-          "settings": { "title": "3-Piece Heavy Gauge Steel Cabinet Frame", "text": "" }
+          "settings": {
+            "icon": "shopify://shop_images/3-piece-steel-black.avif",
+            "lottie_url": "",
+            "title": "3-Piece Heavy Gauge Steel Cabinet Frame",
+            "text": ""
+          }
         },
         "s2": {
           "type": "item",
-          "settings": { "title": "5-Step Phosphate-Free Rust Protection", "text": "" }
+          "settings": {
+            "icon": "shopify://shop_images/5-step-rust-protection-black.avif",
+            "lottie_url": "",
+            "title": "5-Step Phosphate-Free Rust Protection",
+            "text": ""
+          }
         },
         "s3": {
           "type": "item",
-          "settings": { "title": "Up To 40kg Drawer Loading Capacity", "text": "" }
+          "settings": {
+            "icon": "shopify://shop_images/40-kg-capacity-black.avif",
+            "lottie_url": "",
+            "title": "Up To 40kg Drawer Loading Capacity",
+            "text": ""
+          }
         },
         "s4": {
           "type": "item",
-          "settings": { "title": "Teng Tools Control System Compatible", "text": "" }
+          "settings": {
+            "icon": "shopify://shop_images/5-step-rust-protection-black.avif",
+            "lottie_url": "",
+            "title": "Teng Tools Control System Compatible",
+            "text": ""
+          }
         }
       },
-      "block_order": ["s1", "s2", "s3", "s4"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
       "settings": {
+        "section_use_scheme": false,
+        "section_fill_scheme": "",
         "section_bg": "#eeeeee",
         "icon_true_color": true,
+        "color_scheme": "",
+        "section_border_width": 0,
+        "section_border_color": "#e2e2e2",
         "padding_top": 32,
-        "padding_bottom": 32
+        "padding_bottom": 32,
+        "padding_bg": "#ffffff",
+        "icon_color": "#1a1a1a",
+        "icon_size": 42,
+        "icon_size_mobile": 26,
+        "icon_wrap_size": 84,
+        "icon_wrap_size_mobile": 52,
+        "show_icon_bubble": true,
+        "icon_bubble_color": "#00000026",
+        "icon_border_width": 0,
+        "icon_border_color": "#e30613",
+        "title_size": 24,
+        "title_size_mobile": 13,
+        "title_weight": "800",
+        "desc_size": 17,
+        "desc_size_mobile": 11,
+        "desc_weight": "400"
       }
     },
     "tcs_features": {
@@ -76,27 +179,86 @@
           "type": "tile",
           "settings": {
             "layout": "split",
-            "image": "",
+            "image": "shopify://shop_images/PRO35-banner-3.webp",
             "heading": "Improved Features",
-            "text": "<p><strong>Boost your performance</strong></p><p>Reinforced drawers rated to carry up to 40kg each, built to work with the wider Teng Tools tray system for a setup that stays organised as it grows.</p>",
+            "text": "<p><strong>Boost your performance</strong></p><p>Elevate your workspace with TengTools PRO35™ tool storage. This storage boast a host of enhanced features crafted to boost your performance. From reinforced drawer designs capable of holding up to 40kg to precision-engineered compatibility with our Tool Control System, every detail has been refined to ensure seamless functionality and unparalleled convenience. Say goodbye to cluttered workspaces and hello to streamlined productivity.<br/><br/></p>",
             "price": "",
             "link": "/collections/roll-cabinets",
             "btn_label": "",
             "link_label": "View details",
             "btn_arrow": true,
+            "open_quiz": false,
+            "quiz_trigger_id": "fathers-day",
             "span_desktop": 12,
             "span_mobile": 12,
             "min_height": 320,
-            "min_height_mobile": 260
+            "min_height_mobile": 260,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#FFFFFF",
+            "text_color": "#000000",
+            "btn_bg": "#ffffff",
+            "btn_text": "#1a1a1a",
+            "btn_skew": 0
           }
         }
       },
-      "block_order": ["tcs_features_tile"],
+      "block_order": [
+        "tcs_features_tile"
+      ],
       "settings": {
-        "tile_padding": 40,
+        "section_bg": "#f4f4f4",
+        "max_width": 1430,
         "gap": 16,
+        "radius": 16,
         "padding_top": 40,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "heading_weight": "900",
+        "heading_uppercase": true,
+        "heading_size": 24,
+        "text_size": 15,
+        "price_size": 30,
+        "tile_padding": 40,
+        "body_align": "center",
+        "overlay_opacity": 55,
+        "heading_size_mobile": 0,
+        "text_size_mobile": 0,
+        "price_size_mobile": 0,
+        "mobile_scale": 80,
+        "quote_lines": 4,
+        "btn_size": 15,
+        "btn_size_mobile": 0,
+        "btn_radius": 0,
+        "btn_pad_y": 11,
+        "btn_pad_x": 18,
+        "play_size": 68,
+        "play_bg": "#e30613",
+        "play_border_width": 0,
+        "play_border_color": "#ffffff",
+        "play_glow": "#ffffff",
+        "play_glow_size": 30,
+        "play_icon": "#ffffff",
+        "play_icon_size": 38,
+        "play_icon_nudge": 8,
+        "play_hover_scale": 112,
+        "play_pulse": true,
+        "play_pulse_color": "#ffffff",
+        "play_pulse_spread": 26,
+        "play_pulse_speed": 2800
       }
     },
     "tcs_hotspot": {
@@ -138,23 +300,69 @@
       "blocks": {
         "c1": {
           "type": "item",
-          "settings": { "title": "Foam Worktop Mat", "text": "An optional protective mat for the top of your cabinet." }
+          "settings": {
+            "lottie_url": "",
+            "title": "Foam Worktop Mat",
+            "text": "An optional protective mat for the top of your cabinet."
+          }
         },
         "c2": {
           "type": "item",
-          "settings": { "title": "3-Digit Combination Lock", "text": "Keep your drawers secure without needing a separate key." }
+          "settings": {
+            "lottie_url": "",
+            "title": "3-Digit Combination Lock",
+            "text": "Keep your drawers secure without needing a separate key."
+          }
         },
         "c3": {
           "type": "item",
-          "settings": { "title": "Ball Bearing Slides", "text": "Smooth, full-extension drawer runners rated for daily use." }
+          "settings": {
+            "lottie_url": "",
+            "title": "Ball Bearing Slides",
+            "text": "Smooth, full-extension drawer runners rated for daily use."
+          }
         },
         "c4": {
           "type": "item",
-          "settings": { "title": "Heavy-Duty Castors", "text": "Reinforced wheels built to move a fully loaded cabinet." }
+          "settings": {
+            "lottie_url": "",
+            "title": "Heavy-Duty Castors",
+            "text": "Reinforced wheels built to move a fully loaded cabinet."
+          }
         }
       },
-      "block_order": ["c1", "c2", "c3", "c4"],
-      "settings": {}
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "section_use_scheme": false,
+        "section_fill_scheme": "",
+        "section_bg": "#ffffff",
+        "color_scheme": "",
+        "section_border_width": 0,
+        "section_border_color": "#e2e2e2",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_bg": "#ffffff",
+        "icon_color": "#1a1a1a",
+        "icon_size": 42,
+        "icon_size_mobile": 26,
+        "icon_wrap_size": 84,
+        "icon_wrap_size_mobile": 52,
+        "show_icon_bubble": true,
+        "icon_bubble_color": "#00000026",
+        "icon_border_width": 0,
+        "icon_border_color": "#e30613",
+        "title_size": 24,
+        "title_size_mobile": 13,
+        "title_weight": "800",
+        "desc_size": 17,
+        "desc_size_mobile": 11,
+        "desc_weight": "400"
+      }
     },
     "tcs_drawer_text": {
       "type": "itm-promo-grid",
@@ -163,7 +371,6 @@
           "type": "tile",
           "settings": {
             "layout": "stacked",
-            "image": "",
             "heading": "Drawers Built To Carry The Load",
             "text": "<p>Each drawer is rated up to 40kg, so a fully kitted-out cabinet stays solid and easy to roll around the workshop, even when every drawer is full.</p>",
             "price": "",
@@ -171,19 +378,78 @@
             "btn_label": "",
             "link_label": "",
             "btn_arrow": false,
+            "open_quiz": false,
+            "quiz_trigger_id": "fathers-day",
             "span_desktop": 12,
             "span_mobile": 12,
             "min_height": 160,
-            "min_height_mobile": 140
+            "min_height_mobile": 140,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#ffffff",
+            "btn_text": "#1a1a1a",
+            "btn_skew": 0
           }
         }
       },
-      "block_order": ["tcs_drawer_tile"],
+      "block_order": [
+        "tcs_drawer_tile"
+      ],
       "settings": {
-        "tile_padding": 24,
+        "section_bg": "#f4f4f4",
+        "max_width": 1430,
         "gap": 16,
+        "radius": 16,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "heading_weight": "900",
+        "heading_uppercase": true,
+        "heading_size": 24,
+        "text_size": 15,
+        "price_size": 30,
+        "tile_padding": 24,
+        "body_align": "center",
+        "overlay_opacity": 55,
+        "heading_size_mobile": 0,
+        "text_size_mobile": 0,
+        "price_size_mobile": 0,
+        "mobile_scale": 80,
+        "quote_lines": 4,
+        "btn_size": 15,
+        "btn_size_mobile": 0,
+        "btn_radius": 0,
+        "btn_pad_y": 11,
+        "btn_pad_x": 18,
+        "play_size": 68,
+        "play_bg": "#e30613",
+        "play_border_width": 0,
+        "play_border_color": "#ffffff",
+        "play_glow": "#ffffff",
+        "play_glow_size": 30,
+        "play_icon": "#ffffff",
+        "play_icon_size": 38,
+        "play_icon_nudge": 8,
+        "play_hover_scale": 112,
+        "play_pulse": true,
+        "play_pulse_color": "#ffffff",
+        "play_pulse_spread": 26,
+        "play_pulse_speed": 2800
       }
     },
     "tcs_extra_icons": {
@@ -191,23 +457,69 @@
       "blocks": {
         "x1": {
           "type": "item",
-          "settings": { "title": "Comfort Grip Handle", "text": "An ergonomic handle for easier manoeuvring around the shop." }
+          "settings": {
+            "lottie_url": "",
+            "title": "Comfort Grip Handle",
+            "text": "An ergonomic handle for easier manoeuvring around the shop."
+          }
         },
         "x2": {
           "type": "item",
-          "settings": { "title": "Aluminium Handles", "text": "Lightweight, corrosion-resistant drawer handles." }
+          "settings": {
+            "lottie_url": "",
+            "title": "Aluminium Handles",
+            "text": "Lightweight, corrosion-resistant drawer handles."
+          }
         },
         "x3": {
           "type": "item",
-          "settings": { "title": "Extra Tool Protection", "text": "Liner options that guard your tools against knocks and scratches." }
+          "settings": {
+            "lottie_url": "",
+            "title": "Extra Tool Protection",
+            "text": "Liner options that guard your tools against knocks and scratches."
+          }
         },
         "x4": {
           "type": "item",
-          "settings": { "title": "Accessory Integration", "text": "Add side lockers, risers and other extras as your setup grows." }
+          "settings": {
+            "lottie_url": "",
+            "title": "Accessory Integration",
+            "text": "Add side lockers, risers and other extras as your setup grows."
+          }
         }
       },
-      "block_order": ["x1", "x2", "x3", "x4"],
-      "settings": {}
+      "block_order": [
+        "x1",
+        "x2",
+        "x3",
+        "x4"
+      ],
+      "settings": {
+        "section_use_scheme": false,
+        "section_fill_scheme": "",
+        "section_bg": "#ffffff",
+        "color_scheme": "",
+        "section_border_width": 0,
+        "section_border_color": "#e2e2e2",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_bg": "#ffffff",
+        "icon_color": "#1a1a1a",
+        "icon_size": 42,
+        "icon_size_mobile": 26,
+        "icon_wrap_size": 84,
+        "icon_wrap_size_mobile": 52,
+        "show_icon_bubble": true,
+        "icon_bubble_color": "#00000026",
+        "icon_border_width": 0,
+        "icon_border_color": "#e30613",
+        "title_size": 24,
+        "title_size_mobile": 13,
+        "title_weight": "800",
+        "desc_size": 17,
+        "desc_size_mobile": 11,
+        "desc_weight": "400"
+      }
     },
     "tcs_sweden_badge": {
       "type": "itm-promo-grid",
@@ -216,7 +528,6 @@
           "type": "tile",
           "settings": {
             "layout": "stacked",
-            "image": "",
             "heading": "Designed In Sweden",
             "text": "<p>Teng Tools storage is designed in Sweden and built to a standard trusted by professionals worldwide.</p>",
             "price": "",
@@ -224,19 +535,78 @@
             "btn_label": "",
             "link_label": "",
             "btn_arrow": false,
+            "open_quiz": false,
+            "quiz_trigger_id": "fathers-day",
             "span_desktop": 12,
             "span_mobile": 12,
             "min_height": 120,
-            "min_height_mobile": 120
+            "min_height_mobile": 120,
+            "heading_size": 0,
+            "text_size": 0,
+            "price_size": 0,
+            "btn_size": 0,
+            "btn_pad_y": 0,
+            "btn_pad_x": 0,
+            "heading_size_mobile": 0,
+            "text_size_mobile": 0,
+            "price_size_mobile": 0,
+            "btn_size_mobile": 0,
+            "color_style": "custom",
+            "color_scheme": "",
+            "border_width": 0,
+            "border_color": "#000000",
+            "hide_desktop": false,
+            "hide_mobile": false,
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff",
+            "btn_bg": "#ffffff",
+            "btn_text": "#1a1a1a",
+            "btn_skew": 0
           }
         }
       },
-      "block_order": ["tcs_sweden_tile"],
+      "block_order": [
+        "tcs_sweden_tile"
+      ],
       "settings": {
-        "tile_padding": 24,
+        "section_bg": "#f4f4f4",
+        "max_width": 1430,
         "gap": 16,
+        "radius": 16,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "heading_weight": "900",
+        "heading_uppercase": true,
+        "heading_size": 24,
+        "text_size": 15,
+        "price_size": 30,
+        "tile_padding": 24,
+        "body_align": "center",
+        "overlay_opacity": 55,
+        "heading_size_mobile": 0,
+        "text_size_mobile": 0,
+        "price_size_mobile": 0,
+        "mobile_scale": 80,
+        "quote_lines": 4,
+        "btn_size": 15,
+        "btn_size_mobile": 0,
+        "btn_radius": 0,
+        "btn_pad_y": 11,
+        "btn_pad_x": 18,
+        "play_size": 68,
+        "play_bg": "#e30613",
+        "play_border_width": 0,
+        "play_border_color": "#ffffff",
+        "play_glow": "#ffffff",
+        "play_glow_size": 30,
+        "play_icon": "#ffffff",
+        "play_icon_size": 38,
+        "play_icon_nudge": 8,
+        "play_hover_scale": 112,
+        "play_pulse": true,
+        "play_pulse_color": "#ffffff",
+        "play_pulse_spread": 26,
+        "play_pulse_speed": 2800
       }
     },
     "tcs_categories": {
@@ -495,8 +865,41 @@
         "section_bg": "#f4f4f4",
         "max_width": 1430,
         "gap": 16,
+        "radius": 16,
         "padding_top": 20,
-        "padding_bottom": 60
+        "padding_bottom": 60,
+        "heading_weight": "900",
+        "heading_uppercase": true,
+        "heading_size": 24,
+        "text_size": 15,
+        "price_size": 30,
+        "tile_padding": 24,
+        "body_align": "center",
+        "overlay_opacity": 55,
+        "heading_size_mobile": 0,
+        "text_size_mobile": 0,
+        "price_size_mobile": 0,
+        "mobile_scale": 80,
+        "quote_lines": 4,
+        "btn_size": 15,
+        "btn_size_mobile": 0,
+        "btn_radius": 0,
+        "btn_pad_y": 11,
+        "btn_pad_x": 18,
+        "play_size": 68,
+        "play_bg": "#e30613",
+        "play_border_width": 0,
+        "play_border_color": "#ffffff",
+        "play_glow": "#ffffff",
+        "play_glow_size": 30,
+        "play_icon": "#ffffff",
+        "play_icon_size": 38,
+        "play_icon_nudge": 8,
+        "play_hover_scale": 112,
+        "play_pulse": true,
+        "play_pulse_color": "#ffffff",
+        "play_pulse_spread": 26,
+        "play_pulse_speed": 2800
       }
     }
   },
