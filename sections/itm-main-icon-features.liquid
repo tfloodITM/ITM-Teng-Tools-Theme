@@ -131,7 +131,7 @@
 
 <section class="features color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
-    <div class="features__viewport" data-pause="3000">
+    <div class="features__viewport" data-pause="3000" data-columns="{{ section.settings.columns_desktop | default: 3 }}">
       <div class="features__track">
         {%- assign has_lottie_feature = false -%}
         {% for block in section.blocks %}
@@ -172,6 +172,12 @@
 
   <style>
     :root { --feat-gap: 28px; --feat-cards: 3; }
+    {%- comment -%}
+      Section-scoped override, so raising this instance's column count
+      doesn't change every other icon-features section on the site that
+      still relies on the :root default above.
+    {%- endcomment -%}
+    #shopify-section-{{ section.id }} { --feat-cards: {{ section.settings.columns_desktop | default: 3 }}; }
 
     .features__viewport {
       overflow: hidden;
@@ -317,11 +323,12 @@
       if (!vp || !track) return;
 
       const pauseMs = parseInt(vp.dataset.pause || '3000', 10);
+      const columns = parseInt(vp.dataset.columns || '3', 10);
       const originals = Array.from(track.children);
       const total = originals.length;
 
-      // 3 or fewer: show statically, no scrolling
-      if (total <= 3) return;
+      // Fits within the configured column count: show statically, no scrolling
+      if (total <= columns) return;
 
       if (total < 4) {
         const need = 4 - total;
@@ -421,6 +428,16 @@
         "id": "section_border_color",
         "label": "Border colour",
         "default": "#e2e2e2"
+      },
+      {
+        "type": "range",
+        "id": "columns_desktop",
+        "label": "Columns shown at once — desktop",
+        "info": "When the number of items fits within this many columns, they all display in one static row instead of auto-scrolling.",
+        "min": 2,
+        "max": 6,
+        "step": 1,
+        "default": 3
       },
       {
         "type": "header",

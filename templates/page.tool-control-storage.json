@@ -92,6 +92,7 @@
       "settings": {
         "section_use_scheme": false,
         "section_fill_scheme": "",
+        "columns_desktop": 4,
         "section_bg": "#eeeeee",
         "section_bg_mobile": "",
         "color_scheme": "",
