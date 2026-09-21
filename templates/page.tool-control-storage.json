@@ -716,7 +716,7 @@
             "quiz_trigger_id": "fathers-day",
             "span_desktop": 4,
             "span_mobile": 6,
-            "min_height": 280,
+            "min_height": 210,
             "min_height_mobile": 200,
             "heading_size": 0,
             "text_size": 0,
