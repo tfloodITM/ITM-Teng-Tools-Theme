@@ -1,0 +1,213 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "tcs_grid": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcs_hero": {
+          "type": "tile",
+          "settings": {
+            "layout": "overlay",
+            "image": "",
+            "heading": "Heavy-Duty Roller Cabinets & Workshop Storage",
+            "text": "<p>Steel-framed storage built to carry a full workshop's worth of tools, with every size clicking into the same modular system.</p>",
+            "price": "",
+            "link": "/collections/tool-storage",
+            "btn_label": "Shop Tool Storage",
+            "link_label": "",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 420,
+            "min_height_mobile": 260,
+            "color_style": "custom",
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff"
+          }
+        },
+        "tcs_cat_portable": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Portable Tool Kits",
+            "text": "<p>Grab-and-go cases for tradies who need their kit on site, not on a shelf.</p>",
+            "price": "",
+            "link": "/collections/portable-tool-kits",
+            "btn_label": "",
+            "link_label": "Shop portable kits",
+            "btn_arrow": true,
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 280,
+            "min_height_mobile": 200
+          }
+        },
+        "tcs_cat_chests": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Tool Chests",
+            "text": "<p>Bench-top storage with the drawer space to organise a full tool collection.</p>",
+            "price": "",
+            "link": "/collections/tool-chests",
+            "btn_label": "",
+            "link_label": "Shop tool chests",
+            "btn_arrow": true,
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 280,
+            "min_height_mobile": 200
+          }
+        },
+        "tcs_cat_roller": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Roller Cabinets",
+            "text": "<p>Rolling steel storage for the workshop floor, built to carry serious weight.</p>",
+            "price": "",
+            "link": "/collections/roll-cabinets",
+            "btn_label": "",
+            "link_label": "Shop roller cabinets",
+            "btn_arrow": true,
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 280,
+            "min_height_mobile": 200
+          }
+        },
+        "tcs_cat_stacks": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Stacking Systems",
+            "text": "<p>Stack chests and cabinets together as your tool collection grows.</p>",
+            "price": "",
+            "link": "/collections/stack-tool-kits",
+            "btn_label": "",
+            "link_label": "Shop stacking systems",
+            "btn_arrow": true,
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 280,
+            "min_height_mobile": 200
+          }
+        },
+        "tcs_cat_mobile": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Mobile Storage",
+            "text": "<p>Wheeled storage that moves with the job, from the workshop to the ute.</p>",
+            "price": "",
+            "link": "/collections/mobile-tool-storage",
+            "btn_label": "",
+            "link_label": "Shop mobile storage",
+            "btn_arrow": true,
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 280,
+            "min_height_mobile": 200
+          }
+        },
+        "tcs_cat_accessories": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "Storage Accessories",
+            "text": "<p>Locks, castors, worktop mats and the extras that finish off any storage setup.</p>",
+            "price": "",
+            "link": "/collections/tool-storage-accessories",
+            "btn_label": "",
+            "link_label": "Shop accessories",
+            "btn_arrow": true,
+            "span_desktop": 4,
+            "span_mobile": 6,
+            "min_height": 280,
+            "min_height_mobile": 200
+          }
+        }
+      },
+      "block_order": [
+        "tcs_hero",
+        "tcs_cat_portable",
+        "tcs_cat_chests",
+        "tcs_cat_roller",
+        "tcs_cat_stacks",
+        "tcs_cat_mobile",
+        "tcs_cat_accessories"
+      ],
+      "settings": {
+        "tile_padding": 24,
+        "gap": 16,
+        "padding_top": 60,
+        "padding_bottom": 20
+      }
+    },
+    "tcs_build_features": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "f1": {
+          "type": "item",
+          "settings": { "title": "Heavy-Gauge Steel", "text": "A welded steel frame built to take the daily knocks of a working shop." }
+        },
+        "f2": {
+          "type": "item",
+          "settings": { "title": "Rust-Resistant Finish", "text": "A protective coating designed to hold up in real workshop conditions." }
+        },
+        "f3": {
+          "type": "item",
+          "settings": { "title": "Ball-Bearing Slides", "text": "Full-extension drawers that stay smooth even fully loaded." }
+        },
+        "f4": {
+          "type": "item",
+          "settings": { "title": "Modular Compatibility", "text": "Every size in the range is designed to stack and connect together." }
+        }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": {}
+    },
+    "tcs_extra_features": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "e1": {
+          "type": "item",
+          "settings": { "title": "Foam Worktop Mat", "text": "An optional protective work surface for the top of your cabinet." }
+        },
+        "e2": {
+          "type": "item",
+          "settings": { "title": "Combination Lock", "text": "Keep your tools secure with built-in locking on select models." }
+        },
+        "e3": {
+          "type": "item",
+          "settings": { "title": "Reinforced Castors", "text": "Heavy-duty wheels rated for a fully loaded cabinet." }
+        },
+        "e4": {
+          "type": "item",
+          "settings": { "title": "Accessory Ready", "text": "Add side lockers, risers and other extras as your setup grows." }
+        }
+      },
+      "block_order": ["e1", "e2", "e3", "e4"],
+      "settings": {}
+    }
+  },
+  "order": [
+    "tcs_grid",
+    "tcs_build_features",
+    "tcs_extra_features"
+  ]
+}

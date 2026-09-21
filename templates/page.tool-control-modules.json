@@ -1,0 +1,164 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "tcm_grid": {
+      "type": "itm-promo-grid",
+      "blocks": {
+        "tcm_hero": {
+          "type": "tile",
+          "settings": {
+            "layout": "overlay",
+            "image": "",
+            "heading": "One Tool Control System, Over 240 Tray Sets",
+            "text": "<p>Every Teng Tools tray clicks together into the same modular system, so your whole collection stays organised, no matter how it grows.</p>",
+            "price": "",
+            "link": "/collections/tool-storage",
+            "btn_label": "Shop Tool Storage",
+            "link_label": "",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 420,
+            "min_height_mobile": 260,
+            "color_style": "custom",
+            "bg": "#1a1a1a",
+            "text_color": "#ffffff"
+          }
+        },
+        "tcm_tt_series": {
+          "type": "tile",
+          "settings": {
+            "layout": "split",
+            "image": "",
+            "heading": "TC-Tray System",
+            "text": "<p>Durable, recyclable plastic trays that click into a drawer, chest or cabinet to give every tool its own shadowed spot — a quick glance tells you if something's missing.</p>",
+            "price": "",
+            "link": "/collections/get-organised-system-eva-trays",
+            "btn_label": "Shop TC-Trays",
+            "link_label": "",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 360,
+            "min_height_mobile": 260
+          }
+        },
+        "tcm_foam_series": {
+          "type": "tile",
+          "settings": {
+            "layout": "split",
+            "image": "",
+            "heading": "Foam Tray System",
+            "text": "<p>Cushioned, colour-coded foam trays that protect each tool in transit and make a missing item impossible to miss at a glance.</p>",
+            "price": "",
+            "link": "/collections/get-organised-system-ps-trays",
+            "btn_label": "Shop Foam Trays",
+            "link_label": "",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 360,
+            "min_height_mobile": 260
+          }
+        },
+        "tcm_modular": {
+          "type": "tile",
+          "settings": {
+            "layout": "stacked",
+            "image": "",
+            "heading": "One Modular System, Any Storage Width",
+            "text": "<p>Trays come in a range of standard widths designed to fit together inside roller cabinets, tool chests and portable cases alike — mix and match sizes as your collection grows.</p>",
+            "price": "",
+            "link": "/collections/tool-storage",
+            "btn_label": "",
+            "link_label": "Shop all storage",
+            "btn_arrow": true,
+            "span_desktop": 12,
+            "span_mobile": 12,
+            "min_height": 320,
+            "min_height_mobile": 240
+          }
+        }
+      },
+      "block_order": [
+        "tcm_hero",
+        "tcm_tt_series",
+        "tcm_foam_series",
+        "tcm_modular"
+      ],
+      "settings": {
+        "tile_padding": 24,
+        "gap": 16,
+        "padding_top": 60,
+        "padding_bottom": 20
+      }
+    },
+    "tcm_tt_features": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": { "title": "Space-Saving", "text": "Trays nest closely together so drawer space is never wasted." }
+        },
+        "t2": {
+          "type": "item",
+          "settings": { "title": "Durable Plastic", "text": "Built to handle daily use without cracking or warping." }
+        },
+        "t3": {
+          "type": "item",
+          "settings": { "title": "Corrosion Resistant", "text": "Won't rust, unlike a bare metal drawer liner." }
+        },
+        "t4": {
+          "type": "item",
+          "settings": { "title": "Shadow Layout", "text": "Every tool has a moulded outline, so a gap is obvious at a glance." }
+        },
+        "t5": {
+          "type": "item",
+          "settings": { "title": "Click-Together Fit", "text": "Trays lock side-by-side so nothing shifts around in transit." }
+        }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5"],
+      "settings": {}
+    },
+    "tcm_foam_features": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "fo1": {
+          "type": "item",
+          "settings": { "title": "Cushioned Protection", "text": "Foam padding protects tools from knocks in transit." }
+        },
+        "fo2": {
+          "type": "item",
+          "settings": { "title": "Colour-Coded", "text": "Bright foam colours make missing tools stand out instantly." }
+        },
+        "fo3": {
+          "type": "item",
+          "settings": { "title": "Custom Layouts", "text": "Cut-outs shaped to the exact tools you carry." }
+        },
+        "fo4": {
+          "type": "item",
+          "settings": { "title": "Quick Visual Check", "text": "Scan a tray in seconds to confirm everything's accounted for." }
+        },
+        "fo5": {
+          "type": "item",
+          "settings": { "title": "Fits The Same System", "text": "Drops into the same drawers and cases as the standard tray range." }
+        }
+      },
+      "block_order": ["fo1", "fo2", "fo3", "fo4", "fo5"],
+      "settings": {}
+    }
+  },
+  "order": [
+    "tcm_grid",
+    "tcm_tt_features",
+    "tcm_foam_features"
+  ]
+}
