@@ -63,11 +63,25 @@
     0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,.35), 0 0 0 0 rgba(255,194,51,.55); }
     50%      { box-shadow: 0 2px 8px rgba(0,0,0,.35), 0 0 0 10px rgba(255,194,51,0); }
   }
+  {%- comment -%}
+    The popover's horizontal position is clamped, not a plain X% + -50%
+    transform: at a hotspot placed near the left/right edge of the
+    photo, a plain percentage position would push half the popover
+    outside the image (and often off the visible page) at narrow
+    widths. clamp() keeps its centre following the hotspot's X%
+    everywhere in the middle of the image, but stops it short of
+    running past either edge once it gets close — using the popover's
+    own half-width (110px desktop, 85px mobile, from the widths below)
+    as the clamp margin so it's always exactly as far as it can go
+    without spilling over.
+  {%- endcomment -%}
   #shopify-section-{{ sid }} .itm-hs__popover {
     position: absolute;
     z-index: 3;
     width: 220px;
     max-width: 60vw;
+    left: clamp(110px, var(--hs-x, 50%), calc(100% - 110px));
+    top: var(--hs-y, 50%);
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 8px 28px rgba(0,0,0,.22);
@@ -111,6 +125,7 @@
     }
     #shopify-section-{{ sid }} .itm-hs__popover {
       width: 170px;
+      left: clamp(85px, var(--hs-x, 50%), calc(100% - 85px));
     }
   }
 {%- endstyle -%}
@@ -121,8 +136,15 @@
   {%- endif -%}
 
   {%- if section.settings.image != blank -%}
-    <div class="itm-hs__stage" data-hs-stage="{{ sid }}">
-      <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.heading | escape }}" loading="lazy">
+    {%- comment -%}
+      Reserving the image's real aspect ratio up front means the stage
+      is already the exact right shape before the photo finishes
+      loading, so the percentage-positioned markers land in their
+      correct spot on first paint instead of jumping once the browser
+      learns the image's true dimensions.
+    {%- endcomment -%}
+    <div class="itm-hs__stage" data-hs-stage="{{ sid }}" style="aspect-ratio: {{ section.settings.image.aspect_ratio | default: 1 }};">
+      <img src="{{ section.settings.image | image_url: width: 1400 }}" alt="{{ section.settings.heading | escape }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}" loading="lazy">
 
       {%- for block in section.blocks -%}
         <button
@@ -138,7 +160,7 @@
       {%- for block in section.blocks -%}
         <div
           class="itm-hs__popover"
-          style="left:{{ block.settings.x_percent }}%; top:{{ block.settings.y_percent }}%;"
+          style="--hs-x:{{ block.settings.x_percent }}%; --hs-y:{{ block.settings.y_percent }}%;"
           data-hs-popover="{{ forloop.index0 }}"
         >
           <button type="button" class="itm-hs__popover-close" data-hs-close aria-label="Close">&times;</button>
@@ -214,9 +236,12 @@
       "default": "#ffc233"
     },
     {
-      "type": "number",
+      "type": "range",
       "id": "max_width",
       "label": "Max content width (px)",
+      "min": 400,
+      "max": 1600,
+      "step": 20,
       "default": 900
     },
     {
