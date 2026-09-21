@@ -214,6 +214,18 @@
       background: color-mix(in srgb, var(--color-background) 98%, transparent);
       color: var(--color-foreground);
     }
+    {%- comment -%}
+      A card with no description has nothing below the title to justify
+      top-aligning it with a (typically taller) icon — flex-start above
+      only exists to keep titles level across cards where descriptions
+      of differing lengths would otherwise push things out of line.
+      With no description at all, centering the title against the icon
+      reads correctly instead of looking like it's floating above it.
+      This applies at every breakpoint, not just mobile.
+    {%- endcomment -%}
+    .feature--no-desc {
+      align-items: center;
+    }
 
     /* ==== ICON AREA ==== */
     .feature__iconwrap {
