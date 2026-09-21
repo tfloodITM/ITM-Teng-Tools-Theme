@@ -238,6 +238,86 @@
         "padding_bottom": 40
       }
     },
+    "itm_main_icon_features_wniXnx": {
+      "type": "itm-main-icon-features",
+      "blocks": {
+        "item_AqUrxp": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/comfort-grip.webp",
+            "lottie_url": "",
+            "title": "COMFORT GRIP HANDLE",
+            "text": "Ergonomically designed for ease of movement. When used with a side shelf it creates extra space for storing longer items conveniently at your side."
+          }
+        },
+        "item_agndTN": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/labels.webp",
+            "lottie_url": "",
+            "title": "ALUMINIUM HANDLES",
+            "text": "Aluminum handles with space for labelling ensure you stay organised. Label your drawers to reflect the contents, tailored by you."
+          }
+        },
+        "item_xaDdQr": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/eva-drawer-mats.webp",
+            "lottie_url": "",
+            "title": "EXTRA TOOL PROTECTION",
+            "text": "Noise reducing and protective EVA foam mats supplied in each drawer."
+          }
+        },
+        "item_bNyCwx": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/accessory-holes.webp",
+            "lottie_url": "",
+            "title": "ACCESSORY INTEGRATION",
+            "text": "Enhance your workspace with side-mounted accessories that fit seamlessly on all cabinets. Expand your storage options effortlessly."
+          }
+        }
+      },
+      "block_order": [
+        "item_AqUrxp",
+        "item_agndTN",
+        "item_xaDdQr",
+        "item_bNyCwx"
+      ],
+      "settings": {
+        "section_use_scheme": false,
+        "section_fill_scheme": "",
+        "section_bg": "#eeeeee",
+        "section_bg_mobile": "",
+        "color_scheme": "",
+        "section_border_width": 0,
+        "section_border_color": "#e2e2e2",
+        "columns_desktop": 4,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_bg": "#ffffff",
+        "icon_color": "#1a1a1a",
+        "icon_size": 76,
+        "icon_size_mobile": 26,
+        "icon_wrap_size": 84,
+        "icon_wrap_size_mobile": 52,
+        "show_icon_bubble": true,
+        "icon_true_color": true,
+        "icon_bubble_color": "#00000026",
+        "icon_border_width": 0,
+        "icon_border_color": "#e30613",
+        "title_size": 16,
+        "title_size_mobile": 13,
+        "title_weight": "800",
+        "title_color": "#1a1a1a",
+        "title_color_mobile": "",
+        "desc_size": 17,
+        "desc_size_mobile": 11,
+        "desc_weight": "400",
+        "desc_color": "#1a1a1a",
+        "desc_color_mobile": ""
+      }
+    },
     "tcs_feature_callout": {
       "type": "itm-main-icon-features",
       "blocks": {
@@ -881,6 +961,7 @@
     "tcs_spec_row",
     "tcs_features",
     "tcs_hotspot",
+    "itm_main_icon_features_wniXnx",
     "tcs_feature_callout",
     "tcs_drawer_text",
     "tcs_extra_icons",
