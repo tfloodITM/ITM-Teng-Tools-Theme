@@ -39,6 +39,17 @@
     display: block;
     border-radius: {{ section.settings.image_radius | default: 0 }}px;
   }
+  {%- comment -%}
+    text-align is set directly on every text element below (not just
+    the shared .itm-sf__text wrapper): Dawn's base.css has its own
+    global "h2, .h2 { text-align: center; ... }" rule that applies
+    DIRECTLY to the <h2>, and a directly-matched rule always beats an
+    INHERITED value regardless of the inherited-from selector's
+    specificity — inheritance is only used as a fallback when nothing
+    else targets the element itself. Setting it directly here, on the
+    same element base.css also targets, wins on source order (this
+    file loads after base.css) without needing !important.
+  {%- endcomment -%}
   #shopify-section-{{ sid }} .itm-sf__eyebrow {
     display: block;
     font-weight: 800;
@@ -47,6 +58,7 @@
     color: {{ section.settings.eyebrow_color }};
     font-size: {{ section.settings.eyebrow_size_desktop }}px;
     margin: 0 0 {{ section.settings.eyebrow_gap }}px;
+    text-align: {{ section.settings.text_align | default: 'left' }};
   }
   {%- comment -%}
     eyebrow is a richtext field now (for the same bold/italic editing
@@ -63,11 +75,13 @@
     font-size: {{ section.settings.heading_size_desktop }}px;
     line-height: 1.1;
     margin: 0 0 {{ section.settings.heading_gap }}px;
+    text-align: {{ section.settings.text_align | default: 'left' }};
   }
   #shopify-section-{{ sid }} .itm-sf__body {
     color: {{ section.settings.text_color }};
     font-size: {{ section.settings.text_size_desktop }}px;
     line-height: 1.55;
+    text-align: {{ section.settings.text_align | default: 'left' }};
   }
   #shopify-section-{{ sid }} .itm-sf__body p {
     margin: 0 0 12px;
@@ -101,17 +115,21 @@
     #shopify-section-{{ sid }} .itm-sf__media {
       order: -1;
     }
+    {%- assign ta_mobile = section.settings.text_align_mobile | default: section.settings.text_align | default: 'left' -%}
     #shopify-section-{{ sid }} .itm-sf__text {
-      text-align: {{ section.settings.text_align_mobile | default: section.settings.text_align | default: 'left' }};
+      text-align: {{ ta_mobile }};
     }
     #shopify-section-{{ sid }} .itm-sf__eyebrow {
       font-size: {{ section.settings.eyebrow_size_mobile }}px;
+      text-align: {{ ta_mobile }};
     }
     #shopify-section-{{ sid }} .itm-sf__heading {
+      text-align: {{ ta_mobile }};
       font-size: {{ section.settings.heading_size_mobile }}px;
     }
     #shopify-section-{{ sid }} .itm-sf__body {
       font-size: {{ section.settings.text_size_mobile }}px;
+      text-align: {{ ta_mobile }};
     }
   }
 {%- endstyle -%}
