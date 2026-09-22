@@ -647,34 +647,67 @@
     "features": {
       "type": "itm-main-icon-features",
       "blocks": {
+        "item_A7eXbb": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/Organised-Tool-Control.png",
+            "lottie_url": "",
+            "title": "Organised Tool Control",
+            "text": "Everything in its place"
+          }
+        },
+        "item_6AyF89": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/Reduced-Downtime.png",
+            "lottie_url": "",
+            "title": "Reduced Downtime",
+            "text": "Find tools faster"
+          }
+        },
         "item_69Xxkw": {
           "type": "item",
           "settings": {
-            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-1349-medal-ribbon-check-hover-pinch.json?v=1788126813",
-            "title": "Lifetime Warranty",
-            "text": "Every Teng Tools hand tool is backed by a lifetime warranty — built to be the last tool you ever need to buy."
+            "icon": "shopify://shop_images/Improved-Productivity.png",
+            "lottie_url": "",
+            "title": "Improved Productivity",
+            "text": "Work smarter, every day"
           }
         },
         "item_RapjVn": {
           "type": "item",
           "settings": {
-            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-3272-champion-belt-star-hover-pinch.json?v=1788126813",
-            "title": "Made For Professionals",
-            "text": "Swedish-designed, independently tested and trusted by tradespeople across Australia."
+            "icon": "shopify://shop_images/Fewer-Replacements.png",
+            "lottie_url": "",
+            "title": "Fewer Replacements",
+            "text": "Reduce lost tools"
+          }
+        },
+        "item_WfLmtt": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/Increased-Safety.png",
+            "lottie_url": "",
+            "title": "Increased Safety",
+            "text": "Safer, organised workplaces"
           }
         },
         "item_n6AdgC": {
           "type": "item",
           "settings": {
-            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-409-wrench-hover-oscillate.json?v=1788126812",
-            "title": "Built To Last",
-            "text": "The TC Tray modular storage system keeps every tool organised, protected and ready for the job."
+            "icon": "shopify://shop_images/Lower-Operational-Costs.png",
+            "lottie_url": "",
+            "title": "Lower Operational Costs",
+            "text": "Reduce unnecessary spend"
           }
         }
       },
       "block_order": [
+        "item_A7eXbb",
+        "item_6AyF89",
         "item_69Xxkw",
         "item_RapjVn",
+        "item_WfLmtt",
         "item_n6AdgC"
       ],
       "name": "ITM Features (Icons)",
@@ -686,7 +719,7 @@
         "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
         "section_border_width": 1,
         "section_border_color": "#951c1a",
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "content_align": "center",
         "padding_top": 0,
         "padding_bottom": 0,
