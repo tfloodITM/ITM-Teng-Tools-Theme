@@ -82,19 +82,25 @@
     stretching edge-to-edge once it's centered, matching how the
     Specifications table is capped and centered too.
   {%- endcomment -%}
-  {%- comment -%}
-    text-wrap: pretty avoids exactly the "one word stranded alone on
-    the last line" look — it's a browser layout hint that balances
-    wrapping across a paragraph's lines instead of just breaking
-    wherever the next word no longer fits. balance is included too as
-    a wider-supported fallback (better suited to short blocks like
-    this, which is what Features text almost always is); browsers that
-    understand neither ignore both lines safely.
-  {%- endcomment -%}
   .section-{{ section.id }}-padding .itm-html-text--centered > * {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+  }
+  {%- comment -%}
+    text-wrap: pretty avoids exactly the "one word stranded alone on
+    the last line" look — it's a browser layout hint that balances
+    wrapping across a paragraph's lines instead of just breaking
+    wherever the next word no longer fits. balance is the wider-
+    supported fallback. This has to target <p> and <li> directly, NOT
+    the outer wrapper above: the wrapper's only direct child is often a
+    single <ul>, and a <ul> itself has no wrapping text of its own —
+    the actual text that wraps lives one level deeper, in each <li>.
+    Applying text-wrap to the wrong element is a no-op, which is why
+    list items kept breaking to an orphan word despite the rule above.
+  {%- endcomment -%}
+  .section-{{ section.id }}-padding .itm-html-text--centered p,
+  .section-{{ section.id }}-padding .itm-html-text--centered li {
     text-wrap: balance;
     text-wrap: pretty;
   }
