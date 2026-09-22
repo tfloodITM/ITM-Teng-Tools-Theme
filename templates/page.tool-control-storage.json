@@ -748,10 +748,10 @@
           "settings": {
             "layout": "stacked",
             "image": "shopify://shop_images/tool-chest-3.webp",
-            "heading": "Roller Cabinets",
-            "text": "<p>Rolling steel storage for the workshop floor, built to carry serious weight.</p>",
+            "heading": "Tool chests",
+            "text": "<p>Perfect for storing on a countertop or shelf. A great starter option and as your tool kit grows it can be stacked on top of a cabinet.<br/><br/></p>",
             "price": "",
-            "link": "/collections/roll-cabinets",
+            "link": "/collections/tool-chests",
             "btn_label": "",
             "link_label": "Shop roller cabinets",
             "btn_arrow": true,
