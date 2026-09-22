@@ -523,6 +523,42 @@
         "play_pulse_speed": 2800
       }
     },
+    "itm_logo_carousel": {
+      "type": "itm-logo-carousel",
+      "blocks": {
+        "logo_muller": { "type": "logo", "settings": { "logo": "", "name": "Muller" } },
+        "logo_cocacola": { "type": "logo", "settings": { "logo": "", "name": "Coca-Cola" } },
+        "logo_arla": { "type": "logo", "settings": { "logo": "", "name": "Arla" } },
+        "logo_tarmac": { "type": "logo", "settings": { "logo": "", "name": "Tarmac" } },
+        "logo_tfl": { "type": "logo", "settings": { "logo": "", "name": "TFL" } },
+        "logo_renault": { "type": "logo", "settings": { "logo": "", "name": "Renault" } },
+        "logo_hoffman": { "type": "logo", "settings": { "logo": "", "name": "Hoffman" } },
+        "logo_openreach": { "type": "logo", "settings": { "logo": "", "name": "Openreach" } },
+        "logo_volvo": { "type": "logo", "settings": { "logo": "", "name": "Volvo" } },
+        "logo_liebherr": { "type": "logo", "settings": { "logo": "", "name": "Liebherr" } },
+        "logo_daf": { "type": "logo", "settings": { "logo": "", "name": "DAF" } }
+      },
+      "block_order": [
+        "logo_muller", "logo_cocacola", "logo_arla", "logo_tarmac", "logo_tfl",
+        "logo_renault", "logo_hoffman", "logo_openreach", "logo_volvo", "logo_liebherr", "logo_daf"
+      ],
+      "settings": {
+        "heading": "Trusted By Industry Leaders",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1a1a",
+        "grayscale": true,
+        "speed_seconds": 30,
+        "speed_seconds_mobile": 20,
+        "logo_height": 48,
+        "logo_height_mobile": 32,
+        "logo_max_width": 140,
+        "logo_max_width_mobile": 100,
+        "logo_gap": 64,
+        "logo_gap_mobile": 36,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
     "features": {
       "type": "itm-main-icon-features",
       "blocks": {
@@ -2021,6 +2057,7 @@
   "order": [
     "teng_hero",
     "promo_grid",
+    "itm_logo_carousel",
     "features",
     "itm_main_shop_by_category_yy7X6n",
     "itm_category_image_grid_V3iHkc",
