@@ -650,6 +650,7 @@
         "item_A7eXbb": {
           "type": "item",
           "settings": {
+            "icon": "shopify://shop_images/Organised-Tool-Control.png",
             "lottie_url": "",
             "title": "Organised Tool Control",
             "text": "Everything in its place"
@@ -658,6 +659,7 @@
         "item_6AyF89": {
           "type": "item",
           "settings": {
+            "icon": "shopify://shop_images/Reduced-Downtime.png",
             "lottie_url": "",
             "title": "Reduced Downtime",
             "text": "Find tools faster"
@@ -666,7 +668,8 @@
         "item_69Xxkw": {
           "type": "item",
           "settings": {
-            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-1349-medal-ribbon-check-hover-pinch.json?v=1788126813",
+            "icon": "shopify://shop_images/Improved-Productivity.png",
+            "lottie_url": "",
             "title": "Improved Productivity",
             "text": "Work smarter, every day"
           }
@@ -674,7 +677,8 @@
         "item_RapjVn": {
           "type": "item",
           "settings": {
-            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-3272-champion-belt-star-hover-pinch.json?v=1788126813",
+            "icon": "shopify://shop_images/Fewer-Replacements.png",
+            "lottie_url": "",
             "title": "Fewer Replacements",
             "text": "Reduce lost tools"
           }
@@ -682,7 +686,8 @@
         "item_WfLmtt": {
           "type": "item",
           "settings": {
-            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-3272-champion-belt-star-hover-pinch.json?v=1788126813",
+            "icon": "shopify://shop_images/Increased-Safety.png",
+            "lottie_url": "",
             "title": "Increased Safety",
             "text": "Safer, organised workplaces"
           }
@@ -690,7 +695,8 @@
         "item_n6AdgC": {
           "type": "item",
           "settings": {
-            "lottie_url": "https://cdn.shopify.com/s/files/1/0660/3790/7504/files/wired-outline-409-wrench-hover-oscillate.json?v=1788126812",
+            "icon": "shopify://shop_images/Lower-Operational-Costs.png",
+            "lottie_url": "",
             "title": "Lower Operational Costs",
             "text": "Reduce unnecessary spend"
           }
