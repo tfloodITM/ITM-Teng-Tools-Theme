@@ -687,6 +687,7 @@
         "section_border_width": 1,
         "section_border_color": "#951c1a",
         "columns_desktop": 3,
+        "content_align": "center",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_bg": "#f2f2f2",

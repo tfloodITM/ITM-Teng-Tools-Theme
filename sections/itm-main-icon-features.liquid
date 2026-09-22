@@ -206,15 +206,15 @@
       display: flex;
       gap: 1.5rem;
       {%- comment -%}
-        flex-start, not center: cards stretch to the height of the
-        tallest one in the row (flex default), so when descriptions
-        vary in length, centering would put each icon/title at a
-        different vertical position depending on its own card's
-        content height. Starting everything from the top keeps the
-        icon and title level across every card regardless of how long
-        any one description runs.
+        Configurable per section: "Top" keeps every icon/title level
+        across a row even when descriptions vary a lot in length (cards
+        stretch to the tallest one, so centering would otherwise put a
+        short card's title lower than a tall card's). "Center" reads
+        better when every description in the row is roughly the same
+        (often just one line), since there's no meaningful height
+        difference for top-alignment to protect against.
       {%- endcomment -%}
-      align-items: flex-start;
+      align-items: {% if section.settings.content_align == 'center' %}center{% else %}flex-start{% endif %};
       padding: 2rem;
       border: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
       border-radius: 18px;
@@ -496,6 +496,17 @@
         "max": 6,
         "step": 1,
         "default": 3
+      },
+      {
+        "type": "select",
+        "id": "content_align",
+        "label": "Icon/text vertical alignment",
+        "info": "Top keeps titles level across cards when descriptions vary a lot in length. Center looks better when every description is roughly the same length (e.g. all one line).",
+        "options": [
+          { "value": "top", "label": "Top" },
+          { "value": "center", "label": "Center" }
+        ],
+        "default": "top"
       },
       {
         "type": "header",
