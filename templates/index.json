@@ -124,7 +124,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#e30613",
             "btn_text": "#ffffff",
             "btn_skew": 0
@@ -191,7 +193,9 @@
             "hide_desktop": false,
             "hide_mobile": true,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#e30613",
             "btn_text": "#ffffff",
             "btn_skew": 0
@@ -232,7 +236,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#e30613",
             "btn_text": "#ffffff",
             "btn_skew": 0
@@ -273,7 +279,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#1a1a1a",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#e30613",
             "btn_text": "#ffffff",
             "btn_skew": 0
@@ -313,7 +321,9 @@
             "hide_desktop": false,
             "hide_mobile": false,
             "bg": "#e30613",
+            "bg_mobile": "",
             "text_color": "#ffffff",
+            "text_color_mobile": "",
             "btn_bg": "#ffffff",
             "btn_text": "#1a1a1a",
             "btn_skew": 0
@@ -526,21 +536,96 @@
     "itm_logo_carousel": {
       "type": "itm-logo-carousel",
       "blocks": {
-        "logo_muller": { "type": "logo", "settings": { "logo": "", "name": "Muller" } },
-        "logo_cocacola": { "type": "logo", "settings": { "logo": "", "name": "Coca-Cola" } },
-        "logo_arla": { "type": "logo", "settings": { "logo": "", "name": "Arla" } },
-        "logo_tarmac": { "type": "logo", "settings": { "logo": "", "name": "Tarmac" } },
-        "logo_tfl": { "type": "logo", "settings": { "logo": "", "name": "TFL" } },
-        "logo_renault": { "type": "logo", "settings": { "logo": "", "name": "Renault" } },
-        "logo_hoffman": { "type": "logo", "settings": { "logo": "", "name": "Hoffman" } },
-        "logo_openreach": { "type": "logo", "settings": { "logo": "", "name": "Openreach" } },
-        "logo_volvo": { "type": "logo", "settings": { "logo": "", "name": "Volvo" } },
-        "logo_liebherr": { "type": "logo", "settings": { "logo": "", "name": "Liebherr" } },
-        "logo_daf": { "type": "logo", "settings": { "logo": "", "name": "DAF" } }
+        "logo_muller": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Muller.png",
+            "name": "Muller"
+          }
+        },
+        "logo_cocacola": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/CocaCola.png",
+            "name": "Coca-Cola"
+          }
+        },
+        "logo_arla": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Arla.png",
+            "name": "Arla"
+          }
+        },
+        "logo_tarmac": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Tarmac.png",
+            "name": "Tarmac"
+          }
+        },
+        "logo_tfl": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/TFL.png",
+            "name": "TFL"
+          }
+        },
+        "logo_renault": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Renault.png",
+            "name": "Renault"
+          }
+        },
+        "logo_hoffman": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Hoffman.png",
+            "name": "Hoffman"
+          }
+        },
+        "logo_openreach": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Openreach.png",
+            "name": "Openreach"
+          }
+        },
+        "logo_volvo": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Volvo.png",
+            "name": "Volvo"
+          }
+        },
+        "logo_liebherr": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Liebherr.png",
+            "name": "Liebherr"
+          }
+        },
+        "logo_daf": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/DAF.png",
+            "name": "DAF"
+          }
+        }
       },
       "block_order": [
-        "logo_muller", "logo_cocacola", "logo_arla", "logo_tarmac", "logo_tfl",
-        "logo_renault", "logo_hoffman", "logo_openreach", "logo_volvo", "logo_liebherr", "logo_daf"
+        "logo_muller",
+        "logo_cocacola",
+        "logo_arla",
+        "logo_tarmac",
+        "logo_tfl",
+        "logo_renault",
+        "logo_hoffman",
+        "logo_openreach",
+        "logo_volvo",
+        "logo_liebherr",
+        "logo_daf"
       ],
       "settings": {
         "heading": "Trusted By Industry Leaders",
@@ -597,9 +682,11 @@
         "section_use_scheme": false,
         "section_fill_scheme": "",
         "section_bg": "#ffffff",
+        "section_bg_mobile": "",
         "color_scheme": "scheme-a1e56101-fa94-4da1-ba4e-828e87650459",
         "section_border_width": 1,
         "section_border_color": "#951c1a",
+        "columns_desktop": 3,
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_bg": "#f2f2f2",
@@ -609,15 +696,20 @@
         "icon_wrap_size": 100,
         "icon_wrap_size_mobile": 52,
         "show_icon_bubble": false,
+        "icon_true_color": false,
         "icon_bubble_color": "#ffffff",
         "icon_border_width": 1,
         "icon_border_color": "#e30613",
         "title_size": 18,
         "title_size_mobile": 12,
         "title_weight": "800",
+        "title_color": "#1a1a1a",
+        "title_color_mobile": "",
         "desc_size": 14,
         "desc_size_mobile": 10,
-        "desc_weight": "400"
+        "desc_weight": "400",
+        "desc_color": "#1a1a1a",
+        "desc_color_mobile": ""
       }
     },
     "itm_main_shop_by_category_yy7X6n": {
