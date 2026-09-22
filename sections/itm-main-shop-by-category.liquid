@@ -553,6 +553,15 @@
 }
 .sbc__pills::-webkit-scrollbar { display: none; }
 .sbc__pill { flex-shrink: 0; }
+{%- comment -%}
+  Added by JS once the row measures no overflow (see the refresh()
+  function's scrollWidth/clientWidth check) — spreads the fixed-width
+  pills evenly across the full row instead of leaving them clumped on
+  the left with dead space to the right, without touching the
+  flex-start behavior the scroll/arrow logic depends on whenever the
+  row genuinely needs to scroll.
+{%- endcomment -%}
+.sbc__pills.is-fitted { justify-content: space-between; }
 
 {%- comment -%}
   text-decoration: none — this used to be a <button>, which never gets a
@@ -1078,6 +1087,17 @@
 
     function refresh() {
       var max = pills.scrollWidth - pills.clientWidth;
+      {%- comment -%}
+        On a wide-enough screen (or with the container's max-width
+        raised), every pill can fit in one row with room to spare —
+        left-aligned (flex-start, needed for the scroll case below) that
+        just leaves a dead gap on the right instead of actually using
+        the extra width. Spreading them out with space-between only
+        once nothing needs to scroll gets the "fills the row" look
+        without breaking the drag/arrow-scroll math above, which
+        assumes flex-start positioning whenever there's real overflow.
+      {%- endcomment -%}
+      pills.classList.toggle('is-fitted', max <= 4);
       if (max <= 4) {
         prev.hidden = true;
         next.hidden = true;
