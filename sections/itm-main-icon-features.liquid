@@ -385,8 +385,24 @@
       const originals = Array.from(track.children);
       const total = originals.length;
 
+      {%- comment -%}
+        Below 750px, the CSS switches .features__track to flex-wrap:
+        wrap regardless of how many columns are configured for
+        desktop — so "6 configured, only fits 3-4 per desktop row"
+        still ends up as a perfectly fine static wrapped grid on
+        mobile, it just never needed the scrolling/cloning setup below
+        in the first place. Skipping it there matters because those
+        clones are meant to sit off-screen, revealed only by scrolling
+        — with wrapping active there's no scrolling happening, so they
+        wrap into extra, very real, very visible duplicate rows
+        instead. Checked once at load, matching how the rest of this
+        script treats layout mode as fixed for the page's lifetime
+        rather than re-deciding on every resize.
+      {%- endcomment -%}
+      const isMobileLayout = window.matchMedia('(max-width: 749px)').matches;
+
       // Fits within the configured column count: show statically, no scrolling
-      if (total <= columns) return;
+      if (isMobileLayout || total <= columns) return;
 
       if (total < 4) {
         const need = 4 - total;

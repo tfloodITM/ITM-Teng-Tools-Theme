@@ -675,6 +675,7 @@
   height: 3px;
   background: #e2e2e2;
   border-radius: 999px;
+  z-index: 0;
 }
 .sbc__scrollbar-fill {
   position: absolute;
@@ -682,10 +683,19 @@
   transform: translateY(-50%);
   left: 0;
   width: 30%;
+  {%- comment -%}
+    A real, floor'd minimum width — a wide screen can mean the row
+    barely overflows (a few pixels past the "fits, no scroll needed"
+    threshold above), which would otherwise compute to a thumb only a
+    handful of pixels wide: technically present, but easy to miss
+    entirely at a glance, reading as "just the grey track, no thumb."
+  {%- endcomment -%}
+  min-width: 24px;
   height: 3px;
   background: #1a1a1a;
   border-radius: 999px;
   pointer-events: none;
+  z-index: 1;
 }
 
 @media (max-width: 749px) {
@@ -1111,8 +1121,16 @@
         /* Thumb width mirrors a native scrollbar: the fraction of the
            row actually visible right now. Thumb position is how far
            through the remaining scrollable distance that visible window
-           currently sits. */
-        var visibleRatio = pills.clientWidth / pills.scrollWidth;
+           currently sits. Guarded against scrollWidth being 0 (layout
+           not settled yet on first paint) producing Infinity/NaN, which
+           the browser silently ignores — leaving the thumb stuck at
+           whatever width it last had (or never had), rather than
+           erroring loudly, which is exactly the kind of bug that shows
+           up as "the thumb's just missing" with nothing in the console
+           to explain why. */
+        var visibleRatio = pills.scrollWidth > 0 ? (pills.clientWidth / pills.scrollWidth) : 1;
+        if (!isFinite(visibleRatio)) visibleRatio = 1;
+        visibleRatio = Math.min(Math.max(visibleRatio, 0), 1);
         var scrollRatio = pills.scrollLeft / max;
         var thumbLeft = (1 - visibleRatio) * scrollRatio * 100;
         fill.style.width = (visibleRatio * 100) + '%';
