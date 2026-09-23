@@ -131,8 +131,18 @@
 
 <section class="features color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
-    <div class="features__viewport" data-pause="3000" data-columns="{{ section.settings.columns_desktop | default: 3 }}">
-      <div class="features__track">
+    <div class="features__stage">
+      {%- comment -%}
+        Hidden by default so they never flash visible before the script
+        below decides whether this instance is even in scrolling mode
+        (it isn't, whenever everything already fits statically) — the
+        same script that un-hides them also wires up their clicks.
+      {%- endcomment -%}
+      <button type="button" class="features__nav features__nav--prev" data-feat-prev aria-label="Previous" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="features__viewport" data-pause="3000" data-columns="{{ section.settings.columns_desktop | default: 3 }}">
+        <div class="features__track">
         {%- assign has_lottie_feature = false -%}
         {% for block in section.blocks %}
           {%- if block.settings.lottie_url != blank -%}{%- assign has_lottie_feature = true -%}{%- endif -%}
@@ -166,7 +176,11 @@
             </div>
           </div>
         {% endfor %}
+        </div>
       </div>
+      <button type="button" class="features__nav features__nav--next" data-feat-next aria-label="Next" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
     </div>
   </div>
 
@@ -184,6 +198,54 @@
     {%- endcomment -%}
     @media (min-width: 750px) {
       #shopify-section-{{ section.id }} { --feat-cards: {{ section.settings.columns_desktop | default: 3 }}; }
+    }
+
+    #shopify-section-{{ section.id }} .features__stage {
+      position: relative;
+    }
+    {%- comment -%}
+      Manual prev/next controls for whenever this instance is actually
+      in scrolling-carousel mode (more items than fit) — someone
+      reading one and wanting to flip back to the last one shouldn't
+      have to wait out the full auto-advance timer, and the arrows
+      themselves are a visible hint there's more content than what's
+      on screen right now. Hidden by default in the markup and only
+      un-hidden by the script below for instances that actually need
+      them (columns_desktop < item count, and not on mobile, where
+      everything already displays statically in a wrapped grid).
+    {%- endcomment -%}
+    #shopify-section-{{ section.id }} .features__nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #1a1a1a;
+      transition: box-shadow 0.2s;
+      padding: 0;
+    }
+    #shopify-section-{{ section.id }} .features__nav:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    #shopify-section-{{ section.id }} .features__nav[hidden] {
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .features__nav--prev { left: 4px; }
+    #shopify-section-{{ section.id }} .features__nav--next { right: 4px; }
+    @media (max-width: 749px) {
+      #shopify-section-{{ section.id }} .features__nav {
+        width: 32px;
+        height: 32px;
+      }
     }
 
     .features__viewport {
@@ -411,6 +473,12 @@
       const wrapCount = Math.min(total, 3);
       for (let i = 0; i < wrapCount; i++) track.appendChild(originals[i].cloneNode(true));
 
+      const stage = section.querySelector('.features__stage');
+      const prevBtn = stage && stage.querySelector('[data-feat-prev]');
+      const nextBtn = stage && stage.querySelector('[data-feat-next]');
+      if (prevBtn) prevBtn.hidden = false;
+      if (nextBtn) nextBtn.hidden = false;
+
       let index = 0, timer, hover = false;
       vp.addEventListener('mouseenter', () => hover = true);
       vp.addEventListener('mouseleave', () => hover = false);
@@ -435,6 +503,23 @@
         }
         queue();
       };
+
+      {%- comment -%}
+        Manual step, in either direction, always by exactly one real
+        card — same one-at-a-time feel as the auto-advance above, not a
+        jump to a whole new "page" of cards. Wrapping index below 0
+        back around to the last real card (rather than into the
+        clones) keeps it correct even if someone clicks prev
+        repeatedly right after the section loads.
+      {%- endcomment -%}
+      const manualStep = (dir) => {
+        index += dir;
+        if (index < 0) index += total;
+        snap(index);
+        queue();
+      };
+      if (prevBtn) prevBtn.addEventListener('click', () => manualStep(-1));
+      if (nextBtn) nextBtn.addEventListener('click', () => manualStep(1));
 
       window.addEventListener('resize', () => snap(index, true));
       queue();
