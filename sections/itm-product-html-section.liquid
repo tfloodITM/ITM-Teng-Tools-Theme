@@ -302,6 +302,44 @@
 {%- endif -%}
 {%- endif -%}
 
+{%- comment -%}
+  Orphan-word fix for centered text (see "center_text" above). The
+  text-wrap: balance/pretty CSS hint on this same content only works in
+  browsers that actually support it (pretty especially — Chrome-only,
+  fairly recent), so it was never a real fix everywhere, just a
+  best-effort nudge on the browsers that happened to support it. This
+  is the actual fix: join the last two words of every line-wrapping
+  block with a non-breaking space so the browser is physically unable
+  to split them onto separate lines, in EVERY browser, regardless of
+  text-wrap support. Runs once on load — the underlying text never
+  changes after that, so there's nothing to re-run on resize.
+{%- endcomment -%}
+<script>
+(function () {
+  var blocks = document.querySelectorAll('#shopify-section-{{ section.id }} .itm-html-text--centered');
+  if (!blocks.length) return;
+
+  function fixOrphan(el) {
+    // Walking to the last actual text node so a trailing </strong>,
+    // </a>, etc. after the last word doesn't get treated as part of
+    // it — that would insert the nbsp in the wrong place otherwise.
+    var node = el;
+    while (node.lastChild) node = node.lastChild;
+    if (node.nodeType !== 3) return; // not a text node — nothing safe to do here
+    var text = node.textContent;
+    var lastSpace = text.trimEnd().lastIndexOf(' ');
+    if (lastSpace === -1) return;
+    node.textContent = text.slice(0, lastSpace) + ' ' + text.slice(lastSpace + 1);
+  }
+
+  blocks.forEach(function (block) {
+    var targets = block.querySelectorAll('p, li');
+    if (!targets.length) targets = [block];
+    targets.forEach(fixOrphan);
+  });
+})();
+</script>
+
 {% schema %}
 {
   "name": "HTML Section",
