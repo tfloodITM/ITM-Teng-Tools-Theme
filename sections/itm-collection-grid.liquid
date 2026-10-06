@@ -209,6 +209,11 @@
       text-transform: uppercase;
       color: rgba(0, 0, 0, 0.55);
     }
+    /* Breathing room now that the sort block's divider line (not a margin) separates
+       it from "FILTER:" below */
+    #shopify-section-{{ section.id }} .facets__heading--vertical {
+      margin-top: 1.4rem;
+    }
 
     /* Sort block at the top of the sidebar, flush-left + same font as the filters */
     /* One continuous top line, full-bleed to the screen edges — but not on a
@@ -236,7 +241,14 @@
       flex-direction: column;
       padding-top: 1.6rem;                 /* "Sort by" sits in the space below the line */
     }
-    #shopify-section-{{ section.id }} .itm-cg__desk-sort { margin: 0 0 1.6rem; padding-right: 3rem; text-align: left; }
+    /* Same row padding + right-edge as the accordion rows below, so the dropdown's
+       caret lines up exactly with theirs instead of sitting 3rem further in. */
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort {
+      margin: 0;
+      padding: 0 0 1.4rem;
+      border-bottom: 1px solid #e3e3e3;
+      text-align: left;
+    }
     #shopify-section-{{ section.id }} .itm-cg__desk-sort .facets-vertical-form { justify-content: flex-start; display: block; }
     #shopify-section-{{ section.id }} .itm-cg__desk-sort .facet-filters { display: block; padding-left: 0; margin-left: 0; }
     #shopify-section-{{ section.id }} .itm-cg__desk-sort .facet-filters__label { text-align: left; }
