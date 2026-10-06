@@ -108,8 +108,35 @@
             {%- endif -%}
 
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
-            {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
-            {%- for filter in results.filters -%}
+            {% comment %}
+              Filters for both horizontal and vertical filter.
+
+              For the vertical sidebar, the real attribute filters (Type of storage, Colour,
+              etc.) need to render before Shopify's generic Availability/Price built-ins —
+              done here as 3 passes over the SAME results.filters array (each filter still
+              renders exactly once, just in a different pass), rather than reordering the
+              array itself or using CSS `order`: reordering the array via where/where_exp/
+              concat silently duplicated Price, and CSS `order` corrupted the mobile sheet's
+              flex layout (a big blank gap, Availability pushed off-screen under the Shopify
+              draft bar). Real DOM order, built this way, has neither problem.
+            {% endcomment %}
+            {%- for pass in (1..3) -%}
+              {%- for filter in results.filters -%}
+                {%- liquid
+                  assign do_render = false
+                  if filter_type != 'vertical'
+                    if pass == 1
+                      assign do_render = true
+                    endif
+                  elsif pass == 1 and filter.type != 'price_range' and filter.param_name != 'filter.v.availability'
+                    assign do_render = true
+                  elsif pass == 2 and filter.param_name == 'filter.v.availability'
+                    assign do_render = true
+                  elsif pass == 3 and filter.type == 'price_range'
+                    assign do_render = true
+                  endif
+                -%}
+                {%- if do_render -%}
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size
                 assign presentation = filter.presentation | default: default_presentation
@@ -127,7 +154,7 @@
                 {% when 'boolean', 'list' %}
                   <details
                     id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
-                    class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% if filter.param_name == 'filter.v.availability' %} facets__disclosure-vertical--availability{% endif %}{% endif %} js-filter"
+                    class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
                     data-index="{{ forloop.index }}"
                   >
                     <summary
@@ -295,7 +322,7 @@
                 {% when 'price_range' %}
                   <details
                     id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
-                    class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical facets__disclosure-vertical--price{% endif %} js-filter"
+                    class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
                     data-index="{{ forloop.index }}"
                   >
                     <summary class="facets__summary caption-large focus-offset">
@@ -340,6 +367,8 @@
                     </div>
                   </details>
               {% endcase %}
+                {%- endif -%}
+              {%- endfor -%}
             {%- endfor -%}
           </div>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
@@ -515,7 +544,26 @@
               class="mobile-facets__main has-submenu gradient"
             >
               {%- if enable_filtering -%}
-                {%- for filter in results.filters -%}
+                {%- comment %} Same 3-pass approach as the desktop sidebar above: real DOM
+                     order, attribute filters before Availability/Price, no array reordering
+                     or CSS order trickery. {% endcomment -%}
+                {%- for pass in (1..3) -%}
+                  {%- for filter in results.filters -%}
+                    {%- liquid
+                      assign do_render = false
+                      if filter_type != 'vertical'
+                        if pass == 1
+                          assign do_render = true
+                        endif
+                      elsif pass == 1 and filter.type != 'price_range' and filter.param_name != 'filter.v.availability'
+                        assign do_render = true
+                      elsif pass == 2 and filter.param_name == 'filter.v.availability'
+                        assign do_render = true
+                      elsif pass == 3 and filter.type == 'price_range'
+                        assign do_render = true
+                      endif
+                    -%}
+                    {%- if do_render -%}
                   {% liquid
                     assign presentation = filter.presentation | default: default_presentation
                     if presentation == 'image'
@@ -529,7 +577,7 @@
                     {% when 'boolean', 'list' %}
                       <details
                         id="Details-Mobile-{{ filter.param_name | escape }}-{{ section.id }}"
-                        class="mobile-facets__details js-filter{% if filter.param_name == 'filter.v.availability' %} mobile-facets__details--availability{% endif %}"
+                        class="mobile-facets__details js-filter"
                         data-index="mobile-{{ forloop.index }}"
                       >
                         <summary class="mobile-facets__summary focus-inset">
@@ -671,7 +719,7 @@
                     {% when 'price_range' %}
                       <details
                         id="Details-Mobile-{{ filter.param_name | escape }}-{{ section.id }}"
-                        class="mobile-facets__details js-filter mobile-facets__details--price"
+                        class="mobile-facets__details js-filter"
                         data-index="mobile-{{ forloop.index }}"
                       >
                         <summary class="mobile-facets__summary focus-inset">
@@ -720,6 +768,8 @@
                         </div>
                       </details>
                   {% endcase %}
+                    {%- endif -%}
+                  {%- endfor -%}
                 {%- endfor -%}
               {%- endif -%}
 

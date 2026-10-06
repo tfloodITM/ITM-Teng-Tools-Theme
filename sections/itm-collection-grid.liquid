@@ -156,9 +156,9 @@
       border-top: 1px solid #e3e3e3;
       margin-right: 0;
     }
-    /* Price is always visually last (flex order below), regardless of DOM position —
-       so it (not whatever happens to be last in the DOM) gets the closing line. */
-    #shopify-section-{{ section.id }} .facets-vertical .facets__disclosure-vertical--price {
+    /* Price now really is the last group in the DOM (3-pass render order in
+       facets.liquid, not CSS order) — :last-of-type gets the closing line. */
+    #shopify-section-{{ section.id }} .facets__disclosure-vertical:last-of-type {
       border-bottom: 1px solid #e3e3e3;
     }
     #shopify-section-{{ section.id }} .facets-vertical .facets__summary {
@@ -184,20 +184,6 @@
     }
     #shopify-section-{{ section.id }} .facets__display-vertical {
       padding-bottom: 1.8rem;
-    }
-    /* Availability + Price are Shopify's generic built-ins — push them below the
-       real attribute filters (Type of storage, Colour, etc). #FacetsWrapperDesktop
-       has no layout of its own by default, so make it flex column first — that's
-       what lets `order` reposition the individual <details> filter groups below. */
-    #shopify-section-{{ section.id }} #FacetsWrapperDesktop {
-      display: flex;
-      flex-direction: column;
-    }
-    #shopify-section-{{ section.id }} .facets-vertical .facets__disclosure-vertical--availability {
-      order: 998;
-    }
-    #shopify-section-{{ section.id }} .facets-vertical .facets__disclosure-vertical--price {
-      order: 999;
     }
     /* "FILTER:" heading + "SORT BY:" label — small uppercase eyebrow style,
        set apart from the larger accordion group labels below them */
@@ -385,20 +371,6 @@
     /* Separate panels: FILTER button shows only filters, SORT button shows only sort */
     #shopify-section-{{ section.id }} .mobile-facets__wrapper[data-sheet-mode="filter"] [id^="Details-Mobile-SortBy"] { display: none; }
     #shopify-section-{{ section.id }} .mobile-facets__wrapper[data-sheet-mode="sort"] .mobile-facets__details:not([id^="Details-Mobile-SortBy"]) { display: none; }
-
-    /* Same order as desktop: real attribute filters first, Shopify's generic
-       Availability/Price built-ins pushed to the bottom. #FacetsWrapperMobile
-       has no flex layout of its own by default — add it so `order` can apply. */
-    #shopify-section-{{ section.id }} #FacetsWrapperMobile {
-      display: flex;
-      flex-direction: column;
-    }
-    #shopify-section-{{ section.id }} .mobile-facets__details--availability {
-      order: 998;
-    }
-    #shopify-section-{{ section.id }} .mobile-facets__details--price {
-      order: 999;
-    }
   }
 
   {%- if section.settings.grid_bg != blank -%}
