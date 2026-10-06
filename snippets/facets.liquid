@@ -109,7 +109,15 @@
 
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
             {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
-            {%- for filter in results.filters -%}
+            {%- liquid
+              assign loop_filters = results.filters
+              if filter_type == 'vertical'
+                assign price_filters = results.filters | where: 'type', 'price_range'
+                assign other_filters = results.filters | where_exp: 'f', 'f.type != "price_range"'
+                assign loop_filters = other_filters | concat: price_filters
+              endif
+            -%}
+            {%- for filter in loop_filters -%}
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size
                 assign presentation = filter.presentation | default: default_presentation

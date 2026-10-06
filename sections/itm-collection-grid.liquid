@@ -148,12 +148,47 @@
   #shopify-section-{{ section.id }} .facets__display-vertical.itm-ps-ready .facets__price,
   #shopify-section-{{ section.id }} .facets__display-vertical.itm-ps-ready .facets__header-vertical { display: none; }
 
-  /* ===== Desktop: one left panel — all filter groups open + Sort at the top ===== */
+  /* ===== Desktop: one left panel — collapsible accordion filter groups + Sort at the top =====
+     Collapse/expand is native <details> behaviour; Dawn's own component-facets.css already
+     wires the caret rotation + show/hide. We just stop overriding it, and clean up the look. */
   @media (min-width: 750px) {
-    /* Force every filter group expanded (no collapsing) */
-    #shopify-section-{{ section.id }} .facets__disclosure-vertical > .facets__display-vertical { display: block !important; }
-    #shopify-section-{{ section.id }} .facets__disclosure-vertical > summary { cursor: default; pointer-events: none; }
-    #shopify-section-{{ section.id }} .facets__disclosure-vertical > summary .icon-caret { display: none; }
+    #shopify-section-{{ section.id }} .facets__disclosure-vertical {
+      border-top: 1px solid #e3e3e3;
+      margin-right: 0;
+    }
+    #shopify-section-{{ section.id }} .facets__disclosure-vertical:last-of-type {
+      border-bottom: 1px solid #e3e3e3;
+    }
+    #shopify-section-{{ section.id }} .facets-vertical .facets__summary {
+      cursor: pointer;
+      padding: 1.4rem 0;
+      margin-bottom: 0;
+    }
+    #shopify-section-{{ section.id }} .facets-vertical .facets__summary:hover .facets__summary-label {
+      text-decoration: none;
+      opacity: 0.65;
+    }
+    #shopify-section-{{ section.id }} .facets-vertical .facets__summary-label {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    #shopify-section-{{ section.id }} .facets-vertical .facets__selected {
+      font-weight: 400;
+      opacity: 0.6;
+    }
+    #shopify-section-{{ section.id }} .facets__display-vertical {
+      padding-bottom: 1.8rem;
+    }
+    /* "FILTER:" heading + "SORT BY:" label — small uppercase eyebrow style,
+       set apart from the larger accordion group labels below them */
+    #shopify-section-{{ section.id }} .facets__heading--vertical,
+    #shopify-section-{{ section.id }} .itm-cg__desk-sort .facet-filters__label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.55);
+    }
 
     /* Sort block at the top of the sidebar, flush-left + same font as the filters */
     /* One continuous top line, full-bleed to the screen edges — but not on a
@@ -1417,20 +1452,10 @@ input.mobile-sort__radio {
     });
   }
 
-  /* Desktop sidebar: genuinely open every filter group (the CSS force-open can't beat
-     the browser's closed-<details> behaviour, so set the attribute). Only affects the
-     vertical sidebar — the mobile drawer uses .mobile-facets__details. */
-  function forceOpenFilters() {
-    section.querySelectorAll('.facets__disclosure-vertical').forEach(function (d) {
-      if (!d.open) d.open = true;
-    });
-  }
-
-  forceOpenFilters();
   initPriceSliders();
   var facetForm = section.querySelector('#FacetFiltersForm');
   if (facetForm && 'MutationObserver' in window) {
-    new MutationObserver(function () { forceOpenFilters(); initPriceSliders(); }).observe(facetForm, { childList: true, subtree: true });
+    new MutationObserver(function () { initPriceSliders(); }).observe(facetForm, { childList: true, subtree: true });
   }
 })();
 </script>
