@@ -156,7 +156,9 @@
       border-top: 1px solid #e3e3e3;
       margin-right: 0;
     }
-    #shopify-section-{{ section.id }} .facets__disclosure-vertical:last-of-type {
+    /* Price is always visually last (flex order below), regardless of DOM position —
+       so it (not whatever happens to be last in the DOM) gets the closing line. */
+    #shopify-section-{{ section.id }} .facets-vertical .facets__disclosure-vertical--price {
       border-bottom: 1px solid #e3e3e3;
     }
     #shopify-section-{{ section.id }} .facets-vertical .facets__summary {
