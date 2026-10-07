@@ -1176,68 +1176,6 @@
     font-weight: 600;
   }
 
-  /* ── Sharpens icons ── */
-  /* ── Sharpens icons ── */
-  .itm-sharpens {
-    margin: 1.2rem 0 0;
-    padding-bottom: 1.6rem;
-    border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
-  }
-  .itm-sharpens__label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    opacity: 0.55;
-    margin: 0 0 10px;
-  }
-  .itm-sharpens__icons--desktop { display: grid; grid-template-columns: repeat(7, 1fr); }
-  .itm-sharpens__icons--mobile  { display: none; }
-  .itm-sharpens__slot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 7px;
-    padding: 12px 4px;
-    min-height: 82px;
-  }
-  .itm-sharpens__slot:not(:first-child) {
-    border-left: 1px solid rgba(var(--color-foreground), 0.12);
-  }
-  .itm-sharpens__slot:not(.itm-sharpens__slot--active) {
-    opacity: 0.2;
-    filter: grayscale(1);
-  }
-  .itm-sharpens__slot img {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    display: block;
-  }
-  .itm-sharpens__name {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    text-align: center;
-    opacity: 0.65;
-    line-height: 1.2;
-  }
-  @media (max-width: 749px) {
-    .itm-sharpens {
-      width: 100vw;
-      position: relative;
-      left: 50%;
-      margin-left: -50vw;
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .itm-sharpens__label { padding-left: 1.5rem; }
-    .itm-sharpens__icons--desktop { display: none; }
-    .itm-sharpens__icons--mobile  { display: grid; grid-template-columns: repeat(6, 1fr); }
-  }
-
 {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -1678,78 +1616,6 @@
                       {%- unless itm_price_block -%}
                         <p class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" id="Sku-{{ section.id }}" role="status" {{ block.shopify_attributes }}>SKU:&nbsp;{{ product.selected_or_first_available_variant.sku | default: product.title }}</p>
                       {%- endunless -%}
-
-                    {%- when 'sharpens' -%}
-                      {%- assign sharpens_list = product.metafields.itm.sharpens.value | parse_json -%}
-                      {%- if sharpens_list != blank -%}
-                        {%- assign sharpens_slots = 'Hunt|sharpens-hunt.svg?v=1782705521,Kitchen|sharpens-kitchen.svg?v=1782705520,Pocket|sharpens-pocket.svg?v=1782705520,Serrations|sharpens-serrations-bread.svg?v=1782705521,Scissors|sharpens-scissors.svg?v=1782705520,Axes & Tools|sharpens-axes-tools.svg?v=1782705520,Fishing|sharpens-hunt.svg?v=1782705521' | split: ',' -%}
-                        <div class="itm-sharpens" {{ block.shopify_attributes }}>
-                          {%- assign mobile_slots = 'Kitchen|sharpens-kitchen.svg?v=1782705520,Pocket|sharpens-pocket.svg?v=1782705520,Serrations|sharpens-serrations-bread.svg?v=1782705521,Scissors|sharpens-scissors.svg?v=1782705520,Axes & Tools|sharpens-axes-tools.svg?v=1782705520' | split: ',' -%}
-                          {%- assign hunt_fish_active = false -%}
-                          {%- if sharpens_list contains 'Hunt' or sharpens_list contains 'Fishing' -%}{%- assign hunt_fish_active = true -%}{%- endif -%}
-                          <p class="itm-sharpens__label">Ideal for Sharpening:</p>
-                          <div class="itm-sharpens__icons itm-sharpens__icons--desktop">
-                            {%- for slot in sharpens_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- if sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot itm-sharpens__slot--active">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endif -%}
-                            {%- endfor -%}
-                            {%- for slot in sharpens_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- unless sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endunless -%}
-                            {%- endfor -%}
-                          </div>
-                          <div class="itm-sharpens__icons itm-sharpens__icons--mobile">
-                            {%- if hunt_fish_active -%}
-                              <div class="itm-sharpens__slot itm-sharpens__slot--active">
-                                <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/sharpens-hunt.svg?v=1782705521" alt="Hunt & Fish" width="52" height="52" loading="lazy">
-                                <span class="itm-sharpens__name">Hunt & Fish</span>
-                              </div>
-                            {%- endif -%}
-                            {%- for slot in mobile_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- if sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot itm-sharpens__slot--active">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endif -%}
-                            {%- endfor -%}
-                            {%- unless hunt_fish_active -%}
-                              <div class="itm-sharpens__slot">
-                                <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/sharpens-hunt.svg?v=1782705521" alt="Hunt & Fish" width="52" height="52" loading="lazy">
-                                <span class="itm-sharpens__name">Hunt & Fish</span>
-                              </div>
-                            {%- endunless -%}
-                            {%- for slot in mobile_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- unless sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endunless -%}
-                            {%- endfor -%}
-                          </div>
-                        </div>
-                      {%- endif -%}
 
                     {%- when 'bundle_contents' -%}
                       <div class="itm-bundle-contents" id="BundleContents-{{ block.id }}" {{ block.shopify_attributes }}>
@@ -2318,78 +2184,6 @@
 
                     {%- when 'sku' -%}
                       <div class="pg__hero-aside-item" {{ block.shopify_attributes }}><p class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}" id="Sku-Cta-{{ section.id }}" role="status">SKU:&nbsp;{{ product.selected_or_first_available_variant.sku | default: product.title }}</p></div>
-
-                    {%- when 'sharpens' -%}
-                      {%- assign sharpens_list = product.metafields.itm.sharpens.value | parse_json -%}
-                      {%- if sharpens_list != blank -%}
-                        {%- assign sharpens_slots = 'Hunt|sharpens-hunt.svg?v=1782705521,Kitchen|sharpens-kitchen.svg?v=1782705520,Pocket|sharpens-pocket.svg?v=1782705520,Serrations|sharpens-serrations-bread.svg?v=1782705521,Scissors|sharpens-scissors.svg?v=1782705520,Axes & Tools|sharpens-axes-tools.svg?v=1782705520,Fishing|sharpens-hunt.svg?v=1782705521' | split: ',' -%}
-                        <div class="pg__hero-aside-item itm-sharpens" {{ block.shopify_attributes }}>
-                          {%- assign mobile_slots = 'Kitchen|sharpens-kitchen.svg?v=1782705520,Pocket|sharpens-pocket.svg?v=1782705520,Serrations|sharpens-serrations-bread.svg?v=1782705521,Scissors|sharpens-scissors.svg?v=1782705520,Axes & Tools|sharpens-axes-tools.svg?v=1782705520' | split: ',' -%}
-                          {%- assign hunt_fish_active = false -%}
-                          {%- if sharpens_list contains 'Hunt' or sharpens_list contains 'Fishing' -%}{%- assign hunt_fish_active = true -%}{%- endif -%}
-                          <p class="itm-sharpens__label">Ideal for Sharpening:</p>
-                          <div class="itm-sharpens__icons itm-sharpens__icons--desktop">
-                            {%- for slot in sharpens_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- if sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot itm-sharpens__slot--active">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endif -%}
-                            {%- endfor -%}
-                            {%- for slot in sharpens_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- unless sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endunless -%}
-                            {%- endfor -%}
-                          </div>
-                          <div class="itm-sharpens__icons itm-sharpens__icons--mobile">
-                            {%- if hunt_fish_active -%}
-                              <div class="itm-sharpens__slot itm-sharpens__slot--active">
-                                <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/sharpens-hunt.svg?v=1782705521" alt="Hunt & Fish" width="52" height="52" loading="lazy">
-                                <span class="itm-sharpens__name">Hunt & Fish</span>
-                              </div>
-                            {%- endif -%}
-                            {%- for slot in mobile_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- if sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot itm-sharpens__slot--active">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endif -%}
-                            {%- endfor -%}
-                            {%- unless hunt_fish_active -%}
-                              <div class="itm-sharpens__slot">
-                                <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/sharpens-hunt.svg?v=1782705521" alt="Hunt & Fish" width="52" height="52" loading="lazy">
-                                <span class="itm-sharpens__name">Hunt & Fish</span>
-                              </div>
-                            {%- endunless -%}
-                            {%- for slot in mobile_slots -%}
-                              {%- assign sp = slot | split: '|' -%}
-                              {%- assign sn = sp[0] -%}
-                              {%- assign sf = sp[1] -%}
-                              {%- unless sharpens_list contains sn -%}
-                                <div class="itm-sharpens__slot">
-                                  <img src="https://cdn.shopify.com/s/files/1/0778/6928/5630/files/{{ sf }}" alt="{{ sn }}" width="52" height="52" loading="lazy">
-                                  <span class="itm-sharpens__name">{{ sn }}</span>
-                                </div>
-                              {%- endunless -%}
-                            {%- endfor -%}
-                          </div>
-                        </div>
-                      {%- endif -%}
 
                     {%- when 'bundle_contents' -%}
                       <div class="itm-bundle-contents" id="BundleContents-{{ block.id }}" {{ block.shopify_attributes }}>
@@ -2964,19 +2758,6 @@
           "default": "body",
           "label": "t:sections.main-product.blocks.sku.settings.text_style.label"
         },
-        {
-          "type": "checkbox",
-          "id": "show_in_aside",
-          "label": "Show in CTA column",
-          "default": false
-        }
-      ]
-    },
-    {
-      "type": "sharpens",
-      "name": "Sharpens Icons",
-      "limit": 1,
-      "settings": [
         {
           "type": "checkbox",
           "id": "show_in_aside",

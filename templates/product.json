@@ -55,12 +55,6 @@
             "show_in_aside": false
           }
         },
-        "sharpens_wQANeh": {
-          "type": "sharpens",
-          "settings": {
-            "show_in_aside": false
-          }
-        },
         "metafield_html_jT6RcY": {
           "type": "metafield_html",
           "settings": {
@@ -107,7 +101,6 @@
         "quantity_selector",
         "buy_buttons",
         "sku_7Cinxp",
-        "sharpens_wQANeh",
         "metafield_html_jT6RcY",
         "caption",
         "inventory_JHti79",

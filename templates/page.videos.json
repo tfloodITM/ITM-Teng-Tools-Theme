@@ -62,6 +62,7 @@
     },
     "video_grid": {
       "type": "itm-main-video-grid",
+      "disabled": true,
       "blocks": {
         "video_1": {
           "type": "video",

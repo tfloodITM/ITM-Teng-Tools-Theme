@@ -12,7 +12,7 @@
       "type": "main-collection-banner",
       "settings": {
         "show_collection_description": true,
-        "show_collection_image": true,
+        "show_collection_image": false,
         "banner_image": "",
         "image_fit": "cover",
         "image_width": 55,
