@@ -24,6 +24,7 @@
       width="101"
       height="32"
     >
+    {%- if settings.show_afterpay_badge -%}
     <img
       class="itm-pay-in-4__logo itm-pay-in-4__logo--afterpay"
       src="{{ 'itm-afterpay-badge.png' | asset_url }}"
@@ -31,5 +32,6 @@
       width="540"
       height="188"
     >
+    {%- endif -%}
   </div>
 {%- endif -%}

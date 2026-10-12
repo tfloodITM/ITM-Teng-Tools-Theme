@@ -41,6 +41,7 @@
     }
     #shopify-section-{{ section.id }} .itm-banner-img {
       width: {{ section.settings.image_width | default: 50 }}%;
+      max-width: 50%;      /* text column is fixed at 50% — anything wider overflows the page */
       height: {{ section.settings.image_height | default: 300 }}px;
       margin-top: 0;
       margin-left: auto;   /* right-align the image in the remaining half */
@@ -100,10 +101,10 @@
           <div class="itm-banner-icon">{% render 'itm-category-icon', title: collection.title %}</div>
         {%- endif -%}
 
-        <h2 class="collection-hero__title">
+        <h1 class="collection-hero__title h2">
           <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
           {{- collection.title | escape -}}
-        </h2>
+        </h1>
       </div>
 
       {%- if section.settings.show_collection_description -%}

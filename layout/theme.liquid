@@ -14,6 +14,8 @@
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
+    {%- comment -%} Product/card images come from the ITM image server — open the connection early (product LCP was ~8.7s on mobile) {%- endcomment -%}
+    <link rel="preconnect" href="https://assets.itmtools.com.au">
 	
 	{% render 'theme-tokens' %}
 
@@ -24,6 +26,17 @@
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
+    {%- comment -%}
+      Most collections have no description, so they had no meta description at all
+      (371 pages). Fall back to a generated one for collections and blogs.
+    {%- endcomment -%}
+    {%- if page_description == blank -%}
+      {%- if collection and template.name == 'collection' -%}
+        {%- assign page_description = 'Shop ' | append: collection.title | append: ' from Teng Tools Australia — professional-grade hand tools and tool storage with a lifetime warranty.' -%}
+      {%- elsif blog and template.name == 'blog' -%}
+        {%- assign page_description = blog.title | append: ' — tips, product news and stories from Teng Tools Australia.' -%}
+      {%- endif -%}
+    {%- endif -%}
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
     {% endif %}

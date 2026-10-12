@@ -99,6 +99,15 @@
     Applying text-wrap to the wrong element is a no-op, which is why
     list items kept breaking to an orphan word despite the rule above.
   {%- endcomment -%}
+  /* Bullet lists: centre the list as a block, but keep each bullet left-aligned
+     (centred bullets with ragged markers read badly on mobile). display:table
+     shrink-wraps the list to its longest line so auto margins can centre it. */
+  .section-{{ section.id }}-padding .itm-html-text--centered ul,
+  .section-{{ section.id }}-padding .itm-html-text--centered ol {
+    display: table;
+    text-align: left;
+  }
+
   .section-{{ section.id }}-padding .itm-html-text--centered p,
   .section-{{ section.id }}-padding .itm-html-text--centered li {
     text-wrap: balance;
@@ -253,7 +262,7 @@
                     {%- endcomment -%}
                     {% render 'itm-spec-table', raw_html: html_output %}
                   {%- else -%}
-                    {{ html_output }}
+                    {% render 'itm-clean-includes-html', html: html_output %}
                   {%- endif -%}
                 </div>
               {%- endif -%}
@@ -300,6 +309,28 @@
 })();
 </script>
 {%- endif -%}
+
+{%- comment -%}
+  "Includes" cards point at PIM image URLs, some of which no longer exist —
+  swap a failed image for the theme's "coming soon" placeholder instead of a
+  broken-image icon. Checks images that already failed before this ran, too.
+{%- endcomment -%}
+<script>
+(function () {
+  var placeholder = '{{ 'image_coming_soon.png' | asset_url }}';
+  var imgs = document.querySelectorAll('#shopify-section-{{ section.id }} .related-product img');
+  function swap(img) {
+    if (img.dataset.itmFallback) return;
+    img.dataset.itmFallback = '1';
+    img.src = placeholder;
+  }
+  imgs.forEach(function (img) {
+    if (!img.hasAttribute('alt')) img.alt = ''; // some PIM exports omit alt entirely
+    if (img.complete && img.naturalWidth === 0) swap(img);
+    else img.addEventListener('error', function () { swap(img); }, { once: true });
+  });
+})();
+</script>
 {%- endif -%}
 
 {%- comment -%}

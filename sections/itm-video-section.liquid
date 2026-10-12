@@ -45,15 +45,39 @@
 
 <div class="itm-vs">
   {%- if section.settings.video != blank -%}
-    {{
-      section.settings.video
-      | video_tag:
-        autoplay: section.settings.autoplay,
-        loop: section.settings.loop,
-        controls: section.settings.controls,
-        muted: section.settings.muted,
-        image_size: '1500x'
-    }}
+    {%- comment -%}
+      Built by hand instead of video_tag: video_tag only emits the 1080p (~4.8 Mbps)
+      rendition, so phones downloaded the full-size file (homepage was ~11 MB).
+      Phones get the smallest mp4 that's still ≥480p; everything else gets the largest.
+      Browsers without <source media> support just take the first source they can play.
+    {%- endcomment -%}
+    {%- assign itm_vs = section.settings.video -%}
+    {%- assign itm_vs_mp4s = itm_vs.sources | where: 'mime_type', 'video/mp4' | sort: 'height' -%}
+    {%- assign itm_vs_small = nil -%}
+    {%- assign itm_vs_large = nil -%}
+    {%- for src in itm_vs_mp4s -%}
+      {%- if itm_vs_small == nil and src.height >= 480 -%}{%- assign itm_vs_small = src -%}{%- endif -%}
+      {%- assign itm_vs_large = src -%}
+    {%- endfor -%}
+    {%- if itm_vs_large -%}
+      <video
+        playsinline
+        preload="metadata"
+        {% if section.settings.autoplay %}autoplay{% endif %}
+        {% if section.settings.loop %}loop{% endif %}
+        {% if section.settings.muted %}muted{% endif %}
+        {% if section.settings.controls %}controls{% endif %}
+        poster="{{ itm_vs.preview_image | image_url: width: 1500 }}"
+        aria-label="{{ itm_vs.alt | default: section.settings.video_title | default: shop.name | escape }}"
+      >
+        {%- if itm_vs_small and itm_vs_small.url != itm_vs_large.url -%}
+          <source src="{{ itm_vs_small.url }}" type="video/mp4" media="(max-width: 749px)">
+        {%- endif -%}
+        <source src="{{ itm_vs_large.url }}" type="video/mp4">
+      </video>
+    {%- else -%}
+      {{ itm_vs | video_tag: autoplay: section.settings.autoplay, loop: section.settings.loop, controls: section.settings.controls, muted: section.settings.muted, image_size: '1500x' }}
+    {%- endif -%}
   {%- elsif section.settings.video_url != blank -%}
     <iframe
       src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay={% if section.settings.autoplay %}1{% else %}0{% endif %}&mute={% if section.settings.muted %}1{% else %}0{% endif %}&loop={% if section.settings.loop %}1{% else %}0{% endif %}&playlist={{ section.settings.video_url.id }}&controls={% if section.settings.controls %}1{% else %}0{% endif %}&playsinline=1"

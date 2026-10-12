@@ -1,0 +1,33 @@
+{%- comment -%}
+  Cleans the PIM-exported "Includes" HTML (product metafield custom.web_includes)
+  before it's printed. Renders the cleaned HTML — capture it:
+    {%- capture html_output -%}{% render 'itm-clean-includes-html', html: html_output %}{%- endcapture -%}
+
+  Only touches HTML built from .related-product cards; anything else passes through unchanged.
+  - Links to industrialtool.com.au/product-redirector/{SKU} send shoppers off this store
+    (they land on itmtools.com.au) — point them at this store's search for that SKU instead,
+    where the exact product is the first result.
+  - Components missing from the PIM export came through as the literal text "None"
+    (name and image alt) — blank those out.
+  - Some exports were cut off mid-tag (e.g. `<a href="ht`), leaving an unclosed attribute that
+    swallows the rest of the section. Drop the partial last card and close the two wrappers
+    (.related-products-container + the outer max-width div) the complete export ends with.
+{%- endcomment -%}
+{%- assign itm_ci = html | default: '' -%}
+{%- if itm_ci contains 'class="related-product"' -%}
+  {%- assign itm_ci = itm_ci
+    | replace: 'https://www.industrialtool.com.au/product-redirector/', '/search?type=product&q='
+    | replace: 'http://www.industrialtool.com.au/product-redirector/', '/search?type=product&q='
+    | replace: '>None</a>', '></a>'
+    | replace: 'alt="None"', 'alt=""'
+  -%}
+  {%- assign itm_ci_tail = itm_ci | strip | slice: -6, 6 -%}
+  {%- if itm_ci_tail != '</div>' -%}
+    {%- assign itm_ci_sep = '<div class="related-product">' -%}
+    {%- assign itm_ci_parts = itm_ci | split: itm_ci_sep -%}
+    {%- assign itm_ci_keep = itm_ci_parts.size | minus: 1 -%}
+    {%- assign itm_ci_parts = itm_ci_parts | slice: 0, itm_ci_keep -%}
+    {%- assign itm_ci = itm_ci_parts | join: itm_ci_sep | append: '</div></div>' -%}
+  {%- endif -%}
+{%- endif -%}
+{{- itm_ci -}}

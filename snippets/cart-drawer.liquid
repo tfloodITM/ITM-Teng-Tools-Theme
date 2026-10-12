@@ -855,6 +855,7 @@
                 width="101"
                 height="32"
               >
+              {%- if settings.show_afterpay_badge -%}
               <img
                 class="cart-drawer__pay-in-4-logo cart-drawer__pay-in-4-logo--afterpay"
                 src="{{ 'itm-afterpay-badge.png' | asset_url }}"
@@ -862,6 +863,7 @@
                 width="540"
                 height="188"
               >
+              {%- endif -%}
             </span>
           </div>
         {%- endif -%}

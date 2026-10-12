@@ -88,7 +88,7 @@
 {%- endcomment -%}
 @media (max-width: 749px) {
   .breadcrumbs { position: relative; }
-  .breadcrumbs::before {
+  .breadcrumbs--overflow::before {
     content: '';
     position: absolute;
     top: 0;
@@ -139,6 +139,11 @@
          the useful part of a long chain, not "All Products" every time.
          Tap-and-drag (native touch scroll) still gets you back to the start. */
       list.scrollLeft = list.scrollWidth;
+      /* Only fade the left edge when there's actually something scrolled off —
+         otherwise it just eats the first letter of "All Products". */
+      if (list.scrollWidth > list.clientWidth + 1) {
+        list.closest('.breadcrumbs').classList.add('breadcrumbs--overflow');
+      }
     });
   }
 })();

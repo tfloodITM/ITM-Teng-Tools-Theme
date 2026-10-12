@@ -137,6 +137,8 @@
   .article-template__content h2{ margin-top:3.4rem; scroll-margin-top:9rem; }
   .article-template__content h3{ margin-top:2.4rem; scroll-margin-top:9rem; }
   .article-template__content img{ border-radius:8px; }
+  /* Pasted YouTube embeds carry fixed width/height attributes — scale them to the column instead of overflowing on mobile */
+  .article-template__content iframe{ max-width:100%; height:auto; aspect-ratio:16 / 9; }
 
   /* shared card */
   .art-card{ border:var(--card-bw) solid var(--card-border); border-radius:var(--card-radius); padding:var(--card-pad); text-align:var(--card-align, left); }

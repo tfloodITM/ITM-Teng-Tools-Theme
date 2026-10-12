@@ -782,7 +782,8 @@
     display: block;
   }
 
-  {% if section.settings.colorize_localized_icon %}
+  {%- comment -%} Needs an icon image too — with none set, image_url printed "Liquid error: invalid url input" into this CSS on every page. {%- endcomment -%}
+  {% if section.settings.colorize_localized_icon and section.settings.localized_icon != blank %}
   .header__icon--localized .svg-wrapper {
     width: {{ section.settings.icon_size | default: 20 }}px;
     height: {{ section.settings.icon_size | default: 20 }}px;
@@ -1880,7 +1881,7 @@
     -%}
 
     <div class="itm-locale-nav" aria-hidden="true">
-      <img src="https://flagcdn.com/w40/au.png" alt="Australia flag" width="20" height="13" class="itm-locale-flag" loading="lazy">
+      <img src="{{ 'itm-flag-au.svg' | asset_url }}" alt="Australia flag" width="20" height="10" class="itm-locale-flag" loading="lazy">
       <span>AU</span>
     </div>
 
@@ -1947,7 +1948,7 @@
             {%- endif -%}
 
             <span class="itm-locale-search" aria-hidden="true">
-              <img src="https://flagcdn.com/w40/au.png" alt="Australia flag" width="16" height="11" class="itm-locale-flag" loading="lazy">
+              <img src="{{ 'itm-flag-au.svg' | asset_url }}" alt="Australia flag" width="16" height="8" class="itm-locale-flag" loading="lazy">
               <span>AU</span>
             </span>
 
@@ -1991,7 +1992,7 @@
           endif
         -%}
         {%- if wsfp_has_searches or wsfp_has_products -%}
-        <div id="ws-focus-panel" class="ws-focus-panel" aria-hidden="true">
+        <div id="ws-focus-panel" class="ws-focus-panel" aria-hidden="true" inert>
           <button class="ws-fp-close" id="ws-fp-close" type="button" aria-label="Close suggestions">
             <span class="svg-wrapper">{{- 'icon-reset.svg' | inline_asset_content -}}</span>
           </button>
@@ -2185,10 +2186,10 @@
       {%- if has_lottie_trust_icon -%}
         <script>
           {%- comment -%}
-            Dynamic injection + a DOM marker, not a plain <script src>: the
+            Dynamic injection + a DOM marker, not a plain script-src tag: the
             homepage's "ITM Features (Icons)" section can also load
             LordIcon's player independently if it uses lottie icons too,
-            and two separate <script src="lordicon.js"> tags would both try
+            and two separate lordicon.js script tags would both try
             to customElements.define('lord-icon', ...) — the second call
             throws, since a tag name can only be registered once per page.
             Checking for the marker first makes this safe either way.
@@ -2403,12 +2404,12 @@
   function openPanel() {
     showSearchesView();
     panel.classList.add('is-open');
-    panel.setAttribute('aria-hidden', 'false');
+    panel.setAttribute('aria-hidden', 'false'); panel.inert = false;
   }
 
   function closePanel() {
     panel.classList.remove('is-open');
-    panel.setAttribute('aria-hidden', 'true');
+    panel.setAttribute('aria-hidden', 'true'); panel.inert = true;
   }
 
   /* Mirror Dawn's predictive search results into ws-fp-typing.
@@ -2435,7 +2436,7 @@
 
         showTypingView();
         panel.classList.add('is-open');
-        panel.setAttribute('aria-hidden', 'false');
+        panel.setAttribute('aria-hidden', 'false'); panel.inert = false;
       }
     });
     observer.observe(dawnPanel, { childList: true, subtree: true });
@@ -2471,7 +2472,7 @@
     } else {
       /* Re-focused with existing text: keep panel open in its current view */
       panel.classList.add('is-open');
-      panel.setAttribute('aria-hidden', 'false');
+      panel.setAttribute('aria-hidden', 'false'); panel.inert = false;
     }
   });
 
@@ -2480,7 +2481,7 @@
        until MutationObserver delivers real results — avoids a blank-panel flicker.
        When cleared, switch back to searches view. */
     panel.classList.add('is-open');
-    panel.setAttribute('aria-hidden', 'false');
+    panel.setAttribute('aria-hidden', 'false'); panel.inert = false;
     if (!input.value.trim()) {
       showSearchesView();
     }

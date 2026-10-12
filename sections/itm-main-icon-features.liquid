@@ -199,9 +199,29 @@
     @media (min-width: 750px) {
       #shopify-section-{{ section.id }} { --feat-cards: {{ section.settings.columns_desktop | default: 3 }}; }
     }
+    {%- comment -%}
+      Each card needs ~280px (icon circle + padding + a long word like
+      "ORGANISED"), so between 750 and 1100px only two fit. The :root
+      --feat-cards:2 rule further down can't do this — the section-level
+      variable above is more specific and always won.
+    {%- endcomment -%}
+    @media (min-width: 750px) and (max-width: 1100px) {
+      #shopify-section-{{ section.id }} { --feat-cards: {{ section.settings.columns_desktop | default: 3 | at_most: 2 }}; }
+      /* Static (non-carousel) rows wrap instead of hiding the extra cards past the viewport edge */
+      #shopify-section-{{ section.id }} .features__stage:not(:has(.features__nav:not([hidden]))) .features__track {
+        flex-wrap: wrap;
+        row-gap: var(--feat-gap);
+      }
+    }
 
     #shopify-section-{{ section.id }} .features__stage {
       position: relative;
+    }
+    /* Carousel mode (arrows shown): leave a gutter so the arrows sit beside the cards, not over the first/last icon */
+    @media (min-width: 750px) {
+      #shopify-section-{{ section.id }} .features__stage:has(.features__nav:not([hidden])) {
+        padding-inline: 52px;
+      }
     }
     {%- comment -%}
       Manual prev/next controls for whenever this instance is actually
@@ -264,6 +284,7 @@
 
     .feature {
       flex: 0 0 calc((100% - (var(--feat-gap) * (var(--feat-cards) - 1))) / var(--feat-cards));
+      min-width: 0; /* hold the computed width — min-width:auto let long titles push cards wider, so the last one was always cut off */
       scroll-snap-align: start;
       display: flex;
       gap: 1.5rem;
@@ -416,10 +437,10 @@
   {%- if has_lottie_feature -%}
     <script>
       {%- comment -%}
-        Dynamic injection + a DOM marker, not a plain <script src>: this
+        Dynamic injection + a DOM marker, not a plain script-src tag: this
         section can appear on the same page as the header's trust bar,
         which can ALSO load LordIcon's player independently if it uses
-        lottie icons too. Two independent <script src="lordicon.js"> tags
+        lottie icons too. Two independent lordicon.js script tags
         would both execute and both call customElements.define('lord-icon',
         ...) — the second one throws, since a custom element tag name can
         only be registered once per page. Checking for the marker first

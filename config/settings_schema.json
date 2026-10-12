@@ -1421,6 +1421,13 @@
     "name": "t:settings_schema.cart.name",
     "settings": [
       {
+        "type": "checkbox",
+        "id": "show_afterpay_badge",
+        "label": "Show Afterpay logo next to Pay in 4",
+        "info": "Only turn on once Afterpay is enabled as a payment method at checkout.",
+        "default": false
+      },
+      {
         "type": "select",
         "id": "cart_type",
         "options": [

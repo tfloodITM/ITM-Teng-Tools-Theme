@@ -599,7 +599,7 @@
               {%- assign group_card_images_raw = collection.metafields.custom.group_card_images.value -%}
               {%- assign group_card_images_map = nil -%}
               {%- if group_card_images_raw != blank -%}
-                {%- assign group_card_images_map = group_card_images_raw | parse_json -%}
+                {%- assign group_card_images_map = group_card_images_raw -%}
               {%- endif -%}
               {%- for group_col in group_children -%}
                 {%- assign gc_image_url = nil -%}

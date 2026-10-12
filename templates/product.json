@@ -134,7 +134,7 @@
         "price_color": "#2e2e2e",
         "atc_size": 16,
         "atc_bg": "#e30613",
-        "atc_color": "#2e2e2e",
+        "atc_color": "#ffffff",
         "qty_btn_gap": 0,
         "guarantee_size": 12,
         "guarantee_color": "#2e2e2e",
@@ -428,7 +428,7 @@
       ],
       "name": "HTML Section",
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "full_width": true,
         "faq_accordion": false,
         "padding_top": 12,
