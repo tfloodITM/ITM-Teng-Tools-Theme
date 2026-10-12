@@ -15,7 +15,7 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
     {%- comment -%} Product/card images come from the ITM image server — open the connection early (product LCP was ~8.7s on mobile) {%- endcomment -%}
-    <link rel="preconnect" href="https://assets.itmtools.com.au">
+    {%- if template.name == 'product' -%}<link rel="preconnect" href="https://assets.itmtools.com.au">{%- endif -%}
 	
 	{% render 'theme-tokens' %}
 
@@ -35,6 +35,8 @@
         {%- assign page_description = 'Shop ' | append: collection.title | append: ' from Teng Tools Australia — professional-grade hand tools and tool storage with a lifetime warranty.' -%}
       {%- elsif blog and template.name == 'blog' -%}
         {%- assign page_description = blog.title | append: ' — tips, product news and stories from Teng Tools Australia.' -%}
+      {%- elsif page and template.name == 'page' -%}
+        {%- assign page_description = page.title | append: ' — Teng Tools Australia: professional-grade hand tools and tool storage with a lifetime warranty.' -%}
       {%- endif -%}
     {%- endif -%}
     {% if page_description %}
