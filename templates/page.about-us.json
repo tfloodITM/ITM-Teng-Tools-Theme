@@ -194,7 +194,7 @@
         "au_text": "<p>Teng Tools brings Swedish-designed hand tools and modular storage direct to Australian tradespeople and enthusiasts — backed by local stock, support and warranty service.</p><p>From workshops and worksites to home garages, the modular TC Tray system and lifetime-warranted hand tools help keep every job organised and every tool accounted for.</p>",
         "au_image": "shopify://shop_images/teng-category-tool-storage.webp",
         "au_color_scheme": "scheme-4",
-        "au_italic": true,
+        "au_italic": false,
         "au_heading_align": "center",
         "cta_heading": "Ready To Get Organised?",
         "cta_sub": "Explore the full Teng Tools range — from hand tools and sockets to complete modular tool storage.",
