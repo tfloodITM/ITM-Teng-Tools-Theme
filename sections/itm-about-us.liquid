@@ -62,7 +62,7 @@
   }
 
   /* Story heading alignment */
-  #shopify-section-{{ section.id }} .itm-about__story-h { text-align: {{ section.settings.story_heading_align | default: 'left' }}; }
+  #shopify-section-{{ section.id }} .itm-about__story-body { text-align: {{ section.settings.story_heading_align | default: 'left' }}; } /* whole block — eyebrow, heading and copy — not just the heading */
   {%- if section.settings.story_heading_align == 'center' -%}
     #shopify-section-{{ section.id }} .itm-about__story-body .itm-about__accent-bar { margin-left: auto; margin-right: auto; }
   {%- endif -%}
@@ -74,7 +74,7 @@
   {%- endif -%}
 
   /* AU heading alignment */
-  #shopify-section-{{ section.id }} .itm-about__au-h { text-align: {{ section.settings.au_heading_align | default: 'left' }}; }
+  #shopify-section-{{ section.id }} .itm-about__au-body { text-align: {{ section.settings.au_heading_align | default: 'left' }}; } /* whole block — eyebrow, heading and copy — not just the heading */
   {%- if section.settings.au_heading_align == 'center' -%}
     #shopify-section-{{ section.id }} .itm-about__au-body .itm-about__accent-bar { margin-left: auto; margin-right: auto; }
   {%- endif -%}
@@ -203,7 +203,7 @@
       <p class="itm-about__eyebrow">{{ section.settings.au_eyebrow | default: 'Teng Tools Australia' }}</p>
       <h2 class="itm-about__au-h"{% unless section.settings.au_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.au_heading | default: 'Bringing Global Innovation to Australia' }}</h2>
       <div class="rte itm-about__au-text">
-        {{- section.settings.au_text | default: "<p>ITM brings Teng Tools' globally trusted hand tools and modular storage to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian trades endure demanding conditions on worksites, in workshops and at home. Teng Tools helps reduce downtime, extend tool life, and maintain superior performance with minimal effort — from hand tools to full tool storage systems.</p>" -}}
+        {{- section.settings.au_text | default: "<p>Teng Tools brings Swedish-designed hand tools and modular storage direct to Australian tradespeople and enthusiasts — backed by local stock, support and warranty service.</p>" -}}
       </div>
     </div>
   </section>
@@ -781,7 +781,7 @@
       "type": "richtext",
       "id": "au_text",
       "label": "Body text",
-      "default": "<p>ITM brings Teng Tools' globally trusted hand tools and modular storage to Australia with local access, dependable support, and solutions suited to real-world use.</p><p>Australian trades endure demanding conditions on worksites, in workshops and at home. Teng Tools helps reduce downtime, extend tool life, and maintain superior performance with minimal effort — from hand tools to full tool storage systems.</p>"
+      "default": "<p>Teng Tools brings Swedish-designed hand tools and modular storage direct to Australian tradespeople and enthusiasts — backed by local stock, support and warranty service.</p>"
     },
     {
       "type": "image_picker",

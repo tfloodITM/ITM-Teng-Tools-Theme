@@ -84,7 +84,8 @@
   justify-content: flex-end;
 }
 
+/* Follow the section's content alignment (was forced left, so centred sections had a left heading under centred text) */
 .rich-text__blocks h2 {
-  text-align: left;
+  text-align: inherit;
   text-transform: uppercase;
 }
