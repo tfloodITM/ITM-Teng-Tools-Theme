@@ -59,6 +59,15 @@
       {%- if itm_vs_small == nil and src.height >= 480 -%}{%- assign itm_vs_small = src -%}{%- endif -%}
       {%- assign itm_vs_large = src -%}
     {%- endfor -%}
+    {%- assign itm_vs_small_url = itm_vs_small.url -%}
+    {%- comment -%}
+      Shopify encodes 480p/720p mp4s too but only exposes the 1080p one in video.sources.
+      Its rendition names follow a fixed ladder, so derive the 480p URL from the 1080p one
+      (verified to exist: …SD-480p-1.2Mbps-<id>.mp4). Unknown naming → no mobile source.
+    {%- endcomment -%}
+    {%- if itm_vs_large and itm_vs_small_url == itm_vs_large.url and itm_vs_large.url contains 'HD-1080p-4.8Mbps' -%}
+      {%- assign itm_vs_small_url = itm_vs_large.url | replace: 'HD-1080p-4.8Mbps', 'SD-480p-1.2Mbps' -%}
+    {%- endif -%}
     {%- if itm_vs_large -%}
       <video
         playsinline
@@ -70,8 +79,8 @@
         poster="{{ itm_vs.preview_image | image_url: width: 1500 }}"
         aria-label="{{ itm_vs.alt | default: section.settings.video_title | default: shop.name | escape }}"
       >
-        {%- if itm_vs_small and itm_vs_small.url != itm_vs_large.url -%}
-          <source src="{{ itm_vs_small.url }}" type="video/mp4" media="(max-width: 749px)">
+        {%- if itm_vs_small_url != blank and itm_vs_small_url != itm_vs_large.url -%}
+          <source src="{{ itm_vs_small_url }}" type="video/mp4" media="(max-width: 749px)">
         {%- endif -%}
         <source src="{{ itm_vs_large.url }}" type="video/mp4">
       </video>

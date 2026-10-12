@@ -13,7 +13,11 @@
     swallows the rest of the section. Drop the partial last card and close the two wrappers
     (.related-products-container + the outer max-width div) the complete export ends with.
 {%- endcomment -%}
-{%- assign itm_ci = html | default: '' -%}
+{%- comment -%}
+  `html` is usually a metafield object, not a string — `contains`/`replace` silently
+  do nothing on it. Take .value when there is one, then force a string with append.
+{%- endcomment -%}
+{%- assign itm_ci = html.value | default: html | append: '' -%}
 {%- if itm_ci contains 'class="related-product"' -%}
   {%- assign itm_ci = itm_ci
     | replace: 'https://www.industrialtool.com.au/product-redirector/', '/search?type=product&q='
