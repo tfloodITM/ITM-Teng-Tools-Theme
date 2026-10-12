@@ -133,17 +133,16 @@
   {%- endif -%}
 
   <!-- ═══ BRAND STORY ═══ -->
-  <section class="itm-about__story">
+  {%- comment -%} No image set → drop the image column so the text runs full width (was an empty grey block) {%- endcomment -%}
+  <section class="itm-about__story{% unless story_img %} itm-about--no-img{% endunless %}">
+    {%- if story_img -%}
     <div class="itm-about__story-img-wrap">
-      {%- if story_img -%}
-        {{ story_img | image_url: width: 900 | image_tag: loading: 'lazy', class: 'itm-about__story-img' }}
-      {%- else -%}
-        <div class="itm-about__img-ph itm-about__img-ph--story"></div>
-      {%- endif -%}
+      {{ story_img | image_url: width: 900 | image_tag: loading: 'lazy', class: 'itm-about__story-img' }}
     </div>
+    {%- endif -%}
     <div class="itm-about__story-body color-{{ section.settings.story_color_scheme }} gradient">
       <p class="itm-about__eyebrow">{{ section.settings.story_eyebrow | default: 'Our Story' }}</p>
-      <h2 class="itm-about__story-h"{% unless section.settings.story_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.story_heading | default: 'Designed & Engineered in Ashland, Oregon' }}</h2>
+      <h2 class="itm-about__story-h"{% unless section.settings.story_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.story_heading | default: 'Designed in Sweden Since 1985' }}</h2>
       <div class="rte itm-about__story-text">
         {{- section.settings.story_text | default: '<p>Teng Tools was founded in 1985 by Henri Tengvall in Sweden. Every tool is designed around our TC Tray system: modular trays that click together into any storage solution, so every tool has its place.</p><p>Independent testing has ranked Teng Tools first or second across eight product categories — which is why every tool carries a lifetime warranty and genuine customer support</p>' -}}
       </div>
@@ -194,14 +193,12 @@
   {%- endif -%}
 
   <!-- ═══ AUSTRALIA ═══ -->
-  <section class="itm-about__au">
+  <section class="itm-about__au{% unless au_img %} itm-about--no-img{% endunless %}">
+    {%- if au_img -%}
     <div class="itm-about__au-img-wrap">
-      {%- if au_img -%}
-        {{ au_img | image_url: width: 900 | image_tag: loading: 'lazy', class: 'itm-about__au-img' }}
-      {%- else -%}
-        <div class="itm-about__img-ph itm-about__img-ph--au"></div>
-      {%- endif -%}
+      {{ au_img | image_url: width: 900 | image_tag: loading: 'lazy', class: 'itm-about__au-img' }}
     </div>
+    {%- endif -%}
     <div class="itm-about__au-body color-{{ section.settings.au_color_scheme }} gradient">
       <p class="itm-about__eyebrow">{{ section.settings.au_eyebrow | default: 'Teng Tools Australia' }}</p>
       <h2 class="itm-about__au-h"{% unless section.settings.au_italic %} style="font-style:normal"{% endunless %}>{{ section.settings.au_heading | default: 'Bringing Global Innovation to Australia' }}</h2>
@@ -426,6 +423,8 @@
   grid-template-columns: 1fr 1fr;
   min-height: 540px;
 }
+.itm-about__story.itm-about--no-img,
+.itm-about__au.itm-about--no-img { grid-template-columns: 1fr; min-height: 0; }
 .itm-about__au-img-wrap { position: relative; overflow: hidden; order: 2; }
 .itm-about__au-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .itm-about__au-body {
@@ -659,7 +658,7 @@
       "type": "text",
       "id": "story_heading",
       "label": "Heading",
-      "default": "Designed & Engineered in Ashland, Oregon"
+      "default": "Designed in Sweden Since 1985"
     },
     {
       "type": "richtext",
@@ -1067,7 +1066,7 @@
         { "type": "value", "settings": { "icon": "improve",   "heading": "Continuous Improvement", "body": "We reach for our highest potential — always refining our designs, our processes, and ourselves." } },
         { "type": "value", "settings": { "icon": "star",      "heading": "Enjoy What We Do",       "body": "We maintain balance and bring genuine energy to our work. A culture worth being part of makes everything better." } },
         { "type": "stat", "settings": { "number": "3-Year",      "label": "Warranty" } },
-        { "type": "stat", "settings": { "number": "Ashland, OR", "label": "Designed & Engineered" } },
+        { "type": "stat", "settings": { "number": "Sweden", "label": "Designed In" } },
         { "type": "stat", "settings": { "number": "Worldwide",   "label": "Trusted Globally" } },
         { "type": "stat", "settings": { "number": "Fast & Easy", "label": "Every Time" } }
       ]
