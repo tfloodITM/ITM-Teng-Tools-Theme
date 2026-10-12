@@ -25,6 +25,43 @@
   <div class="itm-divider__line"></div>
 </div>
 
+{%- comment -%}
+  Dividers sit between content sections, but those sections hide themselves when a
+  product has no data (no videos, specs, FAQs…). That left two lines stacked with an
+  empty band between them. Collapse any divider whose previous visible section is
+  also a divider (or nothing), or that's the last visible thing in <main>.
+  Runs once per page however many dividers there are.
+{%- endcomment -%}
+<script>
+  (function () {
+    if (window.itmDividerCollapse || (window.Shopify && Shopify.designMode)) return; // keep every divider selectable in the theme editor
+    window.itmDividerCollapse = true;
+    function collapse() {
+      var main = document.querySelector('main') || document.body;
+      var sections = Array.prototype.filter.call(main.children, function (el) {
+        return el.classList.contains('shopify-section');
+      });
+      var prevWasDivider = true; // a divider at the very top is redundant too
+      var lastVisibleDivider = null;
+      sections.forEach(function (sec) {
+        var isDivider = !!sec.querySelector(':scope > .itm-divider');
+        if (isDivider) {
+          if (sec.querySelector('.itm-divider').offsetHeight === 0) return; // hidden on this breakpoint
+          if (prevWasDivider) { sec.style.display = 'none'; return; }
+          prevWasDivider = true;
+          lastVisibleDivider = sec;
+        } else if (sec.offsetHeight > 0) {
+          prevWasDivider = false;
+          lastVisibleDivider = null;
+        }
+      });
+      if (lastVisibleDivider) lastVisibleDivider.style.display = 'none';
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', collapse);
+    else collapse();
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Divider",
