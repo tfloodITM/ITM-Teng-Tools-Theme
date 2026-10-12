@@ -30,7 +30,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Explore product walkthroughs, the Get Organised™ TC Tray system, and hands-on demonstrations from across the Teng Tools range. Use this page to highlight a featured YouTube video at the top and a browsable library underneath.<\/p>"
+            "text": "<p>Explore product walkthroughs, the Get Organised™ TC Tray system, and hands-on demonstrations from across the Teng Tools range. Use this page to highlight a featured YouTube video at the top and a browsable library underneath.</p>"
           }
         }
       },
@@ -52,7 +52,7 @@
       "type": "itm-main-video-hero",
       "settings": {
         "heading": "Get Organised™",
-        "body": "<p>See how the Teng Tools TC Tray system clicks together into one seamless modular storage solution.<\/p>",
+        "body": "<p>See how the Teng Tools TC Tray system clicks together into one seamless modular storage solution.</p>",
         "youtube_id": "l1A7gnJ7EIw",
         "height": 60,
         "autoplay": false,
@@ -60,53 +60,281 @@
         "color_scheme": "scheme-1"
       }
     },
-    "video_grid": {
+    "grid_storage": {
       "type": "itm-main-video-grid",
-      "disabled": true,
       "blocks": {
-        "video_1": {
+        "grid_storage_v1": {
           "type": "video",
           "settings": {
-            "title": "Product Overview",
-            "description": "<p>Replace this sample with a core product or range introduction.<\/p>",
-            "youtube_id": "aqz-KE-bpKQ",
+            "title": "Streamline Your Workflow",
+            "description": "<p>How the Teng Tools system keeps every tool in its place.</p>",
+            "youtube_id": "vPUgZGGLiGM",
             "vimeo_id": ""
           }
         },
-        "video_2": {
+        "grid_storage_v2": {
           "type": "video",
           "settings": {
-            "title": "Tool Storage Guide",
-            "description": "<p>Use blocks for tool-storage tutorials, product demos, or support content.<\/p>",
-            "youtube_id": "M7lc1UVf-VE",
+            "title": "How to Get Organised",
+            "description": "<p>The Get Organised™ approach to tool control, step by step.</p>",
+            "youtube_id": "Nn0tqYiwtiA",
             "vimeo_id": ""
           }
         },
-        "video_3": {
+        "grid_storage_v3": {
           "type": "video",
           "settings": {
-            "title": "Product Demo",
-            "description": "<p>Add as many YouTube videos as needed in the theme editor.<\/p>",
-            "youtube_id": "ysz5S6PUM-U",
+            "title": "PRO35™ Tool Storage",
+            "description": "<p>A walkthrough of the PRO35™ tool storage range.</p>",
+            "youtube_id": "9SSrJmA4bAU",
+            "vimeo_id": ""
+          }
+        },
+        "grid_storage_v4": {
+          "type": "video",
+          "settings": {
+            "title": "TT Trays or Foam Trays?",
+            "description": "<p>Compact TT trays vs premium-feel FOAM — which suits you.</p>",
+            "youtube_id": "p6ZNfLE6nA0",
+            "vimeo_id": ""
+          }
+        },
+        "grid_storage_v5": {
+          "type": "video",
+          "settings": {
+            "title": "Organising Sockets in Your Tool Chest",
+            "description": "<p>Tips for laying out sockets so you find them fast.</p>",
+            "youtube_id": "Rl3jLMVjnQ4",
+            "vimeo_id": ""
+          }
+        },
+        "grid_storage_v6": {
+          "type": "video",
+          "settings": {
+            "title": "Organising Tools in Your Tool Chest",
+            "description": "<p>Set up your chest drawers for a faster workflow.</p>",
+            "youtube_id": "JVnZYZXx3yY",
+            "vimeo_id": ""
+          }
+        },
+        "grid_storage_v7": {
+          "type": "video",
+          "settings": {
+            "title": "Service Case — Organisation on the Go",
+            "description": "<p>Take an organised tool kit to the job.</p>",
+            "youtube_id": "s9W1GC_dnwA",
+            "vimeo_id": ""
+          }
+        },
+        "grid_storage_v8": {
+          "type": "video",
+          "settings": {
+            "title": "Changing the Code on a Combination Lock",
+            "description": "<p>How to reset the code on Teng Tools combination locks.</p>",
+            "youtube_id": "gVRN_g7DHDU",
             "vimeo_id": ""
           }
         }
       },
       "block_order": [
-        "video_1",
-        "video_2",
-        "video_3"
+        "grid_storage_v1",
+        "grid_storage_v2",
+        "grid_storage_v3",
+        "grid_storage_v4",
+        "grid_storage_v5",
+        "grid_storage_v6",
+        "grid_storage_v7",
+        "grid_storage_v8"
       ],
       "settings": {
-        "heading": "Watch More Videos",
+        "heading": "Tool Storage &amp; Get Organised™",
+        "full_width": false,
+        "video_source": "blocks",
+        "video_metafield_id": "",
         "color_scheme": "scheme-1",
-        "columns_desktop": 3
+        "columns_desktop": 3,
+        "padding_top": 40,
+        "padding_bottom": 24
+      }
+    },
+    "grid_torque": {
+      "type": "itm-main-video-grid",
+      "blocks": {
+        "grid_torque_v1": {
+          "type": "video",
+          "settings": {
+            "title": "How to Use, Set & Maintain a Torque Wrench",
+            "description": "<p>The essentials for accurate, repeatable torque.</p>",
+            "youtube_id": "F-m_kafnXDQ",
+            "vimeo_id": ""
+          }
+        },
+        "grid_torque_v2": {
+          "type": "video",
+          "settings": {
+            "title": "Red Series Torque Wrenches",
+            "description": "<p>Key features of the Red Series range.</p>",
+            "youtube_id": "jDYaY_CPKJM",
+            "vimeo_id": ""
+          }
+        },
+        "grid_torque_v3": {
+          "type": "video",
+          "settings": {
+            "title": "Plus Series Torque Wrenches",
+            "description": "<p>Key features of the Plus Series range.</p>",
+            "youtube_id": "9Qf-4v3ouNc",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "grid_torque_v1",
+        "grid_torque_v2",
+        "grid_torque_v3"
+      ],
+      "settings": {
+        "heading": "Torque Tools",
+        "full_width": false,
+        "video_source": "blocks",
+        "video_metafield_id": "",
+        "color_scheme": "scheme-1",
+        "columns_desktop": 3,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "grid_hand": {
+      "type": "itm-main-video-grid",
+      "blocks": {
+        "grid_hand_v1": {
+          "type": "video",
+          "settings": {
+            "title": "Socket Sets — Overview & Features",
+            "description": "<p>What goes into a Teng Tools socket set.</p>",
+            "youtube_id": "JRWvzrsn69U",
+            "vimeo_id": ""
+          }
+        },
+        "grid_hand_v2": {
+          "type": "video",
+          "settings": {
+            "title": "Teng Tools Screwdrivers",
+            "description": "<p>Built for efficiency and performance.</p>",
+            "youtube_id": "IbsDwikcHME",
+            "vimeo_id": ""
+          }
+        },
+        "grid_hand_v3": {
+          "type": "video",
+          "settings": {
+            "title": "Circlip Pliers",
+            "description": "<p>Benefits and features of Teng Tools circlip pliers.</p>",
+            "youtube_id": "GKifysdNANI",
+            "vimeo_id": ""
+          }
+        },
+        "grid_hand_v4": {
+          "type": "video",
+          "settings": {
+            "title": "Stubby Ratchet Spanner Set — TT6010MRS",
+            "description": "<p>A closer look at the stubby ratchet spanner set.</p>",
+            "youtube_id": "1TXtwPPGT7c",
+            "vimeo_id": ""
+          }
+        },
+        "grid_hand_v5": {
+          "type": "video",
+          "settings": {
+            "title": "How to Change Tyres",
+            "description": "<p>A practical seasonal tyre-change walkthrough.</p>",
+            "youtube_id": "-HQzKYbS7vI",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "grid_hand_v1",
+        "grid_hand_v2",
+        "grid_hand_v3",
+        "grid_hand_v4",
+        "grid_hand_v5"
+      ],
+      "settings": {
+        "heading": "Hand Tools",
+        "full_width": false,
+        "video_source": "blocks",
+        "video_metafield_id": "",
+        "color_scheme": "scheme-1",
+        "columns_desktop": 3,
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "grid_assembly": {
+      "type": "itm-main-video-grid",
+      "blocks": {
+        "grid_assembly_v1": {
+          "type": "video",
+          "settings": {
+            "title": "Cabinet Drawer Assembly",
+            "description": "<p>Fitting drawers to your Teng Tools cabinet.</p>",
+            "youtube_id": "i-HiaOqx5s4",
+            "vimeo_id": ""
+          }
+        },
+        "grid_assembly_v2": {
+          "type": "video",
+          "settings": {
+            "title": "Cabinet Castor Wheel Assembly",
+            "description": "<p>Fitting castor wheels to your cabinet.</p>",
+            "youtube_id": "Uz34v0ESgCI",
+            "vimeo_id": ""
+          }
+        },
+        "grid_assembly_v3": {
+          "type": "video",
+          "settings": {
+            "title": "Cabinet Side Shelf Assembly",
+            "description": "<p>Adding a side shelf to your cabinet.</p>",
+            "youtube_id": "CQOdC8jH6yI",
+            "vimeo_id": ""
+          }
+        },
+        "grid_assembly_v4": {
+          "type": "video",
+          "settings": {
+            "title": "Cabinet Comfort Grip Assembly",
+            "description": "<p>Fitting the comfort grip handle.</p>",
+            "youtube_id": "q45gUMjmILY",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "grid_assembly_v1",
+        "grid_assembly_v2",
+        "grid_assembly_v3",
+        "grid_assembly_v4"
+      ],
+      "settings": {
+        "heading": "Cabinet Assembly Guides",
+        "full_width": false,
+        "video_source": "blocks",
+        "video_metafield_id": "",
+        "color_scheme": "scheme-1",
+        "columns_desktop": 4,
+        "padding_top": 24,
+        "padding_bottom": 52
       }
     }
   },
   "order": [
     "intro",
     "video_hero",
-    "video_grid"
+    "grid_storage",
+    "grid_torque",
+    "grid_hand",
+    "grid_assembly"
   ]
 }

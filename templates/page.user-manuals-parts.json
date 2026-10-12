@@ -1,0 +1,82 @@
+{
+  "sections": {
+    "hub": {
+      "type": "itm-returns-hub",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Find the Product Code",
+            "text": "It's shown as the SKU on each product page (e.g. TE-6211MM) and on the tool or its packaging."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Send Us a Request",
+            "text": "Use our contact form or call 07 3287 1114 — tell us the product code and whether you need a manual, parts drawing or a part."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "We'll Sort It Out",
+            "text": "We'll send through the manual or parts drawing, or confirm availability and pricing for spare parts."
+          }
+        },
+        "info_1": {
+          "type": "info_card",
+          "settings": {
+            "heading": "Repairs & Warranty",
+            "text": "<p>Tool not working as it should? Repairs are done in house, and Teng Tools products carry a limited lifetime warranty for fault of manufacture.</p>",
+            "link_label": "Warranty & Service",
+            "link": "/pages/warranty-service"
+          }
+        },
+        "info_2": {
+          "type": "info_card",
+          "settings": {
+            "heading": "How-to Videos",
+            "text": "<p>Assembly guides, torque wrench basics and tool organisation tips from the Teng Tools team.</p>",
+            "link_label": "Watch the videos",
+            "link": "/pages/videos"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "info_1",
+        "info_2"
+      ],
+      "settings": {
+        "eyebrow": "SUPPORT",
+        "heading": "User Manuals & Parts",
+        "subtext": "Need a user manual, a spare parts drawing or a replacement part? We have them for many of our products — just ask our team.",
+        "card_icon": "",
+        "card_kicker": "REQUEST A MANUAL OR PART",
+        "card_heading": "Contact Our Team",
+        "card_subtext": "Tell us the product code and what you need, and we'll get back to you.",
+        "card_link": "/pages/contact",
+        "steps_heading": "How to Get What You Need",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "hide_title": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "hub",
+    "main"
+  ]
+}

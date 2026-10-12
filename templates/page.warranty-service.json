@@ -1,0 +1,90 @@
+{
+  "sections": {
+    "hub": {
+      "type": "itm-returns-hub",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Have Your Proof of Purchase",
+            "text": "Keep a copy of your purchase receipt — from us or from your local dealer."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Contact Our Team",
+            "text": "Call 07 3287 1114 or use our contact form with the product code and a photo of the fault."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "We Assess the Tool",
+            "text": "Our Customer Service team checks the claim and lets you know the next step."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "title": "Repaired or Replaced",
+            "text": "Faults of manufacture are repaired or replaced, so you're back to work with minimal downtime."
+          }
+        },
+        "info_1": {
+          "type": "info_card",
+          "settings": {
+            "heading": "Service & Spare Parts",
+            "text": "<p>With a complete range of spare parts for serviceable tools, repairs done in house and a network of service agents Australia-wide, your Teng Tools product will be serviced with minimal downtime.</p>",
+            "link_label": "Find your nearest service agent",
+            "link": "/pages/contact"
+          }
+        },
+        "info_2": {
+          "type": "info_card",
+          "settings": {
+            "heading": "Your Rights Under Australian Consumer Law",
+            "text": "<p>Our goods come with guarantees that cannot be excluded under the Australian Consumer Law. You are entitled to a replacement or refund for a major failure and compensation for any other reasonably foreseeable loss or damage. You are also entitled to have the goods repaired or replaced if the goods fail to be of acceptable quality and the failure does not amount to a major failure.</p>",
+            "link_label": "Read our refund policy",
+            "link": "/policies/refund-policy"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "info_1",
+        "info_2"
+      ],
+      "settings": {
+        "eyebrow": "LIFETIME WARRANTY",
+        "heading": "Warranty & Service",
+        "subtext": "Teng Tools products are sold with a limited lifetime warranty for fault of manufacture — backed by in-house repairs, a full range of spare parts and service agents Australia-wide.",
+        "card_icon": "",
+        "card_kicker": "NEED TO MAKE A CLAIM?",
+        "card_heading": "Start a Warranty Claim",
+        "card_subtext": "Send us the product code, a photo of the fault and your proof of purchase — or call 07 3287 1114.",
+        "card_link": "/pages/contact",
+        "steps_heading": "How Warranty Claims Work",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "hide_title": true,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "hub",
+    "main"
+  ]
+}
