@@ -1091,10 +1091,15 @@
        don't overlap the icon labels {%- endcomment -%}
   .header__icon--lists,
   .header__icon--cart{ position:relative; overflow:visible; }
+  {%- comment -%} Badges live inside the icon's .svg-wrapper (44px box, 22px icon centred) so they sit on the
+       icon's top-right corner at every breakpoint — pinned to the edge of the whole header cell, the Cart
+       count used to hang off the side of the screen. {%- endcomment -%}
+  .header__icon--lists .svg-wrapper,
+  .header__icon--cart .svg-wrapper{ position:relative; overflow:visible; }
   .lists-count-bubble,
   .header__icon--cart .cart-count-bubble{
-    top:-5px !important;
-    right:-6px !important;
+    top:2px !important;
+    right:0 !important;
     bottom:auto !important;
     left:auto !important;
   }
@@ -2132,11 +2137,11 @@
         >
           <span class="svg-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4.5h6a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-.5a1 1 0 0 1 1-1z"/><path d="M8 5.5H6a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5a2 2 0 0 0-2-2h-2"/><path d="M9 11.5h6"/><path d="M9 15.5h6"/></svg>
+            <div class="cart-count-bubble lists-count-bubble" data-lists-count hidden>
+              <span aria-hidden="true">0</span>
+            </div>
           </span>
           <span class="header__icon-label">{{ section.settings.lists_label | default: 'Lists' }}</span>
-          <div class="cart-count-bubble lists-count-bubble" data-lists-count hidden>
-            <span aria-hidden="true">0</span>
-          </div>
         </a>
       {%- endif -%}
 
@@ -2150,16 +2155,16 @@
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         <span class="svg-wrapper">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          {%- if cart != empty -%}
+            <div class="cart-count-bubble">
+              {%- if cart.item_count < 100 -%}
+                <span aria-hidden="true">{{ cart.item_count }}</span>
+              {%- endif -%}
+              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+            </div>
+          {%- endif -%}
         </span>
         <span class="header__icon-label">{{ 'templates.cart.cart' | t }}</span>
-        {%- if cart != empty -%}
-          <div class="cart-count-bubble">
-            {%- if cart.item_count < 100 -%}
-              <span aria-hidden="true">{{ cart.item_count }}</span>
-            {%- endif -%}
-            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-          </div>
-        {%- endif -%}
       </a>
       {%- endunless -%}
 
