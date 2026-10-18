@@ -1488,6 +1488,36 @@
       },
       {
         "type": "header",
+        "content": "Bulky items (freight)"
+      },
+      {
+        "type": "text",
+        "id": "bulky_tag",
+        "label": "Bulky product tag",
+        "info": "Products with this tag (or the true/false metafield custom.bulky set to true, e.g. synced from NetSuite) ship by freight and don't count toward free standard shipping.",
+        "default": "bulky"
+      },
+      {
+        "type": "number",
+        "id": "bulky_rate_metro",
+        "label": "Bulky freight — metro ($)",
+        "default": 149
+      },
+      {
+        "type": "number",
+        "id": "bulky_rate_regional",
+        "label": "Bulky freight — regional ($)",
+        "default": 199
+      },
+      {
+        "type": "number",
+        "id": "bulky_free_threshold",
+        "label": "Free bulky freight on orders over ($)",
+        "info": "Metro and regional only. Remote areas are quoted. Must match the rates set up in the shipping app.",
+        "default": 2000
+      },
+      {
+        "type": "header",
         "content": "Trust badges (shown below checkout button)"
       },
       {

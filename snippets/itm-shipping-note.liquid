@@ -1,0 +1,37 @@
+{%- comment -%}
+  One-line shipping note under the buy buttons.
+  Bulky products (tagged settings.bulky_tag, or metafield custom.bulky = true synced from NetSuite) ship by freight with their own rates;
+  everything else gets the free-standard-shipping line. Amounts come from
+  Theme settings → Cart so they stay in step with the cart drawer and the shipping app.
+  Usage: {% render 'itm-shipping-note', product: product %}
+{%- endcomment -%}
+{%- liquid
+  assign bulky_tag = settings.bulky_tag | default: 'bulky' | downcase | strip
+  assign is_bulky = false
+  if product.metafields.custom.bulky.value == true
+    assign is_bulky = true
+  endif
+  for t in product.tags
+    assign tl = t | downcase | strip
+    if tl == bulky_tag
+      assign is_bulky = true
+      break
+    endif
+  endfor
+-%}
+{%- if is_bulky -%}
+  <p class="itm-shipping-note itm-shipping-note--bulky">
+    <strong>Bulky item — ships by freight:</strong>
+    {{ settings.bulky_rate_metro | default: 149 | times: 100 | money_without_trailing_zeros }} metro,
+    {{ settings.bulky_rate_regional | default: 199 | times: 100 | money_without_trailing_zeros }} regional,
+    remote areas quoted. Free freight on orders over {{ settings.bulky_free_threshold | default: 2000 | times: 100 | money_without_trailing_zeros }} (metro &amp; regional).
+  </p>
+{%- elsif settings.free_shipping_threshold > 0 -%}
+  <p class="itm-shipping-note">
+    <strong>Free standard shipping</strong> on orders over {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}.
+  </p>
+{%- endif -%}
+<style>
+  .itm-shipping-note { margin: 1rem 0 0; font-size: 1.3rem; line-height: 1.5; color: rgba(var(--color-foreground), 0.85); }
+  .itm-shipping-note--bulky { padding: 0.8rem 1rem; background: rgba(var(--color-foreground), 0.04); border-left: 3px solid #bd2321; }
+</style>
