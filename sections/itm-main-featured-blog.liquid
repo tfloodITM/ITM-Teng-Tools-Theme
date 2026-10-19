@@ -156,9 +156,9 @@
                     {{ article.published_at | time_tag: format: 'date' }}
                   </time>
                 {%- endif -%}
-                {%- if section.settings.show_author and article.author -%}
+                {%- if section.settings.show_author -%}
                   {%- if section.settings.show_date -%}&nbsp;•&nbsp;{%- endif -%}
-                  {{ article.author }}
+                  Teng Tools
                 {%- endif -%}
               </div>
             {%- endif -%}

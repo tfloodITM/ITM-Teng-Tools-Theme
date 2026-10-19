@@ -26,7 +26,7 @@
   <div class="article-related__inner">
     {%- capture top -%}
       {%- if s.related_show_category and cat != blank -%}{{ cat }}{%- endif -%}
-      {%- if s.related_show_author -%}{%- if s.related_show_category and cat != blank -%} &middot; {% endif %}{{ a.author }}{%- endif -%}
+      {%- if s.related_show_author -%}{%- if s.related_show_category and cat != blank -%} &middot; {% endif %}Teng Tools{%- endif -%}
     {%- endcapture -%}
     {%- if top != blank -%}<span class="article-related__cat">{{ top | strip }}</span>{%- endif -%}
     <p class="article-related__title">{{ a.title | escape }}</p>
