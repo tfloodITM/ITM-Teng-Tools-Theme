@@ -333,10 +333,11 @@
 
       {%- comment -%}
         Two shipping groups: bulky items (tagged settings.bulky_tag — roll cabinets, workbenches,
-        top boxes…) ship by freight; everything else is a standard parcel. Only standard items
-        count toward free standard shipping, so a $1,200 roll cabinet no longer "earns" free
-        parcel shipping. Bulky freight is free once the whole order reaches bulky_free_threshold
-        (metro/regional — remote is quoted). Amounts must match the shipping app's rules.
+        top boxes…) ship by freight; everything else is a standard parcel. Shopify checks the
+        free-standard minimum against the WHOLE cart (bulky items included), so the bar does too;
+        it only shows when the cart has standard items. Bulky freight is free once the whole order reaches bulky_free_threshold
+        (metro/regional). Remote postcodes can't check out bulky items — the "Bulky items" profile has
+        no remote rate and the postcode app hides metro/regional rates there. Amounts must match the profile rates.
       {%- endcomment -%}
       {%- liquid
         assign bulky_tag = settings.bulky_tag | default: 'bulky' | downcase | strip
@@ -364,11 +365,11 @@
       {%- unless cart == empty or settings.free_shipping_threshold <= 0 -%}
         {%- liquid
           assign fs_threshold_cents = settings.free_shipping_threshold | times: 100
-          assign fs_remaining_cents = fs_threshold_cents | minus: fs_standard_cents
+          assign fs_remaining_cents = fs_threshold_cents | minus: cart.total_price
           if fs_remaining_cents <= 0
             assign fs_progress = 100
           else
-            assign fs_progress = fs_standard_cents | times: 100.0 | divided_by: fs_threshold_cents | round
+            assign fs_progress = cart.total_price | times: 100.0 | divided_by: fs_threshold_cents | round
           endif
         -%}
         <div class="cart-drawer__shipping-bar">
@@ -392,9 +393,9 @@
             <p class="cart-drawer__shipping-message cart-drawer__shipping-message--bulky">
               <span class="cart-drawer__shipping-text">
                 {%- if cart.total_price >= bulky_free_cents -%}
-                  <strong>Free freight</strong> on bulky items (metro &amp; regional). Remote areas are quoted.
+                  <strong>Free freight</strong> on bulky items (metro &amp; regional). Remote areas: please <a href="{{ routes.root_url | append: '/pages/contact' | replace: '//', '/' }}">contact us</a> for a freight quote.
                 {%- else -%}
-                  <strong>Bulky items ship by freight:</strong> {{ settings.bulky_rate_metro | default: 149 | times: 100 | money_without_trailing_zeros }} metro, {{ settings.bulky_rate_regional | default: 199 | times: 100 | money_without_trailing_zeros }} regional, remote quoted. Free over {{ bulky_free_cents | money_without_trailing_zeros }}.
+                  <strong>Bulky items ship by freight:</strong> {{ settings.bulky_rate_metro | default: 149 | times: 100 | money_without_trailing_zeros }} metro, {{ settings.bulky_rate_regional | default: 199 | times: 100 | money_without_trailing_zeros }} regional, free over {{ bulky_free_cents | money_without_trailing_zeros }}. Remote areas: please <a href="{{ routes.root_url | append: '/pages/contact' | replace: '//', '/' }}">contact us</a> for a freight quote.
                 {%- endif -%}
               </span>
             </p>

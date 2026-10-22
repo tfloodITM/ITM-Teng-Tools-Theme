@@ -24,7 +24,8 @@
     <strong>Bulky item — ships by freight:</strong>
     {{ settings.bulky_rate_metro | default: 149 | times: 100 | money_without_trailing_zeros }} metro,
     {{ settings.bulky_rate_regional | default: 199 | times: 100 | money_without_trailing_zeros }} regional,
-    remote areas quoted. Free freight on orders over {{ settings.bulky_free_threshold | default: 2000 | times: 100 | money_without_trailing_zeros }} (metro &amp; regional).
+    free over {{ settings.bulky_free_threshold | default: 2000 | times: 100 | money_without_trailing_zeros }}.
+    Not available online to remote areas — <a href="{{ routes.root_url | append: '/pages/contact' | replace: '//', '/' }}">contact us</a> for a freight quote.
   </p>
 {%- elsif settings.free_shipping_threshold > 0 -%}
   <p class="itm-shipping-note">
