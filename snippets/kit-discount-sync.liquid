@@ -1,0 +1,173 @@
+{% comment %}
+  Kit Discount Sync - keeps the kit price-break discount correct as the cart changes.
+
+  Render on EVERY page (layout/theme.liquid, just before </body>):
+    {% render 'kit-discount-sync' %}
+  The Kit Builder section also renders it; it only ever initialises once.
+
+  How it works:
+  - Kit-builder lines carry a hidden `_kit_build` line property (added by the Kit Builder section)
+  - After any cart change (add / change / update / clear, from any theme code) it reads the cart,
+    sends the kit lines to the kit builder server, and swaps the cart's KIT code for the one the
+    server returns - stepping the discount up or down a tier, or removing it under $1,000
+  - The server re-prices the lines itself and limits each code to those products with a minimum
+    spend of the tier, so editing the cart can never earn a better discount than the kit qualifies for
+  - The customer's other discount codes are kept, so store promotions still stack
+
+  Optional: {% render 'kit-discount-sync', api_base: 'https://your-builder.example.com' %}
+{% endcomment %}
+
+<script>
+(function () {
+  if (window.tengKitDiscountSync) return;
+
+  var API_BASE = {{ api_base | default: 'https://teng-kit-builder-production.up.railway.app' | json }};
+  var KIT_PROPERTY = '_kit_build';
+  var KIT_CODE = /^KIT\d+-[A-Z0-9]+$/i;
+  var STATE_KEY = 'teng-kit-discount';
+  var CART_MUTATION = /\/cart\/(add|change|update|clear)(\.js)?(\?|$)/;
+  var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+
+  var OWN_REQUEST = 'kit_sync=1';  // marks our own cart update so we don't react to it
+  var paused = 0;         // >0 while the Kit Builder section is adding a kit line by line
+  var running = null;     // in-flight sync
+  var rerun = false;      // a cart change arrived while syncing
+  var timer = null;
+
+  function readState() {
+    try { return JSON.parse(sessionStorage.getItem(STATE_KEY) || 'null'); } catch (e) { return null; }
+  }
+  function writeState(s) {
+    try { sessionStorage.setItem(STATE_KEY, JSON.stringify(s)); } catch (e) { /* storage blocked */ }
+  }
+
+  function getCart() {
+    return fetch(root + 'cart.js', { credentials: 'same-origin' }).then(function (r) { return r.json(); });
+  }
+
+  function kitLinesOf(cart) {
+    var merged = {};
+    (cart.items || []).forEach(function (item) {
+      if (!item.properties || !item.properties[KIT_PROPERTY]) return;
+      merged[item.variant_id] = (merged[item.variant_id] || 0) + item.quantity;
+    });
+    return Object.keys(merged).sort().map(function (id) { return { variantId: id, quantity: merged[id] }; });
+  }
+
+  function setCartCodes(codes) {
+    return fetch(root + 'cart/update.js?' + OWN_REQUEST, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ discount: codes.join(',') })
+    }).then(function (r) { return r.ok ? r.json() : null; });
+  }
+
+  function refreshCartUi() {
+    if (typeof window.tengRefreshCart === 'function') return window.tengRefreshCart();
+    document.dispatchEvent(new CustomEvent('teng:kit-discount-updated', { bubbles: true }));
+    // Dawn-based themes: let cart components re-render
+    if (typeof window.publish === 'function' && window.PUB_SUB_EVENTS) {
+      try { window.publish(window.PUB_SUB_EVENTS.cartUpdate, { source: 'kit-discount' }); } catch (e) {}
+    }
+    // The cart page shows totals rendered server-side; reload so they reflect the new discount
+    if (/\/cart\/?$/.test(location.pathname)) location.reload();
+  }
+
+  function doSync() {
+    return getCart().then(function (cart) {
+      var lines = kitLinesOf(cart);
+      var codes = (cart.discount_codes || []).map(function (d) { return d.code; }).filter(Boolean);
+      var kitCodes = codes.filter(function (c) { return KIT_CODE.test(c); });
+      var otherCodes = codes.filter(function (c) { return !KIT_CODE.test(c); });
+      var currentKitCode = kitCodes[0] || null;
+      var signature = JSON.stringify(lines);
+      var state = readState();
+      // Replace the code on the cart, or failing that the last one this browser was issued
+      // (e.g. if applying it was interrupted), so no unused kit code is left behind
+      var replaceCode = currentKitCode || (state && state.code) || null;
+
+      // Nothing changed since the last sync and the code is still on the cart
+      if (state && state.signature === signature && state.code === currentKitCode && kitCodes.length <= 1) return;
+
+      if (lines.length === 0 && kitCodes.length === 0 && !replaceCode) {
+        writeState({ signature: signature, code: null });
+        return;
+      }
+
+      return fetch(API_BASE + '/api/kit-discount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lines: lines, replaceCode: replaceCode })
+      }).then(function (r) { return r.json(); }).then(function (result) {
+        var newCode = result && result.code ? result.code : null;
+        if (result && result.error && !newCode && lines.length > 0) {
+          // Server couldn't create a code: leave the cart alone rather than strip a valid one
+          console.warn('[Kit discount]', result.error);
+          return;
+        }
+        var nextCodes = newCode ? otherCodes.concat(newCode) : otherCodes;
+        var changed = nextCodes.join(',') !== codes.join(',');
+        writeState({ signature: signature, code: newCode });
+        if (!changed) return;
+        return setCartCodes(nextCodes).then(refreshCartUi);
+      });
+    }).catch(function (err) {
+      console.warn('[Kit discount] Sync failed:', err);
+    });
+  }
+
+  function sync() {
+    if (paused > 0) { rerun = true; return Promise.resolve(); }
+    if (running) { rerun = true; return running; }
+    running = doSync().finally(function () {
+      running = null;
+      if (rerun) { rerun = false; schedule(); }
+    });
+    return running;
+  }
+
+  function schedule() {
+    clearTimeout(timer);
+    timer = setTimeout(sync, 600);
+  }
+
+  function isCartMutation(url, method) {
+    url = String(url || '');
+    return url.indexOf(OWN_REQUEST) === -1 && CART_MUTATION.test(url) && String(method || 'GET').toUpperCase() !== 'GET';
+  }
+
+  // Watch cart changes made with fetch (most themes) ...
+  var originalFetch = window.fetch;
+  window.fetch = function (input, init) {
+    var url = typeof input === 'string' ? input : (input && input.url);
+    var method = (init && init.method) || (input && input.method);
+    var watch = isCartMutation(url, method);
+    var promise = originalFetch.apply(this, arguments);
+    if (watch) promise.then(schedule, schedule);
+    return promise;
+  };
+
+  // ... and with XMLHttpRequest (older themes / jQuery)
+  var originalOpen = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function (method, url) {
+    this.__tengWatch = isCartMutation(url, method);
+    return originalOpen.apply(this, arguments);
+  };
+  var originalSend = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.send = function () {
+    if (this.__tengWatch) this.addEventListener('loadend', schedule);
+    return originalSend.apply(this, arguments);
+  };
+
+  // Plain form posts (e.g. the cart page's update button) reload the page; sync on every load
+  window.tengKitDiscountSync = {
+    sync: sync,
+    // The Kit Builder section pauses syncing while it adds a kit, then resumes once, so the
+    // discount is worked out from the whole kit rather than a half-added one
+    pause: function () { paused++; clearTimeout(timer); },
+    resume: function () { paused = Math.max(0, paused - 1); if (paused === 0) schedule(); }
+  };
+  schedule();
+})();
+</script>

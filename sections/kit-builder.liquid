@@ -1,0 +1,427 @@
+{% comment %}
+  Kit Builder Section
+  
+  Embeds the TengTools Kit Builder application in an iframe.
+  Handles:
+  - Dynamic iframe height adjustment
+  - Add to Cart functionality via postMessage
+  - Tags kit lines for the kit price-break discount (kept correct by the kit-discount-sync
+    snippet, which should also be rendered site-wide in layout/theme.liquid)
+  - Cart drawer updates
+{% endcomment %}
+
+<div class="kit-builder-section" id="kit-builder-container">
+  <iframe 
+    id="kit-builder-iframe"
+    src="{{ section.settings.iframe_url }}"
+    title="TengTools Kit Builder"
+    frameborder="0"
+    scrolling="auto"
+    style="width: 100%; min-height: 800px; border: none; overflow: auto;"
+    allow="clipboard-write"
+  ></iframe>
+</div>
+
+{% render 'kit-discount-sync' %}
+
+<script>
+(function() {
+  const iframe = document.getElementById('kit-builder-iframe');
+  
+  // Listen for messages from the iframe
+  window.addEventListener('message', async function(event) {
+    // Verify origin in production
+    // if (event.origin !== 'https://your-railway-app.railway.app') return;
+    
+    const data = event.data;
+    if (!data || !data.type) return;
+    
+    console.log('[Kit Builder] Received message:', data.type, data);
+    
+    // Handle height updates for dynamic iframe sizing
+    if (data.type === 'teng-height-update' && data.height) {
+      iframe.style.height = data.height + 'px';
+    }
+    
+    // Handle single item add to cart
+    if (data.type === 'teng-add-to-cart') {
+      await addToCart(data.variantId, data.quantity || 1);
+    }
+    
+    // Handle bulk configuration add to cart. The kit discount is then recalculated by
+    // kit-discount-sync (rendered above), which watches every cart change.
+    if (data.type === 'teng-add-configuration' && data.items) {
+      const sync = window.tengKitDiscountSync;
+      if (sync && sync.pause) sync.pause();
+      try {
+        await addConfigurationToCart(data.items, data.kitId);
+      } finally {
+        if (sync && sync.resume) sync.resume();
+      }
+    }
+  });
+
+  const KIT_PROPERTY = '_kit_build';           // hidden line property marking kit-builder lines
+
+  /**
+   * Add a single item to cart using Shopify AJAX Cart API
+   */
+  async function addToCart(variantId, quantity, properties) {
+    if (!variantId) {
+      console.error('[Kit Builder] No variant ID provided');
+      return false;
+    }
+    
+    try {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          id: parseInt(variantId, 10),
+          quantity: quantity,
+          ...(properties ? { properties } : {})
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('[Kit Builder] Add to cart failed:', errorData.description || errorData.message || errorData);
+        return false;
+      }
+      
+      const result = await response.json();
+      console.log('[Kit Builder] Added to cart:', result);
+      
+      // Refresh cart drawer/count if your theme supports it
+      refreshCart();
+      
+      return true;
+    } catch (error) {
+      console.error('[Kit Builder] Add to cart error:', error);
+      return false;
+    }
+  }
+  
+  /**
+   * Add multiple items to cart (bulk add)
+   */
+  async function addConfigurationToCart(items, kitId) {
+    if (!items || items.length === 0) {
+      console.error('[Kit Builder] No items to add');
+      return false;
+    }
+    
+    console.log('[Kit Builder] Adding configuration to cart:', items);
+    
+    // Build the items array for Shopify's bulk add endpoint. Each line carries the kit ID
+    // (a hidden "_" property) so kit-builder lines can be found for the price-break discount.
+    const properties = kitId ? { [KIT_PROPERTY]: kitId } : undefined;
+    const cartItems = items.map(item => ({
+      id: parseInt(item.variantId, 10),
+      quantity: item.qty || 1,
+      ...(properties ? { properties } : {})
+    }));
+    
+    try {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          items: cartItems
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        // Shopify rejects the whole bulk add if any one line can't be added (e.g. not enough stock)
+        console.error('[Kit Builder] Bulk add to cart failed:', errorData.description || errorData.message || errorData);
+        
+        // Try adding items one by one as fallback
+        console.log('[Kit Builder] Attempting individual adds...');
+        let successCount = 0;
+        for (const item of items) {
+          const success = await addToCart(item.variantId, item.qty || 1, properties);
+          if (success) successCount++;
+        }
+        console.log(`[Kit Builder] Added ${successCount}/${items.length} items individually`);
+        refreshCart();
+        return successCount > 0;
+      }
+      
+      const result = await response.json();
+      console.log('[Kit Builder] Bulk added to cart:', result);
+      
+      // Refresh cart drawer/count
+      refreshCart();
+      
+      return true;
+    } catch (error) {
+      console.error('[Kit Builder] Bulk add to cart error:', error);
+      return false;
+    }
+  }
+  
+  /**
+   * Refresh cart UI after adding items
+   * This triggers theme-specific cart updates
+   */
+  // kit-discount-sync calls this after changing the kit discount
+  window.tengRefreshCart = () => refreshCart();
+
+  function refreshCart() {
+    console.log('[Kit Builder] Refreshing cart UI...');
+    
+    // Fetch fresh cart data first
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(cart => {
+        console.log('[Kit Builder] Cart updated:', cart.item_count, 'items');
+        
+        // Refresh cart drawer using the same approach as Dawn theme
+        refreshCartDrawer(cart);
+        
+        // Update cart icon bubble
+        refreshCartIconBubble();
+        
+        // Show notification
+        showCartNotification(cart.item_count);
+      })
+      .catch(error => {
+        console.error('[Kit Builder] Failed to refresh cart:', error);
+      });
+  }
+  
+  /**
+   * Refresh cart drawer using Dawn theme's exact approach
+   */
+  function refreshCartDrawer(cart) {
+    // Use window.routes if available (Dawn theme provides this)
+    const cartUrl = window.routes?.cart_url || '/cart';
+    
+    console.log('[Kit Builder] Fetching cart-drawer section...');
+    
+    fetch(`${cartUrl}?section_id=cart-drawer`)
+      .then(response => response.text())
+      .then(responseText => {
+        console.log('[Kit Builder] Got cart-drawer section, parsing...');
+        
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
+        
+        // CartDrawerItems.getSectionsToRender() uses .drawer__inner inside #CartDrawer
+        // This is the proper way the theme updates the drawer content
+        const cartDrawer = document.getElementById('CartDrawer');
+        const sourceDrawer = html.getElementById('CartDrawer');
+        
+        if (cartDrawer && sourceDrawer) {
+          const targetInner = cartDrawer.querySelector('.drawer__inner');
+          const sourceInner = sourceDrawer.querySelector('.drawer__inner');
+          
+          if (targetInner && sourceInner) {
+            targetInner.innerHTML = sourceInner.innerHTML;
+            console.log('[Kit Builder] Updated .drawer__inner content');
+          }
+        }
+        
+        // Also update the footer
+        const targetFooter = document.querySelector('.cart-drawer__footer');
+        const sourceFooter = html.querySelector('.cart-drawer__footer');
+        
+        if (targetFooter && sourceFooter) {
+          targetFooter.innerHTML = sourceFooter.innerHTML;
+          console.log('[Kit Builder] Updated .cart-drawer__footer');
+        }
+        
+        // Update empty state class on cart-drawer
+        const cartDrawerEl = document.querySelector('cart-drawer');
+        if (cartDrawerEl) {
+          cartDrawerEl.classList.toggle('is-empty', cart.item_count === 0);
+        }
+        
+        // Reinitialize quantity inputs and remove buttons
+        reinitializeCartElements();
+        
+        console.log('[Kit Builder] Cart drawer refresh complete');
+      })
+      .catch(err => {
+        console.error('[Kit Builder] Cart drawer refresh failed:', err);
+      });
+  }
+  
+  /**
+   * Reinitialize custom elements after DOM update
+   */
+  function reinitializeCartElements() {
+    // Quantity inputs need their event listeners reattached
+    document.querySelectorAll('cart-drawer-items quantity-input').forEach(el => {
+      // Trigger the element to rebind its events
+      if (el.input) {
+        const input = el.querySelector('input');
+        if (input) {
+          input.addEventListener('change', (e) => {
+            const cartItems = el.closest('cart-drawer-items');
+            if (cartItems && typeof cartItems.onChange === 'function') {
+              cartItems.onChange(e);
+            }
+          });
+        }
+      }
+    });
+    
+    // Remove buttons need click handlers
+    document.querySelectorAll('cart-drawer-items cart-remove-button').forEach(el => {
+      el.addEventListener('click', (event) => {
+        event.preventDefault();
+        const cartItems = el.closest('cart-drawer-items');
+        if (cartItems && typeof cartItems.updateQuantity === 'function') {
+          cartItems.updateQuantity(el.dataset.index, 0, event);
+        }
+      });
+    });
+  }
+  
+  /**
+   * Refresh cart icon bubble in header
+   */
+  function refreshCartIconBubble() {
+    fetch('/cart?sections=cart-icon-bubble')
+      .then(response => response.json())
+      .then(data => {
+        const bubbleHtml = data['cart-icon-bubble'];
+        if (!bubbleHtml) return;
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(bubbleHtml, 'text/html');
+        
+        // The section returns the content wrapped in .shopify-section
+        // We need the inner content (the SVG and cart-count-bubble)
+        const existingBubble = document.getElementById('cart-icon-bubble');
+        const newContent = doc.querySelector('.shopify-section');
+        
+        if (existingBubble && newContent) {
+          existingBubble.innerHTML = newContent.innerHTML;
+          console.log('[Kit Builder] Cart icon bubble updated');
+        }
+      })
+      .catch(err => console.log('[Kit Builder] Cart bubble refresh failed:', err));
+  }
+  
+  /**
+   * Open cart drawer (optional visual feedback)
+   */
+  function openCartDrawer() {
+    const cartDrawer = document.querySelector('cart-drawer');
+    if (cartDrawer && typeof cartDrawer.open === 'function') {
+      cartDrawer.open();
+    } else {
+      // Try clicking the cart icon to trigger drawer
+      const cartTrigger = document.querySelector('[data-cart-drawer-trigger], .js-drawer-open-cart');
+      if (cartTrigger) {
+        cartTrigger.click();
+      }
+    }
+  }
+  
+  /**
+   * Show a simple notification that items were added
+   */
+  function showCartNotification(itemCount) {
+    // Check if theme has a notification system
+    if (typeof window.theme !== 'undefined' && window.theme.Notify) {
+      window.theme.Notify.success(`${itemCount} items in cart`);
+      return;
+    }
+    
+    // Fallback: create a simple toast notification
+    const toast = document.createElement('div');
+    toast.className = 'kit-builder-toast';
+    toast.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 12l2 2 4-4"/>
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+        <div>
+          <strong>Added to cart!</strong>
+          <div style="font-size: 12px; opacity: 0.9;">Cart now has ${itemCount} ${itemCount === 1 ? 'item' : 'items'}</div>
+        </div>
+      </div>
+    `;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2e7d32;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 4px;
+      font-family: sans-serif;
+      font-size: 14px;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      animation: slideIn 0.3s ease-out;
+    `;
+    
+    // Add animation keyframes if not exists
+    if (!document.getElementById('kit-builder-toast-styles')) {
+      const style = document.createElement('style');
+      style.id = 'kit-builder-toast-styles';
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.style.animation = 'slideIn 0.3s ease-out reverse';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+})();
+</script>
+
+<style>
+  .kit-builder-section {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  #kit-builder-iframe {
+    display: block;
+    width: 100%;
+    transition: height 0.3s ease;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Kit Builder",
+  "tag": "section",
+  "class": "section-kit-builder",
+  "settings": [
+    {
+      "type": "text",
+      "id": "iframe_url",
+      "label": "Kit Builder URL",
+      "default": "https://teng-kit-builder-production.up.railway.app",
+      "info": "The URL of your hosted Kit Builder application"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kit Builder"
+    }
+  ]
+}
+{% endschema %}
