@@ -537,7 +537,7 @@
       <div class="itm-products-panel__inner">
       <ul class="itm-products-panel__list">
           {%- for block in section.blocks -%}
-            {%- if block.type == 'mega_item' and block.settings.layout != 'dropdown' -%}
+            {%- if block.type == 'mega_item' and block.settings.layout != 'dropdown' and block.settings.layout != 'top_link' -%}
               {%- assign t = block.settings.title | downcase -%}
               {%- assign icon = icon_generic -%}
               {%- if t contains 'storage' -%}
@@ -741,6 +741,12 @@
           {%- endcomment -%}
           {%- if lay == 'cards' or lay == 'link' -%}
             {%- comment -%} skipped — already listed in the Products panel {%- endcomment -%}
+          {%- elsif lay == 'top_link' -%}
+            <li class="itm-mega__item itm-mega__item--top_link" {{ block.shopify_attributes }}>
+              <a class="itm-mega__top" href="{{ block.settings.link | default: '#' }}">
+                <span class="itm-mega__label">{{ block.settings.title }}</span>
+              </a>
+            </li>
           {%- else -%}
             <li class="itm-mega__item itm-mega__item--{{ lay }}" {{ block.shopify_attributes }}>
               <a class="itm-mega__top" href="{{ block.settings.link | default: '#' }}" aria-haspopup="true">

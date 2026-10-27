@@ -451,6 +451,14 @@
             "layout": "link"
           }
         },
+        "mega_item_kitbuilder": {
+          "type": "mega_item",
+          "settings": {
+            "title": "Kit Builder",
+            "link": "shopify://pages/tengtools-getorganised-kit-builder",
+            "layout": "top_link"
+          }
+        },
         "mega_item_GRYaj8": {
           "type": "mega_item",
           "settings": {
@@ -515,6 +523,7 @@
         "mm1039",
         "mm1040",
         "mm1041",
+        "mega_item_kitbuilder",
         "mega_item_GRYaj8",
         "mega_column_r4nAYm"
       ],
