@@ -1862,9 +1862,11 @@
 
                     {%- when 'buy_buttons' -%}
                       {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true, inline_with_quantity: false -%}
-                      {%- render 'itm-shipping-note', product: product -%}
-                      {%- render 'itm-shipping-calc', product: product -%}
-                      {%- render 'itm-pdp-usps' -%}
+                      <div class="itm-pdp-extras">
+                        {%- render 'itm-pdp-usps', product: product -%}
+                        {%- render 'itm-shipping-note', product: product -%}
+                        {%- render 'itm-shipping-calc', product: product -%}
+                      </div>
 
                     {%- when 'divider' -%}
                       <div class="itm-divider-block" {{ block.shopify_attributes }} style="
@@ -2365,9 +2367,11 @@
 
                     {%- when 'buy_buttons' -%}
                       <div class="pg__hero-aside-item">{%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true, inline_with_quantity: false -%}
-                      {%- render 'itm-shipping-note', product: product -%}
-                      {%- render 'itm-shipping-calc', product: product -%}
-                      {%- render 'itm-pdp-usps' -%}</div>
+                      <div class="itm-pdp-extras">
+                        {%- render 'itm-pdp-usps', product: product -%}
+                        {%- render 'itm-shipping-note', product: product -%}
+                        {%- render 'itm-shipping-calc', product: product -%}
+                      </div></div>
 
                     {%- when 'rating' -%}
                       {%- if product.metafields.reviews.rating.value != blank -%}

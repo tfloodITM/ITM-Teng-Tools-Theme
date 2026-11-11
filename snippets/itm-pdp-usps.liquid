@@ -1,9 +1,38 @@
 {%- comment -%}
-  Product page trust row: 3 big icons in one row under the buy buttons.
+  Product page trust row under the buy buttons: big icons, 4 across on desktop,
+  2 x 2 on mobile. Also styles the .itm-pdp-extras wrapper (icons, bulky freight
+  note, postcode calculator) so the three blocks are evenly spaced.
+  "Free shipping on orders over $X" shows for non-bulky products when
+  Theme settings → Cart → free shipping threshold is above 0; bulky products get
+  the freight note (itm-shipping-note) instead, so their row has 3 icons.
   Icons come from itm-trust-icon (same set as the header trust bar).
-  Usage: {% render 'itm-pdp-usps' %}
+  Usage: {% render 'itm-pdp-usps', product: product %}
 {%- endcomment -%}
-<ul class="itm-pdp-usps" role="list">
+{%- liquid
+  assign usp_bulky_tag = settings.bulky_tag | default: 'bulky' | downcase | strip
+  assign usp_is_bulky = false
+  if product.metafields.custom.bulky.value == true
+    assign usp_is_bulky = true
+  endif
+  for t in product.tags
+    assign tl = t | downcase | strip
+    if tl == usp_bulky_tag
+      assign usp_is_bulky = true
+      break
+    endif
+  endfor
+  assign usp_show_free = false
+  if usp_is_bulky == false and settings.free_shipping_threshold > 0
+    assign usp_show_free = true
+  endif
+-%}
+<ul class="itm-pdp-usps{% if usp_show_free %} itm-pdp-usps--4{% endif %}" role="list">
+  {%- if usp_show_free -%}
+    <li class="itm-pdp-usps__item">
+      <span class="itm-pdp-usps__icon">{% render 'itm-trust-icon', preset: 'truck' %}</span>
+      <span class="itm-pdp-usps__text">Free shipping<small>on orders over {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}</small></span>
+    </li>
+  {%- endif -%}
   <li class="itm-pdp-usps__item">
     <a href="{{ routes.root_url | append: '/pages/warranty-service' | replace: '//', '/' }}" class="itm-pdp-usps__link">
       <span class="itm-pdp-usps__icon">{% render 'itm-trust-icon', preset: 'shield' %}</span>
@@ -20,17 +49,26 @@
   </li>
 </ul>
 <style>
+  .itm-pdp-extras {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0;
+    padding: 24px 0 8px; /* padding, not margin: main-product zeroes child margins */
+  }
+  .itm-pdp-extras > * { margin: 0 !important; }
   .itm-pdp-usps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 12px;
     list-style: none;
-    margin: 16px 0 0;
+    margin: 0;
     padding: 0;
   }
+  .itm-pdp-usps--4 { grid-template-columns: repeat(4, 1fr); }
   .itm-pdp-usps__item {
     margin: 0;
-    padding: 14px 8px;
+    padding: 18px 10px;
     background: rgba(var(--color-foreground), 0.04);
     border-radius: 6px;
     text-align: center;
@@ -40,24 +78,39 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    justify-content: flex-start;
+    gap: 10px;
     color: rgb(var(--color-foreground));
     text-decoration: none;
   }
+  .itm-pdp-usps__link { width: 100%; }
   .itm-pdp-usps__icon { color: #bd2321; line-height: 0; }
   .itm-pdp-usps__icon svg { width: 40px; height: 40px; }
   .itm-pdp-usps__text {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.25;
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
+  .itm-pdp-usps__text small {
+    display: block;
+    margin-top: 3px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgba(var(--color-foreground), 0.7);
+  }
   .itm-pdp-usps__link:hover .itm-pdp-usps__text { text-decoration: underline; }
   @media screen and (max-width: 749px) {
-    .itm-pdp-usps { gap: 6px; }
-    .itm-pdp-usps__item { padding: 12px 4px; }
-    .itm-pdp-usps__icon svg { width: 32px; height: 32px; }
-    .itm-pdp-usps__text { font-size: 1.1rem; }
+    .itm-pdp-extras { gap: 16px; padding: 20px 0 8px; }
+    .itm-pdp-usps,
+    .itm-pdp-usps--4 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    /* Bulky products have 3 icons: let the last one span the row instead of sitting alone */
+    .itm-pdp-usps:not(.itm-pdp-usps--4) > li:last-child { grid-column: span 2; }
+    .itm-pdp-usps__item { padding: 14px 8px; }
+    .itm-pdp-usps__icon svg { width: 34px; height: 34px; }
+    .itm-pdp-usps__text { font-size: 1.15rem; }
   }
 </style>

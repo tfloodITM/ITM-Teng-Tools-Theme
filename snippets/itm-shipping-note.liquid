@@ -1,7 +1,7 @@
 {%- comment -%}
-  One-line shipping note under the buy buttons.
-  Bulky products (tagged settings.bulky_tag, or metafield custom.bulky = true synced from NetSuite) ship by freight with their own rates;
-  everything else gets the free-standard-shipping line. Amounts come from
+  Freight note under the buy buttons, for bulky products only (tagged settings.bulky_tag,
+  or metafield custom.bulky = true). Other products get a "Free shipping" icon in
+  itm-pdp-usps instead of a text line. Amounts come from
   Theme settings → Cart so they stay in step with the cart drawer and the shipping app.
   Usage: {% render 'itm-shipping-note', product: product %}
 {%- endcomment -%}
@@ -27,12 +27,8 @@
     free over {{ settings.bulky_free_threshold | default: 2000 | times: 100 | money_without_trailing_zeros }}.
     Not available online to remote areas — <a href="{{ routes.root_url | append: '/pages/contact' | replace: '//', '/' }}">contact us</a> for a freight quote.
   </p>
-{%- elsif settings.free_shipping_threshold > 0 -%}
-  <p class="itm-shipping-note">
-    <strong>Free standard shipping</strong> on orders over {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}.
-  </p>
 {%- endif -%}
 <style>
-  .itm-shipping-note { margin: 1rem 0 0; font-size: 1.3rem; line-height: 1.5; color: rgba(var(--color-foreground), 0.85); }
+  .itm-shipping-note { margin: 0; font-size: 1.3rem; line-height: 1.5; color: rgba(var(--color-foreground), 0.85); }
   .itm-shipping-note--bulky { padding: 0.8rem 1rem; background: rgba(var(--color-foreground), 0.04); border-left: 3px solid #bd2321; }
 </style>
