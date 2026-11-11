@@ -493,6 +493,27 @@
   #shopify-section-{{ section.id }} .itm-product-col--info .product-form__buttons { margin-bottom: {{ section.settings.sp_purchase }}px; }
   #shopify-section-{{ section.id }} .itm-product-col--info .pg__hero-share-notes { margin-bottom: {{ section.settings.sp_guarantee }}px; }
 
+  /* Desktop: show "In Stock, Ready to ship" then the short description directly
+     under the title, above the price. Visual reorder only (mobile keeps its own
+     layout with the stock line above the title). */
+  @media screen and (min-width: 750px) {
+    #ProductInfo-{{ section.id }}.itm-product-detail-main {
+      display: flex;
+      flex-direction: column;
+    }
+    /* Flex items don't collapse margins, so drop the top margins to keep the
+       existing gaps (each block's bottom margin still spaces it). */
+    #ProductInfo-{{ section.id }} > * { margin-top: 0; }
+    #ProductInfo-{{ section.id }} > .product__inventory {
+      order: -2;
+      margin: 0 0 12px;
+    }
+    #ProductInfo-{{ section.id }} > .product__description {
+      order: -1;
+      margin-top: 0;
+    }
+  }
+
   {%- if section.settings.enable_sticky_info -%}
   @media screen and (min-width: 990px) {
     /* Sticky info: the whole info column stays while the image grid scrolls, and
