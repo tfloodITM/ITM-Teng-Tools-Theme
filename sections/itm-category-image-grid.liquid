@@ -301,9 +301,24 @@
       if block_img == blank
         if linked_col.image != blank
           assign block_img = linked_col.image
-        elsif linked_col.products.first.featured_image
-          assign block_img = linked_col.products.first.featured_image
+        else
+          comment
+            First product WITH a photo, not just the first product — a collection's
+            first product can be an imageless item (e.g. one the NetSuite sync
+            published before images were added), which left the tile blank.
+          endcomment
+          for p in linked_col.products limit: 24
+            if p.featured_image != blank
+              assign block_img = p.featured_image
+              break
+            endif
+          endfor
         endif
+      endif
+      # Last resort: the first product's ITM CDN image by SKU (handled by cdn-image-simple.js)
+      assign block_cdn_sku = ''
+      if block_img == blank and linked_col.products.first
+        assign block_cdn_sku = linked_col.products.first.selected_or_first_available_variant.sku | strip
       endif
       assign block_desc = block.settings.description
       if block_desc == blank and linked_col.description != blank
@@ -362,6 +377,8 @@
                 alt: block.settings.title,
                 widths: '600, 900, 1200'
             }}
+          {%- elsif block_cdn_sku != blank -%}
+            <img src="{% render 'itm-cdn-product-image', sku: block_cdn_sku, image_number: 1 %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ block.settings.title | escape }}" width="600" height="600" loading="lazy">
           {%- else -%}
             {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
           {%- endif -%}
@@ -398,6 +415,8 @@
               alt: block.settings.title,
               widths: '600, 900, 1200'
           }}
+        {%- elsif block_cdn_sku != blank -%}
+          <img src="{% render 'itm-cdn-product-image', sku: block_cdn_sku, image_number: 1 %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ block.settings.title | escape }}" width="600" height="600" loading="lazy">
         {%- else -%}
           {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
         {%- endif -%}

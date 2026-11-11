@@ -401,8 +401,21 @@
                            widths: '300, 400, 600' }}
                       </div>
                     {%- else -%}
+                      {%- comment -%} No Shopify image: use the ITM CDN image by SKU (see itm-card-product-sbc) {%- endcomment -%}
+                      {%- assign sbc_sku = product.selected_or_first_available_variant.sku | strip -%}
                       <div class="sbc__slide is-active">
-                        {{ 'product-1' | placeholder_svg_tag: 'sbc__ph-svg' }}
+                        {%- if sbc_sku != blank -%}
+                          <img
+                            src="{% render 'itm-cdn-product-image', sku: sbc_sku, image_number: 1 %}"
+                            data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}"
+                            alt="{{ product.title | escape }}"
+                            width="600"
+                            height="600"
+                            loading="lazy"
+                          >
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag: 'sbc__ph-svg' }}
+                        {%- endif -%}
                       </div>
                     {%- endfor -%}
                   </div>
