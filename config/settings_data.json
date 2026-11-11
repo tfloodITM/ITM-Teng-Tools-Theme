@@ -9,9 +9,10 @@
  */
 {
   "current": {
+    "express_rate": 0,
     "logo": "shopify://shop_images/2.png",
     "logo_width": 210,
-    "favicon": "shopify://shop_images/tengu-mask.webp",
+    "favicon": "shopify://shop_images/TengTools_favicon.png",
     "type_header_font": "montserrat_n9",
     "heading_scale": 100,
     "heading_color": "#1a1a1a",

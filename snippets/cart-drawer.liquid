@@ -471,6 +471,9 @@
                               width="150"
                               height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
                             >
+                          {% elsif item.sku != blank %}
+                            <a href="{{ item.url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
+                            <img class="cart-item__image" src="{% render 'itm-cdn-product-image', sku: item.sku %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ item.product.title | escape }}" loading="lazy" width="150" height="150">
                           {% endif %}
                         </td>
 
@@ -807,6 +810,8 @@
                         width="100"
                         height="100"
                       >
+                    {%- elsif cs_variant.sku != blank -%}
+                      <img src="{% render 'itm-cdn-product-image', sku: cs_variant.sku %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ cs_product.title | escape }}" loading="lazy" width="100" height="100">
                     {%- endif -%}
                   </a>
                   <div class="cart-drawer__crosssell-info">

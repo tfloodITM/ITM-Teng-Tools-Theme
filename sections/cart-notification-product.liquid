@@ -11,6 +11,10 @@
             loading="lazy"
           >
         </div>
+      {%- elsif item.sku != blank -%}
+        <div class="cart-notification-product__image global-media-settings">
+          <img src="{% render 'itm-cdn-product-image', sku: item.sku %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ item.product.title | escape }}" loading="lazy" width="70" height="70">
+        </div>
       {%- endif -%}
       <div>
         {%- if settings.show_vendor -%}

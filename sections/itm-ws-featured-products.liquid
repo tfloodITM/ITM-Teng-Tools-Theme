@@ -214,6 +214,8 @@
                   | image_url: width: 600
                   | image_tag: alt: product.title, loading: 'lazy'
                 }}
+              {%- elsif product.selected_or_first_available_variant.sku != blank -%}
+                <img src="{% render 'itm-cdn-product-image', sku: product.selected_or_first_available_variant.sku %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ product.title | escape }}" loading="lazy" width="600" height="600">
               {%- endif -%}
             </div>
             <div class="itm-fp-card__info">

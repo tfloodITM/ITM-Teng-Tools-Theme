@@ -2042,6 +2042,8 @@
                     <div class="ws-fp-prod-img">
                       {%- if product.featured_image -%}
                         <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="60" height="60">
+                      {%- elsif product.selected_or_first_available_variant.sku != blank -%}
+                        <img src="{% render 'itm-cdn-product-image', sku: product.selected_or_first_available_variant.sku %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ product.title | escape }}" loading="lazy" width="60" height="60">
                       {%- endif -%}
                     </div>
                     <div class="ws-fp-prod-details">

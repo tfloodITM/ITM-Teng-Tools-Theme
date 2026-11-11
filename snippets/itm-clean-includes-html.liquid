@@ -7,6 +7,9 @@
   - Links to industrialtool.com.au/product-redirector/{SKU} send shoppers off this store
     (they land on itmtools.com.au) — point them at this store's search for that SKU instead,
     where the exact product is the first result.
+  - Newer exports link to {store}.myshopify.com/products/{sku}, but product handles here are
+    "{sku}-teng-{title}" or title-based, so those 404. Point them at search too; the script at
+    the bottom then jumps straight to the matching product page on click.
   - Components missing from the PIM export came through as the literal text "None"
     (name and image alt) — blank those out.
   - Some exports were cut off mid-tag (e.g. `<a href="ht`), leaving an unclosed attribute that
@@ -22,6 +25,8 @@
   {%- assign itm_ci = itm_ci
     | replace: 'https://www.industrialtool.com.au/product-redirector/', '/search?type=product&q='
     | replace: 'http://www.industrialtool.com.au/product-redirector/', '/search?type=product&q='
+    | replace: 'https://teng-tools-2.myshopify.com/products/', '/search?type=product&q='
+    | replace: 'https://tengtools.com.au/products/te-', '/search?type=product&q=te-'
     | replace: '>None</a>', '></a>'
     | replace: 'alt="None"', 'alt=""'
   -%}
@@ -35,3 +40,28 @@
   {%- endif -%}
 {%- endif -%}
 {{- itm_ci -}}
+{%- if itm_ci contains 'class="related-product"' -%}
+<script>
+  /* Includes links: resolve the SKU to its product page on click (falls back to the search link). */
+  (function () {
+    if (window.__itmIncludesLinks) return;
+    window.__itmIncludesLinks = true;
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('.related-product a[href*="/search?type=product&q="]');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      var sku = decodeURIComponent((a.getAttribute('href').split('q=')[1] || '').split('&')[0]).trim();
+      if (!sku) return;
+      e.preventDefault();
+      var fallback = a.href, key = sku.toLowerCase();
+      fetch('/search/suggest.json?q=' + encodeURIComponent(sku) + '&resources[type]=product&resources[limit]=10')
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var list = (d.resources && d.resources.results && d.resources.results.products) || [];
+          var hit = list.filter(function (p) { return p.handle === key || p.handle.indexOf(key + '-teng-') === 0; })[0];
+          window.location.href = hit ? hit.url.split('?')[0] : fallback;
+        })
+        .catch(function () { window.location.href = fallback; });
+    });
+  })();
+</script>
+{%- endif -%}

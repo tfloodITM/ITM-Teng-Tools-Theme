@@ -147,7 +147,15 @@
                         {{ image | image_url: width: 600 | image_tag: alt: recommendation.title, loading: 'lazy', widths: '300, 400, 600' }}
                       </div>
                     {%- else -%}
-                      <div class="sbc__slide is-active">{{ 'product-1' | placeholder_svg_tag: 'sbc__ph-svg' }}</div>
+                      {%- comment -%} No Shopify image: use the ITM image store by SKU (same as collection cards). {%- endcomment -%}
+                      {%- assign rec_sku = recommendation.selected_or_first_available_variant.sku | strip -%}
+                      <div class="sbc__slide is-active">
+                        {%- if rec_sku != blank -%}
+                          <img src="{% render 'itm-cdn-product-image', sku: rec_sku %}" data-cdn-fallback-src="{{ 'image_coming_soon.png' | asset_url }}" alt="{{ recommendation.title | escape }}" width="600" height="600" loading="lazy">
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag: 'sbc__ph-svg' }}
+                        {%- endif -%}
+                      </div>
                     {%- endfor -%}
                   </div>
                 </a>

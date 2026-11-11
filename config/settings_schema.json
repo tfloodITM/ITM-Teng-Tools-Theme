@@ -1497,8 +1497,8 @@
         "type": "number",
         "id": "express_rate",
         "label": "Express shipping rate ($)",
-        "info": "Shown in the product page postcode calculator. Set to 0 to hide Express.",
-        "default": 15
+        "info": "Shown in the product page postcode calculator. Set to 0 to hide Express (Express is currently turned off in Shipping settings).",
+        "default": 0
       },
       {
         "type": "header",
