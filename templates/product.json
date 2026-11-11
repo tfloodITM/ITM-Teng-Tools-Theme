@@ -141,7 +141,7 @@
         "show_cta_block": false,
         "show_info_accordions": true,
         "info_accordions_open": false,
-        "info_accordions_margin_top": 16,
+        "info_accordions_margin_top": 0,
         "acc1_heading": "",
         "acc1_source": "richtext",
         "acc1_metafield": "",

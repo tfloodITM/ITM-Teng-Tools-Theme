@@ -447,6 +447,12 @@
     margin-top: {{ section.settings.info_accordions_margin_top | default: 16 }}px;
   }
   #shopify-section-{{ section.id }} .itm-info-accordions .product__accordion + .product__accordion { margin-top: 0; }
+  /* First accordion sits flush so the gap above it matches the trust icons / shipping box spacing */
+  #shopify-section-{{ section.id }} .itm-info-accordions > .product__accordion:first-of-type { margin-top: 0; }
+  @media screen and (max-width: 749px) {
+    /* The detail columns have no gap on mobile, so give the accordions the same 16px as the blocks above */
+    #shopify-section-{{ section.id }} .itm-info-accordions { margin-top: 16px; }
+  }
   /* Accordion title styling */
   #shopify-section-{{ section.id }} .itm-info-accordions .itm-acc-title {
     font-size: {{ section.settings.acc_title_size | default: 16 }}px;
