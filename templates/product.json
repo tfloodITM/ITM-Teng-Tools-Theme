@@ -512,8 +512,22 @@
         "list_plus_bg": "#BD2321",
         "list_plus_color": "#ffffff",
         "side_padding_desktop": 0,
-        "padding_top": 36,
+        "padding_top": 12,
         "padding_bottom": 28
+      }
+    },
+    "itm_divider_related": {
+      "type": "itm-divider",
+      "name": "Divider",
+      "settings": {
+        "color": "#b2b2b2",
+        "thickness": 1,
+        "show_on_mobile": true,
+        "show_on_desktop": true,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40
       }
     }
   },
@@ -530,6 +544,7 @@
     "itm_product_html_section_PKGKW3",
     "178175961502958bc5",
     "itm_product_html_section_LLYAFL",
+    "itm_divider_related",
     "related-products"
   ]
 }
