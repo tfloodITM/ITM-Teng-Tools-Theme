@@ -18,15 +18,14 @@
           "type": "link_list",
           "settings": {
             "heading": "SHOP BY CATEGORY",
-            "menu": "product-categories"
+            "menu": "footer-shop-by-category"
           }
         },
         "footer-1": {
           "type": "link_list",
-          "disabled": true,
           "settings": {
-            "heading": "SHOP BY USE",
-            "menu": "product-categories"
+            "heading": "HAND TOOLS",
+            "menu": "footer-hand-tools"
           }
         },
         "link_list_JUFgtL": {
