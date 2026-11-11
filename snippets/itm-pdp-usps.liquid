@@ -1,0 +1,63 @@
+{%- comment -%}
+  Product page trust row: 3 big icons in one row under the buy buttons.
+  Icons come from itm-trust-icon (same set as the header trust bar).
+  Usage: {% render 'itm-pdp-usps' %}
+{%- endcomment -%}
+<ul class="itm-pdp-usps" role="list">
+  <li class="itm-pdp-usps__item">
+    <a href="{{ routes.root_url | append: '/pages/warranty-service' | replace: '//', '/' }}" class="itm-pdp-usps__link">
+      <span class="itm-pdp-usps__icon">{% render 'itm-trust-icon', preset: 'shield' %}</span>
+      <span class="itm-pdp-usps__text">Lifetime Warranty</span>
+    </a>
+  </li>
+  <li class="itm-pdp-usps__item">
+    <span class="itm-pdp-usps__icon">{% render 'itm-trust-icon', preset: 'check' %}</span>
+    <span class="itm-pdp-usps__text">Designed in Sweden</span>
+  </li>
+  <li class="itm-pdp-usps__item">
+    <span class="itm-pdp-usps__icon">{% render 'itm-trust-icon', preset: 'star' %}</span>
+    <span class="itm-pdp-usps__text">Made for Professionals</span>
+  </li>
+</ul>
+<style>
+  .itm-pdp-usps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+  }
+  .itm-pdp-usps__item {
+    margin: 0;
+    padding: 14px 8px;
+    background: rgba(var(--color-foreground), 0.04);
+    border-radius: 6px;
+    text-align: center;
+  }
+  .itm-pdp-usps__item,
+  .itm-pdp-usps__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgb(var(--color-foreground));
+    text-decoration: none;
+  }
+  .itm-pdp-usps__icon { color: #bd2321; line-height: 0; }
+  .itm-pdp-usps__icon svg { width: 40px; height: 40px; }
+  .itm-pdp-usps__text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .itm-pdp-usps__link:hover .itm-pdp-usps__text { text-decoration: underline; }
+  @media screen and (max-width: 749px) {
+    .itm-pdp-usps { gap: 6px; }
+    .itm-pdp-usps__item { padding: 12px 4px; }
+    .itm-pdp-usps__icon svg { width: 32px; height: 32px; }
+    .itm-pdp-usps__text { font-size: 1.1rem; }
+  }
+</style>

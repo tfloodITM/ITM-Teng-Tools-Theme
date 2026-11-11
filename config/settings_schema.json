@@ -1487,6 +1487,20 @@
         "default": 99
       },
       {
+        "type": "number",
+        "id": "standard_rate",
+        "label": "Standard shipping rate under the threshold ($)",
+        "info": "Shown in the product page postcode calculator. Must match the General shipping profile.",
+        "default": 10
+      },
+      {
+        "type": "number",
+        "id": "express_rate",
+        "label": "Express shipping rate ($)",
+        "info": "Shown in the product page postcode calculator. Set to 0 to hide Express.",
+        "default": 15
+      },
+      {
         "type": "header",
         "content": "Bulky items (freight)"
       },

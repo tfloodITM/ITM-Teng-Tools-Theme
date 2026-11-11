@@ -1,0 +1,106 @@
+{%- comment -%}
+  Product page postcode shipping estimate.
+  Mirrors checkout: General profile (Standard $X / free over threshold, Express $Y)
+  and the Bulky items profile (Metro / Regional, free over the bulky threshold,
+  remote = not available online). Zones come from assets/itm-postcode-zones.json,
+  the same postcode lists HideShip uses: metro list = Metro, remote list = Remote,
+  anything else = Regional (HideShip only hides Regional in metro + remote postcodes).
+  Rates come from Theme settings → Cart; keep them in step with the shipping profiles.
+  Usage: {% render 'itm-shipping-calc', product: product %}
+{%- endcomment -%}
+{%- liquid
+  assign bulky_tag = settings.bulky_tag | default: 'bulky' | downcase | strip
+  assign is_bulky = false
+  if product.metafields.custom.bulky.value == true
+    assign is_bulky = true
+  endif
+  for t in product.tags
+    assign tl = t | downcase | strip
+    if tl == bulky_tag
+      assign is_bulky = true
+      break
+    endif
+  endfor
+  assign calc_id = 'itm-ship-calc-' | append: product.id
+-%}
+<div class="itm-ship-calc" id="{{ calc_id }}"
+  data-zones="{{ 'itm-postcode-zones.json' | asset_url }}"
+  data-bulky="{{ is_bulky }}"
+  data-price="{{ product.selected_or_first_available_variant.price | divided_by: 100.0 }}"
+  data-free="{{ settings.free_shipping_threshold | default: 99 }}"
+  data-std="{{ settings.standard_rate | default: 10 }}"
+  data-exp="{{ settings.express_rate | default: 15 }}"
+  data-bmetro="{{ settings.bulky_rate_metro | default: 149 }}"
+  data-bregional="{{ settings.bulky_rate_regional | default: 199 }}"
+  data-bfree="{{ settings.bulky_free_threshold | default: 2000 }}"
+  data-contact="{{ routes.root_url | append: '/pages/contact' | replace: '//', '/' }}">
+  <form class="itm-ship-calc__form" novalidate>
+    <label class="itm-ship-calc__label" for="{{ calc_id }}-pc">Estimate shipping</label>
+    <div class="itm-ship-calc__row">
+      <input class="itm-ship-calc__input" id="{{ calc_id }}-pc" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Postcode" autocomplete="postal-code">
+      <button class="itm-ship-calc__btn" type="submit">Check</button>
+    </div>
+  </form>
+  <div class="itm-ship-calc__result" role="status" aria-live="polite"></div>
+</div>
+<style>
+  .itm-ship-calc { margin: 16px 0 0; padding: 12px 14px; border: 1px solid rgba(var(--color-foreground), 0.15); border-radius: 6px; }
+  .itm-ship-calc__label { display: block; font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+  .itm-ship-calc__row { display: flex; gap: 8px; }
+  .itm-ship-calc__input { flex: 1 1 auto; min-width: 0; max-width: 16rem; height: 4rem; padding: 0 12px; font-size: 1.5rem; border: 1px solid rgba(var(--color-foreground), 0.35); border-radius: 4px; background: rgb(var(--color-background)); color: rgb(var(--color-foreground)); }
+  .itm-ship-calc__btn { height: 4rem; padding: 0 18px; border: 0; border-radius: 4px; background: #1a1a1a; color: #fff; font-weight: 700; font-size: 1.4rem; cursor: pointer; }
+  .itm-ship-calc__btn:hover { background: #bd2321; }
+  .itm-ship-calc__result:empty { display: none; }
+  .itm-ship-calc__result { margin-top: 10px; font-size: 1.4rem; line-height: 1.5; }
+  .itm-ship-calc__result ul { list-style: none; margin: 0; padding: 0; }
+  .itm-ship-calc__result li { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
+  .itm-ship-calc__result .is-free { color: #1e8a3a; font-weight: 700; }
+  .itm-ship-calc__note { margin: 6px 0 0; font-size: 1.25rem; color: rgba(var(--color-foreground), 0.7); }
+  .itm-ship-calc__err { color: #bd2321; }
+</style>
+<script>
+  (function () {
+    var el = document.getElementById('{{ calc_id }}');
+    if (!el || el.dataset.ready) return;
+    el.dataset.ready = '1';
+    var d = el.dataset, zones = null;
+    var form = el.querySelector('form'), input = el.querySelector('input'), out = el.querySelector('.itm-ship-calc__result');
+    var num = function (v) { return parseFloat(v) || 0; };
+    var money = function (n) { return '$' + (n % 1 ? n.toFixed(2) : n.toLocaleString('en-AU')); };
+    var inList = function (list, pc) { for (var i = 0; i < list.length; i++) if (pc >= list[i][0] && pc <= list[i][1]) return true; return false; };
+    var row = function (name, val, free) { return '<li><span>' + name + '</span><span' + (free ? ' class="is-free"' : '') + '>' + val + '</span></li>'; };
+    try { var saved = localStorage.getItem('itmPostcode'); if (saved) input.value = saved; } catch (e) {}
+
+    function render(pc) {
+      var zone = inList(zones.metro, pc) ? 'metro' : inList(zones.remote, pc) ? 'remote' : 'regional';
+      var price = num(d.price), html = '';
+      if (d.bulky === 'true') {
+        if (zone === 'remote') {
+          html = '<p><strong>Bulky item:</strong> freight to ' + pc + ' isn’t available online. <a href="' + d.contact + '">Contact us</a> for a freight quote.</p>';
+        } else {
+          var rate = num(zone === 'metro' ? d.bmetro : d.bregional), bfree = num(d.bfree), free = bfree > 0 && price >= bfree;
+          html = '<ul>' + row('Freight (' + (zone === 'metro' ? 'metro' : 'regional') + ')', free ? 'FREE' : money(rate), free) + '</ul>' +
+            (free ? '' : '<p class="itm-ship-calc__note">Free freight on orders over ' + money(bfree) + '.</p>');
+        }
+      } else {
+        var fr = num(d.free), sfree = fr > 0 && price >= fr, exp = num(d.exp);
+        html = '<ul>' + row('Standard', sfree ? 'FREE' : money(num(d.std)), sfree) + (exp > 0 ? row('Express', money(exp)) : '') + '</ul>' +
+          (!sfree && fr > 0 ? '<p class="itm-ship-calc__note">Free standard shipping on orders over ' + money(fr) + '.</p>' : '');
+      }
+      out.innerHTML = html;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = (input.value || '').replace(/\D/g, '');
+      if (v.length !== 4) { out.innerHTML = '<p class="itm-ship-calc__err">Enter a 4-digit Australian postcode.</p>'; return; }
+      try { localStorage.setItem('itmPostcode', v); } catch (e2) {}
+      var pc = parseInt(v, 10);
+      if (zones) return render(pc);
+      out.textContent = 'Checking…';
+      fetch(d.zones).then(function (r) { return r.json(); })
+        .then(function (z) { zones = z; render(pc); })
+        .catch(function () { out.innerHTML = '<p class="itm-ship-calc__err">Couldn’t load shipping rates. Please try again.</p>'; });
+    });
+  })();
+</script>
