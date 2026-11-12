@@ -30,7 +30,9 @@
   product has no data (no videos, specs, FAQs…). That left two lines stacked with an
   empty band between them. Collapse any divider whose previous visible section is
   also a divider (or nothing), or that's the last visible thing in <main>.
-  Runs once per page however many dividers there are.
+  Runs once per page however many dividers there are, then again whenever a
+  section that fills in after load (Related Products) gets its content, so the
+  divider above it isn't hidden just because it was still empty at page load.
 {%- endcomment -%}
 <script>
   (function () {
@@ -38,6 +40,11 @@
     window.itmDividerCollapse = true;
     function collapse() {
       var main = document.querySelector('main') || document.body;
+      // Start fresh each run: un-hide dividers this script hid last time.
+      Array.prototype.forEach.call(main.querySelectorAll('[data-itm-collapsed]'), function (sec) {
+        sec.style.display = '';
+        sec.removeAttribute('data-itm-collapsed');
+      });
       var sections = Array.prototype.filter.call(main.children, function (el) {
         return el.classList.contains('shopify-section');
       });
@@ -47,7 +54,7 @@
         var isDivider = !!sec.querySelector(':scope > .itm-divider');
         if (isDivider) {
           if (sec.querySelector('.itm-divider').offsetHeight === 0) return; // hidden on this breakpoint
-          if (prevWasDivider) { sec.style.display = 'none'; return; }
+          if (prevWasDivider) { sec.style.display = 'none'; sec.setAttribute('data-itm-collapsed', ''); return; }
           prevWasDivider = true;
           lastVisibleDivider = sec;
         } else if (sec.offsetHeight > 0) {
@@ -55,10 +62,20 @@
           lastVisibleDivider = null;
         }
       });
-      if (lastVisibleDivider) lastVisibleDivider.style.display = 'none';
+      if (lastVisibleDivider) {
+        lastVisibleDivider.style.display = 'none';
+        lastVisibleDivider.setAttribute('data-itm-collapsed', '');
+      }
     }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', collapse);
-    else collapse();
+    function start() {
+      collapse();
+      // Sections that load their content later (product recommendations): re-check when they fill in.
+      Array.prototype.forEach.call(document.querySelectorAll('product-recommendations'), function (el) {
+        new MutationObserver(function () { collapse(); }).observe(el, { childList: true });
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
   })();
 </script>
 

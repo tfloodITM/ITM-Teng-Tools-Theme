@@ -512,7 +512,7 @@
         "list_plus_bg": "#BD2321",
         "list_plus_color": "#ffffff",
         "side_padding_desktop": 0,
-        "padding_top": 12,
+        "padding_top": 24,
         "padding_bottom": 28
       }
     },
